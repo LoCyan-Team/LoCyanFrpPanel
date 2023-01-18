@@ -1,0 +1,86 @@
+<template>
+  <n-form ref="formRef" :model="model" :rules="rules" label-placement="left" label-width="auto"
+    require-mark-placement="right-hanging" :size=large>
+    <n-form-item label="用户名 / 邮箱" path="username">
+      <n-input type="text" v-model:value="model.username" placeholder="用户名" />
+    </n-form-item>
+    <n-form-item label="密码" path="password">
+      <n-input type="password" v-model:value="model.password" placeholder="密码" />
+    </n-form-item>
+    <div style="display: flex; justify-content: flex-end">
+      <n-button ghost round type="primary" @click="login"> 登录! </n-button>
+      <n-button ghost round type="primary" @click="goregister"> 没注册？</n-button>
+    </div>
+  </n-form>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar } from "naive-ui";
+import { get, post } from "../utils/request.js";
+import router from "../router/index.js";
+import qs from 'qs';
+import store from "../utils/store.js";
+import { GetLoginStatus } from "../utils/profile.js"
+
+const formRef = ref(null);
+const message = useMessage();
+const ldb = useLoadingBar();
+
+const model = ref([
+  {
+    username: "",
+    password: ""
+  }
+]);
+
+function goregister() {
+  router.push("/register");
+};
+
+function login(e) {
+  ldb.start();
+  const rs = get("https://api.locyanfrp.cn/User/DoLogin?" + qs.stringify(model.value));
+  rs.then(res => {
+    if (res.status == 0) {
+      message.success("欢迎回来，指挥官！" + model.value.username);
+      store.commit("setToken", res.token);
+      store.commit("setUserInfo", res.userdata);
+      router.push("/user");
+      console.log(store.getters.GetToken);
+    } else {
+      message.warning(res.message);
+    };
+    ldb.finish();
+  });
+};
+
+const rules = {
+  username: {
+    required: true,
+    trigger: ["blur", "input"],
+    message: "请输入用户名",
+  },
+  password: {
+    required: true,
+    trigger: ["blur", "input"],
+    message: "请输入密码",
+  },
+};
+</script>
+
+<style scoped>
+.n-form {
+  margin-top: calc(50vh - 160px);
+  margin-left: 520px;
+  margin-right: 520px;
+}
+
+@media (max-width: 1300px) {
+  .n-form {
+    margin-top: calc(50vh - 160px);
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}
+</style>
