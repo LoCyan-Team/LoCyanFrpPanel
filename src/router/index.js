@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { StartLoadingBar, FinishLoadingBar, ErrorLoadingBar } from "../utils/loadingbar.js";
 import store from "../utils/store"
+import { ref } from "vue";
 
 const routes = [
     {

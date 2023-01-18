@@ -1,22 +1,26 @@
 <template>
-  <n-form ref="formRef" :model="model" :rules="rules" label-placement="left" label-width="auto"
-    require-mark-placement="right-hanging" :size=large>
-    <n-form-item label="用户名 / 邮箱" path="username">
-      <n-input type="text" v-model:value="model.username" placeholder="用户名" />
-    </n-form-item>
-    <n-form-item label="密码" path="password">
-      <n-input type="password" v-model:value="model.password" placeholder="密码" />
-    </n-form-item>
-    <div style="display: flex; justify-content: flex-end">
-      <n-button ghost round type="primary" @click="login"> 登录! </n-button>
-      <n-button ghost round type="primary" @click="goregister"> 没注册？</n-button>
-    </div>
-  </n-form>
+  <n-grid cols="1" item-responsive>
+    <n-grid-item span="1">
+      <n-form ref="formRef" :model="model" :rules="rules" label-placement="left" label-width="auto"
+    require-mark-placement="right-hanging" :size="large" id="item">
+        <n-form-item label="用户名 / 邮箱" path="username">
+          <n-input type="text" v-model:value="model.username" placeholder="用户名" />
+        </n-form-item>
+        <n-form-item label="密码" path="password">
+          <n-input type="password" v-model:value="model.password" placeholder="密码" />
+        </n-form-item>
+        <div style="display: flex; justify-content: flex-end">
+          <n-button ghost round type="primary" @click="login"> 登录! </n-button>
+          <n-button ghost round type="primary" @click="goregister"> 没注册？</n-button>
+        </div>
+      </n-form>
+    </n-grid-item>
+  </n-grid>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar } from "naive-ui";
+import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar, NGrid, NGridItem } from "naive-ui";
 import { get, post } from "../utils/request.js";
 import router from "../router/index.js";
 import qs from 'qs';
@@ -47,7 +51,6 @@ function login(e) {
       store.commit("setToken", res.token);
       store.commit("setUserInfo", res.userdata);
       router.push("/user");
-      console.log(store.getters.GetToken);
     } else {
       message.warning(res.message);
     };
@@ -70,14 +73,15 @@ const rules = {
 </script>
 
 <style scoped>
-.n-form {
+
+#item {
   margin-top: calc(50vh - 160px);
   margin-left: 520px;
   margin-right: 520px;
 }
 
 @media (max-width: 1300px) {
-  .n-form {
+  #item {
     margin-top: calc(50vh - 160px);
     margin-left: 40px;
     margin-right: 40px;

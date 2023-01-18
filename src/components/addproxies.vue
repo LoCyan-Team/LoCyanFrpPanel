@@ -2,15 +2,15 @@
   <n-form ref="formRef" :model="ProxyInfo" :rules="rules" label-width="auto" :size="large">
     <n-space vertical style="margin: 20px">
       <n-form-item label="选择服务器" path="node">
-        <n-select v-model:value="node" :options="ServerList" />
+        <n-select v-model:value="ProxyInfo.node" :options="ServerList" />
       </n-form-item>
     </n-space>
     <div id="item">
       <p>服务器信息：</p>
-      <p>服务器名：{{ ServerValue[node].name }}</p>
-      <p>服务器介绍：{{ ServerValue[node].description }}</p>
-      <p>服务器IP：{{ ServerValue[node].ip }}</p>
-      <p>服务器域名：{{ ServerValue[node].hostname }}</p>
+      <p>服务器名：{{ ServerValue[ProxyInfo.node].name }}</p>
+      <p>服务器介绍：{{ ServerValue[ProxyInfo.node].description }}</p>
+      <p>服务器IP：{{ ServerValue[ProxyInfo.node].ip }}</p>
+      <p>服务器域名：{{ ServerValue[ProxyInfo.node].hostname }}</p>
     </div>
     <n-grid cols="2" item-responsive>
       <n-grid-item span="0:2 1000:1" id="item">
@@ -76,7 +76,6 @@ import { NForm, NFormItem, NInput, NButton, NSpace, NSelect, NGrid, NGridItem, N
 import { ref } from 'vue';
 import { get } from '../utils/request.js';
 
-const node = ref(null);
 // 选择框数据
 const ServerList = ref([]);
 // 服务器数据
@@ -104,6 +103,56 @@ const rules = {
       }
       return true;
     },
+  },
+  proxy_type: {
+    required: true
+  },
+  local_ip: {
+    required: true,
+    trigger: ["blur", "input"],
+    validator(rule, value) {
+      if (!value) {
+        return new Error("请输入本地IP");
+      } else if (!/(((\d)|([1-9]\d)|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((\d)|([1-9]\d)|(1\d{2})|(2[0-4]\d)|(25[0-5]))/.test(value)) {
+        return new Error("本地IP格式不合法");
+      }
+      return true;
+    }
+  },
+  local_port: {
+    required: true,
+    trigger: ["blur", "input"],
+    validator(rule, value) {
+      if (!value) {
+        return new Error("请输入本地端口");
+      } else if (!/^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/.test(value)) {
+        return new Error("本地端口格式不合法");
+      }
+      return true;
+    }
+  },
+  remote_port: {
+    required: true,
+    trigger: ["blur", "input"],
+    validator(rule, value) {
+      if (!value) {
+        return new Error("请输入远程端口");
+      } else if (!/^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/.test(value)) {
+        return new Error("远程端口格式不合法");
+      }
+      return true;
+    }
+  },
+  domain: {
+    required: false,
+    validator(rule, value) {
+      if (!value) {
+        return new Error("请输入域名");
+      } else if (!/^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$/.test(value)) {
+        return new Error("域名格式不合法");
+      }
+      return true;
+    }
   }
 }
 const rs = get("https://api.locyanfrp.cn/Proxies/GetServerList")
@@ -112,7 +161,7 @@ rs.then(res => {
   res.forEach(s => {
     // 默认选择第一个节点
     if (i == 0) {
-      node.value = s.id;
+      ProxyInfo.value.node = s.id;
     }
     const tmpdict = {
       "label": s.name,
@@ -123,8 +172,6 @@ rs.then(res => {
     i = i + 1;
   });
 })
-
-console.log(node.value);
 
 </script>
 <style scoped>

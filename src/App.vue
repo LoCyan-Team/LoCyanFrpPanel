@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :hljs="hljs">
+  <n-config-provider :hljs="hljs" :theme="darkTheme">
     <n-loading-bar-provider>
       <n-message-provider>
         <message />
@@ -19,18 +19,15 @@
               </n-space>
             </n-layout-header>
             <n-layout has-sider>
-              <n-layout-sider :style="getStyle()" bordered show-trigger :collapsed="collapsed" collapse-mode="width" :collapsed-width="64"
+              <n-layout-sider bordered show-trigger :collapsed="collapsed" collapse-mode="width" :collapsed-width="64"
                 :width="240" :native-scrollbar="true" :inverted="inverted">
-                <n-menu :style="getStyle()" :inverted="inverted" :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22"
+                <n-menu :inverted="inverted" :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22"
                   :options="menuOptions" style="margin-top: 25px" default-value="personality" />
               </n-layout-sider>
               <n-layout>
                 <router-view></router-view>
               </n-layout>
             </n-layout>
-            <n-layout-footer :inverted="inverted" bordered style="position: fixed; bottom: 0px">
-              <a style="text-align: center">CopyRight &copy; 2019-2022 LoCyan Co.</a>
-            </n-layout-footer>
           </n-layout>
         </n-space>
       </n-message-provider>
@@ -39,15 +36,6 @@
 </template>
   
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  width: 100vw;
-}
-
 .n-layout-sider {
   height: calc(100vh - 85px);
 }
@@ -57,7 +45,7 @@ body {
 </script>
 
 <script setup>
-import { NLayout, NMessageProvider, NButton, useMessage, NConfigProvider } from "naive-ui";
+import { NLayout, NMessageProvider, NButton, useMessage, NConfigProvider, darkTheme } from "naive-ui";
 import { NLayoutHeader } from "naive-ui";
 import { NLayoutFooter } from "naive-ui";
 import { NSpace } from "naive-ui";
@@ -80,7 +68,16 @@ import {
   BookOutline as BookIcon,
   PersonOutline as PersonIcon,
   WineOutline as WineIcon,
-  
+  InformationCircleOutline,
+  Person,
+  PencilSharp,
+  PaperPlane,
+  Add,
+  List,
+  FileTrayFull,
+  CloudDownloadOutline
+
+
 } from "@vicons/ionicons5";
 
 hljs.registerLanguage('javascript', javascript);
@@ -90,7 +87,6 @@ const collapsed = ref(true);
 if (document.body.clientWidth >= 1000) {
   collapsed.value = false;
 };
-
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -110,6 +106,34 @@ function logout() {
 };
 
 const menuOptions = [
+  // {
+  //   label: () =>
+  //     h(
+  //       RouterLink,
+  //       {
+  //         to: {
+  //           path: "/login",
+  //         },
+  //       },
+  //       { default: () => "登录" }
+  //     ),
+  //   key: "login",
+  //   icon: renderIcon(BookIcon),
+  // },
+  // {
+  //   label: () =>
+  //     h(
+  //       RouterLink,
+  //       {
+  //         to: {
+  //           path: "/register",
+  //         },
+  //       },
+  //       { default: () => "注册" }
+  //     ),
+  //   key: "register",
+  //   icon: renderIcon(BookIcon),
+  // },
   {
     label: () =>
       h(
@@ -122,12 +146,12 @@ const menuOptions = [
         { default: () => "个人信息" }
       ),
     key: "personality",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(InformationCircleOutline),
   },
   {
     label: "实名认证（必须）",
     key: "real-person-verification",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(Person),
   },
   {
     label: () =>
@@ -141,12 +165,12 @@ const menuOptions = [
         { default: () => "签到" }
       ),
     key: "Sign",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(PencilSharp),
   },
   {
     label: "隧道操作",
     key: "control-proxy",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(PaperPlane),
     children: [
       {
         label: () =>
@@ -160,7 +184,7 @@ const menuOptions = [
         { default: () => "添加隧道" }
       ),
         key: "add_proxy",
-        icon: renderIcon(PersonIcon),
+        icon: renderIcon(Add),
       },
       {
         label: () =>
@@ -174,19 +198,19 @@ const menuOptions = [
             { default: () => "隧道列表" }
           ),
         key: "proxy_list",
-        icon: renderIcon(PersonIcon),
+        icon: renderIcon(List),
       },
       {
         label: "配置文件",
         key: "proxy_config",
-        icon: renderIcon(PersonIcon),
+        icon: renderIcon(FileTrayFull),
       },
     ],
   },
   {
     label: "软件下载",
     key: "software_download",
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(CloudDownloadOutline),
   },
 ];
 

@@ -68,7 +68,7 @@ import { GetContents, GetLoginStatus, GetProxies} from "../utils/profile.js";
 import { ref } from "vue";
 import store from "../utils/store.js";
 import { get } from "../utils/request.js";
-import router from "../router/index.js"; 3
+import router from "../router/index.js";
 
 const username = store.getters.GetUserName;
 // 检查登录是否过期
@@ -80,7 +80,6 @@ const outbound = store.getters.GetOutBound + "Mbps 上行";
 const frptoken = store.getters.GetFrpToken;
 const contents = GetContents();
 const message = useMessage();
-
 </script>
 
 <script>
