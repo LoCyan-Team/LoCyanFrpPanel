@@ -1,5 +1,5 @@
 <template>
-  <n-form ref="formRef" :model="ProxyInfo" :rules="rules" label-width="auto" :size="large">
+  <n-form :ref="formRef" :model="ProxyInfo" :rules="rules" label-width="auto" :size="large">
     <n-space vertical style="margin: 20px">
       <n-form-item label="选择服务器" path="node">
         <n-select v-model:value="ProxyInfo.node" :options="ServerList" />
@@ -21,22 +21,22 @@
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="穿透协议" path="proxy_type">
           <n-radio-group v-model:value="ProxyInfo.proxy_type">
-            <n-radio-button value="tcp">
+            <n-radio-button value="1">
               TCP
             </n-radio-button>
-            <n-radio-button value="udp">
+            <n-radio-button value="2">
               UDP
             </n-radio-button>
-            <n-radio-button value="http">
+            <n-radio-button value="3">
               HTTP
             </n-radio-button>
-            <n-radio-button value="https">
+            <n-radio-button value="4">
               HTTPS
             </n-radio-button>
-            <n-radio-button value="xtcp">
+            <n-radio-button value="5">
               XTCP
             </n-radio-button>
-            <n-radio-button value="stcp">
+            <n-radio-button value="6">
               STCP
             </n-radio-button>
           </n-radio-group>
@@ -64,7 +64,7 @@
       </n-grid-item>
     </n-grid>
     <div style="display: flex; justify-content: flex-end">
-      <n-button round type="primary" @click="handleValidateButtonClick">
+      <n-button round type="primary" @click="addproxy">
         创建
       </n-button>
     </div>
@@ -74,7 +74,10 @@
 <script setup>
 import { NForm, NFormItem, NInput, NButton, NSpace, NSelect, NGrid, NGridItem, NRadioGroup, NRadioButton } from 'naive-ui';
 import { ref } from 'vue';
-import { get } from '../utils/request.js';
+import store from "../utils/store.js";
+import { get } from "../utils/request.js";
+import router from "../router/index.js";
+import { SendSuccessMessage, SendErrorMessage } from "../utils/message";
 
 // 选择框数据
 const ServerList = ref([]);
@@ -84,6 +87,7 @@ const ServerValue = ref([]);
 const formRef = ref(null);
 // 表单数据集合
 const ProxyInfo = ref({
+  node: 0,
   proxy_name: "",
   proxy_type: "",
   local_ip: "",
@@ -155,6 +159,18 @@ const rules = {
     }
   }
 }
+
+function addproxy(){
+  const rs = get("https://api.locyanfrp.cn/Proxies/add?username=" + store.getters.GetUserName + "&name=" + ProxyInfo.value.proxy_name + "&key=" + store.getters.GetFrpToken + "&ip=" + ProxyInfo.value.local_ip + "&type=" + ProxyInfo.value.proxy_type + "&lp=" + ProxyInfo.value.local_port + "&rp=" + ProxyInfo.value.remote_port + "&ue=0&uz=0&id=" + ProxyInfo.value.node + "&token=" + store.getters.GetToken);
+  rs.then(res => {
+    if(res.status == true){
+      SendSuccessMessage(res.message);
+    } else {
+      SendErrorMessage(res.message);
+    }
+  })
+}
+
 const rs = get("https://api.locyanfrp.cn/Proxies/GetServerList")
 rs.then(res => {
   var i = 0;
