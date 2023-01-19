@@ -171,7 +171,7 @@ const rules = {
 }
 
 function addproxy(){
-  const rs = get("https://api.locyanfrp.cn/Proxies/add?username=" + store.getters.GetUserName + "&name=" + ProxyInfo.value.proxy_name + "&key=" + store.getters.GetFrpToken + "&ip=" + ProxyInfo.value.local_ip + "&type=" + ProxyInfo.value.proxy_type + "&lp=" + ProxyInfo.value.local_port + "&rp=" + ProxyInfo.value.remote_port + "&ue=0&uz=0&id=" + ProxyInfo.value.node + "&token=" + store.getters.GetToken);
+  const rs = get("https://api.locyanfrp.cn/Proxies/add?username=" + store.getters.GetUserName + "&name=" + ProxyInfo.value.proxy_name + "&key=" + store.getters.GetFrpToken + "&ip=" + ProxyInfo.value.local_ip + "&type=" + ProxyInfo.value.proxy_type + "&lp=" + ProxyInfo.value.local_port + "&rp=" + ProxyInfo.value.remote_port + "&ue=0&uz=0&id=" + ProxyInfo.value.node + "&token=" + store.getters.GetToken + "&url=" + ProxyInfo.value.domain);
   rs.then(res => {
     if(res.status == true){
       SendSuccessDialog(res.message);
