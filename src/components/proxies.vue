@@ -65,7 +65,7 @@
         </n-form>
         <template #footer>
             <n-button style="margin:2px" strong secondary type="primary"
-                @click="editproxy();">提交</n-button>
+                @click="editproxy(Proxies[indexOfProxies].id);">提交</n-button>
         </template>
     </n-modal>
     <!--查看详细信息的模态框 -->
@@ -83,7 +83,8 @@
         <p>穿透协议：{{ Proxies[indexOfProxies].proxy_type }}</p>
         <p>本地端口：{{ Proxies[indexOfProxies].local_port }}</p>
         <p>远程端口：{{ Proxies[indexOfProxies].remote_port }}</p>
-        <p>绑定域名：{{ Proxies[indexOfProxies].domain }}</p>
+        <p>绑定域名：{{ Proxies[indexOfProxies].domain || "该隧道没有绑定域名" }}</p>
+        <p>简易启动命令：./frpc.exe -u {{ store.getters.GetFrpToken }} -p {{ SelectProxyID }}</p>
         <!-- <template #footer>
     </template> -->
     </n-modal>
@@ -167,8 +168,8 @@ function makelinkaddr(id) {
     }
 }
 
-function editproxy() {
-    const rs = get("https://api.locyanfrp.cn/Proxies/update?username=" + store.getters.GetUserName + "&name=" + ProxyEditInfo.value.proxy_name + "&key=" + store.getters.GetFrpToken + "&ip=" + ProxyEditInfo.value.local_ip + "&type=" + ProxyEditInfo.value.proxy_type + "&lp=" + ProxyEditInfo.value.local_port + "&rp=" + ProxyEditInfo.value.remote_port + "&ue=0&uz=0&id=" + ProxyEditInfo.value.node + "&token=" + store.getters.GetToken + "&url=" + ProxyEditInfo.value.domain);
+function editproxy(proxyid) {
+    const rs = get("https://api.locyanfrp.cn/Proxies/update?username=" + store.getters.GetUserName + "&name=" + ProxyEditInfo.value.proxy_name + "&key=" + store.getters.GetFrpToken + "&ip=" + ProxyEditInfo.value.local_ip + "&type=" + ProxyEditInfo.value.proxy_type + "&lp=" + ProxyEditInfo.value.local_port + "&rp=" + ProxyEditInfo.value.remote_port + "&ue=0&uz=0&id=" + ProxyEditInfo.value.node + "&token=" + store.getters.GetToken + "&url=" + ProxyEditInfo.value.domain + "&proxyid=" + proxyid);
     rs.then(res => {
         if (res.status == true) {
             // 重新刷新列表
