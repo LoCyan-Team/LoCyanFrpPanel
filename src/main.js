@@ -3,6 +3,7 @@ import './style.css';
 import App from './App.vue';
 import message from "./components/message.vue";
 import loadingbar from "./components/loadingbar.vue";
+import ndialog from "./components/ndialog.vue";
 import router from './router/index.js';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -14,4 +15,5 @@ app.use(router);
 app.use(VueAxios, axios);
 app.component('message', message)
 app.component('loadingbar', loadingbar)
+app.component('ndialog', ndialog)
 app.mount("#app");

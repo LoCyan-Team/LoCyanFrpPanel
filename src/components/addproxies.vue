@@ -78,11 +78,21 @@ import store from "../utils/store.js";
 import { get } from "../utils/request.js";
 import router from "../router/index.js";
 import { SendSuccessMessage, SendErrorMessage } from "../utils/message";
+import { SendSuccessDialog } from "../utils/dialog.js"
 
 // 选择框数据
 const ServerList = ref([]);
 // 服务器数据
-const ServerValue = ref([]);
+const ServerValue = ref([
+  {
+    id: 0,
+    name: "",
+    description: "",
+    ip: "",
+    hostname: "",
+    status: 0
+  }
+]);
 // 表格数据
 const formRef = ref(null);
 // 表单数据集合
@@ -164,7 +174,7 @@ function addproxy(){
   const rs = get("https://api.locyanfrp.cn/Proxies/add?username=" + store.getters.GetUserName + "&name=" + ProxyInfo.value.proxy_name + "&key=" + store.getters.GetFrpToken + "&ip=" + ProxyInfo.value.local_ip + "&type=" + ProxyInfo.value.proxy_type + "&lp=" + ProxyInfo.value.local_port + "&rp=" + ProxyInfo.value.remote_port + "&ue=0&uz=0&id=" + ProxyInfo.value.node + "&token=" + store.getters.GetToken);
   rs.then(res => {
     if(res.status == true){
-      SendSuccessMessage(res.message);
+      SendSuccessDialog(res.message);
     } else {
       SendErrorMessage(res.message);
     }

@@ -2,10 +2,10 @@
     <n-grid cols="4" item-responsive>
         <n-gi v-for="item in Proxies" style="margin: 10px;" span="0:4 600:1">
             <n-space style="display: block;">
-                <n-card :title="'ID: ' + item.id">
+                <n-card :title="'ID: ' + item.id + ' - ' + item.proxy_name">
                     {{ item.proxy_name }}
                     <template #footer>
-                        连接地址： <br /> {{ item.local_ip }}
+                        连接地址： <br /> {{ ServerList[item.node].hostname + ":" + item.remote_port }}
                     </template>
                     <template #action>
                         操作：
@@ -30,6 +30,7 @@ import store from '../utils/store.js';
 import { get } from '../utils/request.js';
 import { stringify } from 'qs';
 const Proxies = ref([]);
+const ServerList = ref([]);
 
 const rs = get("https://api.locyanfrp.cn/Proxies/GetProxiesList?username=" + localStorage.getItem('username') + "&token=" + store.getters.GetToken)
 rs.then(res => {
@@ -39,6 +40,16 @@ rs.then(res => {
         Proxies.value = res.proxies;
     };
 });
+
+const rs2 = get("https://api.locyanfrp.cn/Proxies/GetServerList")
+rs2.then(res => {
+  var i = 0;
+  res.forEach(s => {
+    ServerList.value[s.id] = s;
+    i = i + 1;
+  });
+  console.log(ServerList.value);
+})
 
 </script>
 <style scoped>

@@ -17,6 +17,7 @@ import { ref } from "vue";
 import { NSpace, NCard, NButton } from "naive-ui"
 import { post } from "../utils/request.js";
 import { SendSuccessMessage, SendErrorMessage } from "../utils/message";
+import { SendSuccessDialog } from "../utils/dialog.js"
 import store from "../utils/store.js";
 
 const status = ref("");
@@ -42,7 +43,7 @@ function DoSign() {
             SendErrorMessage(res.message);
             CheckSign();
         } else {
-            SendSuccessMessage(res.message);
+            SendSuccessDialog(res.message);
             CheckSign();
         };
     });
