@@ -99,8 +99,8 @@ const formRef = ref(null);
 const ProxyInfo = ref({
   node: 0,
   proxy_name: "",
-  proxy_type: "",
-  local_ip: "",
+  proxy_type: "1",
+  local_ip: "127.0.0.1",
   local_port: "",
   remote_port: "",
   domain: ""

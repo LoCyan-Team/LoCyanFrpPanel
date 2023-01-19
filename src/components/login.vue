@@ -10,7 +10,7 @@
           <n-input type="password" v-model:value="model.password" placeholder="密码" />
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
-          <n-button ghost round type="primary" @click="login"> 登录! </n-button>
+          <n-button ghost round type="primary" @click="login"> 登录 </n-button>
           <n-button ghost round type="primary" @click="goregister"> 没注册？</n-button>
         </div>
       </n-form>

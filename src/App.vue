@@ -16,7 +16,7 @@
                   </n-gradient-text>
                   <n-button ghost :style="getStyle()" style="margin-right: 20px; margin-top: 20%" round type="primary"
                     @click="logout">
-                    &nbsp;&nbsp;退出登录！
+                    &nbsp;&nbsp;退出登录
                   </n-button>
                 </n-space>
               </n-layout-header>
@@ -36,6 +36,8 @@
       </n-message-provider>
     </n-loading-bar-provider>
   </n-config-provider>
+  <!-- 气死我了zhoudexuan，让我一个写后端的来搓前端，mmp -->
+  <!-- 中考完学不会vue你就死定了 -->
 </template>
   
 <style scoped>
