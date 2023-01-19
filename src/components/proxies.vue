@@ -94,14 +94,14 @@
                 <n-card :title="'ID: ' + item.id + ' - ' + item.proxy_name">
                     {{ item.proxy_name }}
                     <template #footer>
-                        连接地址： <br /> {{ ServerList[item.node].hostname + ":" + item.remote_port }}
+                        连接地址： <br /> {{ makelinkaddr(Proxies.indexOf(item)) }}
                     </template>
                     <template #action>
                         <n-space>
                             <p style="margin-top: 9px">操作：</p>
                             <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
                             <n-button style="margin:2px" strong secondary type="primary"
-                                @click="indexOfProxies = Proxies.indexOf(item); showEditModal = true; pt = transtype(item.proxy_type); SelectProxyID = item.id; ProxyEditInfo = { node: item.node,id: SelectProxyID, proxy_name: item.proxy_name, proxy_type: pt, local_ip: item.local_ip, local_port: item.local_port, remote_port: item.remote_port, domain: item.domain };">编辑</n-button>
+                                @click="indexOfProxies = Proxies.indexOf(item); showEditModal = true; pt = transtype(item.proxy_type); SelectProxyID = item.id; ProxyEditInfo = { node: item.node, id: SelectProxyID, proxy_name: item.proxy_name, proxy_type: pt, local_ip: item.local_ip, local_port: item.local_port, remote_port: item.remote_port, domain: item.domain };">编辑</n-button>
                             <n-button style="margin:2px" strong secondary type="error"
                                 @click="deleteProxy(Proxies.indexOf(item))">删除</n-button>
                             <!-- 这个click被我利用到极致了 -->
@@ -266,14 +266,14 @@ function initList() {
         var i = 0;
         res.forEach(s => {
             const tmpdict = {
-            "label": s.name,
-            "value": s.id
+                "label": s.name,
+                "value": s.id
             };
             EditServerList.value[i] = tmpdict;
 
             ServerList.value[s.id] = s;
             i = i + 1;
-            
+
         });
     });
 

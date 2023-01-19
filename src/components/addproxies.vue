@@ -49,7 +49,8 @@
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="内网端口" path="local_port">
-          <n-input v-model:value="ProxyInfo.local_port" placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19136 泰拉瑞亚:7777" />
+          <n-input v-model:value="ProxyInfo.local_port"
+            placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19136 泰拉瑞亚:7777" />
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
@@ -170,10 +171,10 @@ const rules = {
   }
 }
 
-function addproxy(){
+function addproxy() {
   const rs = get("https://api.locyanfrp.cn/Proxies/add?username=" + store.getters.GetUserName + "&name=" + ProxyInfo.value.proxy_name + "&key=" + store.getters.GetFrpToken + "&ip=" + ProxyInfo.value.local_ip + "&type=" + ProxyInfo.value.proxy_type + "&lp=" + ProxyInfo.value.local_port + "&rp=" + ProxyInfo.value.remote_port + "&ue=0&uz=0&id=" + ProxyInfo.value.node + "&token=" + store.getters.GetToken + "&url=" + ProxyInfo.value.domain);
   rs.then(res => {
-    if(res.status == true){
+    if (res.status == true) {
       SendSuccessDialog(res.message);
     } else {
       SendErrorMessage(res.message);
