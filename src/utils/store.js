@@ -69,6 +69,7 @@ const store = new Vuex.Store({
             localStorage.removeItem("frptoken");
             localStorage.removeItem("inbound");
             localStorage.removeItem("outbound");
+            localStorage.removeItem("proxies")
         }
     },
 

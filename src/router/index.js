@@ -41,6 +41,11 @@ const routes = [
                 path: '/proxies/addproxies',
                 name: "AddProxies",
                 component: () => import('../components/addproxies.vue')
+            },
+            {
+                path: '/realname',
+                name: "RealName",
+                component: () => import('../components/realname.vue')
             }
         ]
     }

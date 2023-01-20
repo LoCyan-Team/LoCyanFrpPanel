@@ -16,7 +16,7 @@
                   </n-gradient-text>
                   <n-button ghost :style="getStyle()" style="margin-right: 20px; margin-top: 20%" round type="primary"
                     @click="logout">
-                    &nbsp;&nbsp;退出登录
+                    &nbsp;退出登录
                   </n-button>
                 </n-space>
               </n-layout-header>
@@ -148,13 +148,22 @@ const menuOptions = [
             path: "/user",
           },
         },
-        { default: () => "个人信息" }
+        { default: () => "仪表盘" }
       ),
     key: "personality",
     icon: renderIcon(InformationCircleOutline),
   },
   {
-    label: "实名认证（必须）",
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: "/realname",
+          },
+        },
+        { default: () => "实名认证" }
+    ),
     key: "real-person-verification",
     icon: renderIcon(Person),
   },
