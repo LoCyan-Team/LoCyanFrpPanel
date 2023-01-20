@@ -70,6 +70,7 @@ const store = new Vuex.Store({
             localStorage.removeItem("inbound");
             localStorage.removeItem("outbound");
             localStorage.removeItem("proxies")
+            localStorage.removeItem("avator")
         }
     },
 

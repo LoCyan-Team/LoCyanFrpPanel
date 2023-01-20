@@ -80,7 +80,8 @@ import {
   Add,
   List,
   FileTrayFull,
-  CloudDownloadOutline
+  CloudDownloadOutline,
+  PlanetOutline
 
 
 } from "@vicons/ionicons5";
@@ -152,6 +153,20 @@ const menuOptions = [
       ),
     key: "personality",
     icon: renderIcon(InformationCircleOutline),
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: "/hello2023",
+          },
+        },
+        { default: () => "新年限时活动-1" }
+      ),
+    key: "newyear",
+    icon: renderIcon(PlanetOutline),
   },
   {
     label: () =>

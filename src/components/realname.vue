@@ -45,7 +45,7 @@ function submitrealname(){
         username: store.getters.GetUserName,
         name: UserProfile.value.name,
         idcard: UserProfile.value.idcard,
-        key: "你猜key是什么"
+        key: ""
     };
     const rs = post("https://api.locyanfrp.cn/Account/realname", SubmitForm);
     rs.then(res => {

@@ -24,6 +24,7 @@ export function GetLoginStatus(username, token){
             Logout();
             return res;
         } else {
+            localStorage.setItem("avator",res.avator);
             localStorage.setItem("traffic", res.traffic);
             return res;
         };
