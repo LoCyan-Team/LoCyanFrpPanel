@@ -81,6 +81,8 @@ import router from "../router/index.js";
 import { SendSuccessMessage, SendErrorMessage } from "../utils/message";
 import { SendSuccessDialog } from "../utils/dialog.js"
 
+localStorage.setItem("ViewPage", "add_proxy");
+
 // 选择框数据
 const ServerList = ref([]);
 // 服务器数据

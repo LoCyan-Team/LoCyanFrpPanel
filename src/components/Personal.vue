@@ -70,6 +70,8 @@ import store from "../utils/store.js";
 import { get } from "../utils/request.js";
 import router from "../router/index.js";
 
+localStorage.setItem("ViewPage", "personality");
+
 const username = store.getters.GetUserName;
 // 检查登录是否过期
 GetLoginStatus(username, store.getters.GetToken);
