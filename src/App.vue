@@ -6,27 +6,28 @@
           <message />
           <loadingbar />
           <ndialog />
-          <n-back-top :right="100" />
           <n-space vertical>
             <n-layout>
               <n-layout-header :inverted="inverted" bordered>
                 <n-space justify="space-between">
-                  <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 7%">
-                    LoCyan Frp 后台管理面板
+                  <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 15%">
+                    LoCyan Frp
                   </n-gradient-text>
-                  <n-button ghost :style="getStyle()" style="margin-right: 20px; margin-top: 20%" round type="primary"
-                    @click="logout">
-                    &nbsp;退出登录
-                  </n-button>
+                  <n-space justify="end">
+                    <n-avatar round size="medium" :style="getStyle()" style="margin-top: 23px;" :src="avator" />
+                    <n-button ghost :style="getStyle()" style="margin: 23px;" round type="primary"
+                      @click="logout">退出登录</n-button>
+                  </n-space>
                 </n-space>
               </n-layout-header>
-              <n-layout has-sider>
-                <n-layout-sider bordered show-trigger :collapsed="collapsed" collapse-mode="width" :collapsed-width="64"
-                  :width="240" :native-scrollbar="true" :inverted="inverted">
+              <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
+                <n-layout-sider bordered show-trigger :collapsed="collapsed" @collapse="collapsed = true"
+                  @expand="collapsed = false" collapse-mode="width" :collapsed-width="64"
+                  :native-scrollbar="true" :inverted="inverted" id="sider" style="height: 100%;bottom: 0">
                   <n-menu :inverted="inverted" :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22"
-                    :options="menuOptions" style="margin-top: 25px" default-value="personality" />
+                    :options="menuOptions" style="" default-value="personality"/>
                 </n-layout-sider>
-                <n-layout>
+                <n-layout :native-scrollbar="false">
                   <router-view></router-view>
                 </n-layout>
               </n-layout>
@@ -40,28 +41,20 @@
   <!-- 中考完学不会vue你就死定了 -->
 </template>
   
-<style scoped>
-.n-layout-sider {
-  height: calc(100vh - 85px);
-}
-</style>
-  
 <script>
 </script>
 
 <script setup>
-import { NLayout, NMessageProvider, NButton, useMessage, NConfigProvider, darkTheme, NDialogProvider } from "naive-ui";
+import { NLayout, NMessageProvider, NButton, NConfigProvider, darkTheme, NDialogProvider, NAvatar } from "naive-ui";
 import { NLayoutHeader } from "naive-ui";
-import { NLayoutFooter } from "naive-ui";
 import { NSpace } from "naive-ui";
 import { NMenu } from "naive-ui";
 import { NLayoutSider } from "naive-ui";
 import { NGradientText } from "naive-ui";
-import { h, defineComponent, ref } from "vue";
+import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import { NBackTop } from "naive-ui";
 import { NLoadingBarProvider } from "naive-ui";
-import { useLoadingBar } from "naive-ui";
 import { RouterLink } from "vue-router";
 import { Logout, GetLoginStatus } from "./utils/profile.js";
 import { SendSuccessMessage } from "./utils/message.js";
@@ -93,6 +86,10 @@ const collapsed = ref(true);
 if (document.body.clientWidth >= 1000) {
   collapsed.value = false;
 };
+
+const avator = ref("");
+
+avator.value = localStorage.getItem("avator");
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -155,18 +152,39 @@ const menuOptions = [
     icon: renderIcon(InformationCircleOutline),
   },
   {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            path: "/hello2023",
-          },
-        },
-        { default: () => "新年限时活动-1" }
-      ),
+    label: "新年活动集合",
     key: "newyear",
     icon: renderIcon(PlanetOutline),
+    children: [
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                path: "/hello2023",
+              },
+            },
+            { default: () => "评价和祝福" }
+          ),
+        key: "newyear-1",
+        icon: renderIcon(PlanetOutline),
+      },
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                path: "/prize",
+              },
+            },
+            { default: () => "抽奖" }
+          ),
+        key: "newyear-2",
+        icon: renderIcon(PlanetOutline),
+      }
+    ]
   },
   {
     label: () =>
@@ -178,7 +196,7 @@ const menuOptions = [
           },
         },
         { default: () => "实名认证" }
-    ),
+      ),
     key: "real-person-verification",
     icon: renderIcon(Person),
   },

@@ -7,15 +7,15 @@
   <n-grid :y-gap="3" cols="3" item-responsive>
     <n-grid-item span="0:3 600:1" id="item" style="margin-bottom: 5px;">
       <n-card title="个人信息" size="large">
-        <span>您好，尊敬的 <a id="username">{{ username }}</a></span>
+        <a>您好，尊敬的 <a id="username">{{ username }}</a></a>
         <br />
-        <span>您的邮箱为：{{ email }}</span>
+        <a>您的邮箱为：{{ email }}</a>
         <br />
-        <span>剩余流量：{{ traffic }}</span>
+        <a>剩余流量：{{ traffic }}</a>
         <br />
-        <spam>速度限制：{{ outbound }} / {{ inbound }}</spam>
+        <a>速度限制：{{ outbound }} / {{ inbound }}</a>
         <br />
-        <spam>访问秘钥：{{ frptoken }}</spam>
+        <a>访问秘钥：{{ frptoken }}</a>
       </n-card>
     </n-grid-item>
     <n-grid-item span="0:3 600:2" id="item">
