@@ -105,7 +105,7 @@
                             <n-button style="margin:2px" strong secondary type="error"
                                 @click="deleteProxy(Proxies.indexOf(item))">删除</n-button>
                             <!-- 这个click被我利用到极致了 -->
-                            <n-button style="margin:2px;weight: 100%" strong secondary type="info"
+                            <n-button style="margin:2px;" strong secondary type="info"
                                 @click="indexOfProxies = Proxies.indexOf(item); LinkAddr = makelinkaddr(Proxies.indexOf(item)); showDetailModal = true; SelectProxyID = item.id;">详细信息</n-button>
                         </n-space>
                     </template>

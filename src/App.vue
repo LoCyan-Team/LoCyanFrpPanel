@@ -60,7 +60,8 @@ import { Logout, GetLoginStatus } from "./utils/profile.js";
 import { SendSuccessMessage } from "./utils/message.js";
 import store from "./utils/store.js";
 import hljs from 'highlight.js/lib/core'
-import javascript from 'highlight.js/lib/languages/javascript'
+import ini from 'highlight.js/lib/languages/ini'
+import Nginx from 'highlight.js/lib/languages/Nginx'
 
 import {
   BookOutline as BookIcon,
@@ -79,7 +80,8 @@ import {
 
 } from "@vicons/ionicons5";
 
-hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('ini', ini);
+hljs.registerLanguage('Nginx', Nginx);
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -248,7 +250,16 @@ const menuOptions = [
         icon: renderIcon(List),
       },
       {
-        label: "配置文件",
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                path: "/config",
+              },
+            },
+            { default: () => "配置文件" }
+          ),
         key: "proxy_config",
         icon: renderIcon(FileTrayFull),
       },
