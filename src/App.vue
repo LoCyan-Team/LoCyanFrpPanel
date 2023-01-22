@@ -61,7 +61,7 @@ import { SendSuccessMessage } from "./utils/message.js";
 import store from "./utils/store.js";
 import hljs from 'highlight.js/lib/core'
 import ini from 'highlight.js/lib/languages/ini'
-import Nginx from 'highlight.js/lib/languages/Nginx'
+import nginx from 'highlight.js/lib/languages/nginx'
 
 import {
   BookOutline as BookIcon,
@@ -81,7 +81,7 @@ import {
 } from "@vicons/ionicons5";
 
 hljs.registerLanguage('ini', ini);
-hljs.registerLanguage('Nginx', Nginx);
+hljs.registerLanguage('nginx', nginx);
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);

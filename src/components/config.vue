@@ -17,16 +17,16 @@
                 <p>请根据下面的教程正确配置！</p>
                 <p></p>
                 <p>打开网站的配置文件（针对Nginx的网站，Apache或其他形式的网站自行百度或删除这行配置即可）</p>
-                <a>在</a> <n-code code="listen 80" language="Nginx" word-wrap></n-code><a>和</a><n-code code="listen 443 ssl http2" language="Nginx" word-wrap></n-code><a>两行的最后加上</a> <n-code code="proxy_protocol" language="Nginx" word-wrap></n-code>
+                <a>在</a> <n-code code="listen 80" language="nginx" word-wrap></n-code><a>和</a><n-code code="listen 443 ssl http2" language="nginx" word-wrap></n-code><a>两行的最后加上</a> <n-code code="proxy_protocol" language="nginx" word-wrap></n-code>
                 <p></p>
                 <p>例如：</p>
                 <n-code code="    listen 80 proxy_protocol
     listen 443 ssl http2 proxy_protocol
-                " language="Nginx" word-wrap></n-code>
+                " language="nginx" word-wrap></n-code>
                 <p>随后再在root下方放入这三行代码</p>
                 <n-code code="    real_ip_header proxy_protocol;
     real_ip_recursive on;
-    set_real_ip_from 127.0.0.1;" language="Nginx" word-wrap></n-code>
+    set_real_ip_from 127.0.0.1;" language="nginx" word-wrap></n-code>
                 <p>最后一个参数中的127.0.0.1请你改为创建隧道时填写的本地IP（Local_Ip）</p>
                 <p>随后整个配置文件长得差不多像这样</p>
                 <n-code code="server {
@@ -38,7 +38,7 @@
     real_ip_header proxy_protocol;
     real_ip_recursive on;
     set_real_ip_from 127.0.0.1;
-}" language="Nginx" word-wrap></n-code>
+}" language="nginx" word-wrap></n-code>
                 <p>保存，重启Nginx，你就可以获取用户的真实IP了！</p>
             </n-card>
         </n-grid-item>
