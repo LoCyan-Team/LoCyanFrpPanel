@@ -1,6 +1,6 @@
 <template>
   <n-form ref="formRef" :model="model" :rules="rules" label-width="auto"
-    require-mark-placement="right-hanging" size="medium">
+    require-mark-placement="right-hanging" size="medium" id="item">
     <n-form-item label="用户名" path="username">
       <n-input type="text" v-model:value="model.username" placeholder="用户名" />
     </n-form-item>
@@ -124,17 +124,17 @@ const rules = {
 </script>
 
 <style scoped>
-.n-form {
+#item {
   margin-top: calc(50vh - 320px);
-  margin-left: 520px;
-  margin-right: 520px;
+  margin-left: 240px;
+  margin-right: 240px;
 }
 
 @media (max-width: 1300px) {
-  .n-form {
+  #item {
     margin-top: calc(50vh - 320px);
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 }
 </style>

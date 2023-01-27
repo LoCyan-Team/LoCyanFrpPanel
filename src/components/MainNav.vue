@@ -219,7 +219,14 @@ const menuOptions = [
         ],
     },
     {
-        label: "软件下载",
+        label: () => h(
+            "a",
+            {
+                href: "https://download.locyan.cn",
+                target: "_blank"
+            },
+            "软件下载"
+        ),
         key: "software_download",
         icon: renderIcon(CloudDownloadOutline),
     },

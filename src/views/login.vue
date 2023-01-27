@@ -76,15 +76,15 @@ const rules = {
 
 #item {
   margin-top: calc(50vh - 160px);
-  margin-left: 520px;
-  margin-right: 520px;
+  margin-left: 240px;
+    margin-right: 240px;
 }
 
 @media (max-width: 1300px) {
   #item {
     margin-top: calc(50vh - 160px);
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 }
 </style>
