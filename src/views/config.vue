@@ -20,13 +20,13 @@
                 <a>在</a> <n-code code="listen 80" language="nginx" word-wrap></n-code><a>和</a><n-code code="listen 443 ssl http2" language="nginx" word-wrap></n-code><a>两行的最后加上</a> <n-code code="proxy_protocol" language="nginx" word-wrap></n-code>
                 <p></p>
                 <p>例如：</p>
-                <n-code code="    listen 80 proxy_protocol
-    listen 443 ssl http2 proxy_protocol
+                <n-code code="listen 80 proxy_protocol
+listen 443 ssl http2 proxy_protocol
                 " language="nginx" word-wrap></n-code>
                 <p>随后再在root下方放入这三行代码</p>
-                <n-code code="    real_ip_header proxy_protocol;
-    real_ip_recursive on;
-    set_real_ip_from 127.0.0.1;" language="nginx" word-wrap></n-code>
+                <n-code code="real_ip_header proxy_protocol;
+real_ip_recursive on;
+set_real_ip_from 127.0.0.1;" language="nginx" word-wrap></n-code>
                 <p>最后一个参数中的127.0.0.1请你改为创建隧道时填写的本地IP（Local_Ip）</p>
                 <p>随后整个配置文件长得差不多像这样</p>
                 <n-code code="server {
@@ -68,6 +68,7 @@ rs.then(res => {
   res.forEach(s => {
     if (i == 0) {
         node.value = s.id;
+        UpdateValue(s.id);
     }
     const tmpdict = {
       "label": s.name,

@@ -10,57 +10,57 @@ const routes = [
             {
                 path: '/',
                 name: 'MainPage',
-                component: () => import('../components/Personal.vue')
+                component: () => import('../views/Personal.vue')
             },
             {
                 path: '/user',
                 name: 'User',
-                component: () => import('../components/Personal.vue')
+                component: () => import('../views/Personal.vue')
             },
             {
                 path: '/sign',
                 name: 'Sign',
-                component: () => import('../components/Sign.vue')
+                component: () => import('../views/Sign.vue')
             },
             {
                 path: '/login',
                 name: 'Login',
-                component: () => import('../components/login.vue')
+                component: () => import('../views/login.vue')
             },
             {
                 path: '/register',
                 name: 'Register',
-                component: () => import('../components/register.vue')
+                component: () => import('../views/register.vue')
             },
             {
                 path: "/proxies",
                 name: 'Proxies',
-                component: () => import('../components/proxies.vue')
+                component: () => import('../views/proxies.vue')
             },
             {
                 path: '/proxies/addproxies',
                 name: "AddProxies",
-                component: () => import('../components/addproxies.vue')
+                component: () => import('../views/addproxies.vue')
             },
             {
                 path: '/realname',
                 name: "RealName",
-                component: () => import('../components/realname.vue')
+                component: () => import('../views/realname.vue')
             },
             {
                 path: '/hello2023',
                 name: 'newyear',
-                component: () => import('../components/newyear.vue')
+                component: () => import('../views/newyear.vue')
             },
             {
                 path: '/prize',
                 name: 'prize',
-                component: () => import('../components/prize.vue')
+                component: () => import('../views/prize.vue')
             },
             {
                 path: '/config',
                 name: 'config',
-                component: () => import('../components/config.vue')
+                component: () => import('../views/config.vue')
             }
         ]
     }

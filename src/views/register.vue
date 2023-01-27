@@ -1,6 +1,6 @@
 <template>
-  <n-form ref="formRef" :model="model" :rules="rules" label-placement="left" label-width="auto"
-    require-mark-placement="right-hanging" :size="large">
+  <n-form ref="formRef" :model="model" :rules="rules" label-width="auto"
+    require-mark-placement="right-hanging" size="medium">
     <n-form-item label="用户名" path="username">
       <n-input type="text" v-model:value="model.username" placeholder="用户名" />
     </n-form-item>
