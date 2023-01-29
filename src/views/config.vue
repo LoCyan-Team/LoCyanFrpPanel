@@ -5,7 +5,7 @@
             <n-card title="配置文件">
                 <n-select v-model:value="node" :options="ServerList" @update:value="UpdateValue"/>
                 <n-button strong secondary type="info" style="margin-top: 30px" @click="copy(code, $event)">复制配置文件</n-button>
-                <n-code :code="code" language="ini" show-line-numbers style="margin-top: 30px; overflow: auto; width: 100%;">;该节点下没有任何隧道捏~</n-code>
+                <n-code :code="code" language="ini" show-line-numbers style="margin-top: 30px;width: 100%;"></n-code>
             </n-card>
         </n-grid-item>
         <n-grid-item span="1" style="margin: 10px;">
@@ -91,7 +91,7 @@ function UpdateValue(value, option){
             code.value = res.config;
         } else {
             SendErrorMessage(res.message);
-            code.value = res.message;
+            code.value = "该节点下没有任何隧道捏~";
         }
     })
 }

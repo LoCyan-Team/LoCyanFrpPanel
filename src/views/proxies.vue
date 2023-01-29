@@ -100,12 +100,12 @@
                         <n-space>
                             <p style="margin-top: 9px">操作：</p>
                             <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
-                            <n-button style="margin:2px" strong secondary type="primary"
+                            <n-button style="margin:1px" strong secondary type="primary"
                                 @click="indexOfProxies = Proxies.indexOf(item); showEditModal = true; pt = transtype(item.proxy_type); SelectProxyID = item.id; ProxyEditInfo = { node: item.node, id: SelectProxyID, proxy_name: item.proxy_name, proxy_type: pt, local_ip: item.local_ip, local_port: item.local_port, remote_port: item.remote_port, domain: item.domain };">编辑</n-button>
-                            <n-button style="margin:2px" strong secondary type="error"
+                            <n-button style="margin:1px" strong secondary type="error"
                                 @click="deleteProxy(Proxies.indexOf(item))">删除</n-button>
                             <!-- 这个click被我利用到极致了 -->
-                            <n-button style="margin:2px;" strong secondary type="info"
+                            <n-button style="margin:1px;" strong secondary type="info"
                                 @click="indexOfProxies = Proxies.indexOf(item); LinkAddr = makelinkaddr(Proxies.indexOf(item)); showDetailModal = true; SelectProxyID = item.id;">详细信息</n-button>
                         </n-space>
                     </template>

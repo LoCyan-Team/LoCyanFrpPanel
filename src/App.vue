@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :hljs="hljs" :theme="darkTheme">
+  <n-config-provider :hljs="hljs" :theme="theme">
     <n-loading-bar-provider>
       <n-message-provider>
         <n-dialog-provider>
@@ -17,10 +17,10 @@
 </template>
 
 <script setup>
-import {  NMessageProvider, NConfigProvider, darkTheme, NDialogProvider } from "naive-ui";
+import {  NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, useOsTheme } from "naive-ui";
 import MainNav from "./components/MainNav.vue";
 import GuestNav from "./components/GuestNav.vue";
-import { h, ref } from "vue";
+import { h, ref, computed } from "vue";
 import { NLoadingBarProvider } from "naive-ui";
 import { Logout, GetLoginStatus } from "./utils/profile.js";
 import { SendSuccessMessage } from "./utils/message.js";
@@ -28,6 +28,9 @@ import store from "./utils/store.js";
 import hljs from 'highlight.js/lib/core';
 import ini from 'highlight.js/lib/languages/ini';
 import nginx from 'highlight.js/lib/languages/nginx'
+
+const osThemeRef = useOsTheme();
+const theme = computed(() => osThemeRef.value === "dark" ? darkTheme : null);
 
 hljs.registerLanguage('ini', ini);
 hljs.registerLanguage('nginx', nginx);
