@@ -27,7 +27,7 @@
               GiB
             </template>
           </n-statistic>
-          <n-statistic label="隧道数" tabular-nums>
+          <n-statistic label="隧道数" tabular-nums style="margin-left: 30px;">
             <n-number-animation ref="ProxiesRef" :from="0" :to="Proxiesanimation" />
             <template #suffix>
               条

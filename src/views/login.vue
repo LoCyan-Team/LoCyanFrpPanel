@@ -1,8 +1,8 @@
 <template>
   <n-grid cols="1" item-responsive>
     <n-grid-item span="1">
-      <n-form ref="formRef" :model="model" :rules="rules" label-width="auto"
-    require-mark-placement="right-hanging" size="medium" id="item">
+      <n-form ref="formRef" :model="model" :rules="rules" label-width="auto" require-mark-placement="right-hanging"
+        size="medium" id="item">
         <n-form-item label="用户名 / 邮箱" path="username">
           <n-input type="text" v-model:value="model.username" placeholder="用户名" />
         </n-form-item>
@@ -10,8 +10,10 @@
           <n-input type="password" v-model:value="model.password" placeholder="密码" />
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
-          <n-button ghost round type="primary" @click="login"> 登录 </n-button>
-          <n-button ghost round type="primary" @click="goregister"> 没注册？</n-button>
+          <n-space>
+            <n-button type="primary" @click="login" style="margin-right: 10px;"> 登录 </n-button>
+            <n-button ghost type="primary" @click="goregister"> 没注册？</n-button>
+          </n-space>
         </div>
       </n-form>
     </n-grid-item>
@@ -73,11 +75,10 @@ const rules = {
 </script>
 
 <style scoped>
-
 #item {
   margin-top: calc(50vh - 160px);
   margin-left: 240px;
-    margin-right: 240px;
+  margin-right: 240px;
 }
 
 @media (max-width: 1300px) {

@@ -1,6 +1,6 @@
 <template>
-  <n-form ref="formRef" :model="model" :rules="rules" label-width="auto"
-    require-mark-placement="right-hanging" size="medium" id="item">
+  <n-form ref="formRef" :model="model" :rules="rules" label-width="auto" require-mark-placement="right-hanging"
+    size="medium" id="item">
     <n-form-item label="用户名" path="username">
       <n-input type="text" v-model:value="model.username" placeholder="用户名" />
     </n-form-item>
@@ -21,8 +21,10 @@
       <n-button ghost round type="primary" @click="sendcode"> 发送验证码 </n-button>
     </n-form-item>
     <div style="display: flex; justify-content: flex-end">
-      <n-button ghost round type="primary" @click="register"> 注册 LCF </n-button>
-      <n-button ghost round type="primary" @click="gologin"> 已经有账号了? </n-button>
+      <n-space>
+        <n-button type="primary" @click="register" style="margin-right: 10px;"> 注册 </n-button>
+        <n-button ghost type="primary" @click="gologin"> 去登录</n-button>
+      </n-space>
     </div>
   </n-form>
 </template>
