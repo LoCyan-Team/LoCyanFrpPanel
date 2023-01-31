@@ -22,6 +22,15 @@
                 </n-layout-sider>
                 <n-layout :native-scrollbar="false">
                     <router-view></router-view>
+                    <div style="margin-top: 20px; margin-bottom: 20px;">
+                        <center>
+                            <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE 协助</a>
+                            <br>
+                            <a style="text-align: center;">LoCyan Team 所有</a>
+                            <br>
+                            <a style="text-align: center;">鸣谢: XiaMoHuaHuo-CN, 天宇网络</a>
+                        </center>
+                    </div>
                 </n-layout>
             </n-layout>
         </n-layout>
