@@ -1,4 +1,9 @@
 <template>
+    <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+        <n-text type="primary">
+            实名认证
+        </n-text>
+    </n-h1>
     <n-form :ref="formRef" :model="UserProfile" label-width="auto" :size="'large'" v-show="showRealnameModal">
         <n-grid cols="1" item-responsive>
             <n-grid-item span="1" id="item">
@@ -24,7 +29,7 @@
 </template>
 
 <script setup>
-import { NGrid, NGridItem, NCard, NInput, NForm, NFormItem, NButton } from 'naive-ui';
+import { NGrid, NGridItem, NCard, NInput, NForm, NFormItem, NButton, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
 import { SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';
@@ -39,7 +44,7 @@ const UserProfile = ref({
     idcard: ""
 });
 
-function submitrealname(){
+function submitrealname() {
     StartLoadingBar();
     const SubmitForm = {
         username: store.getters.GetUserName,
@@ -49,7 +54,7 @@ function submitrealname(){
     };
     const rs = post("https://api.locyanfrp.cn/Account/realname", SubmitForm);
     rs.then(res => {
-        if(res.status){
+        if (res.status) {
             CheckRealNameStatus();
             FinishLoadingBar();
             SendSuccessDialog(res.message);
@@ -60,10 +65,10 @@ function submitrealname(){
     })
 }
 
-function CheckRealNameStatus(){
+function CheckRealNameStatus() {
     const rs = get("https://api.locyanfrp.cn/Account/GetRealnameStatus?username=" + store.getters.GetUserName);
     rs.then(res => {
-        if(res.status){
+        if (res.status) {
             showRealnameModal.value = false;
         } else {
             showRealnameModal.value = true;

@@ -88,41 +88,49 @@
         <!-- <template #footer>
     </template> -->
     </n-modal>
-    <n-grid cols="4" item-responsive>
-        <n-gi v-for="item in Proxies" style="margin: 10px;" span="0:4 950:1" :id="Proxies.indexOf(item)">
-            <n-space style="display: block;">
-                <n-card :title="'ID: ' + item.id + ' - ' + item.proxy_name">
-                    {{ item.proxy_name }}
-                    <template #footer>
-                        连接地址： <br /> {{ makelinkaddr(Proxies.indexOf(item)) }}
-                    </template>
-                    <template #action>
-                        <n-space>
-                            <p style="margin-top: 9px">操作：</p>
-                            <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
-                            <n-button style="margin:1px" strong secondary type="primary"
-                                @click="indexOfProxies = Proxies.indexOf(item); showEditModal = true; pt = transtype(item.proxy_type); SelectProxyID = item.id; ProxyEditInfo = { node: item.node, id: SelectProxyID, proxy_name: item.proxy_name, proxy_type: pt, local_ip: item.local_ip, local_port: item.local_port, remote_port: item.remote_port, domain: item.domain };">编辑</n-button>
-                            <n-button style="margin:1px" strong secondary type="error"
-                                @click="deleteProxy(Proxies.indexOf(item))">删除</n-button>
-                            <!-- 这个click被我利用到极致了 -->
-                            <n-button style="margin:1px;" strong secondary type="info"
-                                @click="indexOfProxies = Proxies.indexOf(item); LinkAddr = makelinkaddr(Proxies.indexOf(item)); showDetailModal = true; SelectProxyID = item.id;">详细信息</n-button>
-                        </n-space>
-                    </template>
-                </n-card>
-            </n-space>
-        </n-gi>
-    </n-grid>
+    <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+      <n-text type="primary">
+        隧道列表
+      </n-text>
+    </n-h1>
+    <n-spin :show="show">
+        <n-grid cols="4" item-responsive>
+            <n-gi v-for="item in Proxies" style="margin: 10px;" span="0:4 950:1" :id="Proxies.indexOf(item)">
+                <n-space style="display: block;">
+                    <n-card :title="'ID: ' + item.id + ' - ' + item.proxy_name">
+                        {{ item.proxy_name }}
+                        <template #footer>
+                            连接地址： <br /> {{ makelinkaddr(Proxies.indexOf(item)) }}
+                        </template>
+                        <template #action>
+                            <n-space>
+                                <p style="margin-top: 9px">操作：</p>
+                                <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
+                                <n-button style="margin:1px" strong secondary type="primary"
+                                    @click="indexOfProxies = Proxies.indexOf(item); showEditModal = true; pt = transtype(item.proxy_type); SelectProxyID = item.id; ProxyEditInfo = { node: item.node, id: SelectProxyID, proxy_name: item.proxy_name, proxy_type: pt, local_ip: item.local_ip, local_port: item.local_port, remote_port: item.remote_port, domain: item.domain };">编辑</n-button>
+                                <n-button style="margin:1px" strong secondary type="error"
+                                    @click="deleteProxy(Proxies.indexOf(item))">删除</n-button>
+                                <!-- 这个click被我利用到极致了 -->
+                                <n-button style="margin:1px;" strong secondary type="info"
+                                    @click="indexOfProxies = Proxies.indexOf(item); LinkAddr = makelinkaddr(Proxies.indexOf(item)); showDetailModal = true; SelectProxyID = item.id;">详细信息</n-button>
+                            </n-space>
+                        </template>
+                    </n-card>
+                </n-space>
+            </n-gi>
+        </n-grid>
+    </n-spin>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { NSpace, NCard, NGi, NGrid, NButton, useDialog, NModal, NForm, NFormItem, NInput, NRadioGroup, NRadioButton, NGridItem, NSelect } from 'naive-ui';
+import { NSpace, NCard, NGi, NGrid, NButton, useDialog, NModal, NForm, NFormItem, NInput, NRadioGroup, NRadioButton, NGridItem, NSelect, NSpin, NH1, NText } from 'naive-ui';
 import store from '../utils/store.js';
 import { get } from '../utils/request.js';
 import { SendSuccessMessage, SendErrorMessage } from '../utils/message';
-import { SendSuccessDialog } from "../utils/dialog.js"
+import { SendErrorDialog, SendSuccessDialog } from "../utils/dialog.js"
 
+const show = ref(true);
 const showEditModal = ref(false);
 const showDetailModal = ref(false);
 const SelectProxyID = ref(0);
@@ -178,7 +186,7 @@ function editproxy(proxyid) {
             showEditModal.value = false;
             SendSuccessDialog(res.message);
         } else {
-            SendErrorMessage(res.message);
+            SendErrorDialog(res.message);
         }
     })
 }
@@ -283,6 +291,7 @@ function initList() {
             return res;
         } else {
             Proxies.value = res.proxies;
+            show.value = false;
         }
     })
 }

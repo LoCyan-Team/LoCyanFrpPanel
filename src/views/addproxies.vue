@@ -1,4 +1,9 @@
 <template>
+  <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+    <n-text type="primary">
+      添加隧道
+    </n-text>
+  </n-h1>
   <n-form :ref="formRef" :model="ProxyInfo" :rules="rules" label-width="auto" :size="large">
     <n-space vertical style="margin: 20px">
       <n-form-item label="选择服务器" path="node">
@@ -73,7 +78,7 @@
 </template>
 
 <script setup>
-import { NForm, NFormItem, NInput, NButton, NSpace, NSelect, NGrid, NGridItem, NRadioGroup, NRadioButton } from 'naive-ui';
+import { NForm, NFormItem, NInput, NButton, NSpace, NSelect, NGrid, NGridItem, NRadioGroup, NRadioButton, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
 import store from "../utils/store.js";
 import { get } from "../utils/request.js";

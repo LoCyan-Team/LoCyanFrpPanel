@@ -1,4 +1,9 @@
 <template>
+    <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+        <n-text type="primary">
+            抽奖
+        </n-text>
+    </n-h1>
     <n-grid cols="3" item-responsive>
         <n-grid-item v-for="item in PrizesList" id="item" span="0:3 950:1">
             <n-space style="display: block;">
@@ -23,7 +28,7 @@
 </template>
 
 <script setup>
-import { NGrid, NGridItem, NCard, NButton, NSpace, NTag } from 'naive-ui';
+import { NGrid, NGridItem, NCard, NButton, NSpace, NTag, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';
@@ -89,10 +94,10 @@ function GetPrizeList() {
             } else {
                 users.value[e.id] = [e.username];
             }
-        i++;
+            i++;
         });
     });
-    
+
     console.log(PrizesList.value);
 }
 

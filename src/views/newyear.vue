@@ -1,4 +1,9 @@
 <template>
+    <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+        <n-text type="primary">
+            新年祝福
+        </n-text>
+    </n-h1>
     <n-form :ref="formRef" :model="NewYear" label-width="auto" :size="'large'">
         <n-grid cols="1" item-responsive>
             <n-grid-item span="1" id="item">
@@ -28,7 +33,7 @@
 </template>
 
 <script setup>
-import { NGrid, NGridItem, NCard, NInput, NForm, NFormItem, NButton, NSpace, NAvatar } from 'naive-ui';
+import { NGrid, NGridItem, NCard, NInput, NForm, NFormItem, NButton, NSpace, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';
@@ -45,7 +50,7 @@ const NewYear = ref({
 function timestampToTime(timestamp) {
     var date = new Date(timestamp * 1000);
     var Y = date.getFullYear() + "-";
-    var M =(date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "-";
+    var M = (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "-";
     var D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
     var h = date.getHours() + ":";
     var m = date.getMinutes() + ":";

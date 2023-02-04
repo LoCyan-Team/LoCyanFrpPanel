@@ -1,10 +1,16 @@
 <!--  -->
 <template>
+    <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+        <n-text type="primary">
+            配置文件
+        </n-text>
+    </n-h1>
     <n-grid cols="1" y-gap="1" item-responsive>
         <n-grid-item span="1" style="margin: 10px;">
             <n-card title="配置文件">
-                <n-select v-model:value="node" :options="ServerList" @update:value="UpdateValue"/>
-                <n-button strong secondary type="info" style="margin-top: 30px" @click="copy(code, $event)">复制配置文件</n-button>
+                <n-select v-model:value="node" :options="ServerList" @update:value="UpdateValue" />
+                <n-button strong secondary type="info" style="margin-top: 30px"
+                    @click="copy(code, $event)">复制配置文件</n-button>
                 <n-code :code="code" language="ini" show-line-numbers style="margin-top: 30px;width: 100%;"></n-code>
             </n-card>
         </n-grid-item>
@@ -13,11 +19,13 @@
                 <p>由于我们在新的配置文件生成机制中加入了</p>
                 <n-code code="proxy_protocol_version = v2" language="ini"></n-code>
                 <p>这一参数，导致网站如果不正确配置NGINX就无法正常访问</p>
-                <n-divider/>
+                <n-divider />
                 <p>请根据下面的教程正确配置！</p>
                 <p></p>
                 <p>打开网站的配置文件（针对Nginx的网站，Apache或其他形式的网站自行百度或删除这行配置即可）</p>
-                <a>在</a> <n-code code="listen 80" language="nginx" word-wrap></n-code><a>和</a><n-code code="listen 443 ssl http2" language="nginx" word-wrap></n-code><a>两行的最后加上</a> <n-code code="proxy_protocol" language="nginx" word-wrap></n-code>
+                <a>在</a> <n-code code="listen 80" language="nginx" word-wrap></n-code><a>和</a><n-code
+                    code="listen 443 ssl http2" language="nginx" word-wrap></n-code><a>两行的最后加上</a> <n-code
+                    code="proxy_protocol" language="nginx" word-wrap></n-code>
                 <p></p>
                 <p>例如：</p>
                 <n-code code="listen 80 proxy_protocol
@@ -49,7 +57,7 @@ set_real_ip_from 127.0.0.1;" language="nginx" word-wrap></n-code>
 </script>
 
 <script setup>
-import { NCard, NGrid, NGridItem, NSelect, NCode, NButton, NDivider } from 'naive-ui';
+import { NCard, NGrid, NGridItem, NSelect, NCode, NButton, NDivider, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
 import store from "../utils/store.js";
 import { get } from '../utils/request';
@@ -64,26 +72,26 @@ const code = ref("");
 
 const rs = get("https://api.locyanfrp.cn/Proxies/GetServerList")
 rs.then(res => {
-  var i = 0;
-  res.forEach(s => {
-    if (i == 0) {
-        node.value = s.id;
-        UpdateValue(s.id);
-    }
-    const tmpdict = {
-      "label": s.name,
-      "value": s.id
-    };
-    ServerList.value[i] = tmpdict;
-    i = i + 1;
-  });
+    var i = 0;
+    res.forEach(s => {
+        if (i == 0) {
+            node.value = s.id;
+            UpdateValue(s.id);
+        }
+        const tmpdict = {
+            "label": s.name,
+            "value": s.id
+        };
+        ServerList.value[i] = tmpdict;
+        i = i + 1;
+    });
 })
 
 function copy(data, event) {
-      clipboard(data, event)
+    clipboard(data, event)
 }
 
-function UpdateValue(value, option){
+function UpdateValue(value, option) {
     const rs = get("https://api.locyanfrp.cn/Proxies/GetConfigFile?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken + "&node=" + value);
     rs.then(res => {
         if (res.status) {

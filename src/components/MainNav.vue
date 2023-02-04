@@ -22,7 +22,7 @@
                 </n-layout-sider>
                 <n-layout :native-scrollbar="false">
                     <router-view></router-view>
-                    <div style="margin-top: 20px; margin-bottom: 20px;">
+                    <div style="margin-top: 25px; margin-bottom: 20px;">
                         <center>
                             <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE 协助</a>
                             <br>
@@ -118,6 +118,7 @@ const menuOptions = [
     {
         label: "新年活动集合",
         key: "newyear",
+        show: false,
         icon: renderIcon(PlanetOutline),
         children: [
             {
@@ -228,17 +229,36 @@ const menuOptions = [
         ],
     },
     {
-        label: () => h(
-            "a",
+        label: "其他功能",
+        key: "other_options",
+        icon: renderIcon(BookIcon),
+        children: [
             {
-                href: "https://download.locyan.cn",
-                target: "_blank"
+                label: () => h(
+                    "a",
+                    {
+                        href: "https://download.locyan.cn",
+                        target: "_blank"
+                    },
+                    "软件下载"
+                ),
+                key: "software_download",
+                icon: renderIcon(CloudDownloadOutline),
             },
-            "软件下载"
-        ),
-        key: "software_download",
-        icon: renderIcon(CloudDownloadOutline),
-    },
+            {
+                label: () => h(
+                    "a",
+                    {
+                        href: "https://doc.locyan.cn",
+                        target: "_blank"
+                    },
+                    "帮助文档"
+                ),
+                key: "help_docs",
+                icon: renderIcon(BookIcon),
+            }
+        ]
+    }
 ];
 
 const inverted = false;

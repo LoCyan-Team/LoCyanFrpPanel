@@ -1,4 +1,9 @@
 <template>
+    <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+        <n-text type="primary">
+            每日签到
+        </n-text>
+    </n-h1>
     <n-space vertical>
         <n-card title="每日签到" size="large">
             <n-space justify="space-between">
@@ -14,7 +19,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { NSpace, NCard, NButton } from "naive-ui"
+import { NSpace, NCard, NButton, NH1, NText } from "naive-ui"
 import { post } from "../utils/request.js";
 import { SendSuccessMessage, SendErrorMessage } from "../utils/message";
 import { SendSuccessDialog } from "../utils/dialog.js"
@@ -53,9 +58,9 @@ function DoSign() {
 
 <style scoped>
 .n-card {
-  max-width: 100%;
-  margin-left: 30px;
-  padding-right: 30px;
-  margin-top: 30px;
+    max-width: 100%;
+    margin-left: 30px;
+    padding-right: 30px;
+    margin-top: 30px;
 }
 </style>
