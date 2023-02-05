@@ -43,7 +43,7 @@
       <n-card title="数据报表" size="large" style="margin-bottom: 15px">
         <n-space>
           <n-statistic label="剩余流量" tabular-nums>
-            <n-number-animation ref="TrafficRef" :from="0" :to="trafficanimation" duration='800' />
+            <n-number-animation ref="TrafficRef" :from="0" :to="trafficanimation"/>
             <template #suffix>
               GiB
             </template>
