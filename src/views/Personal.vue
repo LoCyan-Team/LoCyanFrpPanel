@@ -20,14 +20,30 @@
         <br />
         <a>速度限制：{{ outbound }} / {{ inbound }}</a>
         <br />
-        <a>访问秘钥：{{ frptoken }}</a>
+        <div v-if="DontShowFrptoken">
+          <n-tag type="info" @click="changeShouFrptoken($event)">
+            <template #icon>
+              <n-icon :component="Key" />
+            </template>
+            查看访问密钥
+          </n-tag>
+        </div>
+        <template v-else>
+          <n-tag type="info">
+            <template #icon>
+              <n-icon :component="AngleRight" />
+            </template>
+            {{ frptoken }}
+          </n-tag>
+        </template>
+        <br>
       </n-card>
     </n-grid-item>
     <n-grid-item span="0:3 600:2" id="item">
       <n-card title="数据报表" size="large" style="margin-bottom: 15px">
         <n-space>
           <n-statistic label="剩余流量" tabular-nums>
-            <n-number-animation ref="TrafficRef" :from="0" :to="trafficanimation" />
+            <n-number-animation ref="TrafficRef" :from="0" :to="trafficanimation"/>
             <template #suffix>
               GiB
             </template>
@@ -87,13 +103,14 @@
 </style>
 
 <script setup>
-import { NCard, NAlert, NButton, NSpace, useMessage, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText } from "naive-ui";
+import { NCard, NAlert, NButton, NSpace, useMessage, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon } from "naive-ui";
 import { GetContents, GetLoginStatus, GetProxies } from "../utils/profile.js";
+import { AngleRight, Key } from '@vicons/fa';
 import { ref } from "vue";
 import store from "../utils/store.js";
 import { get } from "../utils/request.js";
 import router from "../router/index.js";
-
+import clipboard from '..//utils/clipboard'
 localStorage.setItem("ViewPage", "personality");
 
 const username = store.getters.GetUserName;
@@ -106,6 +123,16 @@ const outbound = store.getters.GetOutBound + "Mbps 上行";
 const frptoken = store.getters.GetFrpToken;
 const contents = GetContents();
 const message = useMessage();
+const ProxiesRef = ref(null);
+const DontShowFrptoken = ref(true);
+async function changeShouFrptoken(event) {
+  DontShowFrptoken.value = !DontShowFrptoken.value
+  clipboard(frptoken, event)
+  setTimeout(() => {
+    DontShowFrptoken.value = !DontShowFrptoken.value
+  }, 3000);
+  
+}
 </script>
 
 <script>
@@ -115,8 +142,9 @@ const traffic = ref(Number(localStorage.getItem("traffic")) / 1024 + "GB");
 const trafficanimation = ref(Number(localStorage.getItem("traffic")) / 1024);
 const Proxiesanimation = ref(Number(localStorage.getItem("proxies")));
 
+
 const TrafficRef = ref(null);
-const ProxiesRef = ref(null);
+
 
 // 流量定时刷新
 export default defineComponent({
