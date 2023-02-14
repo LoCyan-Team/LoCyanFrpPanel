@@ -36,7 +36,7 @@ const store = new Vuex.Store({
             return state.avatar || localStorage.getItem("avatar") || "";
         },
         GetTraffic(state) {
-            return Number(state.traffic) || Number(localStorage.getItem("traffic")) || 0;
+            return Number(state.traffic) / 1024  || Number(localStorage.getItem("traffic")) / 1024 || 0;
         }
     },
     mutations: {
