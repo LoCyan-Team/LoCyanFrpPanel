@@ -11,56 +11,89 @@ const routes = [
             {
                 path: '/',
                 name: 'MainPage',
+                meta: {
+                    title: '仪表盘'
+                },
                 component: () => import('../views/Personal.vue')
             },
             {
                 path: '/user',
                 name: 'User',
+                meta: {
+                    title: '仪表盘'
+                },
                 component: () => import('../views/Personal.vue')
             },
             {
                 path: '/sign',
                 name: 'Sign',
+                meta: {
+                    title: '签到'
+                },
                 component: () => import('../views/Sign.vue')
             },
             {
                 path: '/login',
                 name: 'login',
+                meta: {
+                    title: '登录'
+                },
                 component: () => import('../views/login.vue')
             },
             {
                 path: '/register',
                 name: 'register',
+                meta: {
+                    title: '注册'
+                },
                 component: () => import('../views/register.vue')
             },
             {
                 path: "/proxies",
                 name: 'Proxies',
+                meta: {
+                    title: '隧道列表'
+                },
                 component: () => import('../views/proxies.vue')
             },
             {
                 path: '/proxies/addproxies',
                 name: "AddProxies",
+                meta: {
+                    title: '添加隧道'
+                },
                 component: () => import('../views/addproxies.vue')
             },
             {
                 path: '/realname',
                 name: "RealName",
+                meta: {
+                    title: '实名认证'
+                },
                 component: () => import('../views/realname.vue')
             },
             {
                 path: '/hello2023',
                 name: 'newyear',
+                meta: {
+                    title: '留言'
+                },
                 component: () => import('../views/newyear.vue')
             },
             {
                 path: '/prize',
                 name: 'prize',
+                meta: {
+                    title: '抽奖'
+                },
                 component: () => import('../views/prize.vue')
             },
             {
                 path: '/config',
                 name: 'config',
+                meta: {
+                    title: '配置文件'
+                },
                 component: () => import('../views/config.vue')
             }
         ]
