@@ -7,29 +7,24 @@
                         LoCyan Frp
                     </n-gradient-text>
                     <n-space justify="end">
-                        <n-avatar round size="medium" :style="getStyle()" style="margin-top: 23px;" :src="avator" />
+                        <n-avatar round size="medium" :style="getStyle()" style="margin-top: 23px;" :src="avatar" />
                         <n-button ghost :style="getStyle()" style="margin: 23px;" round type="primary"
                             @click="logout">退出登录</n-button>
                     </n-space>
                 </n-space>
             </n-layout-header>
             <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
-                <n-layout-sider bordered show-trigger :collapsed="collapsed" @collapse="collapsed = true"
-                    @expand="collapsed = false" collapse-mode="width" :collapsed-width="64" :native-scrollbar="true"
-                    :inverted="inverted" id="sider" style="height: 100%;bottom: 0">
-                    <n-menu :inverted="inverted" :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22"
-                        :options="menuOptions" style="" default-value="personality" />
-                </n-layout-sider>
+              <SideBar/>
                 <n-layout :native-scrollbar="false">
                     <router-view></router-view>
                     <div style="margin-top: 25px; margin-bottom: 20px;">
-                        <center>
+                        <div style="text-align: center;">
                             <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE 协助</a>
                             <br>
                             <a style="text-align: center;">LoCyan Team 所有</a>
                             <br>
                             <a style="text-align: center;">鸣谢: XiaMoHuaHuo-CN, 天宇网络</a>
-                        </center>
+                        </div>
                     </div>
                 </n-layout>
             </n-layout>
@@ -46,34 +41,13 @@
 import { NLayout, NButton, NAvatar } from "naive-ui";
 import { NLayoutHeader } from "naive-ui";
 import { NSpace } from "naive-ui";
-import { NMenu } from "naive-ui";
-import { NLayoutSider } from "naive-ui";
 import { NGradientText } from "naive-ui";
 import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
-import { NBackTop } from "naive-ui";
-import { NLoadingBarProvider } from "naive-ui";
-import { RouterLink } from "vue-router";
+import SideBar from "./MainSideBar.vue";
 import { Logout, GetLoginStatus } from "../utils/profile.js";
 import { SendSuccessMessage } from "../utils/message.js";
 import store from "../utils/store.js";
-
-import {
-    BookOutline as BookIcon,
-    PersonOutline as PersonIcon,
-    WineOutline as WineIcon,
-    InformationCircleOutline,
-    Person,
-    PencilSharp,
-    PaperPlane,
-    Add,
-    List,
-    FileTrayFull,
-    CloudDownloadOutline,
-    PlanetOutline
-
-
-} from "@vicons/ionicons5";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -81,9 +55,9 @@ if (document.body.clientWidth >= 1000) {
     collapsed.value = false;
 };
 
-const avator = ref("");
+const avatar = ref("");
 
-avator.value = localStorage.getItem("avator");
+avatar.value = store.getters.GetAvatar;
 
 function renderIcon(icon) {
     return () => h(NIcon, null, { default: () => h(icon) });
@@ -99,167 +73,6 @@ function logout() {
     SendSuccessMessage("您已从LCF登出，感谢您的使用！")
     Logout();
 };
-
-const menuOptions = [
-    {
-        label: () =>
-            h(
-                RouterLink,
-                {
-                    to: {
-                        path: "/user",
-                    },
-                },
-                { default: () => "仪表盘" }
-            ),
-        key: "personality",
-        icon: renderIcon(InformationCircleOutline),
-    },
-    {
-        label: "新年活动集合",
-        key: "newyear",
-        show: false,
-        icon: renderIcon(PlanetOutline),
-        children: [
-            {
-                label: () =>
-                    h(
-                        RouterLink,
-                        {
-                            to: {
-                                path: "/hello2023",
-                            },
-                        },
-                        { default: () => "评价和祝福" }
-                    ),
-                key: "newyear-1",
-                icon: renderIcon(PlanetOutline),
-            },
-            {
-                label: () =>
-                    h(
-                        RouterLink,
-                        {
-                            to: {
-                                path: "/prize",
-                            },
-                        },
-                        { default: () => "抽奖" }
-                    ),
-                key: "newyear-2",
-                icon: renderIcon(PlanetOutline),
-            }
-        ]
-    },
-    {
-        label: () =>
-            h(
-                RouterLink,
-                {
-                    to: {
-                        path: "/realname",
-                    },
-                },
-                { default: () => "实名认证" }
-            ),
-        key: "real-person-verification",
-        icon: renderIcon(Person),
-    },
-    {
-        label: () =>
-            h(
-                RouterLink,
-                {
-                    to: {
-                        path: "/sign",
-                    },
-                },
-                { default: () => "签到" }
-            ),
-        key: "Sign",
-        icon: renderIcon(PencilSharp),
-    },
-    {
-        label: "隧道操作",
-        key: "control-proxy",
-        icon: renderIcon(PaperPlane),
-        children: [
-            {
-                label: () =>
-                    h(
-                        RouterLink,
-                        {
-                            to: {
-                                path: "/proxies/addproxies",
-                            },
-                        },
-                        { default: () => "添加隧道" }
-                    ),
-                key: "add_proxy",
-                icon: renderIcon(Add),
-            },
-            {
-                label: () =>
-                    h(
-                        RouterLink,
-                        {
-                            to: {
-                                path: "/proxies",
-                            },
-                        },
-                        { default: () => "隧道列表" }
-                    ),
-                key: "proxy_list",
-                icon: renderIcon(List),
-            },
-            {
-                label: () =>
-                    h(
-                        RouterLink,
-                        {
-                            to: {
-                                path: "/config",
-                            },
-                        },
-                        { default: () => "配置文件" }
-                    ),
-                key: "proxy_config",
-                icon: renderIcon(FileTrayFull),
-            },
-        ],
-    },
-    {
-        label: "其他功能",
-        key: "other_options",
-        icon: renderIcon(BookIcon),
-        children: [
-            {
-                label: () => h(
-                    "a",
-                    {
-                        href: "https://download.locyan.cn",
-                        target: "_blank"
-                    },
-                    "软件下载"
-                ),
-                key: "software_download",
-                icon: renderIcon(CloudDownloadOutline),
-            },
-            {
-                label: () => h(
-                    "a",
-                    {
-                        href: "https://doc.locyan.cn",
-                        target: "_blank"
-                    },
-                    "帮助文档"
-                ),
-                key: "help_docs",
-                icon: renderIcon(BookIcon),
-            }
-        ]
-    }
-];
 
 const inverted = false;
 </script>

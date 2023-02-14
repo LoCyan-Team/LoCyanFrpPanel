@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import { StartLoadingBar, FinishLoadingBar, ErrorLoadingBar } from "../utils/loadingbar.js";
 import store from "../utils/store"
 import { ref } from "vue";
+import MainSideBar from "../components/MainSideBar.vue";
 
 const routes = [
     {
@@ -24,12 +25,12 @@ const routes = [
             },
             {
                 path: '/login',
-                name: 'Login',
+                name: 'login',
                 component: () => import('../views/login.vue')
             },
             {
                 path: '/register',
-                name: 'Register',
+                name: 'register',
                 component: () => import('../views/register.vue')
             },
             {
@@ -78,28 +79,35 @@ if (localStorage.getItem("token")) {
 
 router.beforeEach((to, from, next) => {
     StartLoadingBar();
-    if (to.name === 'Login'){
+    if (to.name === 'login'){
         if (store.getters.GetToken){
             next({name: 'User' });
         }
         next();
-    };
-    if (to.name === 'Register'){
+        return
+    }
+    if (to.name === 'register'){
         if (store.getters.GetToken){
             next({name: 'User' });
         }
         next();
-    };
+        return
+    }
     if (!store.getters.GetToken){
         console.log('未检测到登录TOKEN, 转向登录页！');
-        next({name: 'Login' });
+        next({name: 'login' });
     } else {
         next();
-    };
+    }
 });
 
 router.afterEach((to, from, next) => {
     FinishLoadingBar();
+    if (store.getters.GetToken) {
+        window.SetSideBarActiveKey(to.name);
+    } else {
+        window.SetSideBarActiveKey_Guest(to.name);
+    }
 });
 
 export default router

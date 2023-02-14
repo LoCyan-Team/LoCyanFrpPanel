@@ -4,7 +4,7 @@
       添加隧道
     </n-text>
   </n-h1>
-  <n-form :ref="formRef" :model="ProxyInfo" :rules="rules" label-width="auto" :size="large">
+  <n-form :ref="formRef" :model="ProxyInfo" :rules="rules" label-width="auto" size="large">
     <n-space vertical style="margin: 20px">
       <n-form-item label="选择服务器" path="node">
         <n-select v-model:value="ProxyInfo.node" :options="ServerList" />
@@ -87,7 +87,6 @@ import { SendSuccessMessage, SendErrorMessage } from "../utils/message";
 import { SendSuccessDialog } from "../utils/dialog.js"
 
 localStorage.setItem("ViewPage", "add_proxy");
-
 // 选择框数据
 const ServerList = ref([]);
 // 服务器数据

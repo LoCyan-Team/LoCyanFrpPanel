@@ -22,12 +22,11 @@
 
 <script setup>
 import { ref } from "vue";
-import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar, NGrid, NGridItem } from "naive-ui";
+import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar, NGrid, NGridItem, NSpace } from "naive-ui";
 import { get, post } from "../utils/request.js";
 import router from "../router/index.js";
 import qs from 'qs';
 import store from "../utils/store.js";
-import { GetLoginStatus } from "../utils/profile.js"
 
 const formRef = ref(null);
 const message = useMessage();
@@ -46,9 +45,9 @@ function goregister() {
 
 function login(e) {
   ldb.start();
-  const rs = get("https://api.locyanfrp.cn/User/DoLogin?" + qs.stringify(model.value));
+  const rs = get("https://api.locyanfrp.cn/User/DoLogin?" + qs.stringify(model.value), []);
   rs.then(res => {
-    if (res.status == 0) {
+    if (res.status === 0) {
       message.success("欢迎回来，指挥官！" + model.value.username);
       store.commit("setToken", res.token);
       store.commit("setUserInfo", res.userdata);

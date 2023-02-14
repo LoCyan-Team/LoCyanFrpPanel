@@ -286,7 +286,7 @@ function initList() {
     });
 
     const rs = get("https://api.locyanfrp.cn/Proxies/GetProxiesList?username=" + localStorage.getItem('username') + "&token=" + store.getters.GetToken)
-    rs.then(res => {
+  rs.then(res => {
         if (res.status != 0) {
             return res;
         } else {

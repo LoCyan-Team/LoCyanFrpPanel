@@ -35,5 +35,7 @@ const theme = computed(() => osThemeRef.value === "dark" ? darkTheme : null);
 hljs.registerLanguage('ini', ini);
 hljs.registerLanguage('nginx', nginx);
 
-GetLoginStatus(store.getters.GetUserName, store.getters.GetToken);
+if (store.getters.GetToken) {
+  GetLoginStatus(store.getters.GetUserName, store.getters.GetToken);
+}
 </script>

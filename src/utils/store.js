@@ -3,13 +3,14 @@ import Vuex from 'vuex'
 // 用Vuex.Store对象用来记录token
 const store = new Vuex.Store({
     state: {
-        // 存储token
         token: "",
         username: "",
         email: "",
         frptoken: "",
         inbound: 0,
-        outbound: 0
+        outbound: 0,
+        avatar: "",
+        traffic: ""
     },
     getters: {
         GetToken(state) {
@@ -30,6 +31,12 @@ const store = new Vuex.Store({
         },
         GetOutBound(state) {
             return state.outbound / 128 || Number(localStorage.getItem("outbound")) /128 || 0;
+        },
+        GetAvatar(state) {
+            return state.avatar || localStorage.getItem("avatar") || "";
+        },
+        GetTraffic(state) {
+            return Number(state.traffic) || Number(localStorage.getItem("traffic")) || 0;
         }
     },
     mutations: {
@@ -50,12 +57,15 @@ const store = new Vuex.Store({
             state.frptoken = userdata.frptoken;
             state.inbound = userdata.inbound;
             state.outbound = userdata.outbound;
+            state.avatar = userdata.avatar;
+            state.traffic = userdata.traffic;
             localStorage.setItem('username', userdata.username);
             localStorage.setItem('email', userdata.email);
-            // localStorage.setItem('traffic', userdata.traffic);
+            localStorage.setItem('traffic', userdata.traffic);
             localStorage.setItem('frptoken', userdata.frptoken);
             localStorage.setItem("inbound", userdata.inbound);
             localStorage.setItem('outbound', userdata.outbound);
+            localStorage.setItem('avatar', userdata.avatar);
         },
         delUserInfo(state) {
             state.usermame = "";
@@ -63,6 +73,8 @@ const store = new Vuex.Store({
             state.frptoken = "";
             state.inbound = 0;
             state.outbound = 0;
+            state.avatar = "";
+            state.traffic = "";
             localStorage.removeItem("username");
             localStorage.removeItem("email");
             localStorage.removeItem("traffic");

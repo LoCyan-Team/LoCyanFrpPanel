@@ -27,7 +27,7 @@
       <n-card title="数据报表" size="large" style="margin-bottom: 15px">
         <n-space>
           <n-statistic label="剩余流量" tabular-nums>
-            <n-number-animation ref="TrafficRef" :from="0" :to="trafficanimation" />
+            <n-number-animation ref="TrafficRef" :from="0" :to="store.getters.GetTraffic" />
             <template #suffix>
               GiB
             </template>
@@ -112,7 +112,6 @@ const message = useMessage();
 import { defineComponent } from "vue";
 
 const traffic = ref(Number(localStorage.getItem("traffic")) / 1024 + "GB");
-const trafficanimation = ref(Number(localStorage.getItem("traffic")) / 1024);
 const Proxiesanimation = ref(Number(localStorage.getItem("proxies")));
 
 const TrafficRef = ref(null);
@@ -137,9 +136,7 @@ export default defineComponent({
   },
   methods: {
     getFxItemlist() {
-      // 每次访问都会执行一次status, 这边刷新本地存储就好了
-      traffic.value = Number(localStorage.getItem("traffic")) / 1024 + "GB";
-      trafficanimation.value = Number(localStorage.getItem("traffic")) / 1024;
+
     },
   },
 });
