@@ -23,7 +23,7 @@
                             <br>
                             <a style="text-align: center;">LoCyan Team 所有</a>
                             <br>
-                            <a style="text-align: center;">鸣谢: XiaMoHuaHuo-CN, 天宇网络</a>
+                            <a style="text-align: center;">鸣谢: XiaMoHuaHuo-CN, 天宇网络, LiteCat</a>
                         </div>
                     </div>
                 </n-layout>

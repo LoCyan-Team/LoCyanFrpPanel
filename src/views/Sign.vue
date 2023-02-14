@@ -8,18 +8,22 @@
         <n-card title="每日签到" size="large">
             <n-space justify="space-between">
                 <p>通过签到你可以获得更多流量</p>
-                <n-button strong secondary type="success" @click="DoSign">
+                <n-button v-if="status=='已签到'" round  @click="DoSign" dashed>
+                    已签到！
+                </n-button>
+                <n-button v-if="status=='未签到'" strong secondary type="success" @click="DoSign">
                     签到！
                 </n-button>
             </n-space>
-            <p>签到状态：{{ status }}</p>
+            <p v-if="status">签到状态：{{ status }}</p>
+            <n-skeleton text :repeat="1" style="width: 10%" v-else/>
         </n-card>
     </n-space>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { NSpace, NCard, NButton, NH1, NText } from "naive-ui"
+import { NSkeleton ,NSpace, NCard, NButton, NH1, NText } from "naive-ui"
 import { post } from "../utils/request.js";
 import { SendSuccessMessage, SendErrorMessage } from "../utils/message";
 import { SendSuccessDialog } from "../utils/dialog.js"
