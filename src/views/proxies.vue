@@ -12,6 +12,9 @@
                     <n-form-item label="选择服务器" path="node">
                         <n-select v-model:value="ProxyEditInfo.node" :options="EditServerList" />
                     </n-form-item>
+                    <template v-if="!ServerList[ProxyEditInfo.node]">
+                        <n-alert title="该隧道节点已下线" type="error"></n-alert><br>
+                    </template>
                     <n-form-item label="隧道名" path="proxy_name">
                         <n-input v-model:value="ProxyEditInfo.proxy_name" placeholder="隧道名" />
                     </n-form-item>
@@ -89,9 +92,9 @@
     </template> -->
     </n-modal>
     <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
-      <n-text type="primary">
-        隧道列表
-      </n-text>
+        <n-text type="primary">
+            隧道列表
+        </n-text>
     </n-h1>
     <n-spin :show="show">
         <n-grid cols="4" item-responsive>
@@ -100,7 +103,12 @@
                     <n-card :title="'ID: ' + item.id + ' - ' + item.proxy_name">
                         {{ item.proxy_name }}
                         <template #footer>
-                            连接地址： <br /> {{ makelinkaddr(Proxies.indexOf(item)) }}
+                            <div v-if="ServerList[item.node]">
+                                连接地址： <br /> {{ makelinkaddr(Proxies.indexOf(item)) }}
+                            </div>
+                            <div v-else>
+                                连接地址： <br /> 节点已下线
+                            </div>
                         </template>
                         <template #action>
                             <n-space>
@@ -124,7 +132,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { NSpace, NCard, NGi, NGrid, NButton, useDialog, NModal, NForm, NFormItem, NInput, NRadioGroup, NRadioButton, NGridItem, NSelect, NSpin, NH1, NText } from 'naive-ui';
+import { NAlert, NSpace, NCard, NGi, NGrid, NButton, useDialog, NModal, NForm, NFormItem, NInput, NRadioGroup, NRadioButton, NGridItem, NSelect, NSpin, NH1, NText } from 'naive-ui';
 import store from '../utils/store.js';
 import { get } from '../utils/request.js';
 import { SendSuccessMessage, SendErrorMessage } from '../utils/message';
@@ -286,7 +294,7 @@ function initList() {
     });
 
     const rs = get("https://api.locyanfrp.cn/Proxies/GetProxiesList?username=" + localStorage.getItem('username') + "&token=" + store.getters.GetToken)
-  rs.then(res => {
+    rs.then(res => {
         if (res.status != 0) {
             return res;
         } else {
