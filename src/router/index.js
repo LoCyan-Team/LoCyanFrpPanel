@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import { StartLoadingBar, FinishLoadingBar, ErrorLoadingBar } from "../utils/loadingbar.js";
 import store from "../utils/store"
 import { ref } from "vue";
+import MainSideBar from "../components/MainSideBar.vue";
 
 const routes = [
     {
@@ -10,90 +11,57 @@ const routes = [
             {
                 path: '/',
                 name: 'MainPage',
-                component: () => import('../views/Personal.vue'),
-                meta: {
-                    title: '仪表盘'
-                }
+                component: () => import('../views/Personal.vue')
             },
             {
                 path: '/user',
                 name: 'User',
-                component: () => import('../views/Personal.vue'),
-                meta: {
-                    title: '仪表盘'
-                }
+                component: () => import('../views/Personal.vue')
             },
             {
                 path: '/sign',
                 name: 'Sign',
-                component: () => import('../views/Sign.vue'),
-                meta: {
-                    title: '签到'
-                }
+                component: () => import('../views/Sign.vue')
             },
             {
                 path: '/login',
-                name: 'Login',
-                component: () => import('../views/login.vue'),
-                meta: {
-                    title: '登录'
-                }
+                name: 'login',
+                component: () => import('../views/login.vue')
             },
             {
                 path: '/register',
-                name: 'Register',
-                component: () => import('../views/register.vue'),
-                meta: {
-                    title: '注册'
-                }
+                name: 'register',
+                component: () => import('../views/register.vue')
             },
             {
                 path: "/proxies",
                 name: 'Proxies',
-                component: () => import('../views/proxies.vue'),
-                meta: {
-                    title: '隧道列表'
-                }
+                component: () => import('../views/proxies.vue')
             },
             {
                 path: '/proxies/addproxies',
                 name: "AddProxies",
-                component: () => import('../views/addproxies.vue'),
-                meta: {
-                    title: '添加隧道'
-                }
+                component: () => import('../views/addproxies.vue')
             },
             {
                 path: '/realname',
                 name: "RealName",
-                component: () => import('../views/realname.vue'),
-                meta: {
-                    title: '实名认证'
-                }
+                component: () => import('../views/realname.vue')
             },
             {
                 path: '/hello2023',
                 name: 'newyear',
-                component: () => import('../views/newyear.vue'),
-                meta: {
-                    title: '新年祝福'
-                }
+                component: () => import('../views/newyear.vue')
             },
             {
                 path: '/prize',
                 name: 'prize',
-                component: () => import('../views/prize.vue'),
-                meta: {
-                    title: '抽奖'
-                }
+                component: () => import('../views/prize.vue')
             },
             {
                 path: '/config',
                 name: 'config',
-                component: () => import('../views/config.vue'),
-                meta: {
-                    title: '配置文件'
-                }
+                component: () => import('../views/config.vue')
             }
         ]
     }
@@ -111,32 +79,38 @@ if (localStorage.getItem("token")) {
 
 router.beforeEach((to, from, next) => {
     StartLoadingBar();
-    if (to.name === 'Login'){
+    if (to.name === 'login'){
         if (store.getters.GetToken){
             next({name: 'User' });
         }
         next();
-    };
-    if (to.name === 'Register'){
+        return
+    }
+    if (to.name === 'register'){
         if (store.getters.GetToken){
             next({name: 'User' });
         }
         next();
-    };
+        return
+    }
     if (!store.getters.GetToken){
         console.log('未检测到登录TOKEN, 转向登录页！');
-        next({name: 'Login' });
+        next({name: 'login' });
     } else {
         next();
-    };
-    if (to.meta.title) {    //设置标题
-        var title = to.meta.title + " | LoCyanFrp"
-        document.title = title
-      }
+    }
 });
 
 router.afterEach((to, from, next) => {
     FinishLoadingBar();
+    if (to.meta.title) {    //设置标题
+        document.title = to.meta.title + " | LoCyanFrp"
+    }
+    if (store.getters.GetToken) {
+        window.SetSideBarActiveKey(to.name);
+    } else {
+        window.SetSideBarActiveKey_Guest(to.name);
+    }
 });
 
 export default router
