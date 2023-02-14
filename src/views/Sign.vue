@@ -11,7 +11,7 @@
                 <n-button v-if="status=='已签到'" round  @click="DoSign" dashed>
                     已签到！
                 </n-button>
-                <n-button v-if="status=='未签到'" strong secondary type="success" @click="DoSign">
+                <n-button v-if="status=='尚未签到'" strong secondary type="success" @click="DoSign">
                     签到！
                 </n-button>
             </n-space>

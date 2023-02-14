@@ -122,13 +122,14 @@
 import { NBadge, NStep, NSteps, NSkeleton, NCard, NAlert, NButton, NSpace, useMessage, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon } from "naive-ui";
 import { GetContents, GetLoginStatus, GetProxies } from "../utils/profile.js";
 import { AngleRight, Key } from '@vicons/fa';
+import { defineComponent } from "vue";
 import { ref } from "vue";
 import store from "../utils/store.js";
 import { get } from "../utils/request.js";
 import router from "../router/index.js";
 import clipboard from '..//utils/clipboard'
 localStorage.setItem("ViewPage", "personality");
-
+const current = ref(-1)
 const username = store.getters.GetUserName;
 // 检查登录是否过期
 GetLoginStatus(username, store.getters.GetToken);
@@ -149,16 +150,13 @@ async function changeShouFrptoken(event) {
   }, 3000);
 
 }
-</script>
-
-<script>
-// import { defineComponent } from "vue";
-
-// const traffic = ref(Number(localStorage.getItem("traffic")) / 1024 + "GB");
-// const Proxiesanimation = ref(Number(localStorage.getItem("proxies")));
 
 
-// const TrafficRef = ref(null);
+const traffic = ref(Number(localStorage.getItem("traffic")) / 1024 + "GB");
+const Proxiesanimation = ref(Number(localStorage.getItem("proxies")));
+
+
+const TrafficRef = ref(null);
 
 
 // // 流量定时刷新
