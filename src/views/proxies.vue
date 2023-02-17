@@ -1,5 +1,4 @@
-<template>
-    <!-- 编辑隧道的模态框 -->
+<template><!-- 编辑隧道的模态框 -->
     <n-modal v-model:show="showEditModal" class="custom-card" preset="card" :style="bodyStyle"
         :title="'编辑隧道 - 隧道ID: ' + SelectProxyID" size="huge" :bordered="false" :segmented="segmented"
         :mask-closable="false">
@@ -89,7 +88,7 @@
         <p>绑定域名：{{ Proxies[indexOfProxies].domain || "该隧道没有绑定域名" }}</p>
         <p>简易启动命令：./frpc.exe -u {{ store.getters.GetFrpToken }} -p {{ SelectProxyID }}</p>
         <!-- <template #footer>
-    </template> -->
+            </template> -->
     </n-modal>
     <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
         <n-text type="primary">
@@ -101,7 +100,16 @@
             <n-gi v-for="item in Proxies" style="margin: 10px;" span="0:4 950:1" :id="Proxies.indexOf(item)">
                 <n-space style="display: block;">
                     <n-card :title="'ID: ' + item.id + ' - ' + item.proxy_name">
-                        {{ item.proxy_name }}
+
+                        <n-tag :bordered="false" type="success">
+                            {{ item.proxy_type }}
+                        </n-tag>
+                        <n-tag :bordered="false" type="info" v-if="ServerList[item.node]">
+                          {{  ServerList[item.node].name||"未知节点" }}
+                        </n-tag>
+                        <n-tag :bordered="false" type="error" v-else>
+                          未知节点
+                        </n-tag>
                         <template #footer>
                             <div v-if="ServerList[item.node]">
                                 连接地址： <br /> {{ makelinkaddr(Proxies.indexOf(item)) }}
@@ -132,7 +140,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { NAlert, NSpace, NCard, NGi, NGrid, NButton, useDialog, NModal, NForm, NFormItem, NInput, NRadioGroup, NRadioButton, NGridItem, NSelect, NSpin, NH1, NText } from 'naive-ui';
+import { NTag, NAlert, NSpace, NCard, NGi, NGrid, NButton, useDialog, NModal, NForm, NFormItem, NInput, NRadioGroup, NRadioButton, NGridItem, NSelect, NSpin, NH1, NText } from 'naive-ui';
 import store from '../utils/store.js';
 import { get } from '../utils/request.js';
 import { SendSuccessMessage, SendErrorMessage } from '../utils/message';
