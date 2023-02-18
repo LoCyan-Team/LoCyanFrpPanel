@@ -4,6 +4,8 @@ import axios from 'axios'
 import QS from 'qs';
 // vuex
 import store from './store.js'
+import router from "../router/index.js";
+import Base64 from "qs/lib/utils.js";
  
 //这一步的目的是判断出当前是开发环境还是生成环境，方法不止一种，达到目的就行
 // if(process.env.NODE_ENV=="development"){
@@ -23,7 +25,7 @@ instance.interceptors.request.use(function (config) {
     // 每次发送请求之前判断vuex中是否存在token        
     // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
     // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断 
-    const token = store.getters.getToken;
+    const token = store.getters.GetToken;
     if (token) {
         // 已经登录成功，统一添加token
         config.headers.Authorization = `Bearer ${token}`
@@ -110,6 +112,7 @@ instance.interceptors.response.use(function (response) {
 /**
  * get方法，对应get请求
  * @param {String} url [请求的url地址]
+ * @param params
  */
 export function get(url, params) {
     return new Promise((resolve, reject) => {
@@ -144,7 +147,12 @@ export function post(url, params, headers) {
 
 export function getUrlKey(name){
     let path = window.location.href.split("?") //分割url
-    let href = path[0]+"?"+path[1]
+    // 拼接链接
+    let href = path[0] + "?" + path[1]
+    // 如果不存在则抛出null
+    if (path[1] === null || path[1] === "" || path[1] === undefined){
+        return null;
+    }
     let query = Base64.decode(path[1])  //解码
     href = path[0]+"?"+ query //解码后重组
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(href) || [, ""])[1].replace(/\+/g, '%20')) || null

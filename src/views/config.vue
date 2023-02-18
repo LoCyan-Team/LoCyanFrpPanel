@@ -74,7 +74,7 @@ const rs = get("https://api.locyanfrp.cn/Proxies/GetServerList")
 rs.then(res => {
     var i = 0;
     res.forEach(s => {
-        if (i == 0) {
+        if (i === 0) {
             node.value = s.id;
             UpdateValue(s.id);
         }

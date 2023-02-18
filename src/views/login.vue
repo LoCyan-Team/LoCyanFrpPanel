@@ -23,7 +23,7 @@
 <script setup>
 import { ref } from "vue";
 import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar, NGrid, NGridItem, NSpace } from "naive-ui";
-import { get, post } from "../utils/request.js";
+import { get, post, getUrlKey } from "../utils/request.js";
 import router from "../router/index.js";
 import qs from 'qs';
 import store from "../utils/store.js";
@@ -39,9 +39,15 @@ const model = ref([
   }
 ]);
 
+// 检查是否存在redirect值
+const redirect = getUrlKey("redirect");
+if (redirect !== null){
+  console.log("登录后返回" + redirect);
+}
+
 function goregister() {
   router.push("/register");
-};
+}
 
 function login(e) {
   ldb.start();
@@ -51,13 +57,13 @@ function login(e) {
       message.success("欢迎回来，指挥官！" + model.value.username);
       store.commit("setToken", res.token);
       store.commit("setUserInfo", res.userdata);
-      router.push("/user");
+      router.push(redirect || "/user");
     } else {
       message.warning(res.message);
-    };
+    }
     ldb.finish();
   });
-};
+}
 
 const rules = {
   username: {

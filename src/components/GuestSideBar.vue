@@ -33,11 +33,13 @@ import {
 
 } from "@vicons/ionicons5";
 
+// 激活的按钮参数
+const active = ref("");
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
 if (document.body.clientWidth >= 1000) {
   collapsed.value = false;
-};
+}
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -47,6 +49,12 @@ const handleUpdateValue = (key, item) => {
   active.value = key;
   router.push({ path: item.path });
 };
+
+function SetSideBarActiveKey(name) {
+  active.value = name;
+}
+
+window.SetSideBarActiveKey_Guest = SetSideBarActiveKey;
 
 const menuOptions = [
   {
@@ -62,17 +70,5 @@ const menuOptions = [
     icon: renderIcon(MailOpenOutline),
   },
 ];
-
-</script>
-<script>
-import { ref } from "vue";
-
-let active = ref("");
-
-function SetSideBarActiveKey(name) {
-  active.value = name;
-}
-
-window.SetSideBarActiveKey_Guest = SetSideBarActiveKey;
 
 </script>

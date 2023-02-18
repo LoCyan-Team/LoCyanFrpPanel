@@ -32,11 +32,8 @@
 <script setup>
 import { ref } from "vue";
 import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar, NSpace } from "naive-ui";
-import { get, post } from "../utils/request.js";
+import { post } from "../utils/request.js";
 import router from "../router/index.js";
-import qs from 'qs';
-import store from "../utils/store.js";
-import { GetLoginStatus } from "../utils/profile.js"
 
 const formRef = ref(null);
 const message = useMessage();
@@ -55,7 +52,7 @@ const model = ref([
 
 function gologin() {
   router.push("/Login");
-};
+}
 
 function sendcode() {
   ldb.start();
@@ -65,7 +62,7 @@ function sendcode() {
       message.success(res.message);
     } else {
       message.error(res.message);
-    };
+    }
     ldb.finish();
   });
 }
@@ -79,10 +76,10 @@ function register(e) {
       router.push("/login");
     } else {
       message.error(res.message);
-    };
+    }
     ldb.finish();
   });
-};
+}
 
 const rules = {
   username: {

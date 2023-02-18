@@ -44,7 +44,6 @@ const store = new Vuex.Store({
         setToken(state, token) {
             state.token = token;
             localStorage.setItem('token', token);
-            console.log('检测到用户token，直接登录!');
         },
         delToken(state) {
             state.token = "";

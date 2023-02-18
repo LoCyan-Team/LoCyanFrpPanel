@@ -33,6 +33,8 @@ import {
 
 } from "@vicons/ionicons5";
 
+const active = ref("");
+const menuInstRef = ref(null);
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
 if (document.body.clientWidth >= 1000) {
@@ -47,6 +49,13 @@ const handleUpdateValue = (key, item) => {
   active.value = key;
   router.push({ path: item.path });
 };
+
+function SetSideBarActiveKey(name) {
+  active.value = name;
+  menuInstRef.value.showOption(name);
+}
+
+window.SetSideBarActiveKey = SetSideBarActiveKey;
 
 const menuOptions = [
   {
@@ -149,15 +158,5 @@ const inverted = false;
 </script>
 <script>
 import { ref } from "vue";
-
-let active = ref("");
-let menuInstRef = ref(null);
-
-function SetSideBarActiveKey(name) {
-  active.value = name;
-  menuInstRef.value.showOption(name);
-}
-
-window.SetSideBarActiveKey = SetSideBarActiveKey;
 
 </script>

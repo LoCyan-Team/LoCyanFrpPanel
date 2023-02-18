@@ -128,7 +128,7 @@ router.beforeEach((to, from, next) => {
     }
     if (!store.getters.GetToken){
         console.log('未检测到登录TOKEN, 转向登录页！');
-        next({name: 'login' });
+        next({name: 'login', query:{"redirect": location.pathname}});
     } else {
         next();
     }
