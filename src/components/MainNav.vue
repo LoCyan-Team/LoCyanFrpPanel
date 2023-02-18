@@ -19,7 +19,7 @@
                     <router-view></router-view>
                     <div style="margin-top: 25px; margin-bottom: 20px;">
                         <div style="text-align: center;">
-                            <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE 协助</a>
+                            <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan协助</a>
                             <br>
                             <a style="text-align: center;">LoCyan Team 所有</a>
                             <br>
