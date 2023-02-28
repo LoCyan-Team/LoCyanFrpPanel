@@ -32,7 +32,7 @@ import store from "../utils/store.js";
 const status = ref("");
 
 function CheckSign() {
-    const rs = post("https://api.locyanfrp.cn/User/CheckSign", { token: store.getters.GetToken })
+    const rs = post("https://api.locyanfrp.cn/User/CheckSign", { token: store.getters.GetToken }, {})
     rs.then(res => {
         if (!res.status) {
             status.value = res.message;

@@ -1,4 +1,5 @@
 <template>
+  <UserInfo/>
     <n-space vertical>
         <n-layout>
             <n-layout-header :inverted="inverted" bordered>
@@ -7,7 +8,7 @@
                         LoCyan Frp
                     </n-gradient-text>
                     <n-space justify="end">
-                        <n-avatar round size="medium" :style="getStyle()" style="margin-top: 23px;" :src="avatar" />
+                        <n-avatar round size="medium" :style="getStyle()" style="margin-top: 23px;" :src="avatar" @click="DoShowUserInfo()"/>
                         <n-button ghost :style="getStyle()" style="margin: 23px;" round type="primary"
                             @click="logout">退出登录</n-button>
                     </n-space>
@@ -45,9 +46,11 @@ import { NGradientText } from "naive-ui";
 import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import SideBar from "./MainSideBar.vue";
-import { Logout, GetLoginStatus } from "../utils/profile.js";
+import { Logout } from "../utils/profile.js";
 import { SendSuccessMessage } from "../utils/message.js";
 import store from "../utils/store.js";
+import UserInfo from "./UserInfo.vue";
+import { ChangeUserInfoShow } from "./UserInfo.vue";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -56,23 +59,28 @@ if (document.body.clientWidth >= 1000) {
 };
 
 const avatar = ref("");
+const showUserInfo = ref(false);
 
 avatar.value = store.getters.GetAvatar;
 
+function DoShowUserInfo(){
+  ChangeUserInfoShow(true);
+}
+
 function renderIcon(icon) {
     return () => h(NIcon, null, { default: () => h(icon) });
-};
+}
 
 function getStyle() {
     if (!store.getters.GetToken) {
         return 'display: none;';
-    };
-};
+    }
+}
 
 function logout() {
     SendSuccessMessage("您已从LCF登出，感谢您的使用！")
     Logout();
-};
+}
 
 const inverted = false;
 </script>

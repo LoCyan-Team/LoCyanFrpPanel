@@ -57,7 +57,7 @@
               GiB
             </template>
           </n-statistic>
-          <n-statistic label="隧道数" tabular-nums style="margin-left: 30px;">
+          <n-statistic label="隧道数" tabular-nums>
             <n-number-animation ref="ProxiesRef" :from="0" :to="Proxiesanimation" />
             <template #suffix>
               条
@@ -66,7 +66,7 @@
         </n-space>
       </n-card>
       <n-card title="使用方法">
-        <n-badge value="※简单教程" max="15"></n-badge><br>我把使用方法都写在首页了总没人看不见了吧？
+        <n-badge value="※简单教程" :max=15></n-badge><br>我把使用方法都写在首页了总没人看不见了吧？
         <n-divider />
         <n-space vertical>
           <n-steps vertical v-model:current="current">
@@ -78,6 +78,7 @@
             <n-step title="开始享受" description="好了, 开始享受吧" />
           </n-steps>
         </n-space>
+        <br />
         <n-alert title="关于高级功能" type="info">
           若需要Frp的高级功能, 你可以前往旧面板配置隧道后前往软件下载页面, 进入LoCyanFrp-0.4X.X的文件夹<br />
           下载适合自己系统架构的软件, 随后即可自行配置<br />
@@ -131,9 +132,6 @@ import clipboard from '..//utils/clipboard'
 localStorage.setItem("ViewPage", "personality");
 const current = ref(-1)
 const username = store.getters.GetUserName;
-// 检查登录是否过期
-GetLoginStatus(username, store.getters.GetToken);
-GetProxies(username, store.getters.GetToken);
 const email = store.getters.GetEmail;
 const inbound = store.getters.GetInBound + "Mbps 下行";
 const outbound = store.getters.GetOutBound + "Mbps 上行";
@@ -151,35 +149,12 @@ async function changeShouFrptoken(event) {
 
 }
 
-
+current.value = 6;
 const traffic = ref(Number(localStorage.getItem("traffic")) / 1024 + "GB");
 const Proxiesanimation = ref(Number(localStorage.getItem("proxies")));
-
-
 const TrafficRef = ref(null);
 
-
-// // 流量定时刷新
-// export default defineComponent({
-
-//   data() {
-//     return {
-//       timer: null,
-//       traffic,
-//     };
-//   },
-//   mounted() {
-//     this.timer = setInterval(() => {
-//       this.getFxItemlist();
-//     }, 1000);
-//   },
-//   beforeDestroy() {
-//     clearInterval(this.timer);
-//   },
-//   methods: {
-//     getFxItemlist() {
-
-//     },
-//   },
-// });
+setInterval(() => {
+  traffic.value = Number(localStorage.getItem("traffic")) / 1024 + "GB";
+}, 1000);
 </script>

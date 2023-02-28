@@ -33,7 +33,7 @@ const store = new Vuex.Store({
             return state.outbound / 128 || Number(localStorage.getItem("outbound")) /128 || 0;
         },
         GetAvatar(state) {
-            return state.avatar || localStorage.getItem("avatar") || "";
+            return state.avatar || localStorage.getItem("avatar") + "&size=512" || "";
         },
         GetTraffic(state) {
             return Number(state.traffic) / 1024  || Number(localStorage.getItem("traffic")) / 1024 || 0;

@@ -24,11 +24,12 @@ import GuestNav from "./components/GuestNav.vue";
 import { h, ref, computed } from "vue";
 import { NLoadingBarProvider } from "naive-ui";
 import { Logout, GetLoginStatus } from "./utils/profile.js";
-import { SendSuccessMessage } from "./utils/message.js";
+import {SendSuccessMessage, SendWarningMessage} from "./utils/message.js";
 import store from "./utils/store.js";
 import hljs from 'highlight.js/lib/core';
 import ini from 'highlight.js/lib/languages/ini';
 import nginx from 'highlight.js/lib/languages/nginx'
+import {get} from "./utils/request.js";
 
 const osThemeRef = useOsTheme();
 const theme = computed(() => osThemeRef.value === "dark" ? darkTheme : null);
@@ -36,7 +37,16 @@ const theme = computed(() => osThemeRef.value === "dark" ? darkTheme : null);
 hljs.registerLanguage('ini', ini);
 hljs.registerLanguage('nginx', nginx);
 
-if (store.getters.GetToken) {
-  GetLoginStatus(store.getters.GetUserName, store.getters.GetToken);
-}
+
+setInterval(() => {
+  if (store.getters.GetToken) {
+    const rs = get("https://api.locyanfrp.cn/Account/info?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken, [])
+    rs.then(res=> {
+      if(res.status === 0){
+        localStorage.setItem("traffic", res.traffic)
+        console.log(res)
+      }
+    });
+  }
+}, 10000);
 </script>
