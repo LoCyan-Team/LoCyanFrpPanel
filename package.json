@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vicons/ionicons5": "^0.12.0",
     "axios": "^0.27.2",
     "clipboard": "^2.0.11",
     "highlight.js": "^11.7.0",
