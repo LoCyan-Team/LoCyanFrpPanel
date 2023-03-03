@@ -11,15 +11,14 @@
             <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
               <GuestSideBar v-if="ShowSideBar"/>
                 <n-layout :native-scrollbar="false">
+                  <div style="margin-right: 40px">
                     <router-view></router-view>
+                  </div>
                 </n-layout>
             </n-layout>
         </n-layout>
     </n-space>
 </template>
-  
-<script>
-</script>
 
 <script setup>
 import { NLayout } from "naive-ui";

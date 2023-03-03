@@ -17,7 +17,9 @@
             <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
               <SideBar v-if="ShowSideBar"/>
                 <n-layout :native-scrollbar="false">
+                  <div style="margin-right: 40px">
                     <router-view></router-view>
+                  </div>
                     <div style="margin-top: 25px; margin-bottom: 20px;">
                         <div style="text-align: center;">
                             <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
@@ -34,9 +36,6 @@
     <!-- 气死我了zhoudexuan，让我一个写后端的来搓前端，mmp -->
     <!-- 中考完学不会vue你就死定了 -->
 </template>
-  
-<script>
-</script>
 
 <script setup>
 import { NLayout, NButton, NAvatar } from "naive-ui";
@@ -51,7 +50,6 @@ import { SendSuccessMessage } from "../utils/message.js";
 import store from "../utils/store.js";
 import UserInfo from "./UserInfo.vue";
 import { ChangeUserInfoShow } from "./UserInfo.vue";
-import router from "../router/index.js";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
