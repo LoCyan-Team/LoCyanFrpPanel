@@ -9,7 +9,7 @@
                 </n-space>
             </n-layout-header>
             <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
-              <GuestSideBar/>
+              <GuestSideBar v-if="ShowSideBar"/>
                 <n-layout :native-scrollbar="false">
                     <router-view></router-view>
                 </n-layout>
@@ -30,7 +30,6 @@ import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import GuestSideBar from "./GuestSideBar.vue";
 
-
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
 if (document.body.clientWidth >= 1000) {
@@ -42,4 +41,12 @@ function renderIcon(icon) {
 }
 
 const inverted = false;
+</script>
+<script>
+import {ref} from "vue";
+
+export const ShowSideBar = ref(false);
+export function ChangeShowSideBar_Guest (is_show){
+  ShowSideBar.value = is_show;
+}
 </script>

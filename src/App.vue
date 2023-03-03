@@ -23,8 +23,6 @@ import MainNav from "./components/MainNav.vue";
 import GuestNav from "./components/GuestNav.vue";
 import { h, ref, computed } from "vue";
 import { NLoadingBarProvider } from "naive-ui";
-import { Logout, GetLoginStatus } from "./utils/profile.js";
-import {SendSuccessMessage, SendWarningMessage} from "./utils/message.js";
 import store from "./utils/store.js";
 import hljs from 'highlight.js/lib/core';
 import ini from 'highlight.js/lib/languages/ini';
@@ -44,7 +42,6 @@ setInterval(() => {
     rs.then(res=> {
       if(res.status === 0){
         localStorage.setItem("traffic", res.traffic)
-        console.log(res)
       }
     });
   }

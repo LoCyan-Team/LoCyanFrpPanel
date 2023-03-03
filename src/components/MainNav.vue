@@ -15,7 +15,7 @@
                 </n-space>
             </n-layout-header>
             <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
-              <SideBar/>
+              <SideBar v-if="ShowSideBar"/>
                 <n-layout :native-scrollbar="false">
                     <router-view></router-view>
                     <div style="margin-top: 25px; margin-bottom: 20px;">
@@ -51,12 +51,13 @@ import { SendSuccessMessage } from "../utils/message.js";
 import store from "../utils/store.js";
 import UserInfo from "./UserInfo.vue";
 import { ChangeUserInfoShow } from "./UserInfo.vue";
+import router from "../router/index.js";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
 if (document.body.clientWidth >= 1000) {
     collapsed.value = false;
-};
+}
 
 const avatar = ref("");
 const showUserInfo = ref(false);
@@ -83,4 +84,12 @@ function logout() {
 }
 
 const inverted = false;
+</script>
+<script>
+import {ref} from "vue";
+
+export const ShowSideBar = ref(false);
+export function ChangeShowSideBar_Main (is_show){
+  ShowSideBar.value = is_show;
+}
 </script>

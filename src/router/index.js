@@ -2,7 +2,11 @@ import { createRouter, createWebHistory } from "vue-router"
 import { StartLoadingBar, FinishLoadingBar, ErrorLoadingBar } from "../utils/loadingbar.js";
 import store from "../utils/store"
 import { ref } from "vue";
-import MainSideBar from "../components/MainSideBar.vue";
+import MainNav from "../components/MainNav.vue";
+import { ChangeShowSideBar_Main } from "../components/MainNav.vue";
+import { ChangeShowSideBar_Guest } from "../components/GuestNav.vue";
+import { SetSideBarActiveKey } from "../components/MainSideBar.vue";
+import { SetSideBarActiveKey_Guest } from "../components/GuestSideBar.vue";
 
 const routes = [
     {
@@ -12,9 +16,9 @@ const routes = [
                 path: '/',
                 name: 'MainPage',
                 meta: {
-                    title: '仪表盘'
+                    title: '首页'
                 },
-                component: () => import('../views/Personal.vue')
+                component: () => import('../views/Main.vue')
             },
             {
                 path: '/user',
@@ -126,8 +130,11 @@ router.beforeEach((to, from, next) => {
         next();
         return
     }
+    if (to.name === 'MainPage'){
+        next();
+        return
+    }
     if (!store.getters.GetToken){
-        console.log('未检测到登录TOKEN, 转向登录页！');
         next({name: 'login', query:{"redirect": location.pathname}});
     } else {
         next();
@@ -139,10 +146,20 @@ router.afterEach((to, from, next) => {
     if (to.meta.title) {    //设置标题
         document.title = to.meta.title + " | LoCyanFrp"
     }
-    if (store.getters.GetToken) {
-        window.SetSideBarActiveKey(to.name);
+
+    if (to.name !== "login" && to.name !== "register" && to.name !== "MainPage"){
+        // 如果不是前往登录或注册，则启用主菜单栏
+        ChangeShowSideBar_Main(true);
+        ChangeShowSideBar_Guest(false);
     } else {
-        window.SetSideBarActiveKey_Guest(to.name);
+        ChangeShowSideBar_Main(false);
+        ChangeShowSideBar_Guest(true);
+    }
+
+    if (store.getters.GetToken) {
+        SetSideBarActiveKey(to.name);
+    } else {
+        SetSideBarActiveKey_Guest(to.name);
     }
 });
 

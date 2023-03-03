@@ -10,13 +10,10 @@
 </script>
 
 <script setup>
-import { NLayout } from "naive-ui";
 import { NMenu } from "naive-ui";
 import { NLayoutSider } from "naive-ui";
 import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
-import { RouterLink } from "vue-router";
-import router from "../router/index.js";
 
 import {
   BookOutline as BookIcon,
@@ -33,8 +30,6 @@ import {
 
 } from "@vicons/ionicons5";
 
-// 激活的按钮参数
-const active = ref("");
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
 if (document.body.clientWidth >= 1000) {
@@ -45,18 +40,13 @@ function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 
-const handleUpdateValue = (key, item) => {
-  active.value = key;
-  router.push({ path: item.path });
-};
-
-function SetSideBarActiveKey(name) {
-  active.value = name;
-}
-
-window.SetSideBarActiveKey_Guest = SetSideBarActiveKey;
-
 const menuOptions = [
+  {
+    path: "/",
+    label: "首页",
+    key: "MainPage",
+    icon: renderIcon(LogInOutline),
+  },
   {
     path: "/login",
     label: "登录",
@@ -71,4 +61,19 @@ const menuOptions = [
   },
 ];
 
+</script>
+<script>
+import { ref } from "vue";
+import router from "../router/index.js";
+
+const active = ref("");
+
+export const handleUpdateValue = (key, item) => {
+  active.value = key;
+  router.push({ path: item.path });
+};
+
+export function SetSideBarActiveKey_Guest(name) {
+  active.value = name;
+}
 </script>
