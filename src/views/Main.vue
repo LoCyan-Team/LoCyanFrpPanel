@@ -1,5 +1,6 @@
 <template>
   <div style="text-align: center;">
+    <br />
     <n-h1>LoCyanFrp</n-h1>
     <n-text>一款真正完全免费的内网穿透软件！</n-text>
     <br />

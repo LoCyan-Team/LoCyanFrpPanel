@@ -7,7 +7,7 @@
   <n-form :ref="formRef" :model="ProxyInfo" :rules="rules" label-width="auto" size="large">
     <n-space vertical>
       <n-form-item label="选择服务器" path="node">
-        <n-select v-model:value="ProxyInfo.node" :options="ServerList" />
+        <n-select v-model:value="ProxyInfo.node" :options="ServerList" size="medium"/>
       </n-form-item>
     </n-space>
     <div id="item">
@@ -17,6 +17,7 @@
       <p>服务器IP：{{ ServerValue[ProxyInfo.node].ip }}</p>
       <p>服务器域名：{{ ServerValue[ProxyInfo.node].hostname }}</p>
     </div>
+    <br />
     <n-grid cols="2" item-responsive>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="隧道名" path="proxy_name">

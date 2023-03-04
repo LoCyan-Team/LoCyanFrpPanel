@@ -43,8 +43,9 @@ setInterval(() => {
     const rs = get("https://api.locyanfrp.cn/Account/info?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken, [])
     rs.then(res=> {
       if(res.status === 0){
-        localStorage.setItem("traffic", res.traffic)
-        store.commit("setLimit", res)
+        localStorage.setItem("proxies", res.proxies_num);
+        localStorage.setItem("traffic", res.traffic);
+        store.commit("setLimit", res);
       }
       if (res.status === -3){
         SendWarningMessage("登录过期或未登录，请使用LCF账户登录后台！");

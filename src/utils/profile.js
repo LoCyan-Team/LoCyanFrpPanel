@@ -2,10 +2,10 @@ import axios from 'axios';
 import { ref } from "vue";
 import store from "../utils/store.js";
 import router from "../router/index.js";
-import { get, post } from "./request.js";
+import { get } from "./request.js";
 import { SendWarningMessage } from "./message.js"
 
-export function GetContents(){
+export function GetNotice(){
     const rs = ref("");
     axios({
         method: 'get',

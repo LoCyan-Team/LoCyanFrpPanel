@@ -4,11 +4,11 @@
       仪表盘
     </n-text>
   </n-h1>
-  <template v-if="contents.contents">
+  <template v-if="notice.contents">
     <n-alert title="Welcome" type="info" closable>
       欢迎来到LoCyanFrp新后台!
       <br />
-      公告：{{ contents.contents }}
+      公告：{{ notice.contents }}
     </n-alert>
   </template>
   <template v-else>
@@ -48,8 +48,7 @@
         </template>
         <br>
       </n-card>
-    </n-grid-item>
-    <n-grid-item span="0:3 600:2">
+<br />
       <n-card title="数据报表" size="large">
         <n-space>
           <n-statistic label="剩余流量" tabular-nums>
@@ -66,6 +65,15 @@
           </n-statistic>
         </n-space>
       </n-card>
+    </n-grid-item>
+    <n-grid-item span="0:3 600:2">
+      <n-card title="公告" size="large">
+        <n-spin :show="boardcast_show">
+          <n-text v-html="boardcast_html" id="boardrcast"></n-text>
+        </n-spin>
+        <br />
+      </n-card>
+      <br />
       <n-card title="使用方法">
         <n-badge value="※简单教程" :max=15></n-badge><br>我把使用方法都写在首页了总没人看不见了吧？
         <n-divider />
@@ -102,12 +110,16 @@
 </template>
 
 <script setup>
-import { NBadge, NStep, NSteps, NSkeleton, NCard, NAlert, NSpace, useMessage, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon } from "naive-ui";
-import { GetContents } from "../utils/profile.js";
-import { AngleRight, Key } from '@vicons/fa';
 import { ref } from "vue";
-import store from "../utils/store.js";
+import { NBadge, NStep, NSteps, NSkeleton, NCard, NAlert, NSpace, useMessage, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon, NSpin } from "naive-ui";
+import { GetNotice } from "../utils/profile.js";
 import clipboard from '..//utils/clipboard'
+import { get } from "../utils/request.js";
+import { AngleRight, Key } from '@vicons/fa';
+import store from "../utils/store.js";
+import { marked } from "marked";
+
+
 localStorage.setItem("ViewPage", "personality");
 const current = ref(-1)
 const username = store.getters.GetUserName;
@@ -115,7 +127,7 @@ const email = store.getters.GetEmail;
 const inbound = ref(store.getters.GetInBound + "Mbps 下行");
 const outbound = ref(store.getters.GetOutBound + "Mbps 上行");
 const frptoken = store.getters.GetFrpToken;
-const contents = GetContents();
+const notice = GetNotice();
 const message = useMessage();
 const ProxiesRef = ref(null);
 const DontShowFrptoken = ref(true);
@@ -132,12 +144,30 @@ current.value = 6;
 const traffic = ref(Number(localStorage.getItem("traffic")) / 1024 + "GB");
 const Proxiesanimation = ref(Number(localStorage.getItem("proxies")));
 const TrafficRef = ref(null);
+const boardcast_html= ref("");
+const boardcast_show = ref(true);
+// 公告
+const boardcast_request = get("https://api.locyanfrp.cn/App/GetBroadCast", [])
+boardcast_request.then(res => {
+  if (res.status === true){
+    boardcast_html.value = marked(res.broadcast) + '<style>\n' +
+        '[href^="https"], [href^="http"]{\n' +
+        '  color: dodgerblue;\n' +
+        '}\n' +
+        '\n' +
+        'p {\n' +
+        '  padding: 2px;\n' +
+        '}\n' +
+        '\n' +
+        '</style>';
+    boardcast_show.value = false
+  }
+})
 
 setInterval(() => {
+  Proxiesanimation.value = Number(localStorage.getItem("proxies"));
   traffic.value = Number(localStorage.getItem("traffic")) / 1024 + "GB";
   inbound.value = store.getters.GetInBound + "Mbps 下行"
   outbound.value = store.getters.GetOutBound + "Mbps 上行"
-  console.log(inbound.value)
-  console.log(outbound.value)
 }, 10000);
 </script>
