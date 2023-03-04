@@ -11,7 +11,7 @@
             <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
               <GuestSideBar v-if="ShowSideBar"/>
                 <n-layout :native-scrollbar="false">
-                  <div style="margin-right: 40px">
+                  <div style="margin-right: 15px; margin-left: 15px">
                     <router-view></router-view>
                   </div>
                 </n-layout>
@@ -42,7 +42,7 @@ function renderIcon(icon) {
 const inverted = false;
 </script>
 <script>
-import {ref} from "vue";
+import { ref } from "vue";
 
 export const ShowSideBar = ref(false);
 export function ChangeShowSideBar_Guest (is_show){

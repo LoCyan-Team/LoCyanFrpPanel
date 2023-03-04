@@ -1,5 +1,5 @@
 <template>
-    <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+    <n-h1 prefix="bar" style="margin-top: 30px;">
         <n-text type="primary">
             抽奖
         </n-text>
@@ -10,9 +10,7 @@
                 <n-card :title="'奖品： ' + item.prizename">
                     <p>开奖时间：{{ timestampToTime(item.prizetime) }}</p>
                     <p>获奖人：<n-tag type="success">{{ item.prize_user || '暂未开奖！' }}</n-tag></p>
-                    <p>参与用户：<n-tag style="margin:3px;" type="info" v-for="user in users[item.id]">{{
-                        user
-                    }}</n-tag></p>
+                    <p>参与用户：<n-tag style="margin:3px;" type="info" v-for="user in users[item.id]">{{ user }}</n-tag></p>
                     <p>奖品描述：</p>
                     {{ item.description }}
                     <template #footer>
@@ -30,9 +28,9 @@
 <script setup>
 import { NGrid, NGridItem, NCard, NButton, NSpace, NTag, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
+import {  SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';
-import { post, get } from "../utils/request.js";
+import {  get } from "../utils/request.js";
 import store from "../utils/store.js"
 
 const PrizesList = ref([
@@ -51,15 +49,15 @@ const users = ref([]);
 
 // 时间戳转换
 function timestampToTime(timestamp) {
-    var date = new Date(timestamp * 1000);
-    var Y = date.getFullYear() + "-";
-    var M = (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "-";
-    var D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
-    var h = date.getHours() + ":";
-    var m = date.getMinutes() + ":";
-    var s = date.getSeconds();
+    const date = new Date(timestamp * 1000);
+    const Y = date.getFullYear() + "-";
+    const M = (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "-";
+    const D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+    const h = date.getHours() + ":";
+    const m = date.getMinutes() + ":";
+    const s = date.getSeconds();
     return Y + M + D + h + m + s;
-};
+}
 
 function submitjoin(id) {
     StartLoadingBar();
@@ -77,19 +75,19 @@ function submitjoin(id) {
             SendWarningDialog(res.message);
         }
     })
-};
+}
 
 GetPrizeList();
 
 function GetPrizeList() {
-    var i = 0;
-    const rs = get("https://api.locyanfrp.cn/Prize/GetPrizes");
+  let i = 0;
+  const rs = get("https://api.locyanfrp.cn/Prize/GetPrizes", []);
     rs.then(res => {
         // 用于展示用户
         // 用奖品ID排列
         res.forEach(e => {
             PrizesList.value[i] = e;
-            if (e.username.indexOf("|") != -1) {
+            if (e.username.indexOf("|") !== -1) {
                 users.value[e.id] = e.username.split("|");
             } else {
                 users.value[e.id] = [e.username];

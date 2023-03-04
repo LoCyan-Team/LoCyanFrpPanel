@@ -66,6 +66,12 @@ const store = new Vuex.Store({
             localStorage.setItem('outbound', userdata.outbound);
             localStorage.setItem('avatar', userdata.avatar);
         },
+        setLimit(state, limit_info){
+            state.inbound = limit_info.inbound;
+            state.outbound = limit_info.outbound;
+            localStorage.setItem("inbound", limit_info.inbound);
+            localStorage.setItem('outbound', limit_info.outbound);
+        },
         delUserInfo(state) {
             state.usermame = "";
             state.email = "";

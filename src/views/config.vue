@@ -1,12 +1,12 @@
 <!--  -->
 <template>
-    <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+    <n-h1 prefix="bar" style="margin-top: 30px;">
         <n-text type="primary">
             配置文件
         </n-text>
     </n-h1>
     <n-grid cols="1" y-gap="1" item-responsive>
-        <n-grid-item span="1" style="margin: 10px;">
+        <n-grid-item span="1">
             <n-card title="配置文件">
                 <n-select v-model:value="node" :options="ServerList" @update:value="UpdateValue" />
                 <n-button strong secondary type="info" style="margin-top: 30px"
@@ -14,7 +14,7 @@
                 <n-code :code="code" language="ini" show-line-numbers style="margin-top: 30px;width: 100%;"></n-code>
             </n-card>
         </n-grid-item>
-        <n-grid-item span="1" style="margin: 10px;">
+        <n-grid-item span="1">
             <n-card title="建站必看，不看导致的后果自负">
                 <p>由于我们在新的配置文件生成机制中加入了</p>
                 <n-code code="proxy_protocol_version = v2" language="ini"></n-code>
@@ -78,11 +78,10 @@ rs.then(res => {
             node.value = s.id;
             UpdateValue(s.id);
         }
-        const tmpdict = {
-            "label": s.name,
-            "value": s.id
+      ServerList.value[i] = {
+          "label": s.name,
+          "value": s.id
         };
-        ServerList.value[i] = tmpdict;
         i = i + 1;
     });
 })
@@ -91,8 +90,8 @@ function copy(data, event) {
     clipboard(data, event)
 }
 
-function UpdateValue(value, option) {
-    const rs = get("https://api.locyanfrp.cn/Proxies/GetConfigFile?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken + "&node=" + value);
+function UpdateValue(value) {
+    const rs = get("https://api.locyanfrp.cn/Proxies/GetConfigFile?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken + "&node=" + value ,[]);
     rs.then(res => {
         if (res.status) {
             SendSuccessMessage(res.message);
@@ -105,6 +104,3 @@ function UpdateValue(value, option) {
 }
 
 </script>
-<style scoped>
-/*@import url(); 引入公共css类*/
-</style>

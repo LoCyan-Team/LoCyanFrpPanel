@@ -7,7 +7,7 @@
           <loadingbar />
           <ndialog />
           <MainNav v-if="store.getters.GetToken" />
-          <GuestNav v-else="store.getters.GetToken"/>
+          <GuestNav v-else/>
         </n-dialog-provider>
       </n-message-provider>
     </n-loading-bar-provider>
@@ -21,13 +21,15 @@
 import {  NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, useOsTheme } from "naive-ui";
 import MainNav from "./components/MainNav.vue";
 import GuestNav from "./components/GuestNav.vue";
-import { h, ref, computed } from "vue";
+import { computed } from "vue";
 import { NLoadingBarProvider } from "naive-ui";
 import store from "./utils/store.js";
 import hljs from 'highlight.js/lib/core';
 import ini from 'highlight.js/lib/languages/ini';
 import nginx from 'highlight.js/lib/languages/nginx'
-import {get} from "./utils/request.js";
+import { get } from "./utils/request.js";
+import {SendWarningMessage} from "./utils/message.js";
+import {Logout} from "./utils/profile.js";
 
 const osThemeRef = useOsTheme();
 const theme = computed(() => osThemeRef.value === "dark" ? darkTheme : null);
@@ -42,6 +44,11 @@ setInterval(() => {
     rs.then(res=> {
       if(res.status === 0){
         localStorage.setItem("traffic", res.traffic)
+        store.commit("setLimit", res)
+      }
+      if (res.status === -3){
+        SendWarningMessage("登录过期或未登录，请使用LCF账户登录后台！");
+        Logout();
       }
     });
   }

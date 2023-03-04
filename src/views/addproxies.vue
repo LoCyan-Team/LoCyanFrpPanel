@@ -1,11 +1,11 @@
 <template>
-  <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+  <n-h1 prefix="bar" style="margin-top: 30px;">
     <n-text type="primary">
       添加隧道
     </n-text>
   </n-h1>
   <n-form :ref="formRef" :model="ProxyInfo" :rules="rules" label-width="auto" size="large">
-    <n-space vertical style="margin: 20px">
+    <n-space vertical>
       <n-form-item label="选择服务器" path="node">
         <n-select v-model:value="ProxyInfo.node" :options="ServerList" />
       </n-form-item>
@@ -82,8 +82,7 @@ import { NForm, NFormItem, NInput, NButton, NSpace, NSelect, NGrid, NGridItem, N
 import { ref } from 'vue';
 import store from "../utils/store.js";
 import { get } from "../utils/request.js";
-import router from "../router/index.js";
-import { SendSuccessMessage, SendErrorMessage } from "../utils/message";
+import { SendErrorMessage } from "../utils/message";
 import { SendSuccessDialog } from "../utils/dialog.js"
 
 localStorage.setItem("ViewPage", "add_proxy");
@@ -180,7 +179,7 @@ const rules = {
 function addproxy() {
   const rs = get("https://api.locyanfrp.cn/Proxies/add?username=" + store.getters.GetUserName + "&name=" + ProxyInfo.value.proxy_name + "&key=" + store.getters.GetFrpToken + "&ip=" + ProxyInfo.value.local_ip + "&type=" + ProxyInfo.value.proxy_type + "&lp=" + ProxyInfo.value.local_port + "&rp=" + ProxyInfo.value.remote_port + "&ue=0&uz=0&id=" + ProxyInfo.value.node + "&token=" + store.getters.GetToken + "&url=" + ProxyInfo.value.domain);
   rs.then(res => {
-    if (res.status == true) {
+    if (res.status === true) {
       SendSuccessDialog(res.message);
     } else {
       SendErrorMessage(res.message);
@@ -188,12 +187,12 @@ function addproxy() {
   })
 }
 
-const rs = get("https://api.locyanfrp.cn/Proxies/GetServerList")
+const rs = get("https://api.locyanfrp.cn/Proxies/GetServerList", [])
 rs.then(res => {
   var i = 0;
   res.forEach(s => {
     // 默认选择第一个节点
-    if (i == 0) {
+    if (i === 0) {
       ProxyInfo.value.node = s.id;
     }
     const tmpdict = {
@@ -207,19 +206,3 @@ rs.then(res => {
 })
 
 </script>
-<style scoped>
-.n-form {
-  margin: 20px;
-}
-
-#item {
-  max-width: 100vw;
-  margin: 20px;
-}
-
-@media (max-width: 1300px) {
-  .n-form {
-    margin: 10px;
-  }
-}
-</style>

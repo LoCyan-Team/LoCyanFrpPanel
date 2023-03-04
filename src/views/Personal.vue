@@ -1,26 +1,27 @@
 <template>
-  <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+  <n-h1 prefix="bar" style="margin-top: 30px;">
     <n-text type="primary">
       仪表盘
     </n-text>
   </n-h1>
   <template v-if="contents.contents">
-    <n-alert title="Welcome" type="info" closable style="margin: 20px; margin-top: 20px">
+    <n-alert title="Welcome" type="info" closable>
       欢迎来到LoCyanFrp新后台!
       <br />
       公告：{{ contents.contents }}
     </n-alert>
   </template>
   <template v-else>
-    <n-alert title="Welcome" type="info" closable style="margin: 20px; margin-top: 20px">
+    <n-alert title="Welcome" type="info" closable>
       欢迎来到LoCyanFrp新后台!
       <br />
       <n-skeleton text :repeat="1" style="width: 50%" />
     </n-alert>
   </template>
-  <n-grid :y-gap="3" cols="3" item-responsive>
-    <n-grid-item span="0:3 600:1" id="item" style="margin-bottom: 5px;">
-      <n-card title="个人信息" size="large">
+  <br />
+  <n-grid :y-gap="3" :x-gap="6" cols="3" item-responsive>
+    <n-grid-item span="0:3 600:1">
+      <n-card title="个人信息" size="medium">
         <a>您好，尊敬的 <a id="username">{{ username }}</a></a>
         <br />
         <a>您的邮箱为：{{ email }}</a>
@@ -48,8 +49,8 @@
         <br>
       </n-card>
     </n-grid-item>
-    <n-grid-item span="0:3 600:2" id="item">
-      <n-card title="数据报表" size="large" style="margin-bottom: 15px">
+    <n-grid-item span="0:3 600:2">
+      <n-card title="数据报表" size="large">
         <n-space>
           <n-statistic label="剩余流量" tabular-nums>
             <n-number-animation ref="TrafficRef" :from="0" :to="store.getters.GetTraffic" />
@@ -100,41 +101,19 @@
   </n-grid>
 </template>
 
-<style scoped>
-#item {
-  max-width: 100vw;
-  margin: 20px;
-}
-
-@media (max-width: 1000px) {
-  #item {
-    max-width: 100vw;
-    margin: 10px;
-  }
-}
-
-#username {
-  color: hsl(199, 100%, 50%);
-  font-size: 20px;
-}
-</style>
-
 <script setup>
-import { NBadge, NStep, NSteps, NSkeleton, NCard, NAlert, NButton, NSpace, useMessage, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon } from "naive-ui";
-import { GetContents, GetLoginStatus, GetProxies } from "../utils/profile.js";
+import { NBadge, NStep, NSteps, NSkeleton, NCard, NAlert, NSpace, useMessage, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon } from "naive-ui";
+import { GetContents } from "../utils/profile.js";
 import { AngleRight, Key } from '@vicons/fa';
-import { defineComponent } from "vue";
 import { ref } from "vue";
 import store from "../utils/store.js";
-import { get } from "../utils/request.js";
-import router from "../router/index.js";
 import clipboard from '..//utils/clipboard'
 localStorage.setItem("ViewPage", "personality");
 const current = ref(-1)
 const username = store.getters.GetUserName;
 const email = store.getters.GetEmail;
-const inbound = store.getters.GetInBound + "Mbps 下行";
-const outbound = store.getters.GetOutBound + "Mbps 上行";
+const inbound = ref(store.getters.GetInBound + "Mbps 下行");
+const outbound = ref(store.getters.GetOutBound + "Mbps 上行");
 const frptoken = store.getters.GetFrpToken;
 const contents = GetContents();
 const message = useMessage();
@@ -156,5 +135,9 @@ const TrafficRef = ref(null);
 
 setInterval(() => {
   traffic.value = Number(localStorage.getItem("traffic")) / 1024 + "GB";
-}, 1000);
+  inbound.value = store.getters.GetInBound + "Mbps 下行"
+  outbound.value = store.getters.GetOutBound + "Mbps 上行"
+  console.log(inbound.value)
+  console.log(outbound.value)
+}, 10000);
 </script>

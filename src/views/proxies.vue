@@ -7,7 +7,7 @@
         </template>
         <n-form :ref="formRef" :model="ProxyEditInfo" :rules="rules" label-width="auto" size="large">
             <n-grid cols="2" item-responsive>
-                <n-grid-item span="0:2 1000:1" id="item">
+                <n-grid-item span="0:2 1000:1" >
                     <n-form-item label="选择服务器" path="node">
                         <n-select v-model:value="ProxyEditInfo.node" :options="EditServerList" />
                     </n-form-item>
@@ -18,7 +18,7 @@
                         <n-input v-model:value="ProxyEditInfo.proxy_name" placeholder="隧道名" />
                     </n-form-item>
                 </n-grid-item>
-                <n-grid-item span="0:2 1000:1" id="item">
+                <n-grid-item span="0:2 1000:1" >
                     <n-form-item label="穿透协议" path="proxy_type">
                         <n-radio-group v-model:value="ProxyEditInfo.proxy_type">
                             <n-radio-button value="1">
@@ -42,23 +42,23 @@
                         </n-radio-group>
                     </n-form-item>
                 </n-grid-item>
-                <n-grid-item span="0:2 1000:1" id="item">
+                <n-grid-item span="0:2 1000:1" >
                     <n-form-item label="内网IP" path="local_ip">
                         <n-input v-model:value="ProxyEditInfo.local_ip" placeholder="内网IP，例如127.0.0.1" />
                     </n-form-item>
                 </n-grid-item>
-                <n-grid-item span="0:2 1000:1" id="item">
+                <n-grid-item span="0:2 1000:1" >
                     <n-form-item label="内网端口" path="local_port">
                         <n-input v-model:value="ProxyEditInfo.local_port"
                             placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19136 泰拉瑞亚:7777" />
                     </n-form-item>
                 </n-grid-item>
-                <n-grid-item span="0:2 1000:1" id="item">
+                <n-grid-item span="0:2 1000:1" >
                     <n-form-item label="远程端口" path="remote_port">
                         <n-input v-model:value="ProxyEditInfo.remote_port" placeholder="映射到远程服务器上的端口" />
                     </n-form-item>
                 </n-grid-item>
-                <n-grid-item span="0:2 1000:1" id="item">
+                <n-grid-item span="0:2 1000:1" >
                     <n-form-item label="自定义域名" path="domain">
                         <n-input v-model:value="ProxyEditInfo.domain" placeholder="HTTPS/HTTP需要填写，其他协议不需要填写" />
                     </n-form-item>
@@ -90,7 +90,7 @@
         <!-- <template #footer>
             </template> -->
     </n-modal>
-    <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+    <n-h1 prefix="bar" style="margin-top: 30px;">
         <n-text type="primary">
             隧道列表
         </n-text>
@@ -139,12 +139,32 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { NTag, NAlert, NSpace, NCard, NGi, NGrid, NButton, useDialog, NModal, NForm, NFormItem, NInput, NRadioGroup, NRadioButton, NGridItem, NSelect, NSpin, NH1, NText } from 'naive-ui';
+import {ref} from 'vue';
+import {
+  NAlert,
+  NButton,
+  NCard,
+  NForm,
+  NFormItem,
+  NGi,
+  NGrid,
+  NGridItem,
+  NH1,
+  NInput,
+  NModal,
+  NRadioButton,
+  NRadioGroup,
+  NSelect,
+  NSpace,
+  NSpin,
+  NTag,
+  NText,
+  useDialog
+} from 'naive-ui';
 import store from '../utils/store.js';
-import { get } from '../utils/request.js';
-import { SendSuccessMessage, SendErrorMessage } from '../utils/message';
-import { SendErrorDialog, SendSuccessDialog } from "../utils/dialog.js"
+import {get} from '../utils/request.js';
+import {SendErrorMessage, SendSuccessMessage} from '../utils/message';
+import {SendErrorDialog, SendSuccessDialog} from "../utils/dialog.js"
 
 const show = ref(true);
 const showEditModal = ref(false);
@@ -164,18 +184,18 @@ const segmented = {
 
 // 隧道类型翻译
 function transtype(type) {
-    var pt = "1";
-    if (type == "tcp") {
+  let pt;
+  if (type === "tcp") {
         pt = "1";
-    } else if (type == "udp") {
+    } else if (type === "udp") {
         pt = "2";
-    } else if (type == "http") {
+    } else if (type === "http") {
         pt = "3";
-    } else if (type == "https") {
+    } else if (type === "https") {
         pt = "4";
-    } else if (type == "xtcp") {
+    } else if (type === "xtcp") {
         pt = "5";
-    } else if (type == "stcp") {
+    } else if (type === "stcp") {
         pt = "6";
     } else {
         pt = "1";
@@ -185,7 +205,7 @@ function transtype(type) {
 
 // 就是有弱智不知道隧道链接是什么，气死我了
 function makelinkaddr(id) {
-    if (Proxies.value[id].proxy_type == "http" || Proxies.value[id].proxy_type == "https") {
+    if (Proxies.value[id].proxy_type === "http" || Proxies.value[id].proxy_type === "https") {
         return Proxies.value[id].domain;
     } else {
         return ServerList.value[Proxies.value[id].node].hostname + ":" + Proxies.value[id].remote_port;
@@ -193,9 +213,9 @@ function makelinkaddr(id) {
 }
 
 function editproxy(proxyid) {
-    const rs = get("https://api.locyanfrp.cn/Proxies/update?username=" + store.getters.GetUserName + "&name=" + ProxyEditInfo.value.proxy_name + "&key=" + store.getters.GetFrpToken + "&ip=" + ProxyEditInfo.value.local_ip + "&type=" + ProxyEditInfo.value.proxy_type + "&lp=" + ProxyEditInfo.value.local_port + "&rp=" + ProxyEditInfo.value.remote_port + "&ue=0&uz=0&id=" + ProxyEditInfo.value.node + "&token=" + store.getters.GetToken + "&url=" + ProxyEditInfo.value.domain + "&proxyid=" + proxyid);
+    const rs = get("https://api.locyanfrp.cn/Proxies/update?username=" + store.getters.GetUserName + "&name=" + ProxyEditInfo.value.proxy_name + "&key=" + store.getters.GetFrpToken + "&ip=" + ProxyEditInfo.value.local_ip + "&type=" + ProxyEditInfo.value.proxy_type + "&lp=" + ProxyEditInfo.value.local_port + "&rp=" + ProxyEditInfo.value.remote_port + "&ue=0&uz=0&id=" + ProxyEditInfo.value.node + "&token=" + store.getters.GetToken + "&url=" + ProxyEditInfo.value.domain + "&proxyid=" + proxyid, []);
     rs.then(res => {
-        if (res.status == true) {
+        if (res.status === true) {
             // 重新刷新列表
             initList();
             // 关闭模态框
@@ -285,15 +305,14 @@ const ServerList = ref([
 ]);
 
 function initList() {
-    const rs2 = get("https://api.locyanfrp.cn/Proxies/GetServerList");
+    const rs2 = get("https://api.locyanfrp.cn/Proxies/GetServerList", []);
     rs2.then(res => {
         var i = 0;
         res.forEach(s => {
-            const tmpdict = {
-                "label": s.name,
-                "value": s.id
+          EditServerList.value[i] = {
+              "label": s.name,
+              "value": s.id
             };
-            EditServerList.value[i] = tmpdict;
 
             ServerList.value[s.id] = s;
             i = i + 1;
@@ -301,9 +320,9 @@ function initList() {
         });
     });
 
-    const rs = get("https://api.locyanfrp.cn/Proxies/GetProxiesList?username=" + localStorage.getItem('username') + "&token=" + store.getters.GetToken)
+    const rs = get("https://api.locyanfrp.cn/Proxies/GetProxiesList?username=" + localStorage.getItem('username') + "&token=" + store.getters.GetToken, [])
     rs.then(res => {
-        if (res.status != 0) {
+        if (res.status !== 0) {
             return res;
         } else {
             Proxies.value = res.proxies;
@@ -352,9 +371,6 @@ function deleteProxy(id) {
             SendSuccessMessage("你取消了操作！");
         },
     });
-};
+}
 
 </script>
-<!-- <style scoped>
-
-</style> -->

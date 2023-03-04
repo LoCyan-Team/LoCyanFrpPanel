@@ -7,17 +7,15 @@
                     <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 15%">
                         LoCyan Frp
                     </n-gradient-text>
-                    <n-space justify="end">
+                    <n-space justify="end" style="margin-right: 20px">
                         <n-avatar round size="medium" :style="getStyle()" style="margin-top: 23px;" :src="avatar" @click="DoShowUserInfo()"/>
-                        <n-button ghost :style="getStyle()" style="margin: 23px;" round type="primary"
-                            @click="logout">退出登录</n-button>
                     </n-space>
                 </n-space>
             </n-layout-header>
             <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
               <SideBar v-if="ShowSideBar"/>
                 <n-layout :native-scrollbar="false">
-                  <div style="margin-right: 40px">
+                  <div style="margin-right: 15px; margin-left: 15px">
                     <router-view></router-view>
                   </div>
                     <div style="margin-top: 25px; margin-bottom: 20px;">
@@ -38,15 +36,13 @@
 </template>
 
 <script setup>
-import { NLayout, NButton, NAvatar } from "naive-ui";
+import { NLayout, NAvatar } from "naive-ui";
 import { NLayoutHeader } from "naive-ui";
 import { NSpace } from "naive-ui";
 import { NGradientText } from "naive-ui";
 import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import SideBar from "./MainSideBar.vue";
-import { Logout } from "../utils/profile.js";
-import { SendSuccessMessage } from "../utils/message.js";
 import store from "../utils/store.js";
 import UserInfo from "./UserInfo.vue";
 import { ChangeUserInfoShow } from "./UserInfo.vue";
@@ -58,7 +54,6 @@ if (document.body.clientWidth >= 1000) {
 }
 
 const avatar = ref("");
-const showUserInfo = ref(false);
 
 avatar.value = store.getters.GetAvatar;
 
@@ -74,11 +69,6 @@ function getStyle() {
     if (!store.getters.GetToken) {
         return 'display: none;';
     }
-}
-
-function logout() {
-    SendSuccessMessage("您已从LCF登出，感谢您的使用！")
-    Logout();
 }
 
 const inverted = false;

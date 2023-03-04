@@ -1,10 +1,10 @@
 <template>
-    <n-h1 prefix="bar" style="margin-left: 15px;margin-top: 30px;">
+    <n-h1 prefix="bar" style="margin-top: 30px;">
         <n-text type="primary">
             新年祝福
         </n-text>
     </n-h1>
-    <n-form :ref="formRef" :model="NewYear" label-width="auto" :size="'large'">
+    <n-form :ref="formRef" :model="NewYear" label-width="auto" size="large">
         <n-grid cols="1" item-responsive>
             <n-grid-item span="1" id="item">
                 <n-form-item label="评论" path="comment">
@@ -37,7 +37,7 @@ import { NGrid, NGridItem, NCard, NInput, NForm, NFormItem, NButton, NSpace, NH1
 import { ref } from 'vue';
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';
-import { post, get } from "../utils/request.js";
+import {  get } from "../utils/request.js";
 import store from "../utils/store.js"
 
 const CommentList = ref([]);
@@ -48,22 +48,22 @@ const NewYear = ref({
 
 
 function timestampToTime(timestamp) {
-    var date = new Date(timestamp * 1000);
-    var Y = date.getFullYear() + "-";
-    var M = (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "-";
-    var D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
-    var h = date.getHours() + ":";
-    var m = date.getMinutes() + ":";
-    var s = date.getSeconds();
-    return Y + M + D + h + m + s;
-};
+  const date = new Date(timestamp * 1000);
+  const Y = date.getFullYear() + "-";
+  const M = (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "-";
+  const D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+  const h = date.getHours() + ":";
+  const m = date.getMinutes() + ":";
+  const s = date.getSeconds();
+  return Y + M + D + h + m + s;
+}
 
 function submitcomment() {
     StartLoadingBar();
-    if (NewYear.value.comment == "") {
+    if (NewYear.value.comment === "") {
         SendErrorDialog("内容不可为空！");
-    };
-    const rs = get("https://api.locyanfrp.cn/App/SubmitComment?username=" + store.getters.GetUserName + "&comment=" + NewYear.value.comment);
+    }
+    const rs = get("https://api.locyanfrp.cn/App/SubmitComment?username=" + store.getters.GetUserName + "&comment=" + NewYear.value.comment ,[]);
     rs.then(res => {
         if (res.status) {
             FinishLoadingBar();
@@ -73,27 +73,17 @@ function submitcomment() {
             SendWarningDialog(res.message);
         }
     })
-};
+}
 
-const rs = get("https://api.locyanfrp.cn/App/GetComments");
+const rs = get("https://api.locyanfrp.cn/App/GetComments", []);
 rs.then(res => {
     CommentList.value = res;
-});
+})
 
 </script>
 <style scoped>
-.n-form {
-    margin: 20px;
-}
-
 #item {
     max-width: 100vw;
     margin: 20px;
-}
-
-@media (max-width: 1300px) {
-    .n-form {
-        margin: 10px;
-    }
 }
 </style>

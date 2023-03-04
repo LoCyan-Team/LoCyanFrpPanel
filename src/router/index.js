@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
-import { StartLoadingBar, FinishLoadingBar, ErrorLoadingBar } from "../utils/loadingbar.js";
+import { StartLoadingBar, FinishLoadingBar } from "../utils/loadingbar.js";
 import store from "../utils/store"
-import { ref } from "vue";
-import MainNav from "../components/MainNav.vue";
 import { ChangeShowSideBar_Main } from "../components/MainNav.vue";
 import { ChangeShowSideBar_Guest } from "../components/GuestNav.vue";
 import { SetSideBarActiveKey } from "../components/MainSideBar.vue";
@@ -141,19 +139,29 @@ router.beforeEach((to, from, next) => {
     }
 });
 
-router.afterEach((to, from, next) => {
+// from next
+router.afterEach((to) => {
     FinishLoadingBar();
     if (to.meta.title) {    //设置标题
         document.title = to.meta.title + " | LoCyanFrp"
     }
 
-    if (to.name !== "login" && to.name !== "register" && to.name !== "MainPage"){
-        // 如果不是前往登录或注册，则启用主菜单栏
-        ChangeShowSideBar_Main(true);
-        ChangeShowSideBar_Guest(false);
-    } else {
-        ChangeShowSideBar_Main(false);
-        ChangeShowSideBar_Guest(true);
+    switch (to.name) {
+        case "MainPage":
+            ChangeShowSideBar_Main(false);
+            ChangeShowSideBar_Guest(false);
+            break;
+        case "login":
+            ChangeShowSideBar_Main(false);
+            ChangeShowSideBar_Guest(true);
+            break;
+        case "register":
+            ChangeShowSideBar_Main(false);
+            ChangeShowSideBar_Guest(true);
+            break;
+        default:
+            ChangeShowSideBar_Main(true);
+            ChangeShowSideBar_Guest(false);
     }
 
     if (store.getters.GetToken) {
