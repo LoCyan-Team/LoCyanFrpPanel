@@ -17,7 +17,7 @@ export function GetNotice(){
 }
 
 export function GetLoginStatus(username, token){
-    const rs = get("https://api.locyanfrp.cn/Account/info?username=" + username + "&token=" + token)
+    const rs = get("https://api.locyanfrp.cn/Account/info?username=" + username + "&token=" + token, [])
     const return_res = ref("");
     rs.then(res=> {
         if(res.status !== 0){
@@ -32,7 +32,7 @@ export function GetLoginStatus(username, token){
 }
 
 export function GetProxies(username, token){
-    const rs = get("https://api.locyanfrp.cn/Proxies/GetProxiesList?username=" + username + "&token=" + token)
+    const rs = get("https://api.locyanfrp.cn/Proxies/GetProxiesList?username=" + username + "&token=" + token, [])
     rs.then(res=> {
         if(res.status !== 0){
             return res;

@@ -4,10 +4,10 @@
       <n-form ref="formRef" :model="model" :rules="rules" label-width="auto" require-mark-placement="right-hanging"
         size="medium" id="item">
         <n-form-item label="用户名 / 邮箱" path="username">
-          <n-input type="text" v-model:value="model.username" placeholder="用户名" />
+          <n-input type="text" v-model:value="model.username" placeholder="用户名" @keyup.enter="login"/>
         </n-form-item>
         <n-form-item label="密码" path="password">
-          <n-input type="password" v-model:value="model.password" placeholder="密码" />
+          <n-input type="password" v-model:value="model.password" placeholder="密码" @keyup.enter="login"/>
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
           <n-space>
@@ -23,7 +23,7 @@
 <script setup>
 import { ref } from "vue";
 import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar, NGrid, NGridItem, NSpace } from "naive-ui";
-import { get, post, getUrlKey } from "../utils/request.js";
+import { get, getUrlKey } from "../utils/request.js";
 import router from "../router/index.js";
 import qs from 'qs';
 import store from "../utils/store.js";
@@ -49,7 +49,7 @@ function goregister() {
   router.push("/register");
 }
 
-function login(e) {
+function login() {
   ldb.start();
   const rs = get("https://api.locyanfrp.cn/User/DoLogin?" + qs.stringify(model.value), []);
   rs.then(res => {
@@ -76,7 +76,7 @@ const rules = {
     trigger: ["blur", "input"],
     message: "请输入密码",
   },
-};
+}
 </script>
 
 <style scoped>
