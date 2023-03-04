@@ -49,14 +49,16 @@ import { ChangeUserInfoShow } from "./UserInfo.vue";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
+const avatar = ref("");
+const inverted = false;
+
 if (document.body.clientWidth >= 1000) {
     collapsed.value = false;
 }
-
-const avatar = ref("");
-
 avatar.value = store.getters.GetAvatar;
 
+// 刚进入面板不展示用户信息框
+ChangeUserInfoShow(false)
 function DoShowUserInfo(){
   ChangeUserInfoShow(true);
 }
@@ -70,8 +72,6 @@ function getStyle() {
         return 'display: none;';
     }
 }
-
-const inverted = false;
 </script>
 <script>
 import {ref} from "vue";
