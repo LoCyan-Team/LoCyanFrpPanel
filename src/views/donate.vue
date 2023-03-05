@@ -22,7 +22,7 @@
       <p>捐赠时间：{{ timestampToTime(trade_info.time) }}</p>
       <br />
       <p>您可以在该页面放置你的留言，同时你可以保存以下url便于您修改你的留言</p>
-      <p>https://preview.locyanfrp.cn/donate?trade_no={{ trade_no }}</p>
+      <p>https://preview.locyanfrp.cn/donate?out_trade_no={{ trade_no }}</p>
       <template #footer>
         <n-button @click="showModal=false;"> 关闭 </n-button>
       </template>
