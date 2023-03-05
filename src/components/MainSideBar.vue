@@ -6,9 +6,6 @@
         </n-layout-sider>
 </template>
 
-<script>
-</script>
-
 <script setup>
 import { NMenu } from "naive-ui";
 import { NLayoutSider } from "naive-ui";
@@ -25,10 +22,9 @@ import {
   List,
   FileTrayFull,
   CloudDownloadOutline,
-  PlanetOutline
-
-
+  PlanetOutline,
 } from "@vicons/ionicons5";
+import { AttachMoneyFilled } from "@vicons/material"
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -103,6 +99,12 @@ const menuOptions = [
         icon: renderIcon(FileTrayFull),
       },
     ],
+  },
+  {
+    path: "/donate",
+    label: "捐赠",
+    key: "donate",
+    icon: renderIcon(AttachMoneyFilled),
   },
   {
     label: "其他功能",

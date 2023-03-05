@@ -97,6 +97,14 @@ const routes = [
                     title: '配置文件'
                 },
                 component: () => import('../views/config.vue')
+            },
+            {
+                path: '/donate',
+                name: 'donate',
+                meta: {
+                    title: '赞助'
+                },
+                component: () => import('../views/donate.vue')
             }
         ]
     }

@@ -307,8 +307,8 @@ const ServerList = ref([
 function initList() {
     const rs2 = get("https://api.locyanfrp.cn/Proxies/GetServerList", []);
     rs2.then(res => {
-        var i = 0;
-        res.forEach(s => {
+      let i = 0;
+      res.forEach(s => {
           EditServerList.value[i] = {
               "label": s.name,
               "value": s.id

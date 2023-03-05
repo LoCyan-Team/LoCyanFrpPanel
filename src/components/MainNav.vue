@@ -18,6 +18,7 @@
                   <div style="margin-right: 15px; margin-left: 15px">
                     <router-view></router-view>
                   </div>
+                  <br />
                     <div style="margin-top: 25px; margin-bottom: 20px;">
                         <div style="text-align: center;">
                             <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
