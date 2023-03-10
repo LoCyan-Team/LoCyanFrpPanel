@@ -12,7 +12,15 @@
               <GuestSideBar v-if="ShowSideBar"/>
                 <n-layout :native-scrollbar="false">
                   <div style="margin-right: 15px; margin-left: 15px">
-                    <router-view></router-view>
+                    <router-view v-slot="{ Component }">
+                      <KeepAlive :max="10">
+                        <Transition name="fade" mode="out-in" :duration="400">
+                          <div :key="router.currentRoute.value.name">
+                            <component :is="Component" />
+                          </div>
+                        </Transition>
+                      </KeepAlive>
+                    </router-view>
                   </div>
                 </n-layout>
             </n-layout>
@@ -28,6 +36,7 @@ import { NGradientText } from "naive-ui";
 import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import GuestSideBar from "./GuestSideBar.vue";
+import router from "../router/index";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -49,3 +58,11 @@ export function ChangeShowSideBar_Guest (is_show){
   ShowSideBar.value = is_show;
 }
 </script>
+<style>
+.fade-enter-active, .fade-leave-active{
+  transition: all 0.5s ease
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+</style>

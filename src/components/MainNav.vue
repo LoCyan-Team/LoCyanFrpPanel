@@ -16,7 +16,15 @@
               <SideBar v-if="ShowSideBar"/>
                 <n-layout :native-scrollbar="false">
                   <div style="margin-right: 15px; margin-left: 15px">
-                    <router-view></router-view>
+                    <router-view v-slot="{ Component }">
+                      <KeepAlive :max="10">
+                        <Transition name="fade" mode="out-in" :duration="400">
+                            <div :key="router.currentRoute.value.name">
+                                <component :is="Component" />
+                            </div>
+                        </Transition>
+                      </KeepAlive>
+                    </router-view>
                   </div>
                   <br />
                     <div style="margin-top: 25px; margin-bottom: 20px;">
@@ -45,6 +53,7 @@ import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import SideBar from "./MainSideBar.vue";
 import store from "../utils/store.js";
+import router from "../router/index";
 import UserInfo from "./UserInfo.vue";
 import { ChangeUserInfoShow } from "./UserInfo.vue";
 
@@ -82,3 +91,11 @@ export function ChangeShowSideBar_Main (is_show){
   ShowSideBar.value = is_show;
 }
 </script>
+<style>
+.fade-enter-active, .fade-leave-active{
+  transition: all 0.5s ease
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+</style>

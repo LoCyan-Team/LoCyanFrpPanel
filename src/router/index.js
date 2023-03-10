@@ -14,6 +14,7 @@ const routes = [
                 path: '/',
                 name: 'MainPage',
                 meta: {
+                    keepAlive: true,
                     title: '首页'
                 },
                 component: () => import('../views/Main.vue')
@@ -22,6 +23,7 @@ const routes = [
                 path: '/user',
                 name: 'User',
                 meta: {
+                    keepAlive: true,
                     title: '仪表盘'
                 },
                 component: () => import('../views/Personal.vue')
@@ -30,6 +32,7 @@ const routes = [
                 path: '/sign',
                 name: 'Sign',
                 meta: {
+                    keepAlive: true,
                     title: '签到'
                 },
                 component: () => import('../views/Sign.vue')
@@ -38,6 +41,7 @@ const routes = [
                 path: '/login',
                 name: 'login',
                 meta: {
+                    keepAlive: true,
                     title: '登录'
                 },
                 component: () => import('../views/login.vue')
@@ -46,6 +50,7 @@ const routes = [
                 path: '/register',
                 name: 'register',
                 meta: {
+                    keepAlive: true,
                     title: '注册'
                 },
                 component: () => import('../views/register.vue')
@@ -54,6 +59,7 @@ const routes = [
                 path: "/proxies",
                 name: 'Proxies',
                 meta: {
+                    keepAlive: true,
                     title: '隧道列表'
                 },
                 component: () => import('../views/proxies.vue')
@@ -62,6 +68,7 @@ const routes = [
                 path: '/proxies/addproxies',
                 name: "AddProxies",
                 meta: {
+                    keepAlive: true,
                     title: '添加隧道'
                 },
                 component: () => import('../views/addproxies.vue')
@@ -70,6 +77,7 @@ const routes = [
                 path: '/realname',
                 name: "RealName",
                 meta: {
+                    keepAlive: true,
                     title: '实名认证'
                 },
                 component: () => import('../views/realname.vue')
@@ -78,6 +86,7 @@ const routes = [
                 path: '/hello2023',
                 name: 'newyear',
                 meta: {
+                    keepAlive: true,
                     title: '留言'
                 },
                 component: () => import('../views/newyear.vue')
@@ -86,6 +95,7 @@ const routes = [
                 path: '/prize',
                 name: 'prize',
                 meta: {
+                    keepAlive: true,
                     title: '抽奖'
                 },
                 component: () => import('../views/prize.vue')
@@ -94,6 +104,7 @@ const routes = [
                 path: '/config',
                 name: 'config',
                 meta: {
+                    keepAlive: true,
                     title: '配置文件'
                 },
                 component: () => import('../views/config.vue')
@@ -102,6 +113,7 @@ const routes = [
                 path: '/donate',
                 name: 'donate',
                 meta: {
+                    keepAlive: true,
                     title: '赞助'
                 },
                 component: () => import('../views/donate.vue')
