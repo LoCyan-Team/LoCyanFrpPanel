@@ -56,6 +56,15 @@ const routes = [
                 component: () => import('../views/register.vue')
             },
             {
+                path: '/reset_password',
+                name: 'reset_password',
+                meta: {
+                    keepAlive: true,
+                    title: '重置密码'
+                },
+                component: () => import('../views/resetpassword.vue')
+            },
+            {
                 path: "/proxies",
                 name: 'Proxies',
                 meta: {
@@ -148,6 +157,13 @@ router.beforeEach((to, from, next) => {
         next();
         return
     }
+    if (to.name === 'reset_password'){
+        if (store.getters.GetToken){
+            next({name: 'User' });
+        }
+        next();
+        return
+    }
     if (to.name === 'MainPage'){
         next();
         return
@@ -176,6 +192,10 @@ router.afterEach((to) => {
             ChangeShowSideBar_Guest(true);
             break;
         case "register":
+            ChangeShowSideBar_Main(false);
+            ChangeShowSideBar_Guest(true);
+            break;
+        case "reset_password":
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(true);
             break;

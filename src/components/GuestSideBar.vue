@@ -6,9 +6,6 @@
         </n-layout-sider>
 </template>
 
-<script>
-</script>
-
 <script setup>
 import { NMenu } from "naive-ui";
 import { NLayoutSider } from "naive-ui";
@@ -16,18 +13,7 @@ import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 
 import {
-  BookOutline as BookIcon,
-  InformationCircleOutline,
-  Person,
-  PencilSharp,
-  PaperPlane,
-  Add,
-  List,
-  FileTrayFull,
-  CloudDownloadOutline,
   PlanetOutline, LogInOutline, MailOpenOutline
-
-
 } from "@vicons/ionicons5";
 
 // 手机状态下收缩菜单栏
@@ -58,6 +44,12 @@ const menuOptions = [
     label: "注册",
     key: "register",
     icon: renderIcon(MailOpenOutline),
+  },
+  {
+    path: "/reset_password",
+    label: "重置密码",
+    key: "reset_password",
+    icon: renderIcon(PlanetOutline),
   },
 ];
 
