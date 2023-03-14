@@ -23,20 +23,25 @@ import MainNav from "./components/MainNav.vue";
 import GuestNav from "./components/GuestNav.vue";
 import { computed } from "vue";
 import { NLoadingBarProvider } from "naive-ui";
-import store from "./utils/store.js";
+import store from "./utils/stores/store.js";
 import hljs from 'highlight.js/lib/core';
 import ini from 'highlight.js/lib/languages/ini';
 import nginx from 'highlight.js/lib/languages/nginx'
 import { get } from "./utils/request.js";
-import {SendWarningMessage} from "./utils/message.js";
-import {Logout} from "./utils/profile.js";
+import { SendWarningMessage } from "./utils/message.js";
+import { Logout } from "./utils/profile.js";
+// import { init_ws, SetOnMessageFunction } from "./utils/websocket.js";
 
 const osThemeRef = useOsTheme();
 const theme = computed(() => osThemeRef.value === "dark" ? darkTheme : null);
+// let inited = false;
 
 hljs.registerLanguage('ini', ini);
 hljs.registerLanguage('nginx', nginx);
 
+function getMessage(e){
+  console.log(e.data);
+}
 
 setInterval(() => {
   if (store.getters.GetToken) {
@@ -52,6 +57,14 @@ setInterval(() => {
         Logout();
       }
     });
+
+    // 初始化websocket
+    // if (inited === false) {
+    //   init_ws();
+    //   SetOnMessageFunction(getMessage);
+    //   inited = true
+    // }
+
   }
 }, 10000);
 </script>

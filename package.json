@@ -17,10 +17,12 @@
     "js-cookie": "^3.0.1",
     "json": "^11.0.0",
     "marked": "^4.2.12",
+    "nodejs-websocket": "^1.7.2",
     "qs": "^6.11.0",
     "vue": "^3.2.37",
     "vue-axios": "^3.5.2",
     "vue-cookies": "^1.8.1",
+    "vue-native-websocket": "^2.0.15",
     "vue-route": "^1.5.1",
     "vue-router": "^4.1.5",
     "vuex": "^4.1.0"

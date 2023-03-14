@@ -31,7 +31,7 @@ import { ref } from 'vue';
 import {  SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';
 import {  get } from "../utils/request.js";
-import store from "../utils/store.js"
+import store from "../utils/stores/store.js"
 
 const PrizesList = ref([
     {

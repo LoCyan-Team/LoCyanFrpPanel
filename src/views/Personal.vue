@@ -116,7 +116,7 @@ import { GetNotice } from "../utils/profile.js";
 import clipboard from '..//utils/clipboard'
 import { get } from "../utils/request.js";
 import { AngleRight, Key } from '@vicons/fa';
-import store from "../utils/store.js";
+import store from "../utils/stores/store.js";
 import { marked } from "marked";
 
 

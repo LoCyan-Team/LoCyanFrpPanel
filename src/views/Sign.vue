@@ -31,7 +31,7 @@ import { NSkeleton ,NSpace, NCard, NButton, NH1, NText, NGrid, NGridItem } from 
 import { post } from "../utils/request.js";
 import { SendErrorMessage } from "../utils/message";
 import { SendSuccessDialog } from "../utils/dialog.js"
-import store from "../utils/store.js";
+import store from "../utils/stores/store.js";
 
 const status = ref("");
 

@@ -3,7 +3,7 @@ import axios from 'axios'
 // 序列化
 import QS from 'qs';
 // vuex
-import store from './store.js'
+import store from './stores/store.js'
 import router from "../router/index.js";
 import Base64 from "qs/lib/utils.js";
  
@@ -155,5 +155,5 @@ export function getUrlKey(name){
     }
     let query = Base64.decode(path[1])  //解码
     href = path[0]+"?"+ query //解码后重组
-    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(href) || [, ""])[1].replace(/\+/g, '%20')) || null
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(href) || [undefined, ""])[1].replace(/\+/g, '%20')) || null
 }

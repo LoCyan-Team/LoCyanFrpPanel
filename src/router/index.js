@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { StartLoadingBar, FinishLoadingBar } from "../utils/loadingbar.js";
-import store from "../utils/store"
+import store from "../utils/stores/store.js"
 import { ChangeShowSideBar_Main } from "../components/MainNav.vue";
 import { ChangeShowSideBar_Guest } from "../components/GuestNav.vue";
 import { SetSideBarActiveKey } from "../components/MainSideBar.vue";

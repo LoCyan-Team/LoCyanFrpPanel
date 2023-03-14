@@ -52,7 +52,7 @@ import { NGradientText } from "naive-ui";
 import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import SideBar from "./MainSideBar.vue";
-import store from "../utils/store.js";
+import store from "../utils/stores/store.js";
 import router from "../router/index";
 import UserInfo from "./UserInfo.vue";
 import { ChangeUserInfoShow } from "./UserInfo.vue";

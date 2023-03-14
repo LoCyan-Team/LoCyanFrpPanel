@@ -161,7 +161,7 @@ import {
   NText,
   useDialog
 } from 'naive-ui';
-import store from '../utils/store.js';
+import store from '../utils/stores/store.js';
 import {get} from '../utils/request.js';
 import {SendErrorMessage, SendSuccessMessage} from '../utils/message';
 import {SendErrorDialog, SendSuccessDialog} from "../utils/dialog.js"
@@ -354,7 +354,6 @@ function deleteProxy(id) {
         positiveText: "确定",
         negativeText: "不确定",
         onPositiveClick: () => {
-            const rs = get("https://api.locyanfrp.cn/Proxies/Remove?username=" + localStorage.getItem('username') + "&token=" + store.getters.GetToken + "&proxyid=" + Proxies.value[id].id);
             rs.then(res => {
                 if (res.status) {
                     SendSuccessMessage(res.message);

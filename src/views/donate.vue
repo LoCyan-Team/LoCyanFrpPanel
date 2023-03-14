@@ -79,7 +79,7 @@
 import { ref } from "vue";
 import { NFormItem, NForm, NInput, NButton, NGrid, NGridItem, NSpace, NModal, NH1, NText, NCard, NSpin, NRadioGroup, NRadio } from "naive-ui";
 import { get, getUrlKey } from "../utils/request.js";
-import store from "../utils/store.js";
+import store from "../utils/stores/store.js";
 import { SendSuccessDialog, SendWarningDialog } from "../utils/dialog.js";
 
 // 页面元素初始化

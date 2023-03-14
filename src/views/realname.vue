@@ -64,7 +64,7 @@ import { ref } from 'vue';
 import { SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';
 import { post, get } from "../utils/request.js";
-import store from "../utils/store.js"
+import store from "../utils/stores/store.js"
 
 const loading = ref(true)
 const showRealnameModal = ref(true);

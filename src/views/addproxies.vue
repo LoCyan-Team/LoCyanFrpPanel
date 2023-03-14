@@ -81,7 +81,7 @@
 <script setup>
 import { NForm, NFormItem, NInput, NButton, NSpace, NSelect, NGrid, NGridItem, NRadioGroup, NRadioButton, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
-import store from "../utils/store.js";
+import store from "../utils/stores/store.js";
 import { get } from "../utils/request.js";
 import { SendErrorMessage } from "../utils/message";
 import { SendSuccessDialog } from "../utils/dialog.js"

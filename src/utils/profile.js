@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ref } from "vue";
-import store from "../utils/store.js";
+import store from "./stores/store.js";
 import router from "../router/index.js";
 import { get } from "./request.js";
 import { SendWarningMessage } from "./message.js"
