@@ -3,11 +3,14 @@
     <n-loading-bar-provider>
       <n-message-provider>
         <n-dialog-provider>
-          <message />
-          <loadingbar />
-          <ndialog />
-          <MainNav v-if="store.getters.GetToken" />
-          <GuestNav v-else/>
+          <n-notification-provider>
+            <message />
+            <loadingbar />
+            <ndialog />
+            <Notification />
+            <MainNav v-if="store.getters.GetToken" />
+            <GuestNav v-else/>
+          </n-notification-provider>
         </n-dialog-provider>
       </n-message-provider>
     </n-loading-bar-provider>
@@ -18,9 +21,10 @@
 </template>
 
 <script setup>
-import {  NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, useOsTheme } from "naive-ui";
+import {  NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, NNotificationProvider, useOsTheme } from "naive-ui";
 import MainNav from "./components/MainNav.vue";
 import GuestNav from "./components/GuestNav.vue";
+import Notification from "./components/Notification.vue";
 import { computed } from "vue";
 import { NLoadingBarProvider } from "naive-ui";
 import store from "./utils/stores/store.js";
@@ -30,17 +34,29 @@ import nginx from 'highlight.js/lib/languages/nginx'
 import { get } from "./utils/request.js";
 import { SendWarningMessage } from "./utils/message.js";
 import { Logout } from "./utils/profile.js";
-// import { init_ws, SetOnMessageFunction } from "./utils/websocket.js";
+import { init_ws, SetOnMessageFunction } from "./utils/websocket.js";
+import { SendInfoNotification } from "./utils/notification.js";
 
 const osThemeRef = useOsTheme();
 const theme = computed(() => osThemeRef.value === "dark" ? darkTheme : null);
-// let inited = false;
+let inited = false;
 
 hljs.registerLanguage('ini', ini);
 hljs.registerLanguage('nginx', nginx);
 
 function getMessage(e){
-  console.log(e.data);
+  const rs = JSON.parse(e.data);
+  // 通知
+  if (rs.type === "notice") {
+    SendInfoNotification(rs.message);
+  }
+}
+
+// 初始化websocket
+if (inited === false) {
+  init_ws();
+  SetOnMessageFunction(getMessage);
+  inited = true
 }
 
 setInterval(() => {
@@ -57,14 +73,6 @@ setInterval(() => {
         Logout();
       }
     });
-
-    // 初始化websocket
-    // if (inited === false) {
-    //   init_ws();
-    //   SetOnMessageFunction(getMessage);
-    //   inited = true
-    // }
-
   }
 }, 10000);
 </script>

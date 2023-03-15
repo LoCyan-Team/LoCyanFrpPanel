@@ -13,16 +13,16 @@
         role="dialog"
         aria-modal="true"
     >
-      <p>用户名: {{ store.getters.GetUserName }}</p>
-      <p>邮箱：{{ store.getters.GetEmail }}</p>
-      <p>商品名： {{ trade_info.trade_name }}</p>
-      <p>捐赠订单号：{{ trade_no }}</p>
-      <p>捐赠方式：{{ trade_info.type }}</p>
-      <p>捐赠金额: {{ trade_info.amount }}</p>
-      <p>捐赠时间：{{ timestampToTime(trade_info.time) }}</p>
+      <n-p>用户名: {{ store.getters.GetUserName }}</n-p>
+      <n-p>邮箱：{{ store.getters.GetEmail }}</n-p>
+      <n-p>商品名： {{ trade_info.trade_name }}</n-p>
+      <n-p>捐赠订单号：{{ trade_no }}</n-p>
+      <n-p>捐赠方式：{{ trade_info.type }}</n-p>
+      <n-p>捐赠金额: {{ trade_info.amount }}</n-p>
+      <n-p>捐赠时间：{{ timestampToTime(trade_info.time) }}</n-p>
       <br />
-      <p>您可以在该页面放置你的留言，同时你可以保存以下url便于您修改你的留言</p>
-      <p>https://preview.locyanfrp.cn/donate?out_trade_no={{ trade_no }}</p>
+      <n-p>您可以在该页面放置你的留言，同时你可以保存以下url便于您修改你的留言</n-p>
+      <n-p>https://preview.locyanfrp.cn/donate?out_trade_no={{ trade_no }}</n-p>
       <template #footer>
         <n-button @click="showModal=false;"> 关闭 </n-button>
       </template>
@@ -77,7 +77,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { NFormItem, NForm, NInput, NButton, NGrid, NGridItem, NSpace, NModal, NH1, NText, NCard, NSpin, NRadioGroup, NRadio } from "naive-ui";
+import { NFormItem, NForm, NInput, NButton, NGrid, NGridItem, NSpace, NModal, NH1, NText, NCard, NSpin, NRadioGroup, NRadio, NP } from "naive-ui";
 import { get, getUrlKey } from "../utils/request.js";
 import store from "../utils/stores/store.js";
 import { SendSuccessDialog, SendWarningDialog } from "../utils/dialog.js";
