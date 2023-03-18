@@ -354,14 +354,15 @@ function deleteProxy(id) {
         positiveText: "确定",
         negativeText: "不确定",
         onPositiveClick: () => {
-            rs.then(res => {
-                if (res.status) {
-                    SendSuccessMessage(res.message);
-                    Proxies.value.splice(id, 1);
-                } else {
-                    SendErrorMessage(res.message);
-                }
-            });
+          const rs = get("https://api.locyanfrp.cn/Proxies/remove?proxyid=" + Proxies.value[id].id + "&username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken, []);
+          rs.then(res => {
+            if (res.status) {
+              SendSuccessMessage(res.message);
+              Proxies.value.splice(id, 1);
+            } else {
+              SendErrorMessage(res.message);
+            }
+          });
         },
         onNegativeClick: () => {
             SendSuccessMessage("你取消了操作！");
