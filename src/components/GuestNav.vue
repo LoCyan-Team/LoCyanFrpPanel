@@ -6,6 +6,8 @@
                     <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 15%">
                         LoCyan Frp
                     </n-gradient-text>
+                  <n-p style="margin-top: 7%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
+                  <n-p></n-p>
                 </n-space>
             </n-layout-header>
             <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
@@ -32,17 +34,27 @@
 import { NLayout } from "naive-ui";
 import { NLayoutHeader } from "naive-ui";
 import { NSpace } from "naive-ui";
-import { NGradientText } from "naive-ui";
+import { NGradientText, NP, NText } from "naive-ui";
 import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import GuestSideBar from "./GuestSideBar.vue";
 import router from "../router/index";
+import { get } from "../utils/request.js";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
 if (document.body.clientWidth >= 1000) {
     collapsed.value = false;
 }
+
+
+const hitokoto_content_rs = get('https://v1.hitokoto.cn/', []);
+const hitokoto_content = ref("");
+hitokoto_content_rs.then(res => {
+  let content = res.hitokoto;
+  let from = res.from;
+  hitokoto_content.value = content + " —— " + from;
+})
 
 function renderIcon(icon) {
     return () => h(NIcon, null, { default: () => h(icon) });

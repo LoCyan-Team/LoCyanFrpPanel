@@ -7,9 +7,8 @@
                     <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 15%">
                         LoCyan Frp
                     </n-gradient-text>
-                    <n-space justify="end" style="margin-right: 20px">
-                        <n-avatar round size="medium" :style="getStyle()" style="margin-top: 23px;" :src="avatar" @click="DoShowUserInfo()"/>
-                    </n-space>
+                  <n-p style="margin-top: 7%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
+                    <n-avatar round size="medium" :style="getStyle()" style="margin-top: 23px;margin-right: 23px" :src="avatar" @click="DoShowUserInfo()"/>
                 </n-space>
             </n-layout-header>
             <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
@@ -48,7 +47,7 @@
 import { NLayout, NAvatar } from "naive-ui";
 import { NLayoutHeader } from "naive-ui";
 import { NSpace } from "naive-ui";
-import { NGradientText } from "naive-ui";
+import { NGradientText, NP, NText } from "naive-ui";
 import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import SideBar from "./MainSideBar.vue";
@@ -56,11 +55,21 @@ import store from "../utils/stores/store.js";
 import router from "../router/index";
 import UserInfo from "./UserInfo.vue";
 import { ChangeUserInfoShow } from "./UserInfo.vue";
+import { get } from "../utils/request.js";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
 const avatar = ref("");
 const inverted = false;
+const hitokoto_content_rs = get('https://v1.hitokoto.cn/', []);
+const hitokoto_content = ref("");
+
+// 一言
+hitokoto_content_rs.then(res => {
+  let content = res.hitokoto;
+  let from = res.from;
+  hitokoto_content.value = content + " —— " + from;
+})
 
 if (document.body.clientWidth >= 1000) {
     collapsed.value = false;
