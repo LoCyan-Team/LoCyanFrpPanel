@@ -6,7 +6,7 @@
                     <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 15%">
                         LoCyan Frp
                     </n-gradient-text>
-                  <n-p style="margin-top: 7%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
+                  <n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
                   <n-p></n-p>
                 </n-space>
             </n-layout-header>

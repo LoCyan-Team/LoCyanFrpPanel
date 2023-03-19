@@ -7,7 +7,7 @@
                     <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 15%">
                         LoCyan Frp
                     </n-gradient-text>
-                  <n-p style="margin-top: 7%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
+                  <n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
                     <n-avatar round size="medium" :style="getStyle()" style="margin-top: 23px;margin-right: 23px" :src="avatar" @click="DoShowUserInfo()"/>
                 </n-space>
             </n-layout-header>
