@@ -175,7 +175,7 @@ const DoDonate = () => {
     loading_donate.value = false;
     return;
   }
-  const rs = get("https://api.locyanfrp.cn/Pay?money=" + amount.value + "&name=LoCyanFrp Donate&username=" + store.getters.GetUserName + "&type=" + pay_type.value + "&return_url=https://preview.locyanfrp.cn/donate", []);
+  const rs = get("https://api.locyanfrp.cn/Pay?money=" + amount.value + "&name=LoCyanFrpDonate&username=" + store.getters.GetUserName + "&type=" + pay_type.value + "&return_url=https://preview.locyanfrp.cn/donate", []);
   rs.then(res => {
     if (res.status === true){
       window.open(res.url);
