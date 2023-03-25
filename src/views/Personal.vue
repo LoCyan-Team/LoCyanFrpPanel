@@ -4,6 +4,23 @@
       仪表盘
     </n-text>
   </n-h1>
+  <n-modal
+      v-model:show="showads"
+      class="custom-card"
+      preset="card"
+      style="width: 600px"
+      title="通知而已"
+      size="huge"
+      :bordered="false"
+      :segmented='{content: "soft",footer: "soft"}'
+  >
+    <n-p v-html="ads_content"></n-p>
+    <template #footer>
+      <n-space justify="end">
+        <n-button @click="showads = false;"> 关闭 </n-button>
+      </n-space>
+    </template>
+  </n-modal>
   <template v-if="notice.contents">
     <n-alert title="Welcome" type="info" closable>
       欢迎来到LoCyanFrp新后台!
@@ -111,7 +128,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { NBadge, NStep, NSteps, NSkeleton, NCard, NAlert, NSpace, useMessage, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon, NSpin } from "naive-ui";
+import { NBadge, NStep, NSteps, NSkeleton, NCard, NAlert, NSpace, useMessage, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon, NSpin, NModal, NP, NButton } from "naive-ui";
 import { GetNotice } from "../utils/profile.js";
 import clipboard from '..//utils/clipboard'
 import { get } from "../utils/request.js";
@@ -127,10 +144,28 @@ const email = store.getters.GetEmail;
 const inbound = ref(store.getters.GetInBound + "Mbps 下行");
 const outbound = ref(store.getters.GetOutBound + "Mbps 上行");
 const frptoken = store.getters.GetFrpToken;
-const notice = GetNotice();
+const notice = ref("");
 const message = useMessage();
 const ProxiesRef = ref(null);
 const DontShowFrptoken = ref(true);
+const showads = ref(false);
+const ads_content = ref("");
+
+const notice_res = get("https://api.locyanfrp.cn/App", []);
+notice_res.then(res => {
+  notice.value = res;
+  if (notice.value.ads !== ""){
+    ads_content.value = marked(notice.value.ads) + '<style>' +
+        '[href^="https"], [href^="http"]{' +
+        '  color: dodgerblue;' +
+        'p {' +
+        '  padding: 2px;' +
+        '}' +
+        '</style>';
+    showads.value = true;
+  }
+});
+
 async function changeShouFrptoken(event) {
   DontShowFrptoken.value = !DontShowFrptoken.value
   clipboard(frptoken, event)

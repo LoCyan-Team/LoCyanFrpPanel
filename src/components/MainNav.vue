@@ -44,10 +44,7 @@
 </template>
 
 <script setup>
-import { NLayout, NAvatar } from "naive-ui";
-import { NLayoutHeader } from "naive-ui";
-import { NSpace } from "naive-ui";
-import { NGradientText, NP, NText } from "naive-ui";
+import { NGradientText, NP, NText, NModal, NButton, NSpace, NLayoutHeader, NLayout, NAvatar } from "naive-ui";
 import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 import SideBar from "./MainSideBar.vue";
@@ -93,7 +90,7 @@ function getStyle() {
 }
 </script>
 <script>
-import {ref} from "vue";
+import { ref } from "vue";
 
 export const ShowSideBar = ref(false);
 export function ChangeShowSideBar_Main (is_show){

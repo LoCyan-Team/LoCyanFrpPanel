@@ -54,8 +54,8 @@ function getMessage(e){
 
 // 初始化websocket
 if (inited === false) {
-  init_ws();
-  SetOnMessageFunction(getMessage);
+  // init_ws();
+  // SetOnMessageFunction(getMessage);
   inited = true
 }
 
