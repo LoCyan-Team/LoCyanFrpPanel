@@ -18,6 +18,7 @@
     </n-form-item>
     <n-form-item label="verify" path="verify">
       <n-input type="text" v-model:value="model.verify" placeholder="验证码" />
+      &nbsp;&nbsp;&nbsp;
       <n-button ghost round type="primary" @click="sendcode"> 发送验证码 </n-button>
     </n-form-item>
     <div style="display: flex; justify-content: flex-end">
@@ -67,7 +68,7 @@ function sendcode() {
   });
 }
 
-function register(e) {
+function register() {
   ldb.start();
   const rs = post("https://api.locyanfrp.cn/User/DoReg", model.value);
   rs.then(res => {
