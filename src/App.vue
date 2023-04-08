@@ -9,7 +9,7 @@
             <ndialog />
             <Notification />
             <MainNav v-if="store.getters.GetToken" />
-            <GuestNav v-else/>
+            <GuestNav v-else />
           </n-notification-provider>
         </n-dialog-provider>
       </n-message-provider>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import {  NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, NNotificationProvider, useOsTheme } from "naive-ui";
+import { NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, NNotificationProvider, useOsTheme } from "naive-ui";
 import MainNav from "./components/MainNav.vue";
 import GuestNav from "./components/GuestNav.vue";
 import Notification from "./components/Notification.vue";
@@ -44,7 +44,7 @@ let inited = false;
 hljs.registerLanguage('ini', ini);
 hljs.registerLanguage('nginx', nginx);
 
-function getMessage(e){
+function getMessage(e) {
   const rs = JSON.parse(e.data);
   // 通知
   if (rs.type === "notice") {
@@ -62,13 +62,13 @@ if (inited === false) {
 setInterval(() => {
   if (store.getters.GetToken) {
     const rs = get("https://api.locyanfrp.cn/Account/info?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken, [])
-    rs.then(res=> {
-      if(res.status === 0){
+    rs.then(res => {
+      if (res.status === 0) {
         localStorage.setItem("proxies", res.proxies_num);
         localStorage.setItem("traffic", res.traffic);
         store.commit("setLimit", res);
       }
-      if (res.status === -3){
+      if (res.status === -3) {
         SendWarningMessage("登录过期或未登录，请使用LCF账户登录后台！");
         Logout();
       }

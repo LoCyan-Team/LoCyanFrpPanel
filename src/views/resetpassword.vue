@@ -4,7 +4,7 @@
       <n-form ref="formRef" :model="model" :rules="rules" label-width="auto" require-mark-placement="right-hanging"
         size="medium" id="item" v-show="send_resset_mail">
         <n-form-item label="用户名 / 邮箱" path="username">
-          <n-input type="text" v-model:value="model.username" placeholder="用户名" @keyup.enter="sendresetmail"/>
+          <n-input type="text" v-model:value="model.username" placeholder="用户名" @keyup.enter="sendresetmail" />
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
           <n-space>
@@ -13,13 +13,13 @@
           </n-space>
         </div>
       </n-form>
-      <n-form ref="formRef" :model="reset_password" :rules="rules" label-width="auto" require-mark-placement="right-hanging"
-              size="medium" id="item" v-show="!send_resset_mail">
+      <n-form ref="formRef" :model="reset_password" :rules="rules" label-width="auto"
+        require-mark-placement="right-hanging" size="medium" id="item" v-show="!send_resset_mail">
         <n-form-item label="新密码" path="password">
-          <n-input type="text" v-model:value="reset_password.password" placeholder="新密码"/>
+          <n-input type="text" v-model:value="reset_password.password" placeholder="新密码" />
         </n-form-item>
         <n-form-item label="重复密码" path="confirm">
-          <n-input type="text" v-model:value="reset_password.confirm" placeholder="重复密码"/>
+          <n-input type="text" v-model:value="reset_password.confirm" placeholder="重复密码" />
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
           <n-space>
@@ -58,7 +58,7 @@ const reset_password = ref([
 
 // 检查是否存在redirect值
 const code = getUrlKey("code");
-if (code !== null){
+if (code !== null) {
   console.log("重置密码标识符 " + code);
   send_resset_mail.value = false;
 }
@@ -67,13 +67,13 @@ function gologin() {
   router.push("/login");
 }
 
-function doresetrequest(){
-  if (code === "" || code === undefined){
+function doresetrequest() {
+  if (code === "" || code === undefined) {
     message.warning("非法请求")
     return;
   }
 
-  if (status.value === "reseting"){
+  if (status.value === "reseting") {
     message.warning("上一个请求正在处理！");
     return;
   }
@@ -92,7 +92,7 @@ function doresetrequest(){
 }
 
 function sendresetmail() {
-  if (status.value === "sending"){
+  if (status.value === "sending") {
     message.warning("上一个请求正在处理！");
     return;
   }

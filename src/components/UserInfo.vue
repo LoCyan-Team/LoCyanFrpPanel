@@ -1,11 +1,7 @@
 <template>
-  <n-drawer v-model:show = "show" :width=Width_DiaLog>
+  <n-drawer v-model:show="show" :width=Width_DiaLog>
     <n-drawer-content title="个人信息" closable>
-      <n-avatar
-          round
-          :size="128"
-          :src="store.getters.GetAvatar"
-      />
+      <n-avatar round :size="128" :src="store.getters.GetAvatar" />
       <br />
       <n-text>{{ store.getters.GetUserName }}</n-text>
       <br />
@@ -25,8 +21,8 @@
 
 import { Logout } from "../utils/profile.js";
 import store from "../utils/stores/store.js";
-import { NDrawer, NDrawerContent, NAvatar, NText, NButton, NH2, NH5, NSpace} from "naive-ui";
-import {SendSuccessMessage} from "../utils/message.js";
+import { NDrawer, NDrawerContent, NAvatar, NText, NButton, NH2, NH5, NSpace } from "naive-ui";
+import { SendSuccessMessage } from "../utils/message.js";
 import { ref } from "vue";
 import { get } from "../utils/request.js";
 
@@ -37,11 +33,11 @@ if (document.body.clientWidth <= 800) {
   Width_DiaLog.value = "75vw";
 }
 
-function DoBindQQ(){
+function DoBindQQ() {
   binding.value = true;
   const rs = get("https://api.locyanfrp.cn/OAuth/BindQQAccount?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken, []);
   rs.then(res => {
-    if (res.status){
+    if (res.status) {
       window.open(res.url);
       binding.value = false;
     }

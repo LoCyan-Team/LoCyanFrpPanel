@@ -5,7 +5,7 @@ import router from "../router/index.js";
 import { get } from "./request.js";
 import { SendWarningMessage } from "./message.js"
 
-export function GetNotice(){
+export function GetNotice() {
     const rs = ref("");
     axios({
         method: 'get',
@@ -16,11 +16,11 @@ export function GetNotice(){
     return rs;
 }
 
-export function GetLoginStatus(username, token){
+export function GetLoginStatus(username, token) {
     const rs = get("https://api.locyanfrp.cn/Account/info?username=" + username + "&token=" + token, [])
     const return_res = ref("");
-    rs.then(res=> {
-        if(res.status !== 0){
+    rs.then(res => {
+        if (res.status !== 0) {
             SendWarningMessage("登录过期或未登录，请使用LCF账户登录后台！");
             Logout();
         } else {
@@ -31,10 +31,10 @@ export function GetLoginStatus(username, token){
     return return_res;
 }
 
-export function GetProxies(username, token){
+export function GetProxies(username, token) {
     const rs = get("https://api.locyanfrp.cn/Proxies/GetProxiesList?username=" + username + "&token=" + token, [])
-    rs.then(res=> {
-        if(res.status !== 0){
+    rs.then(res => {
+        if (res.status !== 0) {
             return res;
         } else {
             localStorage.setItem("proxies", res.count);
@@ -43,7 +43,7 @@ export function GetProxies(username, token){
     });
 }
 
-export function Logout(){
+export function Logout() {
     store.commit("delToken");
     store.commit("delUserInfo");
     router.push("/login");

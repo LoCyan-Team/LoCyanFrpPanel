@@ -37,7 +37,7 @@ import { NGrid, NGridItem, NCard, NInput, NForm, NFormItem, NButton, NSpace, NH1
 import { ref } from 'vue';
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';
-import {  get } from "../utils/request.js";
+import { get } from "../utils/request.js";
 import store from "../utils/stores/store.js"
 
 const CommentList = ref([]);
@@ -48,14 +48,14 @@ const NewYear = ref({
 
 
 function timestampToTime(timestamp) {
-  const date = new Date(timestamp * 1000);
-  const Y = date.getFullYear() + "-";
-  const M = (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "-";
-  const D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
-  const h = date.getHours() + ":";
-  const m = date.getMinutes() + ":";
-  const s = date.getSeconds();
-  return Y + M + D + h + m + s;
+    const date = new Date(timestamp * 1000);
+    const Y = date.getFullYear() + "-";
+    const M = (date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "-";
+    const D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+    const h = date.getHours() + ":";
+    const m = date.getMinutes() + ":";
+    const s = date.getSeconds();
+    return Y + M + D + h + m + s;
 }
 
 function submitcomment() {
@@ -63,7 +63,7 @@ function submitcomment() {
     if (NewYear.value.comment === "") {
         SendErrorDialog("内容不可为空！");
     }
-    const rs = get("https://api.locyanfrp.cn/App/SubmitComment?username=" + store.getters.GetUserName + "&comment=" + NewYear.value.comment ,[]);
+    const rs = get("https://api.locyanfrp.cn/App/SubmitComment?username=" + store.getters.GetUserName + "&comment=" + NewYear.value.comment, []);
     rs.then(res => {
         if (res.status) {
             FinishLoadingBar();

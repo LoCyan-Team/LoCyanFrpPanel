@@ -5,14 +5,7 @@
     </n-text>
   </n-h1>
   <n-modal v-model:show="showModal">
-    <n-card
-        style="width: 600px"
-        title="感谢您的捐助！"
-        :bordered="false"
-        size="huge"
-        role="dialog"
-        aria-modal="true"
-    >
+    <n-card style="width: 600px" title="感谢您的捐助！" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <n-p>用户名: {{ store.getters.GetUserName }}</n-p>
       <n-p>邮箱：{{ store.getters.GetEmail }}</n-p>
       <n-p>商品名： {{ trade_info.trade_name }}</n-p>
@@ -24,7 +17,7 @@
       <n-p>您可以在该页面放置你的留言，同时你可以保存以下url便于您修改你的留言</n-p>
       <n-p>https://preview.locyanfrp.cn/donate?out_trade_no={{ trade_no }}</n-p>
       <template #footer>
-        <n-button @click="showModal=false;"> 关闭 </n-button>
+        <n-button @click="showModal = false;"> 关闭 </n-button>
       </template>
     </n-card>
   </n-modal>
@@ -42,7 +35,7 @@
       </n-radio-group>
       <br />
       <br />
-      <n-input type="text" v-model:value="amount" placeholder="金额"/>
+      <n-input type="text" v-model:value="amount" placeholder="金额" />
       <br />
       <br />
       <n-button @click="DoDonate" :loading="loading_donate"> 赞助 </n-button>
@@ -50,7 +43,7 @@
     <n-grid-item span="1" v-show="ShowMessageLabel">
       <n-form ref="formRef" :model="message" label-width="auto" require-mark-placement="right-hanging" size="medium">
         <n-form-item label="留言" path="message">
-          <n-input type="text" v-model:value="message.message" placeholder="赞助的留言"/>
+          <n-input type="text" v-model:value="message.message" placeholder="赞助的留言" />
         </n-form-item>
         <n-space>
           <n-button type="primary" style="margin-right: 10px;" @click="submit" :loading="loading_submit"> 提交 </n-button>
@@ -60,7 +53,7 @@
   </n-grid>
   <br />
   <n-spin :show="LoadingDonateList">
-    <n-grid cols="3" item-responsive>
+    <n-grid cols="3" item-responsive :x-gap="3" :y-gap="3">
       <n-grid-item v-for="item in DonateList" span="0:3 950:1">
         <n-space style="display: block;">
           <n-card :title="item.username + ' [ ' + item.amount + '人民币 ] '">
@@ -101,14 +94,14 @@ const trade_info = ref({
 });
 const default_pay_type = "alipay";
 const payments = ref([
-    {
-      "label": "支付宝",
-      "value": "alipay"
-    }
+  {
+    "label": "支付宝",
+    "value": "alipay"
+  }
 ]);
 const pay_type = ref("");
 
-if (trade_no !== null){
+if (trade_no !== null) {
   ShowMessageLabel.value = true;
   showModal.value = true;
   const trade_res = get("https://api.locyanfrp.cn/donate/GetDonateInfo?trade_no=" + trade_no, [])
@@ -149,7 +142,7 @@ const timestampToTime = (timestamp) => {
 
 const submit = () => {
   loading_submit.value = true;
-  if (message.message === ""){
+  if (message.message === "") {
     SendWarningDialog("内容不能为空！")
     loading_submit.value = false;
     return;
@@ -157,7 +150,7 @@ const submit = () => {
 
   const rs = get("https://api.locyanfrp.cn/donate/SetMessage?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken + "&trade_no=" + trade_no + "&message=" + message.value.message, []);
   rs.then(res => {
-    if (res.status === true){
+    if (res.status === true) {
       SendSuccessDialog(res.message);
       GetDonateList();
       loading_submit.value = false;
@@ -170,14 +163,14 @@ const submit = () => {
 
 const DoDonate = () => {
   loading_donate.value = true;
-  if (pay_type.value === "" || pay_type.value === null){
+  if (pay_type.value === "" || pay_type.value === null) {
     SendWarningDialog("请选择支付方式");
     loading_donate.value = false;
     return;
   }
   const rs = get("https://api.locyanfrp.cn/Pay?money=" + amount.value + "&name=LoCyanFrpDonate&username=" + store.getters.GetUserName + "&type=" + pay_type.value + "&return_url=https://preview.locyanfrp.cn/donate", []);
   rs.then(res => {
-    if (res.status === true){
+    if (res.status === true) {
       window.open(res.url);
       loading_donate.value = false;
     } else {

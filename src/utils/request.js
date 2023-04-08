@@ -6,14 +6,14 @@ import QS from 'qs';
 import store from './stores/store.js'
 import router from "../router/index.js";
 import Base64 from "qs/lib/utils.js";
- 
+
 //这一步的目的是判断出当前是开发环境还是生成环境，方法不止一种，达到目的就行
 // if(process.env.NODE_ENV=="development"){
 //   baseURL=''
 // }else{
 //   baseURL=''
 // }
- 
+
 // 使用自定义的配置文件发送请求
 const instance = axios.create({
     timeout: 80000,
@@ -36,7 +36,7 @@ instance.interceptors.request.use(function (config) {
     // 对请求错误做些什么
     return Promise.reject(error);
 });
- 
+
 // 这里说一下token，一般是在登录完成之后，将用户的token通过localStorage或者cookie存在本地，
 // 然后用户每次在进入页面的时候（即在main.js中），会首先从本地存储中读取token，如果token存在说明用户已经登陆过，
 // 则更新vuex中的token状态。然后，在每次请求接口的时候，都会在请求的header中携带token，
@@ -86,14 +86,14 @@ instance.interceptors.response.use(function (response) {
                     });
                 }, 1000);
                 break;
- 
+
             // 404请求不存在
             case 404:
                 this.$message({
                     message: '网络请求不存在',
                     duration: 1500,
                     type: 'success'
- 
+
                 });
                 break;
             // 其他错误，直接抛出错误提示
@@ -108,7 +108,7 @@ instance.interceptors.response.use(function (response) {
         return Promise.reject(error.response);
     }
 });
- 
+
 /**
  * get方法，对应get请求
  * @param {String} url [请求的url地址]
@@ -145,15 +145,15 @@ export function post(url, params, headers) {
     });
 }
 
-export function getUrlKey(name){
+export function getUrlKey(name) {
     let path = window.location.href.split("?") //分割url
     // 拼接链接
     let href = path[0] + "?" + path[1]
     // 如果不存在则抛出null
-    if (path[1] === null || path[1] === "" || path[1] === undefined){
+    if (path[1] === null || path[1] === "" || path[1] === undefined) {
         return null;
     }
     let query = Base64.decode(path[1])  //解码
-    href = path[0]+"?"+ query //解码后重组
+    href = path[0] + "?" + query //解码后重组
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(href) || [undefined, ""])[1].replace(/\+/g, '%20')) || null
 }

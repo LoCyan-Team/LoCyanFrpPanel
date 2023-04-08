@@ -7,7 +7,7 @@
   <n-form :ref="formRef" :model="ProxyInfo" :rules="rules" label-width="auto" size="large">
     <n-space vertical>
       <n-form-item label="选择服务器" path="node">
-        <n-select v-model:value="ProxyInfo.node" :options="ServerList" size="medium"/>
+        <n-select v-model:value="ProxyInfo.node" :options="ServerList" size="medium" />
       </n-form-item>
     </n-space>
     <div id="item">
@@ -55,8 +55,7 @@
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="内网端口" path="local_port">
-          <n-input v-model:value="ProxyInfo.local_port"
-            placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19136 泰拉瑞亚:7777" />
+          <n-input v-model:value="ProxyInfo.local_port" placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19136 泰拉瑞亚:7777" />
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">

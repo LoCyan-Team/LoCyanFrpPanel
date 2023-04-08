@@ -1,33 +1,33 @@
 <template>
-    <n-space vertical>
-        <n-layout>
-            <n-layout-header :inverted="inverted" bordered>
-                <n-space justify="space-between">
-                    <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 15%">
-                        LoCyan Frp
-                    </n-gradient-text>
-                  <n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
-                  <n-p></n-p>
-                </n-space>
-            </n-layout-header>
-            <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
-              <GuestSideBar v-if="ShowSideBar"/>
-                <n-layout :native-scrollbar="false">
-                  <div style="margin-right: 15px; margin-left: 15px">
-                    <router-view v-slot="{ Component }">
-                      <KeepAlive :max="10">
-                        <Transition name="fade" mode="out-in" :duration="400">
-                          <div :key="router.currentRoute.value.name">
-                            <component :is="Component" />
-                          </div>
-                        </Transition>
-                      </KeepAlive>
-                    </router-view>
+  <n-space vertical>
+    <n-layout>
+      <n-layout-header :inverted="inverted" bordered>
+        <n-space justify="space-between">
+          <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 15%">
+            LoCyan Frp
+          </n-gradient-text>
+          <n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
+          <n-p></n-p>
+        </n-space>
+      </n-layout-header>
+      <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
+        <GuestSideBar v-if="ShowSideBar" />
+        <n-layout :native-scrollbar="false">
+          <div style="margin-right: 15px; margin-left: 15px">
+            <router-view v-slot="{ Component }">
+              <KeepAlive :max="10">
+                <Transition name="fade" mode="out-in" :duration="400">
+                  <div :key="router.currentRoute.value.name">
+                    <component :is="Component" />
                   </div>
-                </n-layout>
-            </n-layout>
+                </Transition>
+              </KeepAlive>
+            </router-view>
+          </div>
         </n-layout>
-    </n-space>
+      </n-layout>
+    </n-layout>
+  </n-space>
 </template>
 
 <script setup>
@@ -44,7 +44,7 @@ import { get } from "../utils/request.js";
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
 if (document.body.clientWidth >= 1000) {
-    collapsed.value = false;
+  collapsed.value = false;
 }
 
 
@@ -57,7 +57,7 @@ hitokoto_content_rs.then(res => {
 })
 
 function renderIcon(icon) {
-    return () => h(NIcon, null, { default: () => h(icon) });
+  return () => h(NIcon, null, { default: () => h(icon) });
 }
 
 const inverted = false;
@@ -66,15 +66,17 @@ const inverted = false;
 import { ref } from "vue";
 
 export const ShowSideBar = ref(false);
-export function ChangeShowSideBar_Guest (is_show){
+export function ChangeShowSideBar_Guest(is_show) {
   ShowSideBar.value = is_show;
 }
 </script>
 <style>
-.fade-enter-active, .fade-leave-active{
+.fade-enter-active,
+.fade-leave-active {
   transition: all 0.5s ease
 }
-.fade-enter, .fade-leave-active {
+
+.fade-enter,
+.fade-leave-active {
   opacity: 0
-}
-</style>
+}</style>

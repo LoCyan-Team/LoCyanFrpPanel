@@ -2,11 +2,11 @@ import Clipboard from 'clipboard' //引入cliboard
 import { SendSuccessMessage, SendErrorMessage } from './message'
 
 function clipboardSuccess(msg) {
-    SendSuccessMessage(msg || "复制成功");
+  SendSuccessMessage(msg || "复制成功");
 };
 
 function clipboardError(msg) {
-    SendErrorMessage(msg || "嗯...发生了点小错误");
+  SendErrorMessage(msg || "嗯...发生了点小错误");
 };
 
 export default function handleClipboard(text, event, msg) {

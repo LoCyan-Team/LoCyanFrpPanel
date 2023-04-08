@@ -30,13 +30,13 @@ const store = new Vuex.Store({
             return state.inbound / 128 || Number(localStorage.getItem("inbound")) / 128 || 0;
         },
         GetOutBound(state) {
-            return state.outbound / 128 || Number(localStorage.getItem("outbound")) /128 || 0;
+            return state.outbound / 128 || Number(localStorage.getItem("outbound")) / 128 || 0;
         },
         GetAvatar(state) {
             return state.avatar || localStorage.getItem("avatar") + "&size=512" || "";
         },
         GetTraffic(state) {
-            return Number(state.traffic) / 1024  || Number(localStorage.getItem("traffic")) / 1024 || 0;
+            return Number(state.traffic) / 1024 || Number(localStorage.getItem("traffic")) / 1024 || 0;
         }
     },
     mutations: {
@@ -66,7 +66,7 @@ const store = new Vuex.Store({
             localStorage.setItem('outbound', userdata.outbound);
             localStorage.setItem('avatar', userdata.avatar);
         },
-        setLimit(state, limit_info){
+        setLimit(state, limit_info) {
             state.inbound = limit_info.inbound;
             state.outbound = limit_info.outbound;
             localStorage.setItem("inbound", limit_info.inbound);

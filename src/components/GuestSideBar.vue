@@ -1,9 +1,9 @@
 <template>
-        <n-layout-sider bordered show-trigger :collapsed="collapsed" @collapse="collapsed = true"
-                        @expand="collapsed = false" collapse-mode="width" :collapsed-width="64" :native-scrollbar="true"
-                        id="sider" style="height: 100%;bottom: 0">
-          <n-menu :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22" :options="menuOptions" style="" :value="active"  @update:value="handleUpdateValue"/>
-        </n-layout-sider>
+  <n-layout-sider bordered show-trigger :collapsed="collapsed" @collapse="collapsed = true" @expand="collapsed = false"
+    collapse-mode="width" :collapsed-width="64" :native-scrollbar="true" id="sider" style="height: 100%;bottom: 0">
+    <n-menu :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22" :options="menuOptions" style=""
+      :value="active" @update:value="handleUpdateValue" />
+  </n-layout-sider>
 </template>
 
 <script setup>

@@ -1,4 +1,5 @@
-<template><!-- 编辑隧道的模态框 -->
+<template>
+    <!-- 编辑隧道的模态框 -->
     <n-modal v-model:show="showEditModal" class="custom-card" preset="card" :style="bodyStyle"
         :title="'编辑隧道 - 隧道ID: ' + SelectProxyID" size="huge" :bordered="false" :segmented="segmented"
         :mask-closable="false">
@@ -7,7 +8,7 @@
         </template>
         <n-form :ref="formRef" :model="ProxyEditInfo" :rules="rules" label-width="auto" size="large">
             <n-grid cols="2" item-responsive>
-                <n-grid-item span="0:2 1000:1" >
+                <n-grid-item span="0:2 1000:1">
                     <n-form-item label="选择服务器" path="node">
                         <n-select v-model:value="ProxyEditInfo.node" :options="EditServerList" />
                     </n-form-item>
@@ -18,7 +19,7 @@
                         <n-input v-model:value="ProxyEditInfo.proxy_name" placeholder="隧道名" />
                     </n-form-item>
                 </n-grid-item>
-                <n-grid-item span="0:2 1000:1" >
+                <n-grid-item span="0:2 1000:1">
                     <n-form-item label="穿透协议" path="proxy_type">
                         <n-radio-group v-model:value="ProxyEditInfo.proxy_type">
                             <n-radio-button value="1">
@@ -42,23 +43,23 @@
                         </n-radio-group>
                     </n-form-item>
                 </n-grid-item>
-                <n-grid-item span="0:2 1000:1" >
+                <n-grid-item span="0:2 1000:1">
                     <n-form-item label="内网IP" path="local_ip">
                         <n-input v-model:value="ProxyEditInfo.local_ip" placeholder="内网IP，例如127.0.0.1" />
                     </n-form-item>
                 </n-grid-item>
-                <n-grid-item span="0:2 1000:1" >
+                <n-grid-item span="0:2 1000:1">
                     <n-form-item label="内网端口" path="local_port">
                         <n-input v-model:value="ProxyEditInfo.local_port"
                             placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19136 泰拉瑞亚:7777" />
                     </n-form-item>
                 </n-grid-item>
-                <n-grid-item span="0:2 1000:1" >
+                <n-grid-item span="0:2 1000:1">
                     <n-form-item label="远程端口" path="remote_port">
                         <n-input v-model:value="ProxyEditInfo.remote_port" placeholder="映射到远程服务器上的端口" />
                     </n-form-item>
                 </n-grid-item>
-                <n-grid-item span="0:2 1000:1" >
+                <n-grid-item span="0:2 1000:1">
                     <n-form-item label="自定义域名" path="domain">
                         <n-input v-model:value="ProxyEditInfo.domain" placeholder="HTTPS/HTTP需要填写，其他协议不需要填写" />
                     </n-form-item>
@@ -105,10 +106,10 @@
                             {{ item.proxy_type }}
                         </n-tag>
                         <n-tag :bordered="false" type="info" v-if="ServerList[item.node]">
-                          {{  ServerList[item.node].name||"未知节点" }}
+                            {{ ServerList[item.node].name || "未知节点" }}
                         </n-tag>
                         <n-tag :bordered="false" type="error" v-else>
-                          未知节点
+                            未知节点
                         </n-tag>
                         <template #footer>
                             <div v-if="ServerList[item.node]">
@@ -139,32 +140,32 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
+import { ref } from 'vue';
 import {
-  NAlert,
-  NButton,
-  NCard,
-  NForm,
-  NFormItem,
-  NGi,
-  NGrid,
-  NGridItem,
-  NH1,
-  NInput,
-  NModal,
-  NRadioButton,
-  NRadioGroup,
-  NSelect,
-  NSpace,
-  NSpin,
-  NTag,
-  NText,
-  useDialog
+    NAlert,
+    NButton,
+    NCard,
+    NForm,
+    NFormItem,
+    NGi,
+    NGrid,
+    NGridItem,
+    NH1,
+    NInput,
+    NModal,
+    NRadioButton,
+    NRadioGroup,
+    NSelect,
+    NSpace,
+    NSpin,
+    NTag,
+    NText,
+    useDialog
 } from 'naive-ui';
 import store from '../utils/stores/store.js';
-import {get} from '../utils/request.js';
-import {SendErrorMessage, SendSuccessMessage} from '../utils/message';
-import {SendErrorDialog, SendSuccessDialog} from "../utils/dialog.js"
+import { get } from '../utils/request.js';
+import { SendErrorMessage, SendSuccessMessage } from '../utils/message';
+import { SendErrorDialog, SendSuccessDialog } from "../utils/dialog.js"
 
 const show = ref(true);
 const showEditModal = ref(false);
@@ -184,8 +185,8 @@ const segmented = {
 
 // 隧道类型翻译
 function transtype(type) {
-  let pt;
-  if (type === "tcp") {
+    let pt;
+    if (type === "tcp") {
         pt = "1";
     } else if (type === "udp") {
         pt = "2";
@@ -307,11 +308,11 @@ const ServerList = ref([
 function initList() {
     const rs2 = get("https://api.locyanfrp.cn/Proxies/GetServerList", []);
     rs2.then(res => {
-      let i = 0;
-      res.forEach(s => {
-          EditServerList.value[i] = {
-              "label": s.name,
-              "value": s.id
+        let i = 0;
+        res.forEach(s => {
+            EditServerList.value[i] = {
+                "label": s.name,
+                "value": s.id
             };
 
             ServerList.value[s.id] = s;
@@ -354,15 +355,15 @@ function deleteProxy(id) {
         positiveText: "确定",
         negativeText: "不确定",
         onPositiveClick: () => {
-          const rs = get("https://api.locyanfrp.cn/Proxies/remove?proxyid=" + Proxies.value[id].id + "&username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken, []);
-          rs.then(res => {
-            if (res.status) {
-              SendSuccessMessage(res.message);
-              Proxies.value.splice(id, 1);
-            } else {
-              SendErrorMessage(res.message);
-            }
-          });
+            const rs = get("https://api.locyanfrp.cn/Proxies/remove?proxyid=" + Proxies.value[id].id + "&username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken, []);
+            rs.then(res => {
+                if (res.status) {
+                    SendSuccessMessage(res.message);
+                    Proxies.value.splice(id, 1);
+                } else {
+                    SendErrorMessage(res.message);
+                }
+            });
         },
         onNegativeClick: () => {
             SendSuccessMessage("你取消了操作！");

@@ -29,24 +29,24 @@
                 <p></p>
                 <p>例如：</p>
                 <n-code code="listen 80 proxy_protocol
-listen 443 ssl http2 proxy_protocol
-                " language="nginx" word-wrap></n-code>
+    listen 443 ssl http2 proxy_protocol
+                    " language="nginx" word-wrap></n-code>
                 <p>随后再在root下方放入这三行代码</p>
                 <n-code code="real_ip_header proxy_protocol;
-real_ip_recursive on;
-set_real_ip_from 127.0.0.1;" language="nginx" word-wrap></n-code>
+    real_ip_recursive on;
+    set_real_ip_from 127.0.0.1;" language="nginx" word-wrap></n-code>
                 <p>最后一个参数中的127.0.0.1请你改为创建隧道时填写的本地IP（Local_Ip）</p>
                 <p>随后整个配置文件长得差不多像这样</p>
                 <n-code code="server {
-    listen 80 proxy_protocol
-    listen 443 ssl http2 proxy_protocol
-    server_name = xxx.com
-    index index.html index.php
-    root /ww/wwwroot/xxx.com
-    real_ip_header proxy_protocol;
-    real_ip_recursive on;
-    set_real_ip_from 127.0.0.1;
-}" language="nginx" word-wrap></n-code>
+        listen 80 proxy_protocol
+        listen 443 ssl http2 proxy_protocol
+        server_name = xxx.com
+        index index.html index.php
+        root /ww/wwwroot/xxx.com
+        real_ip_header proxy_protocol;
+        real_ip_recursive on;
+        set_real_ip_from 127.0.0.1;
+    }" language="nginx" word-wrap></n-code>
                 <p>保存，重启Nginx，你就可以获取用户的真实IP了！</p>
             </n-card>
         </n-grid-item>
@@ -78,9 +78,9 @@ rs.then(res => {
             node.value = s.id;
             UpdateValue(s.id);
         }
-      ServerList.value[i] = {
-          "label": s.name,
-          "value": s.id
+        ServerList.value[i] = {
+            "label": s.name,
+            "value": s.id
         };
         i = i + 1;
     });
@@ -91,7 +91,7 @@ function copy(data, event) {
 }
 
 function UpdateValue(value) {
-    const rs = get("https://api.locyanfrp.cn/Proxies/GetConfigFile?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken + "&node=" + value ,[]);
+    const rs = get("https://api.locyanfrp.cn/Proxies/GetConfigFile?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken + "&node=" + value, []);
     rs.then(res => {
         if (res.status) {
             SendSuccessMessage(res.message);

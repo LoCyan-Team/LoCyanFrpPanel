@@ -1,9 +1,10 @@
 <template>
-        <n-layout-sider bordered show-trigger :collapsed="collapsed" @collapse="collapsed = true"
-                        @expand="collapsed = false" collapse-mode="width" :collapsed-width="64" :native-scrollbar="true"
-                        :inverted="inverted" id="sider" style="height: 100%;bottom: 0">
-          <n-menu ref="menuInstRef" :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22" :options="menuOptions" style="" :value="active"  @update:value="handleUpdateValue"/>
-        </n-layout-sider>
+  <n-layout-sider bordered show-trigger :collapsed="collapsed" @collapse="collapsed = true" @expand="collapsed = false"
+    collapse-mode="width" :collapsed-width="64" :native-scrollbar="true" :inverted="inverted" id="sider"
+    style="height: 100%;bottom: 0">
+    <n-menu ref="menuInstRef" :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22"
+      :options="menuOptions" style="" :value="active" @update:value="handleUpdateValue" />
+  </n-layout-sider>
 </template>
 
 <script setup>
@@ -113,24 +114,24 @@ const menuOptions = [
     children: [
       {
         label: () => h(
-            "a",
-            {
-              href: "https://download.locyan.cn",
-              target: "_blank"
-            },
-            "软件下载"
+          "a",
+          {
+            href: "https://download.locyan.cn",
+            target: "_blank"
+          },
+          "软件下载"
         ),
         key: "software_download",
         icon: renderIcon(CloudDownloadOutline),
       },
       {
         label: () => h(
-            "a",
-            {
-              href: "https://doc.locyan.cn",
-              target: "_blank"
-            },
-            "帮助文档"
+          "a",
+          {
+            href: "https://doc.locyan.cn",
+            target: "_blank"
+          },
+          "帮助文档"
         ),
         key: "help_docs",
         icon: renderIcon(BookIcon),

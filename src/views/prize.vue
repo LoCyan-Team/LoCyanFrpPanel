@@ -28,9 +28,9 @@
 <script setup>
 import { NGrid, NGridItem, NCard, NButton, NSpace, NTag, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
-import {  SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
+import { SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';
-import {  get } from "../utils/request.js";
+import { get } from "../utils/request.js";
 import store from "../utils/stores/store.js"
 
 const PrizesList = ref([
@@ -80,8 +80,8 @@ function submitjoin(id) {
 GetPrizeList();
 
 function GetPrizeList() {
-  let i = 0;
-  const rs = get("https://api.locyanfrp.cn/Prize/GetPrizes", []);
+    let i = 0;
+    const rs = get("https://api.locyanfrp.cn/Prize/GetPrizes", []);
     rs.then(res => {
         // 用于展示用户
         // 用奖品ID排列

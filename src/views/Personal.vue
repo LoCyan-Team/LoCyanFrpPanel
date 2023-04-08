@@ -4,16 +4,8 @@
       仪表盘
     </n-text>
   </n-h1>
-  <n-modal
-      v-model:show="showads"
-      class="custom-card"
-      preset="card"
-      style="width: 600px"
-      title="通知而已"
-      size="huge"
-      :bordered="false"
-      :segmented='{content: "soft",footer: "soft"}'
-  >
+  <n-modal v-model:show="showads" class="custom-card" preset="card" style="width: 600px" title="通知而已" size="huge"
+    :bordered="false" :segmented='{ content: "soft", footer: "soft" }'>
     <n-p v-html="ads_content"></n-p>
     <template #footer>
       <n-space justify="end">
@@ -65,7 +57,7 @@
         </template>
         <br>
       </n-card>
-<br />
+      <br />
       <n-card title="数据报表" size="large">
         <n-space>
           <n-statistic label="剩余流量" tabular-nums>
@@ -128,8 +120,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { NBadge, NStep, NSteps, NSkeleton, NCard, NAlert, NSpace, useMessage, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon, NSpin, NModal, NP, NButton } from "naive-ui";
-import { GetNotice } from "../utils/profile.js";
+import { NBadge, NStep, NSteps, NSkeleton, NCard, NAlert, NSpace, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon, NSpin, NModal, NP, NButton } from "naive-ui";
 import clipboard from '..//utils/clipboard'
 import { get } from "../utils/request.js";
 import { AngleRight, Key } from '@vicons/fa';
@@ -145,7 +136,6 @@ const inbound = ref(store.getters.GetInBound + "Mbps 下行");
 const outbound = ref(store.getters.GetOutBound + "Mbps 上行");
 const frptoken = store.getters.GetFrpToken;
 const notice = ref("");
-const message = useMessage();
 const ProxiesRef = ref(null);
 const DontShowFrptoken = ref(true);
 const showads = ref(false);
@@ -154,14 +144,14 @@ const ads_content = ref("");
 const notice_res = get("https://api.locyanfrp.cn/App", []);
 notice_res.then(res => {
   notice.value = res;
-  if (notice.value.ads !== ""){
+  if (notice.value.ads !== "") {
     ads_content.value = marked(notice.value.ads) + '<style>' +
-        '[href^="https"], [href^="http"]{' +
-        '  color: dodgerblue;' +
-        'p {' +
-        '  padding: 2px;' +
-        '}' +
-        '</style>';
+      '[href^="https"], [href^="http"]{' +
+      '  color: dodgerblue;' +
+      'p {' +
+      '  padding: 2px;' +
+      '}' +
+      '</style>';
     showads.value = true;
   }
 });
@@ -179,22 +169,22 @@ current.value = 6;
 const traffic = ref(Number(localStorage.getItem("traffic")) / 1024 + "GB");
 const Proxiesanimation = ref(Number(localStorage.getItem("proxies")));
 const TrafficRef = ref(null);
-const boardcast_html= ref("");
+const boardcast_html = ref("");
 const boardcast_show = ref(true);
 // 公告
 const boardcast_request = get("https://api.locyanfrp.cn/App/GetBroadCast", [])
 boardcast_request.then(res => {
-  if (res.status === true){
+  if (res.status === true) {
     boardcast_html.value = marked(res.broadcast) + '<style>\n' +
-        '[href^="https"], [href^="http"]{\n' +
-        '  color: dodgerblue;\n' +
-        '}\n' +
-        '\n' +
-        'p {\n' +
-        '  padding: 2px;\n' +
-        '}\n' +
-        '\n' +
-        '</style>';
+      '[href^="https"], [href^="http"]{\n' +
+      '  color: dodgerblue;\n' +
+      '}\n' +
+      '\n' +
+      'p {\n' +
+      '  padding: 2px;\n' +
+      '}\n' +
+      '\n' +
+      '</style>';
     boardcast_show.value = false
   }
 })
