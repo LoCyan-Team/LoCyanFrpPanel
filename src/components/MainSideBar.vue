@@ -45,20 +45,22 @@ const menuOptions = [
     icon: renderIcon(InformationCircleOutline),
   },
   {
-    label: "新年活动集合",
-    key: "newyear",
-    show: false,
+    label: "周年庆活动",
+    key: "yearly",
+    show: true,
     icon: renderIcon(PlanetOutline),
     children: [
       {
         path: "/hello2023",
         label: "评价和祝福",
+        show: false,
         key: "newyear",
         icon: renderIcon(PlanetOutline),
       },
       {
         path: "/prize",
         label: "抽奖",
+        show: true,
         key: "prize",
         icon: renderIcon(PlanetOutline),
       }
