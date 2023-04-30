@@ -50,7 +50,7 @@
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="内网IP" path="local_ip">
-          <n-input v-model:value="ProxyInfo.local_ip" placeholder="内网IP，例如127.0.0.1" />
+          <n-input v-model:value="ProxyInfo.local_ip" placeholder="内网IP, 例如127.0.0.1" />
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
@@ -65,7 +65,7 @@
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="自定义域名" path="domain">
-          <n-input v-model:value="ProxyInfo.domain" placeholder="HTTPS/HTTP需要填写，其他协议不需要填写" />
+          <n-input v-model:value="ProxyInfo.domain" placeholder="HTTPS/HTTP需要填写, 其他协议不需要填写" />
         </n-form-item>
       </n-grid-item>
     </n-grid>

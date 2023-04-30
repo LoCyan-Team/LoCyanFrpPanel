@@ -19,9 +19,9 @@
           </n-space>
         </div>
       </n-form>
-      <n-spin :show="other_login" description="正在进行第三方登录处理"
-        style="display: flex;justify-content: center;margin-top: 30vh">
-      </n-spin>
+      <div v-show="other_login">
+        <n-spin description="正在进行第三方登录处理" style="display: flex;justify-content: center;margin-top: 30vh"></n-spin>
+      </div>
     </n-grid-item>
   </n-grid>
 </template>
