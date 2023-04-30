@@ -8,7 +8,7 @@
       <n-h2>社交账号绑定</n-h2>
       <n-space>
         <n-h5 style="margin: 3px"> QQ: </n-h5>
-        <n-button type="info" @click="DoBindQQ" :loading="binding"> 绑定QQ账号 </n-button>
+        <n-button type="info" v-bind:disabled="bindQQ.isDisable" @click="DoBindQQ" :loading="binding"> {{ bindQQ.msg }} </n-button>
       </n-space>
       <template #footer>
         <n-button ghost round type="primary" @click="DoLogOut"> 退出登录 </n-button>
@@ -32,6 +32,26 @@ const binding = ref(false);
 if (document.body.clientWidth <= 800) {
   Width_DiaLog.value = "75vw";
 }
+
+const bindQQ = {
+  isDisable: true,
+  msg: "正在获取"
+}
+
+function queryBind() {
+  const rs = get("https://api.locyanfrp.cn/OAuth/CheckQQIsBind?username=" + store.getters.GetUserName)
+  rs.then(res => {
+    if (!res.status) {
+      bindQQ.isDisable = false
+      bindQQ.msg = "点击绑定"
+    } else {
+      bindQQ.isDisable = true
+      bindQQ.msg = "已绑定！"
+    }
+  })
+}
+console.log("初始化绑定")
+queryBind()
 
 function DoBindQQ() {
   binding.value = true;

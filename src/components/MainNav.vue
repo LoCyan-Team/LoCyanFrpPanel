@@ -4,10 +4,11 @@
     <n-layout>
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
-          <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 15%">
+          <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 64px; margin-top: 15%">
             LoCyan Frp
           </n-gradient-text>
-          <n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
+          <!-- 2023-04-30 23：04 by XiaMoHuaHuo_CN: 哪个大聪明在这放一言 -->
+          <!--<n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>-->
           <n-avatar round size="medium" :style="getStyle()" style="margin-top: 23px;margin-right: 23px" :src="avatar"
             @click="DoShowUserInfo()" />
         </n-space>
@@ -29,6 +30,7 @@
           <br />
           <div style="margin-top: 25px; margin-bottom: 20px;">
             <div style="text-align: center;">
+              <n-p><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
               <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
               <br>
               <a style="text-align: center;">LoCyan Team 所有</a>
