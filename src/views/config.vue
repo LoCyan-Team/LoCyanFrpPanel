@@ -1,6 +1,7 @@
 <!--  -->
 <template>
     <n-h1 prefix="bar" style="margin-top: 30px;">
+        <i class="twa twa-bookmark-tabs"></i>
         <n-text type="primary">
             配置文件
         </n-text>
@@ -13,7 +14,9 @@
                     @click="copy(code, $event)">复制配置文件</n-button>
                 <n-code :code="code" language="ini" show-line-numbers style="margin-top: 30px;width: 100%;"></n-code>
             </n-card>
+            <br/>
         </n-grid-item>
+        
         <n-grid-item span="1">
             <n-card title="建站必看，不看导致的后果自负">
                 <p>由于我们在新的配置文件生成机制中加入了</p>
@@ -57,7 +60,6 @@
 </script>
 
 <script setup>
-import { NCard, NGrid, NGridItem, NSelect, NCode, NButton, NDivider, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
 import store from "../utils/stores/store.js";
 import { get } from '../utils/request';

@@ -1,5 +1,6 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px;">
+    <i class="twa twa-money-bag"></i>
     <n-text type="primary">
       赞助
     </n-text>
@@ -21,43 +22,55 @@
       </template>
     </n-card>
   </n-modal>
-  <n-grid cols="1" :y-gap="3">
-    <n-grid-item span="1" v-show="!ShowMessageLabel">
+  <n-grid cols="1" :y-gap=" 3 ">
+    <n-grid-item span="1" v-show=" !ShowMessageLabel ">
       <n-text>选择支付方式</n-text>
       <br />
       <br />
-      <n-radio-group v-model:value="pay_type" name="支付方式" :default-value="default_pay_type">
+      <n-radio-group v-model:value=" pay_type " name="支付方式" :default-value=" default_pay_type ">
         <n-space>
-          <n-radio v-for="pay_type_info in payments" :key="pay_type_info.value" :value="pay_type_info.value">
+          <n-radio v-for="  pay_type_info   in   payments  " :key=" pay_type_info.value " :value=" pay_type_info.value ">
             {{ pay_type_info.label }}
           </n-radio>
         </n-space>
       </n-radio-group>
       <br />
       <br />
-      <n-input type="text" v-model:value="amount" placeholder="金额" />
+      <n-input type="text" v-model:value=" amount " placeholder="金额" />
       <br />
       <br />
-      <n-button @click="DoDonate" :loading="loading_donate"> 赞助 </n-button>
+      <n-button @click=" DoDonate " :loading=" loading_donate "> 赞助 </n-button>
     </n-grid-item>
-    <n-grid-item span="1" v-show="ShowMessageLabel">
-      <n-form ref="formRef" :model="message" label-width="auto" require-mark-placement="right-hanging" size="medium">
+    <n-grid-item span="1" v-show=" ShowMessageLabel ">
+      <n-form ref="formRef" :model=" message " label-width="auto" require-mark-placement="right-hanging" size="medium">
         <n-form-item label="留言" path="message">
-          <n-input type="text" v-model:value="message.message" placeholder="赞助的留言" />
+          <n-input type="text" v-model:value=" message.message " placeholder="赞助的留言" />
         </n-form-item>
         <n-space>
-          <n-button type="primary" style="margin-right: 10px;" @click="submit" :loading="loading_submit"> 提交 </n-button>
+          <n-button type="primary" style="margin-right: 10px;" @click=" submit " :loading=" loading_submit "> 提交
+          </n-button>
         </n-space>
       </n-form>
     </n-grid-item>
   </n-grid>
   <br />
-  <n-spin :show="LoadingDonateList">
-    <n-grid cols="3" item-responsive :x-gap="3" :y-gap="3">
-      <n-grid-item v-for="item in DonateList" span="0:3 950:1">
+  <n-spin :show=" LoadingDonateList ">
+    <n-grid cols="3" item-responsive :x-gap=" 12 " :y-gap=" 12 ">
+      <n-grid-item v-for="  item   in   DonateList  " span="0:3 950:1">
         <n-space style="display: block;">
-          <n-card :title="item.username + ' [ ' + item.amount + '人民币 ] '">
-            {{ item.message }}
+          <n-card>
+            <n-space>
+              <n-gradient-text type="info">
+                {{ item.username }}
+              </n-gradient-text>
+              <n-gradient-text type="warning">
+                {{ item.amount }}<i class="twa twa-yen-banknote"></i>
+              </n-gradient-text>
+            </n-space>
+            <n-ellipsis expand-trigger="click" line-clamp="1" :tooltip="false">
+              {{ item.message }}
+            </n-ellipsis>
+            
             <template #footer>
               提交时间：{{ timestampToTime(item.time) }}
             </template>
@@ -70,7 +83,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { NFormItem, NForm, NInput, NButton, NGrid, NGridItem, NSpace, NModal, NH1, NText, NCard, NSpin, NRadioGroup, NRadio, NP } from "naive-ui";
 import { get, getUrlKey } from "../utils/request.js";
 import store from "../utils/stores/store.js";
 import { SendSuccessDialog, SendWarningDialog } from "../utils/dialog.js";

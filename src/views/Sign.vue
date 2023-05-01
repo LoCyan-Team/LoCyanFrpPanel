@@ -1,5 +1,6 @@
 <template>
     <n-h1 prefix="bar" style="margin-top: 30px;">
+        <i class="twa twa-spiral-calendar"></i>
         <n-text type="primary">
             每日签到
         </n-text>
@@ -18,14 +19,116 @@
                         </n-button>
                     </n-space>
                     <p v-if="status">签到状态：{{ status }}</p>
-                    <img v-if="status === '已签到'" src="https://api.lazy.ink/img" style="width: 100%" />
                     <n-skeleton text :repeat="1" style="width: 10%" v-else />
+                    <br/>
+                    <n-carousel show-arrow autoplay v-if="status === '已签到'" style="width: 100% ;height: 800px" effect="custom" :transition-props="{ name: 'creative' }">
+                        <img class="carousel-img"
+                            src="https://api.lazy.ink/img?t=4">
+                        <img class="carousel-img"
+                            src="https://api.lazy.ink/img?t=3">
+                        <img class="carousel-img"
+                            src="https://api.lazy.ink/img?t=2">
+                        <img class="carousel-img"
+                            src="https://api.lazy.ink/img?t=1">
+                        <template #arrow="{ prev, next }">
+                            <div class="custom-arrow">
+                                <button type="button" class="custom-arrow--left" @click="prev">
+                                    <n-icon>
+                                        <ArrowBack />
+                                    </n-icon>
+                                </button>
+                                <button type="button" class="custom-arrow--right" @click="next">
+                                    <n-icon>
+                                        <ArrowForward />
+                                    </n-icon>
+                                </button>
+                            </div>
+                        </template>
+                        <template #dots="{ total, currentIndex, to }">
+                            <ul class="custom-dots">
+                                <li v-for="index of total" :key="index"
+                                    :class="{ ['is-active']: currentIndex === index - 1 }" @click="to(index - 1)" />
+                            </ul>
+                        </template>
+                    </n-carousel>
                 </n-card>
             </n-grid-item>
         </n-grid>
     </n-space>
 </template>
+<style scoped>
+:deep(.creative-enter-from),
+:deep(.creative-leave-to) {
+  opacity: 0;
+  transform: scale(0.8);
+}
 
+:deep(.creative-enter-active),
+:deep(.creative-leave-active) {
+  transition: all 0.3s ease;
+}
+.carousel-img {
+    width: 100%;
+    height: 800px;
+    object-fit: cover;
+}
+
+.custom-arrow {
+    display: flex;
+    position: absolute;
+    bottom: 25px;
+    right: 10px;
+}
+
+.custom-arrow button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-width: 0;
+    border-radius: 8px;
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.custom-arrow button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.custom-arrow button:active {
+    transform: scale(0.95);
+    transform-origin: center;
+}
+
+.custom-dots {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.custom-dots li {
+    display: inline-block;
+    width: 12px;
+    height: 4px;
+    margin: 0 3px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.4);
+    transition: width 0.3s, background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.custom-dots li.is-active {
+    width: 40px;
+    background: #fff;
+}
+</style>
 <script setup>
 import { ref } from "vue";
 import { NSkeleton, NSpace, NCard, NButton, NH1, NText, NGrid, NGridItem } from "naive-ui"
@@ -33,6 +136,7 @@ import { post } from "../utils/request.js";
 import { SendErrorMessage } from "../utils/message";
 import { SendSuccessDialog } from "../utils/dialog.js"
 import store from "../utils/stores/store.js";
+import { ArrowBack, ArrowForward } from "@vicons/ionicons5";
 
 const status = ref("");
 
