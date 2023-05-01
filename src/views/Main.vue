@@ -5,9 +5,6 @@
       <span class="fast-flicker">Lo</span>Cyan<span class="flicker">Frp</span>
     </div>
     <n-alert type="default"  style="font-size: 20px; display:inline-block;">
-      <template #icon>
-        <i class="twa twa-star-struck"></i>
-      </template>
       一款真正完全免费的内网穿透软件！
     </n-alert>
     <br /><br />
