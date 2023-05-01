@@ -38,7 +38,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar, NSpace, NGrid, NGridItem } from "naive-ui";
+import { useMessage, useLoadingBar } from "naive-ui";
 import { post } from "../utils/request.js";
 import router from "../router/index.js";
 

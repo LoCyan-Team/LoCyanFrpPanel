@@ -29,12 +29,7 @@
 </template>
 
 <script setup>
-import { NLayout } from "naive-ui";
-import { NLayoutHeader } from "naive-ui";
-import { NSpace } from "naive-ui";
-import { NGradientText, NP, NText } from "naive-ui";
 import { h, ref } from "vue";
-import { NIcon } from "naive-ui";
 import GuestSideBar from "./GuestSideBar.vue";
 import router from "../router/index";
 import { get } from "../utils/request.js";
