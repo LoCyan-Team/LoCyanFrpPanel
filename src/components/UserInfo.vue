@@ -1,9 +1,10 @@
 <template>
   <n-drawer v-model:show="show" :width=Width_DiaLog>
     <n-drawer-content title="个人信息" closable>
-      <n-avatar round :size="128" :src="store.getters.GetAvatar" />
+      <n-avatar round :size="0" :src="store.getters.GetAvatar" />
       <br />
-      <n-text>{{ store.getters.GetUserName }}</n-text>
+      <n-text style="font-size: 20px">{{ store.getters.GetUserName }}</n-text><br>
+      <n-text style="color: gray">本站使用Cravatar公用头像库API，可以前往 Cravatar 或 Gravatar修改您的头像</n-text>
       <br />
       <n-h2>社交账号绑定</n-h2>
       <n-space>
@@ -33,20 +34,20 @@ if (document.body.clientWidth <= 800) {
   Width_DiaLog.value = "75vw";
 }
 
-const bindQQ = {
+const bindQQ = ref({
   isDisable: true,
   msg: "正在获取"
-}
+})
 
 function queryBind() {
   const rs = get("https://api.locyanfrp.cn/OAuth/CheckQQIsBind?username=" + store.getters.GetUserName)
   rs.then(res => {
     if (!res.status) {
-      bindQQ.isDisable = false
-      bindQQ.msg = "点击绑定"
+      bindQQ.value.isDisable = false
+      bindQQ.value.msg = ref("点击绑定")
     } else {
-      bindQQ.isDisable = true
-      bindQQ.msg = "已绑定！"
+      bindQQ.value.isDisable = true
+      bindQQ.value.msg = ref("已绑定！")
     }
   })
 }
