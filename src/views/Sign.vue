@@ -18,6 +18,7 @@
                         </n-button>
                     </n-space>
                     <p v-if="status">签到状态：{{ status }}</p>
+                    <img v-if="status === '已签到'" src="https://api.lazy.ink/img" style="width: 100%" />
                     <n-skeleton text :repeat="1" style="width: 10%" v-else />
                 </n-card>
             </n-grid-item>

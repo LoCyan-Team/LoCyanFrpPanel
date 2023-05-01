@@ -35,10 +35,6 @@
         <br />
         <a>您的邮箱为：{{ email }}</a>
         <br />
-        <a>剩余流量：{{ traffic }}</a>
-        <br />
-        <a>速度限制：{{ outbound }} / {{ inbound }}</a>
-        <br />
         <div v-if="DontShowFrptoken">
           <n-tag type="info" @click="changeShouFrptoken($event)">
             <template #icon>
@@ -71,6 +67,9 @@
             <template #suffix>
               条
             </template>
+          </n-statistic>
+          <n-statistic label="速度限制" tabular-nums>
+            <a size:10>{{ outbound }}<br>{{ inbound }}</a>
           </n-statistic>
         </n-space>
       </n-card>

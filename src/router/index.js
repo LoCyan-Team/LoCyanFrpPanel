@@ -26,7 +26,7 @@ const routes = [
                     keepAlive: true,
                     title: '仪表盘'
                 },
-                component: () => import('../views/Personal.vue')
+                component: () => import('../views/Dashboard.vue')
             },
             {
                 path: '/sign',
