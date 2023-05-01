@@ -21,12 +21,11 @@
 </template>
 
 <script setup>
-import { NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, NNotificationProvider, useOsTheme } from "naive-ui";
+import { NLoadingBarProvider,NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, NNotificationProvider, useOsTheme } from "naive-ui";
 import MainNav from "./components/MainNav.vue";
 import GuestNav from "./components/GuestNav.vue";
 import Notification from "./components/Notification.vue";
 import { computed } from "vue";
-import { NLoadingBarProvider } from "naive-ui";
 import store from "./utils/stores/store.js";
 import hljs from 'highlight.js/lib/core';
 import ini from 'highlight.js/lib/languages/ini';
