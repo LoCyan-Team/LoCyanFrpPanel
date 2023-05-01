@@ -16,6 +16,7 @@
     </template>
     <template v-else>
         <n-h1 prefix="bar" style="margin-top: 30px;">
+            <i class="twa twa-card-file-box"></i>
             <n-text type="primary">
                 实名认证
             </n-text>
