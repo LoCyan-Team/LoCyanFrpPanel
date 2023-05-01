@@ -1,6 +1,6 @@
 <template>
-  <n-form ref="formRef" :model="model" style="margin-top: 20px" :rules="rules" label-width="auto" require-mark-placement="right-hanging"
-    size="medium" id="item">
+  <n-form ref="formRef" :model="model" style="margin-top: 20px" :rules="rules" label-width="auto"
+    require-mark-placement="right-hanging" size="medium" id="item">
     <n-form-item label="用户名" path="username">
       <n-input type="text" v-model:value="model.username" placeholder="用户名" />
     </n-form-item>
@@ -14,17 +14,23 @@
       <n-input type="password" v-model:value="model.confirmpwd" placeholder="再次输入密码" />
     </n-form-item>
     <n-form-item label="QQ & 邮件验证码" path="oth">
-      <n-input type="text" style="width: 60%; margin-right: 10px" v-model:value="model.qq" placeholder="QQ号" />
-    <!--</n-form-item>
-    <n-form-item label="verify" path="verify">-->
-      <n-input type="text" style="width: 30%" v-model:value="model.verify" placeholder="验证码" />
-      &nbsp;&nbsp;&nbsp;
-      <n-button ghost round type="primary" @click="sendcode" v-bind:disabled="verify.isClick"> {{ verify.msg }} </n-button>
+      <n-grid cols="100" :x-gap="8" :y-gap="3" item-responsive>
+        <n-grid-item span="0:100 600:70">
+          <n-input type="text" v-model:value="model.qq" placeholder="QQ号" />
+        </n-grid-item>
+        <n-grid-item span="0:100 600:20">
+          <n-input type="text" v-model:value="model.verify" placeholder="验证码" />
+        </n-grid-item>
+        <n-grid-item span="0:100 600:10">
+          <n-button ghost round type="primary" @click="sendcode" v-bind:disabled="verify.isClick"> {{ verify.msg }}
+          </n-button>
+        </n-grid-item>
+      </n-grid>
     </n-form-item>
     <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
       <n-space>
-              <n-button type="primary" @click="register" style="margin-right: 10px;"> 注册 </n-button>
-              <n-button ghost type="primary" style="--n-border: none" @click="gologin"> 已有账户？去登录 </n-button>
+        <n-button type="primary" @click="register" style="margin-right: 10px;"> 注册 </n-button>
+        <n-button ghost type="primary" style="--n-border: none" @click="gologin"> 已有账户？去登录 </n-button>
       </n-space>
     </div>
   </n-form>
@@ -32,7 +38,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar, NSpace } from "naive-ui";
+import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar, NSpace, NGrid, NGridItem } from "naive-ui";
 import { post } from "../utils/request.js";
 import router from "../router/index.js";
 
