@@ -14,14 +14,14 @@
       <n-input type="password" v-model:value="model.confirmpwd" placeholder="再次输入密码" />
     </n-form-item>
     <n-form-item label="QQ & 邮件验证码" path="oth">
-      <n-grid cols="100" :x-gap="8" :y-gap="3" item-responsive>
-        <n-grid-item span="0:100 600:70">
+      <n-grid cols="6" :x-gap="8" :y-gap="8" item-responsive>
+        <n-grid-item span="0:6 600:3">
           <n-input type="text" v-model:value="model.qq" placeholder="QQ号" />
         </n-grid-item>
-        <n-grid-item span="0:100 600:20">
+        <n-grid-item span="0:6 600:2">
           <n-input type="text" v-model:value="model.verify" placeholder="验证码" />
         </n-grid-item>
-        <n-grid-item span="0:100 600:10">
+        <n-grid-item span="0:6 600:1">
           <n-button ghost round type="primary" @click="sendcode" v-bind:disabled="verify.isClick"> {{ verify.msg }}
           </n-button>
         </n-grid-item>

@@ -1,7 +1,7 @@
 <template>
   <n-drawer v-model:show="show" :width=Width_DiaLog>
     <n-drawer-content title="个人信息" closable>
-      <n-avatar round :size="0" :src="store.getters.GetAvatar" />
+      <n-avatar round :size="80" :src="store.getters.GetAvatar" />
       <br />
       <n-text style="font-size: 20px">{{ store.getters.GetUserName }}</n-text><br>
       <n-text style="color: gray">本站使用Cravatar公用头像库API，可以前往 Cravatar 或 Gravatar修改您的头像</n-text>
@@ -10,6 +10,7 @@
       <n-space>
         <n-h5 style="margin: 3px"> QQ: </n-h5>
         <n-button type="info" v-bind:disabled="bindQQ.isDisable" @click="DoBindQQ" :loading="binding"> {{ bindQQ.msg }} </n-button>
+        <n-button type="error" v-bind:disabled="bindQQ.unBindDisable" @click="UnBindQQ" :loading="binding"> {{ bindQQ.unBindmsg }} </n-button>
       </n-space>
       <template #footer>
         <n-button ghost round type="primary" @click="DoLogOut"> 退出登录 </n-button>
@@ -36,7 +37,9 @@ if (document.body.clientWidth <= 800) {
 
 const bindQQ = ref({
   isDisable: true,
-  msg: "正在获取"
+  msg: "正在获取",
+  unBindDisable: true,
+  unBindmsg: "正在获取"
 })
 
 function queryBind() {
@@ -45,9 +48,13 @@ function queryBind() {
     if (!res.status) {
       bindQQ.value.isDisable = false
       bindQQ.value.msg = ref("点击绑定")
+      bindQQ.value.unBindDisable = true
+      bindQQ.value.unBindmsg = ref("尚未绑定")
     } else {
       bindQQ.value.isDisable = true
       bindQQ.value.msg = ref("已绑定！")
+      bindQQ.value.unBindDisable = false
+      bindQQ.value.unBindmsg = ref("解除绑定")
     }
   })
 }
@@ -61,6 +68,26 @@ function DoBindQQ() {
     if (res.status) {
       window.open(res.url);
       binding.value = false;
+    }
+  })
+}
+function UnBindQQ() {
+  binding.value = true;
+  const rs = get("https://api.locyanfrp.cn/OAuth/QQUnBind?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken, []);
+  rs.then(res => {
+    if (res.status) {
+      binding.value = false;
+      bindQQ.value.unBindDisable = true
+      bindQQ.value.unBindmsg = ref("解绑成功")
+      bindQQ.value.isDisable = false
+      bindQQ.value.msg = ref("点击绑定")
+      setTimeout(() => { bindQQ.value.unBindmsg = ref("尚未绑定") }, 1000)
+    } else {
+      binding.value = false;
+      bindQQ.value.unBindDisable = false
+      bindQQ.value.unBindmsg = ref("解绑失败")
+      message.error("解绑失败，服务器错误")
+      setTimeout(() => { bindQQ.value.unBindmsg = ref("解除绑定") }, 000)
     }
   })
 }
