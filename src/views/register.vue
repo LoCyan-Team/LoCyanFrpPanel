@@ -51,10 +51,10 @@ const model = ref([
   }
 ]);
 
-var verify = {
+const verify = ref({
   isClick: false,
-  msg: ref(`发送验证码`)
-}
+  msg: `发送验证码`
+})
 
 function gologin() {
   router.push("/login");
@@ -62,21 +62,21 @@ function gologin() {
 
 function sendcode() {
   console.log("尝试发送验证码")
-  verify.isClick = true
-  verify.msg = ref(`正在处理`)
+  verify.value.isClick = true;
+  verify.value.msg = ref(`正在处理`);
   ldb.start();
   const rs = post("https://api.locyanfrp.cn/User/SendRegCode", model.value);
   rs.then(res => {
     if (res.status) {
       message.success(res.message);
-      verify.msg = ref(`已发送`)
+      verify.value.msg = ref(`已发送`);
     } else {
       message.error(res.message);
-      verify.isClick = false
-      verify.msg = ref(`发送验证码`)
+      verify.value.isClick = false;
+      verify.value.msg = ref(`发送验证码`);
     }
     ldb.finish();
-    console.log("处理发送验证码事件完毕")
+    console.log("处理发送验证码事件完毕");
   });
 }
 
