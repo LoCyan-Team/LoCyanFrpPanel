@@ -87,7 +87,7 @@ function UnBindQQ() {
       bindQQ.value.unBindDisable = false
       bindQQ.value.unBindmsg = ref("解绑失败")
       message.error("解绑失败，服务器错误")
-      setTimeout(() => { bindQQ.value.unBindmsg = ref("解除绑定") }, 000)
+      setTimeout(() => { bindQQ.value.unBindmsg = ref("解除绑定") }, 1000)
     }
   })
 }
