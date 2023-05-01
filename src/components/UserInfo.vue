@@ -4,7 +4,7 @@
       <n-avatar round :size="80" :src="store.getters.GetAvatar" />
       <br />
       <n-text style="font-size: 20px">{{ store.getters.GetUserName }}</n-text><br>
-      <n-text style="color: gray">本站使用Cravatar公用头像库API，可以前往 Cravatar 或 Gravatar修改您的头像</n-text>
+      <n-text style="color: gray">本站使用 Cravatar 公用头像库 API ，可以前往 <a target="_blank" href="https://cravatar.cn/">Cravatar</a> 或 <a target="_blank" href="https://gravatar.com/">Gravatar</a> 修改您的头像</n-text>
       <br />
       <n-h2>社交账号绑定</n-h2>
       <n-space>

@@ -95,6 +95,8 @@ function getStyle() {
     return 'display: none;';
   }
 }
+
+if (location.pathname === "/") window.location = "/dashboard"
 </script>
 <script>
 import { ref } from "vue";

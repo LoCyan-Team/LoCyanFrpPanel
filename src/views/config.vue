@@ -12,8 +12,7 @@
                 <n-select v-model:value="node" :options="ServerList" @update:value="UpdateValue" />
                 <n-button strong secondary type="info" style="margin-top: 30px"
                     @click="copy(code, $event)">复制配置文件</n-button>
-                <n-code :code="code" language="ini" show-line-numbers style="margin-top: 30px;width: 100%;"></n-code>
-            </n-card>
+                <n-code :code="code" language="ini" show-line-numbers style="overflow:auto;margin-top: 30px;width: 100%;"></n-code>            </n-card>
             <br/>
         </n-grid-item>
         

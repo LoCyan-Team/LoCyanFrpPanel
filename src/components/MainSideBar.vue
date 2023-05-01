@@ -37,9 +37,9 @@ function renderIcon(icon) {
 
 const menuOptions = [
   {
-    path: "/user",
+    path: "/dashboard",
     label: "仪表盘",
-    key: "User",
+    key: "Dashboard",
     icon: renderIcon(InformationCircleOutline),
   },
   {

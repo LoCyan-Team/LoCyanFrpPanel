@@ -20,8 +20,8 @@ const routes = [
                 component: () => import('../views/Main.vue')
             },
             {
-                path: '/user',
-                name: 'User',
+                path: '/dashboard',
+                name: 'Dashboard',
                 meta: {
                     keepAlive: true,
                     title: '仪表盘'

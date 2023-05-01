@@ -21,36 +21,9 @@
                     <p v-if="status">签到状态：{{ status }}</p>
                     <n-skeleton text :repeat="1" style="width: 10%" v-else />
                     <br/>
-                    <n-carousel show-arrow autoplay v-if="status === '已签到'" style="width: 100% ;height: 800px" effect="custom" :transition-props="{ name: 'creative' }">
-                        <img class="carousel-img"
-                            src="https://api.lazy.ink/img?t=4">
-                        <img class="carousel-img"
-                            src="https://api.lazy.ink/img?t=3">
-                        <img class="carousel-img"
-                            src="https://api.lazy.ink/img?t=2">
-                        <img class="carousel-img"
-                            src="https://api.lazy.ink/img?t=1">
-                        <template #arrow="{ prev, next }">
-                            <div class="custom-arrow">
-                                <button type="button" class="custom-arrow--left" @click="prev">
-                                    <n-icon>
-                                        <ArrowBack />
-                                    </n-icon>
-                                </button>
-                                <button type="button" class="custom-arrow--right" @click="next">
-                                    <n-icon>
-                                        <ArrowForward />
-                                    </n-icon>
-                                </button>
-                            </div>
-                        </template>
-                        <template #dots="{ total, currentIndex, to }">
-                            <ul class="custom-dots">
-                                <li v-for="index of total" :key="index"
-                                    :class="{ ['is-active']: currentIndex === index - 1 }" @click="to(index - 1)" />
-                            </ul>
-                        </template>
-                    </n-carousel>
+                    <n-gi v-if="status === '已签到'">
+                        <img style="width: 100%" src="https://api.lazy.ink/img">
+                    </n-gi>
                 </n-card>
             </n-grid-item>
         </n-grid>
