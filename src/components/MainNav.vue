@@ -28,7 +28,7 @@
             </router-view>
           </div>
           <br />
-          <div style="margin-top: 3%; margin-bottom: 20px;">
+          <div style="margin-top: 3%; margin: 15px;" >
             <div style="text-align: center;">
               <n-alert type="default" style="font-size: 20px; display:inline-block;">
                 <template #icon>
