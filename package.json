@@ -19,6 +19,8 @@
     "marked": "^4.2.12",
     "nodejs-websocket": "^1.7.2",
     "qs": "^6.11.0",
+    "unplugin-auto-import": "^0.15.3",
+    "unplugin-vue-components": "^0.24.1",
     "vue": "^3.2.37",
     "vue-axios": "^3.5.2",
     "vue-cookies": "^1.8.1",
