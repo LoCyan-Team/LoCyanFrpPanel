@@ -1,8 +1,8 @@
 <template></template>
 
 <script>
-import { defineComponent } from 'vue'
-import { useLoadingBar } from 'naive-ui'
+import { defineComponent } from "vue"
+import { useLoadingBar } from "naive-ui"
 
 // content
 export default defineComponent({
