@@ -28,7 +28,7 @@
             </router-view>
           </div>
           <br />
-          <div style="margin-top: 3%; margin-bottom: 20px;" v-if="is_show_information">
+          <div style="margin-top: 3%; margin-bottom: 20px;">
             <div style="text-align: center;">
               <n-alert type="default" style="font-size: 20px; display:inline-block;">
                 <template #icon>
@@ -67,7 +67,6 @@ const avatar = ref("");
 const inverted = false;
 const hitokoto_content_rs = get('https://v1.hitokoto.cn/', []);
 const hitokoto_content = ref("");
-const is_show_information = ref(false)
 // 一言
 hitokoto_content_rs.then(res => {
   let content = res.hitokoto;
@@ -102,7 +101,6 @@ import { ref } from "vue";
 export const ShowSideBar = ref(false);
 export function ChangeShowSideBar_Main(is_show) {
   ShowSideBar.value = is_show;
-  is_show_information.value = is_show
 }
 </script>
 <style>
