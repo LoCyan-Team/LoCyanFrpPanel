@@ -13,7 +13,7 @@
             @click="DoShowUserInfo()" />
         </n-space>
       </n-layout-header>
-      <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">
+      <n-layout has-sider style="height: calc(100vh - 66px);bottom: 0">
         <SideBar v-if="ShowSideBar" />
         <n-layout :native-scrollbar="false">
           <div style="margin-right: 15px; margin-left: 15px">

@@ -28,7 +28,7 @@
     </n-alert>
   </template>
   <br />
-  <n-grid :y-gap="3" :x-gap="6" cols="3" item-responsive>
+  <n-grid :y-gap="3" :x-gap="20" cols="3" item-responsive>
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
         <a>您好，尊敬的 <a id="username">{{ username }}</a></a>
