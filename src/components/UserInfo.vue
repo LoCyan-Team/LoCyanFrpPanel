@@ -12,6 +12,18 @@
         <n-button type="info" v-bind:disabled="bindQQ.isDisable" @click="DoBindQQ" :loading="binding"> {{ bindQQ.msg }} </n-button>
         <n-button type="error" v-bind:disabled="bindQQ.unBindDisable" @click="UnBindQQ" :loading="binding"> {{ bindQQ.unBindmsg }} </n-button>
       </n-space>
+      <n-h2>修改信息</n-h2>
+      <n-text style="color: gray">一旦修改信息，您的登录账户也会随之改变！</n-text>
+      <n-space>
+        <!--<n-text style="color: gray">一旦修改信息，您的登录账户也会随之改变！</n-text>-->
+        <n-h5 style="margin: 3px"> 邮箱: </n-h5>
+        <n-input v-bind:disabled="tEmail.isEditDisable" v-bind:value="tEmail.email" />
+        <n-button @click="changeEmail" v-bind:disabled="tEmail.isBtnDisable" type="info">{{ tEmail.msg }}</n-button>
+        <n-space v-bind:style="tEmail.isEditDisable1">
+          <n-input v-model:value="tEmail.verify.code" style="max-width: 200px" placeholder="请输入验证码" />
+          <n-button round ghost type="primary" v-bind:disabled="tEmail.verify.isClick" @click="sendChangeEmailCode">{{ tEmail.verify.msg }}</n-button>
+        </n-space>
+      </n-space>
       <template #footer>
         <n-button ghost round type="primary" @click="DoLogOut"> 退出登录 </n-button>
       </template>
@@ -29,6 +41,8 @@ import { get } from "../utils/request.js";
 
 const username = store.getters.GetUserName
 const Width_DiaLog = ref("30vw");
+const ldb = useLoadingBar();
+const message = useMessage();
 const binding = ref(false);
 if (document.body.clientWidth <= 800) {
   Width_DiaLog.value = "75vw";
@@ -39,6 +53,19 @@ const bindQQ = ref({
   msg: "正在获取",
   unBindDisable: true,
   unBindmsg: "正在获取"
+})
+
+const tEmail = ref({
+  email: store.getters.GetEmail,
+  msg: "修改",
+  isEditDisable1: "display:none",
+  isEditDisable: true,
+  isBtnDisable: false,
+  verify: {
+    isClick: false,
+    msg: "获取验证码",
+    code: ""
+  }
 })
 
 function queryBind() {
@@ -59,6 +86,50 @@ function queryBind() {
 }
 console.log("初始化绑定")
 queryBind()
+
+function changeEmail() {
+  if (tEmail.value.isEditDisable) {
+    tEmail.value.isEditDisable = false
+    tEmail.value.isEditDisable1 = ref("")
+    tEmail.value.msg = "确认"
+  } else if (!tEmail.value.isEditDisable) {
+    //换绑
+    tEmail.value.isBtnDisable = true
+    const rs = get("https://api.locyanfrp.cn/Account/EditEmail?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken + "&email=" + tEmail.value.email + "&code=" + tEmail.value.verify.code)
+    rs.then(res => {
+      if (res.status) {
+        message.success(res.message)
+        tEmail.value.isEditDisable = true
+        tEmail.value.isBtnDisable = false
+        tEmail.value.isEditDisable1 = ref("display:none")
+        tEmail.value.msg = "修改"
+      } else {
+        message.error(res.message)
+        tEmail.value.isEditDisable = true
+        tEmail.value.isBtnDisable = false
+        tEmail.value.isEditDisable1 = ref("display:none")
+        tEmail.value.msg = "修改"
+      }
+    })
+  }
+}
+function sendChangeEmailCode() {
+  tEmail.value.verify.isClick = true;
+  tEmail.value.verify.msg = ref(`正在处理`);
+  ldb.start();
+  const rs = get("https://api.locyanfrp.cn/Account/SendEditMail?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken + "&email=" + tEmail.value.email);
+  rs.then(res => {
+    if (res.status) {
+      message.success(res.message);
+      tEmail.value.verify.msg = ref(`已发送`);
+    } else {
+      message.error(res.message);
+      tEmail.value.verify.isClick = false;
+      tEmail.value.verify.msg = ref(`发送验证码`);
+    }
+    ldb.finish();
+  })
+}
 
 function DoBindQQ() {
   binding.value = true;

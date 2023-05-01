@@ -1,6 +1,7 @@
 # LoCyanFrpPanel
 
-LoCyanFrp新面板, By NaiveUI
+LoCyanFrp Panel, Powered by NaiveUI
+
 
 ## 地址
 

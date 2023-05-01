@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { NLoadingBarProvider,NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, NNotificationProvider, useOsTheme } from "naive-ui";
+import { NLoadingBarProvider, NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, NNotificationProvider, useOsTheme } from "naive-ui";
 import MainNav from "./components/MainNav.vue";
 import GuestNav from "./components/GuestNav.vue";
 import Notification from "./components/Notification.vue";
