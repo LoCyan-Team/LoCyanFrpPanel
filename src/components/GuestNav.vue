@@ -3,11 +3,9 @@
     <n-layout>
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
-          <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 60px; margin-top: 15%">
+          <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 50px; margin-top: 10%">
             LoCyan Frp
           </n-gradient-text>
-          <n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
-          <n-p></n-p>
         </n-space>
       </n-layout-header>
       <n-layout has-sider style="height: calc(100vh - 83px);bottom: 0">

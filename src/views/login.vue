@@ -14,7 +14,7 @@
             <n-button type="info" @click="qqlogin" :loading="qqlogin_loading"> QQ登录 </n-button>
             <n-space justify="end">
               <n-button type="primary" @click="login"> 登录 </n-button>
-              <n-button ghost type="primary" @click="goregister"> 没注册？</n-button>
+              <n-button ghost style="--n-border: none" type="primary" @click="goregister"> 没有账户？去注册</n-button>
             </n-space>
           </n-space>
         </div>

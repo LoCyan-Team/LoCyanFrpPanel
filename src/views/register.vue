@@ -1,5 +1,5 @@
 <template>
-  <n-form ref="formRef" :model="model" :rules="rules" label-width="auto" require-mark-placement="right-hanging"
+  <n-form ref="formRef" :model="model" style="margin-top: 20px" :rules="rules" label-width="auto" require-mark-placement="right-hanging"
     size="medium" id="item">
     <n-form-item label="用户名" path="username">
       <n-input type="text" v-model:value="model.username" placeholder="用户名" />
@@ -13,18 +13,18 @@
     <n-form-item label="确认密码" path="confirmpwd">
       <n-input type="password" v-model:value="model.confirmpwd" placeholder="再次输入密码" />
     </n-form-item>
-    <n-form-item label="QQ" path="qq">
-      <n-input type="text" v-model:value="model.qq" placeholder="QQ号" />
-    </n-form-item>
-    <n-form-item label="verify" path="verify">
-      <n-input type="text" v-model:value="model.verify" placeholder="验证码" />
+    <n-form-item label="QQ & 邮件验证码" path="oth">
+      <n-input type="text" style="width: 60%; margin-right: 10px" v-model:value="model.qq" placeholder="QQ号" />
+    <!--</n-form-item>
+    <n-form-item label="verify" path="verify">-->
+      <n-input type="text" style="width: 30%" v-model:value="model.verify" placeholder="验证码" />
       &nbsp;&nbsp;&nbsp;
-      <n-button ghost round type="primary" @click="sendcode"> 发送验证码 </n-button>
+      <n-button ghost round type="primary" @click="sendcode" v-bind:disabled="verify.isClick"> {{ verify.msg }} </n-button>
     </n-form-item>
-    <div style="display: flex; justify-content: flex-end">
+    <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
       <n-space>
-        <n-button type="primary" @click="register" style="margin-right: 10px;"> 注册 </n-button>
-        <n-button ghost type="primary" @click="gologin"> 去登录</n-button>
+              <n-button type="primary" @click="register" style="margin-right: 10px;"> 注册 </n-button>
+              <n-button ghost type="primary" style="--n-border: none" @click="gologin"> 已有账户？去登录 </n-button>
       </n-space>
     </div>
   </n-form>
@@ -36,6 +36,7 @@ import { NFormItem, NForm, NInput, NButton, useMessage, useLoadingBar, NSpace } 
 import { post } from "../utils/request.js";
 import router from "../router/index.js";
 
+const refkey = 0;
 const formRef = ref(null);
 const message = useMessage();
 const ldb = useLoadingBar();
@@ -46,25 +47,36 @@ const model = ref([
     password: "",
     email: "",
     confirmpwd: "",
-    qq: "",
-    verify: ""
+    oth: ""
   }
 ]);
 
+var verify = {
+  isClick: false,
+  msg: ref(`发送验证码`)
+}
+
 function gologin() {
-  router.push("/Login");
+  router.push("/login");
 }
 
 function sendcode() {
+  console.log("尝试发送验证码")
+  verify.isClick = true
+  verify.msg = ref(`正在处理`)
   ldb.start();
   const rs = post("https://api.locyanfrp.cn/User/SendRegCode", model.value);
   rs.then(res => {
     if (res.status) {
       message.success(res.message);
+      verify.msg = ref(`已发送`)
     } else {
       message.error(res.message);
+      verify.isClick = false
+      verify.msg = ref(`发送验证码`)
     }
     ldb.finish();
+    console.log("处理发送验证码事件完毕")
   });
 }
 
@@ -98,10 +110,10 @@ const rules = {
     trigger: ["blur", "input"],
     message: "请再次输入密码",
   },
-  qq: {
+  oth: {
     required: true,
     trigger: ["blur", "input"],
-    message: "请输入您的QQ号",
+    message: "请输入信息",
   },
   email: {
     required: true,
@@ -114,12 +126,7 @@ const rules = {
       return true;
     },
     trigger: ["blur", "input"],
-  },
-  verify: {
-    required: true,
-    trigger: ["blur", "input"],
-    message: "请输入邮箱验证码",
-  },
+  }
 };
 </script>
 
