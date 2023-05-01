@@ -1,5 +1,6 @@
 <template>
     <n-h1 prefix="bar" style="margin-top: 30px;">
+        <i class="twa twa-ballot-box-with-ballot"></i>
         <n-text type="primary">
             抽奖
         </n-text>
@@ -26,7 +27,6 @@
 </template>
 
 <script setup>
-import { NGrid, NGridItem, NCard, NButton, NSpace, NTag, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
 import { SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';

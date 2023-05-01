@@ -8,8 +8,6 @@
 </template>
 
 <script setup>
-import { NMenu } from "naive-ui";
-import { NLayoutSider } from "naive-ui";
 import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 

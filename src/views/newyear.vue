@@ -1,5 +1,6 @@
 <template>
     <n-h1 prefix="bar" style="margin-top: 30px;">
+        <i class="twa twa-red-paper-lantern"></i>
         <n-text type="primary">
             新年祝福
         </n-text>
@@ -33,7 +34,6 @@
 </template>
 
 <script setup>
-import { NGrid, NGridItem, NCard, NInput, NForm, NFormItem, NButton, NSpace, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';

@@ -92,6 +92,7 @@
             </template> -->
     </n-modal>
     <n-h1 prefix="bar" style="margin-top: 30px;">
+        <i class="twa twa-books"></i>
         <n-text type="primary">
             隧道列表
         </n-text>
@@ -141,27 +142,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import {
-    NAlert,
-    NButton,
-    NCard,
-    NForm,
-    NFormItem,
-    NGi,
-    NGrid,
-    NGridItem,
-    NH1,
-    NInput,
-    NModal,
-    NRadioButton,
-    NRadioGroup,
-    NSelect,
-    NSpace,
-    NSpin,
-    NTag,
-    NText,
-    useDialog
-} from 'naive-ui';
+import { useDialog } from 'naive-ui';
 import store from '../utils/stores/store.js';
 import { get } from '../utils/request.js';
 import { SendErrorMessage, SendSuccessMessage } from '../utils/message';

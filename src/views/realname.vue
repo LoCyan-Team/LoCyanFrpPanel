@@ -1,6 +1,7 @@
 <template>
     <template v-if="loading">
         <n-h1 prefix="bar" style="margin-top: 30px;">
+            <i class="twa twa-card-file-box"></i>
             <n-text type="primary">
                 实名认证
             </n-text>
@@ -15,6 +16,7 @@
     </template>
     <template v-else>
         <n-h1 prefix="bar" style="margin-top: 30px;">
+            <i class="twa twa-card-file-box"></i>
             <n-text type="primary">
                 实名认证
             </n-text>
@@ -52,7 +54,7 @@
         <n-grid cols="1" item-responsive>
             <n-grid-item span="1">
                 <n-card v-show="!showRealnameModal">
-                    🎉恭喜您，您已经完成实名认证
+                    <i class="twa twa-2x twa-party-popper"></i>恭喜您，您已经完成实名认证
                 </n-card>
             </n-grid-item>
         </n-grid>
@@ -60,7 +62,6 @@
 </template>
 
 <script setup>
-import { NSkeleton, NGrid, NGridItem, NCard, NInput, NForm, NFormItem, NButton, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
 import { SendSuccessDialog, SendWarningDialog } from '../utils/dialog';
 import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar';

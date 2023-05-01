@@ -28,9 +28,15 @@
             </router-view>
           </div>
           <br />
-          <div style="margin-top: 25px; margin-bottom: 20px;">
+          <div style="margin-top: 3%; margin-bottom: 20px;" v-if="is_show_information">
             <div style="text-align: center;">
-              <n-p><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>
+              <n-alert type="default" style="font-size: 20px; display:inline-block;">
+                <template #icon>
+                  <i class="twa-sm twa-speech-balloon"></i>
+                </template>
+                {{ hitokoto_content }}
+              </n-alert>
+              <br>
               <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
               <br>
               <a style="text-align: center;">LoCyan Team 所有</a>
@@ -47,9 +53,7 @@
 </template>
 
 <script setup>
-import { NGradientText, NP, NText, NModal, NButton, NSpace, NLayoutHeader, NLayout, NAvatar } from "naive-ui";
 import { h, ref } from "vue";
-import { NIcon } from "naive-ui";
 import SideBar from "./MainSideBar.vue";
 import store from "../utils/stores/store.js";
 import router from "../router/index";
@@ -63,7 +67,7 @@ const avatar = ref("");
 const inverted = false;
 const hitokoto_content_rs = get('https://v1.hitokoto.cn/', []);
 const hitokoto_content = ref("");
-
+const is_show_information = ref(false)
 // 一言
 hitokoto_content_rs.then(res => {
   let content = res.hitokoto;
@@ -98,6 +102,7 @@ import { ref } from "vue";
 export const ShowSideBar = ref(false);
 export function ChangeShowSideBar_Main(is_show) {
   ShowSideBar.value = is_show;
+  is_show_information.value = is_show
 }
 </script>
 <style>
@@ -109,4 +114,5 @@ export function ChangeShowSideBar_Main(is_show) {
 .fade-enter,
 .fade-leave-active {
   opacity: 0
-}</style>
+}
+</style>

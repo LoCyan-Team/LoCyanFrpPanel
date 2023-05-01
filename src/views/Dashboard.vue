@@ -1,5 +1,6 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px;">
+    <i class="twa twa-compass"></i>
     <n-text type="primary">
       仪表盘
     </n-text>
@@ -7,38 +8,39 @@
   <n-modal v-model:show="showads" class="custom-card" preset="card" style="width: 600px" title="通知而已" size="huge"
     :bordered="false" :segmented='{ content: "soft", footer: "soft" }'>
     <n-p v-html="ads_content"></n-p>
-    <template #footer>
-      <n-space justify="end">
-        <n-button @click="showads = false;"> 关闭 </n-button>
-      </n-space>
-    </template>
   </n-modal>
-  <template v-if="notice.contents">
-    <n-alert title="Welcome" type="info" closable>
+  <template v-if=" notice.contents ">
+    <n-alert title="欢迎" type="info" closable class="right">
+      <template #icon>
+        <i class="twa twa-hibiscus"></i>
+      </template>
       欢迎来到LoCyanFrp新后台!
       <br />
-      公告：{{ notice.contents }}
+      <i class="twa twa-bell"></i>通知：{{ notice.contents }}
     </n-alert>
   </template>
   <template v-else>
-    <n-alert title="Welcome" type="info" closable>
+    <n-alert title="欢迎" type="info" closable>
+      <template #icon>
+        <i class="twa twa-hibiscus"></i>
+      </template>
       欢迎来到LoCyanFrp新后台!
       <br />
-      <n-skeleton text :repeat="1" style="width: 50%" />
+      <n-skeleton text :repeat=" 1 " style="width: 50%" />
     </n-alert>
   </template>
   <br />
-  <n-grid :y-gap="3" :x-gap="20" cols="3" item-responsive>
+  <n-grid :y-gap=" 3 " :x-gap=" 20 " cols="3" item-responsive>
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
         <a>您好，尊敬的 <a id="username">{{ username }}</a></a>
         <br />
         <a>您的邮箱为：{{ email }}</a>
         <br />
-        <div v-if="DontShowFrptoken">
-          <n-tag type="info" @click="changeShouFrptoken($event)">
+        <div v-if=" DontShowFrptoken ">
+          <n-tag type="info" @click=" changeShouFrptoken($event) ">
             <template #icon>
-              <n-icon :component="Key" />
+              <n-icon :component=" Key " />
             </template>
             查看访问密钥
           </n-tag>
@@ -46,7 +48,7 @@
         <template v-else>
           <n-tag type="info">
             <template #icon>
-              <n-icon :component="AngleRight" />
+              <n-icon :component=" AngleRight " />
             </template>
             访问密钥: {{ frptoken }}
           </n-tag>
@@ -57,13 +59,13 @@
       <n-card title="数据报表" size="large">
         <n-space>
           <n-statistic label="剩余流量" tabular-nums>
-            <n-number-animation ref="TrafficRef" :from="0" :to="store.getters.GetTraffic" />
+            <n-number-animation ref="TrafficRef" :from=" 0 " :to=" store.getters.GetTraffic " />
             <template #suffix>
               GiB
             </template>
           </n-statistic>
           <n-statistic label="隧道数" tabular-nums>
-            <n-number-animation ref="ProxiesRef" :from="0" :to="Proxiesanimation" />
+            <n-number-animation ref="ProxiesRef" :from=" 0 " :to=" Proxiesanimation " />
             <template #suffix>
               条
             </template>
@@ -73,29 +75,8 @@
           </n-statistic>
         </n-space>
       </n-card>
-    </n-grid-item>
-    <n-grid-item span="0:3 600:2">
-      <n-card title="公告" size="large">
-        <n-spin :show="boardcast_show">
-          <n-text v-html="boardcast_html" id="boardrcast"></n-text>
-        </n-spin>
-        <br />
-      </n-card>
       <br />
-      <n-card title="使用方法">
-        <n-badge value="※简单教程" :max=15></n-badge><br>我把使用方法都写在首页了总没人看不见了吧？
-        <n-divider />
-        <n-space vertical>
-          <n-steps vertical v-model:current="current">
-            <n-step title="创建隧道" description="点击隧道操作中的创建隧道, 填写自己隧道的相应信息（部分高级功能请前往旧面板新建）" />
-            <n-step title="软件下载" description="随后点击软件下载, 进入LoCyanFrpMSApp/Lastet文件夹, 随意下载一个版本" />
-            <n-step title="启动客户端" description="随后启动客户端, 选择登录后登录自己的账号" />
-            <n-step title="隧道管理" description="在转到隧道管理, 随后启动你的隧道即可" />
-            <n-step title="启动成功" description="第一次启动请查看自己的日志文件, 确认日志文件最后一行显示 “启动成功”" />
-            <n-step title="开始享受" description="好了, 开始享受吧" />
-          </n-steps>
-        </n-space>
-        <br />
+      <n-card size="large">
         <n-alert title="关于高级功能" type="info">
           若需要Frp的高级功能, 你可以前往旧面板配置隧道后前往软件下载页面, 进入LoCyanFrp-0.4X.X的文件夹<br />
           下载适合自己系统架构的软件, 随后即可自行配置<br />
@@ -114,12 +95,35 @@
         </n-alert>
       </n-card>
     </n-grid-item>
+    <n-grid-item span="0:3 600:2">
+      <n-card title="公告" size="large">
+        <n-spin :show=" boardcast_show ">
+          <n-text v-html=" boardcast_html " id="boardrcast"></n-text>
+        </n-spin>
+        <br />
+      </n-card>
+      <br />
+      <n-card title="使用方法">
+        <n-badge value="※简单教程" :max= 15 ></n-badge><br>我把使用方法都写在首页了总没人看不见了吧？
+        <n-divider />
+        <n-space vertical>
+          <n-steps vertical current='7'>
+            <n-step title="创建隧道" description="点击隧道操作中的创建隧道, 填写自己隧道的相应信息（部分高级功能请前往旧面板新建）" />
+            <n-step title="软件下载" description="随后点击软件下载, 进入LoCyanFrpMSApp/Lastet文件夹, 随意下载一个版本" />
+            <n-step title="启动客户端" description="随后启动客户端, 选择登录后登录自己的账号" />
+            <n-step title="隧道管理" description="在转到隧道管理, 随后启动你的隧道即可" />
+            <n-step title="启动成功" description="第一次启动请查看自己的日志文件, 确认日志文件最后一行显示 “启动成功”" />
+            <n-step title="开始享受" description="好了, 开始享受吧" />
+          </n-steps>
+        </n-space>
+        <br />
+      </n-card>
+    </n-grid-item>
   </n-grid>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { NBadge, NStep, NSteps, NSkeleton, NCard, NAlert, NSpace, NGrid, NGridItem, NStatistic, NNumberAnimation, NDivider, NH1, NText, NTag, NIcon, NSpin, NModal, NP, NButton } from "naive-ui";
 import clipboard from '..//utils/clipboard'
 import { get } from "../utils/request.js";
 import { AngleRight, Key } from '@vicons/fa';
@@ -128,7 +132,6 @@ import { marked } from "marked";
 
 
 localStorage.setItem("ViewPage", "personality");
-const current = ref(-1)
 const username = store.getters.GetUserName;
 const email = store.getters.GetEmail;
 const inbound = ref(store.getters.GetInBound + "Mbps 下行");
@@ -163,8 +166,6 @@ async function changeShouFrptoken(event) {
   }, 3000);
 
 }
-
-current.value = 6;
 const traffic = ref(Number(localStorage.getItem("traffic")) / 1024 + "GB");
 const Proxiesanimation = ref(Number(localStorage.getItem("proxies")));
 const TrafficRef = ref(null);

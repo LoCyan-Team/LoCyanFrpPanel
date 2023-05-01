@@ -23,7 +23,6 @@
 
 import { Logout } from "../utils/profile.js";
 import store from "../utils/stores/store.js";
-import { NDrawer, NDrawerContent, NAvatar, NText, NButton, NH2, NH5, NSpace } from "naive-ui";
 import { SendSuccessMessage } from "../utils/message.js";
 import { ref } from "vue";
 import { get } from "../utils/request.js";

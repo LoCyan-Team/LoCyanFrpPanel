@@ -1,5 +1,6 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px;">
+    <i class="twa twa-writing-hand-light-skin-tone"></i>
     <n-text type="primary">
       添加隧道
     </n-text>
@@ -18,7 +19,7 @@
       <p>服务器域名：{{ ServerValue[ProxyInfo.node].hostname }}</p>
     </div>
     <br />
-    <n-grid cols="2" item-responsive>
+    <n-grid x-gap="12" cols="2" item-responsive>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="隧道名" path="proxy_name">
           <n-input v-model:value="ProxyInfo.proxy_name" placeholder="隧道名" />
@@ -76,9 +77,12 @@
     </div>
   </n-form>
 </template>
-
+<style>
+n-input{
+  width: 50%
+}
+</style>
 <script setup>
-import { NForm, NFormItem, NInput, NButton, NSpace, NSelect, NGrid, NGridItem, NRadioGroup, NRadioButton, NH1, NText } from 'naive-ui';
 import { ref } from 'vue';
 import store from "../utils/stores/store.js";
 import { get } from "../utils/request.js";
