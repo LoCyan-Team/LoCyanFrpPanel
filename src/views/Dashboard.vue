@@ -48,7 +48,7 @@
             <template #icon>
               <n-icon :component="AngleRight" />
             </template>
-            {{ frptoken }}
+            访问密钥: {{ frptoken }}
           </n-tag>
         </template>
         <br>
