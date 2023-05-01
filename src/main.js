@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import './style.css';
+import './twemoji-amazing.css';
 import App from './App.vue';
 import message from "./components/message.vue";
 import loadingbar from "./components/loadingbar.vue";
