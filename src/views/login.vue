@@ -65,7 +65,7 @@ if (username_qq !== null || token_qq !== null) {
       message.success("欢迎回来，指挥官！" + res.userdata.username);
       store.commit("setToken", res.token);
       store.commit("setUserInfo", res.userdata);
-      router.push(redirect || "/user");
+      router.push(redirect || "/dashboard");
     }
   })
 }
@@ -82,7 +82,7 @@ function login() {
       message.success("欢迎回来，指挥官！" + model.value.username);
       store.commit("setToken", res.token);
       store.commit("setUserInfo", res.userdata);
-      router.push(redirect || "/user");
+      router.push(redirect || "/dashboard");
     } else {
       message.warning(res.message);
     }
