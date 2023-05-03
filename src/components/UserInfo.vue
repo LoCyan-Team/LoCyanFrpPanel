@@ -17,7 +17,7 @@
       <n-space>
         <!--<n-text style="color: gray">一旦修改信息，您的登录账户也会随之改变！</n-text>-->
         <n-h5 style="margin: 3px"> 邮箱: </n-h5>
-        <n-input v-bind:disabled="tEmail.isEditDisable" v-bind:value="tEmail.email" />
+        <n-input v-bind:disabled="tEmail.isEditDisable" v-model:value="tEmail.email" />
         <n-button @click="changeEmail" v-bind:disabled="tEmail.isBtnDisable" type="info">{{ tEmail.msg }}</n-button>
         <n-space v-bind:style="tEmail.isEditDisable1">
           <n-input v-model:value="tEmail.verify.code" style="max-width: 200px" placeholder="请输入验证码" />

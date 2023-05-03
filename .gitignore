@@ -23,3 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 src/components/realname.vue
+src/components/MSLogin.vue
+src/views/BindMSAccount.vue
