@@ -1,8 +1,25 @@
 <template>
-  <n-layout-sider bordered show-trigger :collapsed="collapsed" @collapse="collapsed = true" @expand="collapsed = false"
-    collapse-mode="width" :collapsed-width="64" :native-scrollbar="true" id="sider" style="height: 100%;bottom: 0">
-    <n-menu :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22" :options="menuOptions" style=""
-      :value="active" @update:value="handleUpdateValue" />
+  <n-layout-sider
+    bordered
+    show-trigger
+    :collapsed="collapsed"
+    @collapse="collapsed = true"
+    @expand="collapsed = false"
+    collapse-mode="width"
+    :collapsed-width="64"
+    :native-scrollbar="true"
+    id="sider"
+    style="height: 100%; bottom: 0"
+  >
+    <n-menu
+      :collapsed="collapsed"
+      :collapsed-width="64"
+      :collapsed-icon-size="22"
+      :options="menuOptions"
+      style=""
+      :value="active"
+      @update:value="handleUpdateValue"
+    />
   </n-layout-sider>
 </template>
 
@@ -13,7 +30,9 @@ import { h, ref } from "vue";
 import { NIcon } from "naive-ui";
 
 import {
-  PlanetOutline, LogInOutline, MailOpenOutline
+  PlanetOutline,
+  LogInOutline,
+  MailOpenOutline,
 } from "@vicons/ionicons5";
 
 // 手机状态下收缩菜单栏
@@ -52,7 +71,6 @@ const menuOptions = [
     icon: renderIcon(PlanetOutline),
   },
 ];
-
 </script>
 <script>
 import { ref } from "vue";

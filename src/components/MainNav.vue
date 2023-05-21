@@ -4,16 +4,26 @@
     <n-layout>
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
-          <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 50px; margin-top: 10%">
+          <n-gradient-text
+            :size="24"
+            type="warning"
+            style="margin-left: 20px; height: 50px; margin-top: 10%"
+          >
             LoCyan Frp
           </n-gradient-text>
           <!-- 2023-04-30 23：04 by XiaMoHuaHuo_CN: 哪个大聪明在这放一言 -->
           <!--<n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>-->
-          <n-avatar round size="medium" :style="getStyle()" style="margin-top: 20px;margin-right: 23px" :src="avatar"
-            @click="DoShowUserInfo()" />
+          <n-avatar
+            round
+            size="medium"
+            :style="getStyle()"
+            style="margin-top: 20px; margin-right: 23px"
+            :src="avatar"
+            @click="DoShowUserInfo()"
+          />
         </n-space>
       </n-layout-header>
-      <n-layout has-sider style="height: calc(100vh - 66px);bottom: 0">
+      <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
         <SideBar v-if="ShowSideBar" />
         <n-layout :native-scrollbar="false">
           <div style="margin-right: 15px; margin-left: 15px">
@@ -28,21 +38,28 @@
             </router-view>
           </div>
           <br />
-          <div style="margin-top: 3%; margin: 15px;" >
-            <div style="text-align: center;">
-              <n-alert type="default" style="font-size: 20px; display:inline-block;">
+          <div style="margin: 15px">
+            <div style="text-align: center">
+              <n-alert
+                type="default"
+                style="font-size: 20px; display: inline-block"
+              >
                 <template #icon>
                   <i class="twa-sm twa-speech-balloon"></i>
                 </template>
                 {{ hitokoto_content }}
               </n-alert>
-              <br>
-              <br>
-              <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
-              <br>
-              <a style="text-align: center;">LoCyan Team 所有</a>
-              <br>
-              <a style="text-align: center;">鸣谢: XiaMoHuaHuo-CN, 天宇网络, LiteCat</a>
+              <br />
+              <br />
+              <a style="text-align: center"
+                >Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a
+              >
+              <br />
+              <a style="text-align: center">LoCyan Team 所有</a>
+              <br />
+              <a style="text-align: center"
+                >鸣谢: XiaMoHuaHuo-CN, 天宇网络, LiteCat</a
+              >
             </div>
           </div>
         </n-layout>
@@ -66,14 +83,14 @@ import { get } from "../utils/request.js";
 const collapsed = ref(true);
 const avatar = ref("");
 const inverted = false;
-const hitokoto_content_rs = get('https://v1.hitokoto.cn/', []);
+const hitokoto_content_rs = get("https://v1.hitokoto.cn/", []);
 const hitokoto_content = ref("");
 // 一言
-hitokoto_content_rs.then(res => {
+hitokoto_content_rs.then((res) => {
   let content = res.hitokoto;
   let from = res.from;
   hitokoto_content.value = content + " —— " + from;
-})
+});
 
 if (document.body.clientWidth >= 1000) {
   collapsed.value = false;
@@ -81,7 +98,7 @@ if (document.body.clientWidth >= 1000) {
 avatar.value = store.getters.GetAvatar;
 
 // 刚进入面板不展示用户信息框
-ChangeUserInfoShow(false)
+ChangeUserInfoShow(false);
 function DoShowUserInfo() {
   ChangeUserInfoShow(true);
 }
@@ -92,11 +109,11 @@ function renderIcon(icon) {
 
 function getStyle() {
   if (!store.getters.GetToken) {
-    return 'display: none;';
+    return "display: none;";
   }
 }
 
-if (location.pathname === "/") window.location = "/dashboard"
+if (location.pathname === "/") window.location = "/dashboard";
 </script>
 <script>
 import { ref } from "vue";
@@ -109,11 +126,11 @@ export function ChangeShowSideBar_Main(is_show) {
 <style>
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.5s ease
+  transition: all 0.5s ease;
 }
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+  opacity: 0;
 }
 </style>

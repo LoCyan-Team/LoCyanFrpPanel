@@ -21,15 +21,23 @@
 </template>
 
 <script setup>
-import { NLoadingBarProvider, NMessageProvider, NConfigProvider, darkTheme, NDialogProvider, NNotificationProvider, useOsTheme } from "naive-ui";
+import {
+  NLoadingBarProvider,
+  NMessageProvider,
+  NConfigProvider,
+  darkTheme,
+  NDialogProvider,
+  NNotificationProvider,
+  useOsTheme,
+} from "naive-ui";
 import MainNav from "./components/MainNav.vue";
 import GuestNav from "./components/GuestNav.vue";
 import Notification from "./components/Notification.vue";
 import { computed } from "vue";
 import store from "./utils/stores/store.js";
-import hljs from 'highlight.js/lib/core';
-import ini from 'highlight.js/lib/languages/ini';
-import nginx from 'highlight.js/lib/languages/nginx'
+import hljs from "highlight.js/lib/core";
+import ini from "highlight.js/lib/languages/ini";
+import nginx from "highlight.js/lib/languages/nginx";
 import { get } from "./utils/request.js";
 import { SendWarningMessage } from "./utils/message.js";
 import { Logout } from "./utils/profile.js";
@@ -37,11 +45,11 @@ import { init_ws, SetOnMessageFunction } from "./utils/websocket.js";
 import { SendInfoNotification } from "./utils/notification.js";
 
 const osThemeRef = useOsTheme();
-const theme = computed(() => osThemeRef.value === "dark" ? darkTheme : null);
+const theme = computed(() => (osThemeRef.value === "dark" ? darkTheme : null));
 let inited = false;
 
-hljs.registerLanguage('ini', ini);
-hljs.registerLanguage('nginx', nginx);
+hljs.registerLanguage("ini", ini);
+hljs.registerLanguage("nginx", nginx);
 
 function getMessage(e) {
   const rs = JSON.parse(e.data);
@@ -55,13 +63,19 @@ function getMessage(e) {
 if (inited === false) {
   // init_ws();
   // SetOnMessageFunction(getMessage);
-  inited = true
+  inited = true;
 }
 
 setInterval(() => {
   if (store.getters.GetToken) {
-    const rs = get("https://api.locyanfrp.cn/Account/info?username=" + store.getters.GetUserName + "&token=" + store.getters.GetToken, [])
-    rs.then(res => {
+    const rs = get(
+      "https://api.locyanfrp.cn/Account/info?username=" +
+        store.getters.GetUserName +
+        "&token=" +
+        store.getters.GetToken,
+      []
+    );
+    rs.then((res) => {
       if (res.status === 0) {
         localStorage.setItem("proxies", res.proxies_num);
         localStorage.setItem("traffic", res.traffic);

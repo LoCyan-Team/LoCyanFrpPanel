@@ -3,12 +3,16 @@
     <n-layout>
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
-          <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 50px; margin-top: 10%">
+          <n-gradient-text
+            :size="24"
+            type="warning"
+            style="margin-left: 20px; height: 50px; margin-top: 10%"
+          >
             LoCyan Frp
           </n-gradient-text>
         </n-space>
       </n-layout-header>
-      <n-layout has-sider style="height: calc(100vh - 66px);bottom: 0">
+      <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
         <GuestSideBar v-if="ShowSideBar" />
         <n-layout :native-scrollbar="false">
           <div style="margin-right: 15px; margin-left: 15px">
@@ -40,14 +44,13 @@ if (document.body.clientWidth >= 1000) {
   collapsed.value = false;
 }
 
-
-const hitokoto_content_rs = get('https://v1.hitokoto.cn/', []);
+const hitokoto_content_rs = get("https://v1.hitokoto.cn/", []);
 const hitokoto_content = ref("");
-hitokoto_content_rs.then(res => {
+hitokoto_content_rs.then((res) => {
   let content = res.hitokoto;
   let from = res.from;
   hitokoto_content.value = content + " —— " + from;
-})
+});
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -66,10 +69,11 @@ export function ChangeShowSideBar_Guest(is_show) {
 <style>
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.5s ease
+  transition: all 0.5s ease;
 }
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
-}</style>
+  opacity: 0;
+}
+</style>

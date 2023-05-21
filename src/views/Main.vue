@@ -1,16 +1,22 @@
 <template>
-  <div style="text-align: center;">
+  <div style="text-align: center">
     <br />
     <div class="sign">
       <span class="fast-flicker">Lo</span>Cyan<span class="flicker">Frp</span>
     </div>
-    <n-alert type="default"  style="font-size: 20px; display:inline-block;">
+    <n-alert type="default" style="font-size: 20px; display: inline-block">
       一款真正完全免费的内网穿透软件！
     </n-alert>
     <br /><br />
     <n-button-group>
       <n-space :x-gap="5">
-        <n-button size="large" type="primary" ghost @click="router.push({ name: 'login' })">进入LCF</n-button>
+        <n-button
+          size="large"
+          type="primary"
+          ghost
+          @click="router.push({ name: 'login' })"
+          >进入LCF</n-button
+        >
         <n-button size="large" @click="GoToDocs">文档</n-button>
       </n-space>
     </n-button-group>
@@ -21,8 +27,8 @@
 import router from "../router/index.js";
 
 const GoToDocs = () => {
-  window.open("https://doc.locyan.cn")
-}
+  window.open("https://doc.locyan.cn");
+};
 </script>
 
 <style scoped>
@@ -36,7 +42,6 @@ body {
   background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
 }
 
-
 .sign {
   position: absolute;
   display: flex;
@@ -45,7 +50,7 @@ body {
   width: 50%;
   height: 50%;
   transform: translate(-50%, -50%);
-  letter-spacing: 2;
+  letter-spacing: normal;
   left: 50%;
   top: 50%;
   text-transform: uppercase;
@@ -58,7 +63,6 @@ body {
 }
 
 @keyframes blink {
-
   0%,
   22%,
   36%,

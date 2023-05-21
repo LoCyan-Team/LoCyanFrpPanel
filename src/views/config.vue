@@ -1,4 +1,3 @@
-<!--  -->
 <template>
     <n-h1 prefix="bar" style="margin-top: 30px;">
         <i class="twa twa-bookmark-tabs"></i>

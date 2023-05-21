@@ -1,9 +1,27 @@
 <template>
-  <n-layout-sider bordered show-trigger :collapsed="collapsed" @collapse="collapsed = true" @expand="collapsed = false"
-    collapse-mode="width" :collapsed-width="64" :native-scrollbar="true" :inverted="inverted" id="sider"
-    style="height: 100%;bottom: 0">
-    <n-menu ref="menuInstRef" :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22"
-      :options="menuOptions" style="" :value="active" @update:value="handleUpdateValue" />
+  <n-layout-sider
+    bordered
+    show-trigger
+    :collapsed="collapsed"
+    @collapse="collapsed = true"
+    @expand="collapsed = false"
+    collapse-mode="width"
+    :collapsed-width="64"
+    :native-scrollbar="true"
+    :inverted="inverted"
+    id="sider"
+    style="height: 100%; bottom: 0"
+  >
+    <n-menu
+      ref="menuInstRef"
+      :collapsed="collapsed"
+      :collapsed-width="64"
+      :collapsed-icon-size="22"
+      :options="menuOptions"
+      style=""
+      :value="active"
+      @update:value="handleUpdateValue"
+    />
   </n-layout-sider>
 </template>
 
@@ -23,7 +41,7 @@ import {
   CloudDownloadOutline,
   PlanetOutline,
 } from "@vicons/ionicons5";
-import { AttachMoneyFilled } from "@vicons/material"
+import { AttachMoneyFilled } from "@vicons/material";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -61,8 +79,8 @@ const menuOptions = [
         show: true,
         key: "prize",
         icon: renderIcon(PlanetOutline),
-      }
-    ]
+      },
+    ],
   },
   {
     path: "/realname",
@@ -113,31 +131,33 @@ const menuOptions = [
     icon: renderIcon(BookIcon),
     children: [
       {
-        label: () => h(
-          "a",
-          {
-            href: "https://download.locyan.cn",
-            target: "_blank"
-          },
-          "软件下载"
-        ),
+        label: () =>
+          h(
+            "a",
+            {
+              href: "https://download.locyan.cn",
+              target: "_blank",
+            },
+            "软件下载"
+          ),
         key: "software_download",
         icon: renderIcon(CloudDownloadOutline),
       },
       {
-        label: () => h(
-          "a",
-          {
-            href: "https://doc.locyan.cn",
-            target: "_blank"
-          },
-          "帮助文档"
-        ),
+        label: () =>
+          h(
+            "a",
+            {
+              href: "https://doc.locyan.cn",
+              target: "_blank",
+            },
+            "帮助文档"
+          ),
         key: "help_docs",
         icon: renderIcon(BookIcon),
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];
 
 const inverted = false;
@@ -156,6 +176,5 @@ export const handleUpdateValue = (key, item) => {
 
 export function SetSideBarActiveKey(name) {
   active.value = name;
-  menuInstRef.value.showOption(name);
 }
 </script>

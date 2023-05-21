@@ -1,17 +1,37 @@
 <template>
-  <n-form ref="formRef" :model="model" style="margin-top: 20px" :rules="rules" label-width="auto"
-    require-mark-placement="right-hanging" size="medium" id="item">
+  <n-form
+    ref="formRef"
+    :model="model"
+    style="margin-top: 20px"
+    :rules="rules"
+    label-width="auto"
+    require-mark-placement="right-hanging"
+    size="medium"
+    id="item"
+  >
     <n-form-item label="用户名" path="username">
-      <n-input type="text" v-model:value="model.username" placeholder="用户名" />
+      <n-input
+        type="text"
+        v-model:value="model.username"
+        placeholder="用户名"
+      />
     </n-form-item>
     <n-form-item label="邮箱" path="email">
       <n-input type="text" v-model:value="model.email" placeholder="邮箱" />
     </n-form-item>
     <n-form-item label="密码" path="password">
-      <n-input type="password" v-model:value="model.password" placeholder="密码" />
+      <n-input
+        type="password"
+        v-model:value="model.password"
+        placeholder="密码"
+      />
     </n-form-item>
     <n-form-item label="确认密码" path="confirmpwd">
-      <n-input type="password" v-model:value="model.confirmpwd" placeholder="再次输入密码" />
+      <n-input
+        type="password"
+        v-model:value="model.confirmpwd"
+        placeholder="再次输入密码"
+      />
     </n-form-item>
     <n-form-item label="QQ & 邮件验证码" path="oth">
       <n-grid cols="6" :x-gap="8" :y-gap="8" item-responsive>
@@ -19,18 +39,38 @@
           <n-input type="text" v-model:value="model.qq" placeholder="QQ号" />
         </n-grid-item>
         <n-grid-item span="0:6 600:2">
-          <n-input type="text" v-model:value="model.verify" placeholder="验证码" />
+          <n-input
+            type="text"
+            v-model:value="model.verify"
+            placeholder="验证码"
+          />
         </n-grid-item>
         <n-grid-item span="0:6 600:1">
-          <n-button ghost round type="primary" @click="sendcode" v-bind:disabled="verify.isClick"> {{ verify.msg }}
+          <n-button
+            ghost
+            round
+            type="primary"
+            @click="sendcode"
+            v-bind:disabled="verify.isClick"
+          >
+            {{ verify.msg }}
           </n-button>
         </n-grid-item>
       </n-grid>
     </n-form-item>
     <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
       <n-space>
-        <n-button type="primary" @click="register" style="margin-right: 10px;"> 注册 </n-button>
-        <n-button ghost type="primary" style="--n-border: none" @click="gologin"> 已有账户？去登录 </n-button>
+        <n-button type="primary" @click="register" style="margin-right: 10px">
+          注册
+        </n-button>
+        <n-button
+          ghost
+          type="primary"
+          style="--n-border: none"
+          @click="gologin"
+        >
+          已有账户？去登录
+        </n-button>
       </n-space>
     </div>
   </n-form>
@@ -53,26 +93,26 @@ const model = ref([
     password: "",
     email: "",
     confirmpwd: "",
-    oth: ""
-  }
+    oth: "",
+  },
 ]);
 
 const verify = ref({
   isClick: false,
-  msg: `发送验证码`
-})
+  msg: `发送验证码`,
+});
 
 function gologin() {
   router.push("/login");
 }
 
 function sendcode() {
-  console.log("尝试发送验证码")
+  console.log("尝试发送验证码");
   verify.value.isClick = true;
   verify.value.msg = ref(`正在处理`);
   ldb.start();
   const rs = post("https://api.locyanfrp.cn/User/SendRegCode", model.value);
-  rs.then(res => {
+  rs.then((res) => {
     if (res.status) {
       message.success(res.message);
       verify.value.msg = ref(`已发送`);
@@ -89,7 +129,7 @@ function sendcode() {
 function register() {
   ldb.start();
   const rs = post("https://api.locyanfrp.cn/User/DoReg", model.value);
-  rs.then(res => {
+  rs.then((res) => {
     if (res.status) {
       message.success(res.message);
       router.push("/login");
@@ -126,13 +166,17 @@ const rules = {
     validator(rule, value) {
       if (!value) {
         return new Error("请输入邮箱");
-      } else if (!/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(value)) {
+      } else if (
+        !/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(
+          value
+        )
+      ) {
         return new Error("邮箱格式错误");
       }
       return true;
     },
     trigger: ["blur", "input"],
-  }
+  },
 };
 </script>
 
