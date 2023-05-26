@@ -1,67 +1,73 @@
 <template>
   <n-drawer v-model:show="show" :width="Width_DiaLog">
     <n-drawer-content title="个人信息" closable>
-      <n-avatar round :size="80" :src="store.getters.GetAvatar" />
-      <br />
-      <n-text style="font-size: 20px">{{ store.getters.GetUserName }}</n-text
-      ><br />
+      <n-avatar round :size="80" :src="store.getters.GetAvatar"/>
+      <br/>
+      <n-text style="font-size: 20px">{{ store.getters.GetUserName }}
+      </n-text
+      >
+      <br/>
       <n-text style="color: gray"
-        >本站使用 Cravatar 公用头像库 API ，可以前往
+      >本站使用 Cravatar 公用头像库 API ，可以前往
         <a target="_blank" href="https://cravatar.cn/">Cravatar</a> 或
         <a target="_blank" href="https://gravatar.com/">Gravatar</a>
-        修改您的头像</n-text
+        修改您的头像
+      </n-text
       >
-      <br />
+      <br/>
       <n-h2>社交账号绑定</n-h2>
       <n-space>
-        <n-h5 style="margin: 3px"> QQ: </n-h5>
+        <n-h5 style="margin: 3px"> QQ:</n-h5>
         <n-button
-          type="info"
-          v-bind:disabled="bindQQ.isDisable"
-          @click="DoBindQQ"
-          :loading="binding"
+            type="info"
+            v-bind:disabled="bindQQ.isDisable"
+            @click="DoBindQQ"
+            :loading="binding"
         >
           {{ bindQQ.msg }}
         </n-button>
         <n-button
-          type="error"
-          v-bind:disabled="bindQQ.unBindDisable"
-          @click="UnBindQQ"
-          :loading="binding"
+            type="error"
+            v-bind:disabled="bindQQ.unBindDisable"
+            @click="UnBindQQ"
+            :loading="binding"
         >
           {{ bindQQ.unBindmsg }}
         </n-button>
       </n-space>
       <n-h2>修改信息</n-h2>
       <n-text style="color: gray"
-        >一旦修改信息，您的登录账户也会随之改变！</n-text
+      >一旦修改信息，您的登录账户也会随之改变！
+      </n-text
       >
       <n-space>
         <!--<n-text style="color: gray">一旦修改信息，您的登录账户也会随之改变！</n-text>-->
-        <n-h5 style="margin: 3px"> 邮箱: </n-h5>
+        <n-h5 style="margin: 3px"> 邮箱:</n-h5>
         <n-input
-          v-bind:disabled="tEmail.isEditDisable"
-          v-model:value="tEmail.email"
+            v-bind:disabled="tEmail.isEditDisable"
+            v-model:value="tEmail.email"
         />
         <n-button
-          @click="changeEmail"
-          v-bind:disabled="tEmail.isBtnDisable"
-          type="info"
-          >{{ tEmail.msg }}</n-button
+            @click="changeEmail"
+            v-bind:disabled="tEmail.isBtnDisable"
+            type="info"
+        >{{ tEmail.msg }}
+        </n-button
         >
         <n-space v-bind:style="tEmail.isEditDisable1">
           <n-input
-            v-model:value="tEmail.verify.code"
-            style="max-width: 200px"
-            placeholder="请输入验证码"
+              v-model:value="tEmail.verify.code"
+              style="max-width: 200px"
+              placeholder="请输入验证码"
           />
           <n-button
-            round
-            ghost
-            type="primary"
-            v-bind:disabled="tEmail.verify.isClick"
-            @click="sendChangeEmailCode"
-            >{{ tEmail.verify.msg }}</n-button
+              round
+              ghost
+              type="primary"
+              v-bind:disabled="tEmail.verify.isClick"
+              @click="sendChangeEmailCode"
+          >{{ tEmail.verify.msg }}
+          </n-button
           >
         </n-space>
       </n-space>
@@ -75,13 +81,13 @@
 </template>
 
 <script setup>
-import { Logout } from "../utils/profile.js";
+import {logout} from "../utils/profile.js";
 import store from "../utils/stores/store.js";
-import { SendSuccessMessage } from "../utils/message.js";
-import { ref } from "vue";
-import { get } from "../utils/request.js";
+import {sendSuccessMessage} from "../utils/message.js";
+import {ref} from "vue";
+import {get} from "../utils/request.js";
 
-const username = store.getters.GetUserName;
+const username = store.getters.get_username;
 const Width_DiaLog = ref("30vw");
 const ldb = useLoadingBar();
 const message = useMessage();
@@ -98,7 +104,7 @@ const bindQQ = ref({
 });
 
 const tEmail = ref({
-  email: store.getters.GetEmail,
+  email: store.getters.get_email,
   msg: "修改",
   isEditDisable1: "display:none",
   isEditDisable: true,
@@ -112,8 +118,8 @@ const tEmail = ref({
 
 function queryBind() {
   const rs = get(
-    "https://api.locyanfrp.cn/OAuth/CheckQQIsBind?username=" +
-      store.getters.GetUserName
+      "https://api.locyanfrp.cn/OAuth/CheckQQIsBind?username=" +
+      store.getters.get_username
   );
   rs.then((res) => {
     if (!res.status) {
@@ -129,6 +135,7 @@ function queryBind() {
     }
   });
 }
+
 console.log("初始化绑定");
 queryBind();
 
@@ -141,10 +148,10 @@ function changeEmail() {
     //换绑
     tEmail.value.isBtnDisable = true;
     const rs = get(
-      "https://api.locyanfrp.cn/Account/EditEmail?username=" +
-        store.getters.GetUserName +
+        "https://api.locyanfrp.cn/Account/EditEmail?username=" +
+        store.getters.get_username +
         "&token=" +
-        store.getters.GetToken +
+        store.getters.get_token +
         "&email=" +
         tEmail.value.email +
         "&code=" +
@@ -167,15 +174,16 @@ function changeEmail() {
     });
   }
 }
+
 function sendChangeEmailCode() {
   tEmail.value.verify.isClick = true;
   tEmail.value.verify.msg = ref(`正在处理`);
   ldb.start();
   const rs = get(
-    "https://api.locyanfrp.cn/Account/SendEditMail?username=" +
-      store.getters.GetUserName +
+      "https://api.locyanfrp.cn/Account/SendEditMail?username=" +
+      store.getters.get_username +
       "&token=" +
-      store.getters.GetToken +
+      store.getters.get_token +
       "&email=" +
       tEmail.value.email
   );
@@ -195,11 +203,11 @@ function sendChangeEmailCode() {
 function DoBindQQ() {
   binding.value = true;
   const rs = get(
-    "https://api.locyanfrp.cn/OAuth/BindQQAccount?username=" +
-      store.getters.GetUserName +
+      "https://api.locyanfrp.cn/OAuth/BindQQAccount?username=" +
+      store.getters.get_username +
       "&token=" +
-      store.getters.GetToken,
-    []
+      store.getters.get_token,
+      []
   );
   rs.then((res) => {
     if (res.status) {
@@ -208,14 +216,15 @@ function DoBindQQ() {
     }
   });
 }
+
 function UnBindQQ() {
   binding.value = true;
   const rs = get(
-    "https://api.locyanfrp.cn/OAuth/QQUnBind?username=" +
-      store.getters.GetUserName +
+      "https://api.locyanfrp.cn/OAuth/QQUnBind?username=" +
+      store.getters.get_username +
       "&token=" +
-      store.getters.GetToken,
-    []
+      store.getters.get_token,
+      []
   );
   rs.then((res) => {
     if (res.status) {
@@ -240,13 +249,14 @@ function UnBindQQ() {
 }
 
 function DoLogOut() {
-  SendSuccessMessage("您已从LCF登出，感谢您的使用！");
-  Logout();
+  sendSuccessMessage("您已从LCF登出，感谢您的使用！");
+  logout();
 }
 </script>
 
 <script>
-import { ref } from "vue";
+import {ref} from "vue";
+
 const show = ref(false);
 
 export const ChangeUserInfoShow = (status1) => {

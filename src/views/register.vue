@@ -1,57 +1,57 @@
 <template>
   <n-form
-    ref="formRef"
-    :model="model"
-    style="margin-top: 20px"
-    :rules="rules"
-    label-width="auto"
-    require-mark-placement="right-hanging"
-    size="medium"
-    id="item"
+      ref="formRef"
+      :model="model"
+      style="margin-top: 20px"
+      :rules="rules"
+      label-width="auto"
+      require-mark-placement="right-hanging"
+      size="medium"
+      id="item"
   >
     <n-form-item label="用户名" path="username">
       <n-input
-        type="text"
-        v-model:value="model.username"
-        placeholder="用户名"
+          type="text"
+          v-model:value="model.username"
+          placeholder="用户名"
       />
     </n-form-item>
     <n-form-item label="邮箱" path="email">
-      <n-input type="text" v-model:value="model.email" placeholder="邮箱" />
+      <n-input type="text" v-model:value="model.email" placeholder="邮箱"/>
     </n-form-item>
     <n-form-item label="密码" path="password">
       <n-input
-        type="password"
-        v-model:value="model.password"
-        placeholder="密码"
+          type="password"
+          v-model:value="model.password"
+          placeholder="密码"
       />
     </n-form-item>
     <n-form-item label="确认密码" path="confirmpwd">
       <n-input
-        type="password"
-        v-model:value="model.confirmpwd"
-        placeholder="再次输入密码"
+          type="password"
+          v-model:value="model.confirmpwd"
+          placeholder="再次输入密码"
       />
     </n-form-item>
     <n-form-item label="QQ & 邮件验证码" path="oth">
       <n-grid cols="6" :x-gap="8" :y-gap="8" item-responsive>
         <n-grid-item span="0:6 600:3">
-          <n-input type="text" v-model:value="model.qq" placeholder="QQ号" />
+          <n-input type="text" v-model:value="model.qq" placeholder="QQ号"/>
         </n-grid-item>
         <n-grid-item span="0:6 600:2">
           <n-input
-            type="text"
-            v-model:value="model.verify"
-            placeholder="验证码"
+              type="text"
+              v-model:value="model.verify"
+              placeholder="验证码"
           />
         </n-grid-item>
         <n-grid-item span="0:6 600:1">
           <n-button
-            ghost
-            round
-            type="primary"
-            @click="sendcode"
-            v-bind:disabled="verify.isClick"
+              ghost
+              round
+              type="primary"
+              @click="sendcode"
+              v-bind:disabled="verify.isClick"
           >
             {{ verify.msg }}
           </n-button>
@@ -64,10 +64,10 @@
           注册
         </n-button>
         <n-button
-          ghost
-          type="primary"
-          style="--n-border: none"
-          @click="gologin"
+            ghost
+            type="primary"
+            style="--n-border: none"
+            @click="gologin"
         >
           已有账户？去登录
         </n-button>
@@ -77,9 +77,9 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useMessage, useLoadingBar } from "naive-ui";
-import { post } from "../utils/request.js";
+import {ref} from "vue";
+import {useLoadingBar, useMessage} from "naive-ui";
+import {post} from "../utils/request.js";
 import router from "../router/index.js";
 
 const refkey = 0;
@@ -167,9 +167,9 @@ const rules = {
       if (!value) {
         return new Error("请输入邮箱");
       } else if (
-        !/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(
-          value
-        )
+          !/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(
+              value
+          )
       ) {
         return new Error("邮箱格式错误");
       }

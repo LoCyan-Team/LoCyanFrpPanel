@@ -4,23 +4,23 @@
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
           <n-gradient-text
-            :size="24"
-            type="warning"
-            style="margin-left: 20px; height: 50px; margin-top: 10%"
+              :size="24"
+              type="warning"
+              style="margin-left: 20px; height: 50px; margin-top: 10%"
           >
             LoCyan Frp
           </n-gradient-text>
         </n-space>
       </n-layout-header>
       <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
-        <GuestSideBar v-if="ShowSideBar" />
+        <GuestSideBar v-if="ShowSideBar"/>
         <n-layout :native-scrollbar="false">
           <div style="margin-right: 15px; margin-left: 15px">
             <router-view v-slot="{ Component }">
               <KeepAlive :max="10">
                 <Transition name="fade" mode="out-in" :duration="400">
                   <div :key="router.currentRoute.value.name">
-                    <component :is="Component" />
+                    <component :is="Component"/>
                   </div>
                 </Transition>
               </KeepAlive>
@@ -33,10 +33,10 @@
 </template>
 
 <script setup>
-import { h, ref } from "vue";
+import {h, ref} from "vue";
 import GuestSideBar from "./GuestSideBar.vue";
 import router from "../router/index";
-import { get } from "../utils/request.js";
+import {get} from "../utils/request.js";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -53,15 +53,16 @@ hitokoto_content_rs.then((res) => {
 });
 
 function renderIcon(icon) {
-  return () => h(NIcon, null, { default: () => h(icon) });
+  return () => h(NIcon, null, {default: () => h(icon)});
 }
 
 const inverted = false;
 </script>
 <script>
-import { ref } from "vue";
+import {ref} from "vue";
 
 export const ShowSideBar = ref(false);
+
 export function ChangeShowSideBar_Guest(is_show) {
   ShowSideBar.value = is_show;
 }

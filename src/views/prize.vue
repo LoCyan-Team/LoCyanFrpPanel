@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-ballot-box-with-ballot"></i>
-    <n-text type="primary"> 抽奖 </n-text>
+    <n-text type="primary"> 抽奖</n-text>
   </n-h1>
   <n-grid cols="3" item-responsive>
     <n-grid-item v-for="item in PrizesList" id="item" span="0:3 950:1">
@@ -9,19 +9,23 @@
         <n-card :title="'奖品： ' + item.prizename">
           <p>开奖时间：{{ timestampToTime(item.prizetime) }}</p>
           <p>
-            获奖人: <n-tag
-              style="margin: 3px"
-              type="success"
-              v-for="prizeuser in PrizeUsers[item.id]"
-          >{{ prizeuser }}</n-tag
-          >
+            获奖人:
+            <n-tag
+                style="margin: 3px"
+                type="success"
+                v-for="prizeuser in PrizeUsers[item.id]"
+            >{{ prizeuser }}
+            </n-tag
+            >
           </p>
           <p>
-            参与用户: <n-tag
-              style="margin: 3px"
-              type="info"
-              v-for="user in users[item.id]"
-              >{{ user }}</n-tag
+            参与用户:
+            <n-tag
+                style="margin: 3px"
+                type="info"
+                v-for="user in users[item.id]"
+            >{{ user }}
+            </n-tag
             >
           </p>
           <p>奖品描述：</p>
@@ -41,10 +45,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { SendSuccessDialog, SendWarningDialog } from "../utils/dialog";
-import { FinishLoadingBar, StartLoadingBar } from "../utils/loadingbar";
-import { get } from "../utils/request.js";
+import {ref} from "vue";
+import {SendSuccessDialog, SendWarningDialog} from "../utils/dialog";
+import {FinishLoadingBar, StartLoadingBar} from "../utils/loadingbar";
+import {get} from "../utils/request.js";
 import store from "../utils/stores/store.js";
 
 const PrizesList = ref([
@@ -67,9 +71,9 @@ function timestampToTime(timestamp) {
   const date = new Date(timestamp * 1000);
   const Y = date.getFullYear() + "-";
   const M =
-    (date.getMonth() + 1 < 10
-      ? "0" + (date.getMonth() + 1)
-      : date.getMonth() + 1) + "-";
+      (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
   const D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
   const h = date.getHours() + ":";
   const m = date.getMinutes() + ":";
@@ -80,8 +84,8 @@ function timestampToTime(timestamp) {
 function submitjoin(id) {
   StartLoadingBar();
   const rs = get(
-    "https://api.locyanfrp.cn/Prize/JoinPrize?username=" +
-      store.getters.GetUserName +
+      "https://api.locyanfrp.cn/Prize/JoinPrize?username=" +
+      store.getters.get_username +
       "&id=" +
       id
   );

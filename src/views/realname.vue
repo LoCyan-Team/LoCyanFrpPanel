@@ -2,12 +2,12 @@
   <template v-if="loading">
     <n-h1 prefix="bar" style="margin-top: 30px">
       <i class="twa twa-card-file-box"></i>
-      <n-text type="primary"> 实名认证 </n-text>
+      <n-text type="primary"> 实名认证</n-text>
     </n-h1>
     <n-grid cols="1" item-responsive>
       <n-grid-item span="1">
         <n-card>
-          <n-skeleton text :repeat="3" />
+          <n-skeleton text :repeat="3"/>
         </n-card>
       </n-grid-item>
     </n-grid>
@@ -15,16 +15,16 @@
   <template v-else>
     <n-h1 prefix="bar" style="margin-top: 30px">
       <i class="twa twa-card-file-box"></i>
-      <n-text type="primary"> 实名认证 </n-text>
+      <n-text type="primary"> 实名认证</n-text>
     </n-h1>
     <n-grid cols="1" item-responsive>
       <n-grid-item span="1">
         <n-form
-          :ref="formRef"
-          :model="UserProfile"
-          label-width="auto"
-          :size="'large'"
-          v-show="showRealnameModal"
+            :ref="formRef"
+            :model="UserProfile"
+            label-width="auto"
+            :size="'large'"
+            v-show="showRealnameModal"
         >
           <n-grid cols="1" item-responsive :y-gap="5">
             <n-grid-item>
@@ -39,27 +39,27 @@
                   style="color: dodgerblue"
                   href="https://www.locyan.cn/doc/yszc.html"
                   target="_blank"
-                  >LoCyan隐私协议</a
-                >的约束，我们将最大限度的保护用户的个人信息数据
+              >LoCyan隐私协议</a
+              >的约束，我们将最大限度的保护用户的个人信息数据
               </p>
               <p>
                 我们允许<a style="color: red"><b>未成年人注册</b></a
-                >，请勿冒用非本人身份证实名，已经实名过得既往不咎
+              >，请勿冒用非本人身份证实名，已经实名过得既往不咎
               </p>
             </n-grid-item>
             <n-grid-item span="1">
               <n-form-item label="姓名" path="name">
                 <n-input
-                  v-model:value="UserProfile.name"
-                  placeholder="您的姓名"
+                    v-model:value="UserProfile.name"
+                    placeholder="您的姓名"
                 />
               </n-form-item>
             </n-grid-item>
             <n-grid-item span="1">
               <n-form-item label="身份证号" path="idcard">
                 <n-input
-                  v-model:value="UserProfile.idcard"
-                  placeholder="您的身份证号"
+                    v-model:value="UserProfile.idcard"
+                    placeholder="您的身份证号"
                 />
               </n-form-item>
             </n-grid-item>
@@ -83,10 +83,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { SendSuccessDialog, SendWarningDialog } from "../utils/dialog";
-import { FinishLoadingBar, StartLoadingBar } from "../utils/loadingbar";
-import { post, get } from "../utils/request.js";
+import {ref} from "vue";
+import {SendSuccessDialog, SendWarningDialog} from "../utils/dialog";
+import {FinishLoadingBar, StartLoadingBar} from "../utils/loadingbar";
+import {get, post} from "../utils/request.js";
 import store from "../utils/stores/store.js";
 
 const loading = ref(true);
@@ -100,7 +100,7 @@ const UserProfile = ref({
 function submitrealname() {
   StartLoadingBar();
   const SubmitForm = {
-    username: store.getters.GetUserName,
+    username: store.getters.get_username,
     name: UserProfile.value.name,
     idcard: UserProfile.value.idcard,
     key: "LocyanRealname",
@@ -120,8 +120,8 @@ function submitrealname() {
 
 function CheckRealNameStatus() {
   const rs = get(
-    "https://api.locyanfrp.cn/Account/GetRealnameStatus?username=" +
-      store.getters.GetUserName
+      "https://api.locyanfrp.cn/Account/GetRealnameStatus?username=" +
+      store.getters.get_username
   );
   rs.then((res) => {
     if (res.status) {

@@ -1,47 +1,47 @@
 <template>
   <n-layout-sider
-    bordered
-    show-trigger
-    :collapsed="collapsed"
-    @collapse="collapsed = true"
-    @expand="collapsed = false"
-    collapse-mode="width"
-    :collapsed-width="64"
-    :native-scrollbar="true"
-    :inverted="inverted"
-    id="sider"
-    style="height: 100%; bottom: 0"
+      bordered
+      show-trigger
+      :collapsed="collapsed"
+      @collapse="collapsed = true"
+      @expand="collapsed = false"
+      collapse-mode="width"
+      :collapsed-width="64"
+      :native-scrollbar="true"
+      :inverted="inverted"
+      id="sider"
+      style="height: 100%; bottom: 0"
   >
     <n-menu
-      ref="menuInstRef"
-      :collapsed="collapsed"
-      :collapsed-width="64"
-      :collapsed-icon-size="22"
-      :options="menuOptions"
-      style=""
-      :value="active"
-      @update:value="handleUpdateValue"
+        ref="menuInstRef"
+        :collapsed="collapsed"
+        :collapsed-width="64"
+        :collapsed-icon-size="22"
+        :options="menuOptions"
+        style=""
+        :value="active"
+        @update:value="handleUpdateValue"
     />
   </n-layout-sider>
 </template>
 
 <script setup>
-import { h, ref } from "vue";
-import { NIcon } from "naive-ui";
+import {h, ref} from "vue";
+import {NIcon} from "naive-ui";
 
 import {
-  BookOutline as BookIcon,
-  InformationCircleOutline,
-  Person,
-  PencilSharp,
-  PaperPlane,
   Add,
-  List,
-  FileTrayFull,
+  BookOutline as BookIcon,
   CloudDownloadOutline,
+  FileTrayFull,
+  InformationCircleOutline,
+  List,
+  PaperPlane,
+  PencilSharp,
+  Person,
   PlanetOutline,
 } from "@vicons/ionicons5";
-import { AttachMoneyFilled } from "@vicons/material";
+import {AttachMoneyFilled} from "@vicons/material";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -50,7 +50,7 @@ if (document.body.clientWidth >= 1000) {
 }
 
 function renderIcon(icon) {
-  return () => h(NIcon, null, { default: () => h(icon) });
+  return () => h(NIcon, null, {default: () => h(icon)});
 }
 
 const menuOptions = [
@@ -132,27 +132,27 @@ const menuOptions = [
     children: [
       {
         label: () =>
-          h(
-            "a",
-            {
-              href: "https://download.locyan.cn",
-              target: "_blank",
-            },
-            "软件下载"
-          ),
+            h(
+                "a",
+                {
+                  href: "https://download.locyan.cn",
+                  target: "_blank",
+                },
+                "软件下载"
+            ),
         key: "software_download",
         icon: renderIcon(CloudDownloadOutline),
       },
       {
         label: () =>
-          h(
-            "a",
-            {
-              href: "https://doc.locyan.cn",
-              target: "_blank",
-            },
-            "帮助文档"
-          ),
+            h(
+                "a",
+                {
+                  href: "https://doc.locyan.cn",
+                  target: "_blank",
+                },
+                "帮助文档"
+            ),
         key: "help_docs",
         icon: renderIcon(BookIcon),
       },
@@ -163,7 +163,7 @@ const menuOptions = [
 const inverted = false;
 </script>
 <script>
-import { ref } from "vue";
+import {ref} from "vue";
 import router from "../router/index.js";
 
 const active = ref("");
@@ -171,7 +171,7 @@ const menuInstRef = ref(null);
 
 export const handleUpdateValue = (key, item) => {
   active.value = key;
-  router.push({ path: item.path });
+  router.push({path: item.path});
 };
 
 export function SetSideBarActiveKey(name) {

@@ -1,64 +1,64 @@
 <template>
-  <UserInfo />
+  <UserInfo/>
   <n-space vertical>
     <n-layout>
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
           <n-gradient-text
-            :size="24"
-            type="warning"
-            style="margin-left: 20px; height: 50px; margin-top: 10%"
+              :size="24"
+              type="warning"
+              style="margin-left: 20px; height: 50px; margin-top: 10%"
           >
             LoCyan Frp
           </n-gradient-text>
           <!-- 2023-04-30 23：04 by XiaMoHuaHuo_CN: 哪个大聪明在这放一言 -->
           <!--<n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>-->
           <n-avatar
-            round
-            size="medium"
-            :style="getStyle()"
-            style="margin-top: 20px; margin-right: 23px"
-            :src="avatar"
-            @click="DoShowUserInfo()"
+              round
+              size="medium"
+              :style="getStyle()"
+              style="margin-top: 20px; margin-right: 23px"
+              :src="avatar"
+              @click="DoShowUserInfo()"
           />
         </n-space>
       </n-layout-header>
       <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
-        <SideBar v-if="ShowSideBar" />
+        <SideBar v-if="ShowSideBar"/>
         <n-layout :native-scrollbar="false">
           <div style="margin-right: 15px; margin-left: 15px">
             <router-view v-slot="{ Component }">
               <KeepAlive :max="10">
                 <Transition name="fade" mode="out-in" :duration="400">
                   <div :key="router.currentRoute.value.name">
-                    <component :is="Component" />
+                    <component :is="Component"/>
                   </div>
                 </Transition>
               </KeepAlive>
             </router-view>
           </div>
-          <br />
+          <br/>
           <div style="margin: 15px">
             <div style="text-align: center">
               <n-alert
-                type="default"
-                style="font-size: 20px; display: inline-block"
+                  type="default"
+                  style="font-size: 20px; display: inline-block"
               >
                 <template #icon>
                   <i class="twa-sm twa-speech-balloon"></i>
                 </template>
                 {{ hitokoto_content }}
               </n-alert>
-              <br />
-              <br />
+              <br/>
+              <br/>
               <a style="text-align: center"
-                >Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a
+              >Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a
               >
-              <br />
+              <br/>
               <a style="text-align: center">LoCyan Team 所有</a>
-              <br />
+              <br/>
               <a style="text-align: center"
-                >鸣谢: XiaMoHuaHuo-CN, 天宇网络, LiteCat</a
+              >鸣谢: XiaMoHuaHuo-CN, 天宇网络, LiteCat</a
               >
             </div>
           </div>
@@ -71,13 +71,12 @@
 </template>
 
 <script setup>
-import { h, ref } from "vue";
+import {h, ref} from "vue";
 import SideBar from "./MainSideBar.vue";
 import store from "../utils/stores/store.js";
 import router from "../router/index";
-import UserInfo from "./UserInfo.vue";
-import { ChangeUserInfoShow } from "./UserInfo.vue";
-import { get } from "../utils/request.js";
+import UserInfo, {ChangeUserInfoShow} from "./UserInfo.vue";
+import {get} from "../utils/request.js";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -95,20 +94,21 @@ hitokoto_content_rs.then((res) => {
 if (document.body.clientWidth >= 1000) {
   collapsed.value = false;
 }
-avatar.value = store.getters.GetAvatar;
+avatar.value = store.getters.get_avatar;
 
 // 刚进入面板不展示用户信息框
 ChangeUserInfoShow(false);
+
 function DoShowUserInfo() {
   ChangeUserInfoShow(true);
 }
 
 function renderIcon(icon) {
-  return () => h(NIcon, null, { default: () => h(icon) });
+  return () => h(NIcon, null, {default: () => h(icon)});
 }
 
 function getStyle() {
-  if (!store.getters.GetToken) {
+  if (!store.getters.get_token) {
     return "display: none;";
   }
 }
@@ -116,9 +116,10 @@ function getStyle() {
 if (location.pathname === "/") window.location = "/dashboard";
 </script>
 <script>
-import { ref } from "vue";
+import {ref} from "vue";
 
 export const ShowSideBar = ref(false);
+
 export function ChangeShowSideBar_Main(is_show) {
   ShowSideBar.value = is_show;
 }

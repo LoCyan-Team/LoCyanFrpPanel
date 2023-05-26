@@ -2,29 +2,29 @@
   <n-grid cols="1" item-responsive>
     <n-grid-item span="1">
       <n-form
-        ref="formRef"
-        :model="model"
-        :rules="rules"
-        label-width="auto"
-        require-mark-placement="right-hanging"
-        size="medium"
-        id="item"
-        v-show="!other_login"
+          ref="formRef"
+          :model="model"
+          :rules="rules"
+          label-width="auto"
+          require-mark-placement="right-hanging"
+          size="medium"
+          id="item"
+          v-show="!other_login"
       >
         <n-form-item label="用户名 / 邮箱" path="username">
           <n-input
-            type="text"
-            v-model:value="model.username"
-            placeholder="用户名"
-            @keyup.enter="login"
+              type="text"
+              v-model:value="model.username"
+              placeholder="用户名"
+              @keyup.enter="login"
           />
         </n-form-item>
         <n-form-item label="密码" path="password">
           <n-input
-            type="password"
-            v-model:value="model.password"
-            placeholder="密码"
-            @keyup.enter="login"
+              type="password"
+              v-model:value="model.password"
+              placeholder="密码"
+              @keyup.enter="login"
           />
         </n-form-item>
         <div>
@@ -33,14 +33,15 @@
               QQ登录
             </n-button>
             <n-space justify="end">
-              <n-button type="primary" @click="login"> 登录 </n-button>
+              <n-button type="primary" @click="login"> 登录</n-button>
               <n-button
-                ghost
-                style="--n-border: none"
-                type="primary"
-                @click="goregister"
+                  ghost
+                  style="--n-border: none"
+                  type="primary"
+                  @click="goregister"
               >
-                没有账户？去注册</n-button
+                没有账户？去注册
+              </n-button
               >
             </n-space>
           </n-space>
@@ -48,8 +49,8 @@
       </n-form>
       <div v-show="other_login">
         <n-spin
-          description="正在进行第三方登录处理"
-          style="display: flex; justify-content: center; margin-top: 30vh"
+            description="正在进行第三方登录处理"
+            style="display: flex; justify-content: center; margin-top: 30vh"
         ></n-spin>
       </div>
     </n-grid-item>
@@ -57,9 +58,9 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useMessage, useLoadingBar } from "naive-ui";
-import { get, getUrlKey } from "../utils/request.js";
+import {ref} from "vue";
+import {useLoadingBar, useMessage} from "naive-ui";
+import {get, getUrlKey} from "../utils/request.js";
 import router from "../router/index.js";
 import qs from "qs";
 import store from "../utils/stores/store.js";
@@ -90,11 +91,11 @@ const token_qq = getUrlKey("token_qq");
 if (username_qq !== null || token_qq !== null) {
   other_login.value = true;
   const rs = get(
-    "https://api.locyanfrp.cn/User/DoLoginByToken?username=" +
+      "https://api.locyanfrp.cn/User/DoLoginByToken?username=" +
       username_qq +
       "&token=" +
       token_qq,
-    []
+      []
   );
   rs.then((res) => {
     if (res.status) {
@@ -113,18 +114,18 @@ function goregister() {
 function login() {
   ldb.start();
   if (
-    model.value.username === null ||
-    model.value.password === null ||
-    model.value.username === "" ||
-    model.value.password === ""
+      model.value.username === null ||
+      model.value.password === null ||
+      model.value.username === "" ||
+      model.value.password === ""
   ) {
     message.error("账号 / 密码 不可为空！");
     ldb.error();
     return;
   }
   const rs = get(
-    "https://api.locyanfrp.cn/User/DoLogin?" + qs.stringify(model.value),
-    []
+      "https://api.locyanfrp.cn/User/DoLogin?" + qs.stringify(model.value),
+      []
   );
   rs.then((res) => {
     if (res.status === 0) {

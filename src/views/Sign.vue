@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-spiral-calendar"></i>
-    <n-text type="primary"> 每日签到 </n-text>
+    <n-text type="primary"> 每日签到</n-text>
   </n-h1>
   <n-space vertical>
     <n-grid cols="1" item-responsive>
@@ -13,20 +13,20 @@
               已签到！
             </n-button>
             <n-button
-              v-if="status === '尚未签到'"
-              strong
-              secondary
-              type="success"
-              @click="DoSign"
+                v-if="status === '尚未签到'"
+                strong
+                secondary
+                type="success"
+                @click="DoSign"
             >
               签到！
             </n-button>
           </n-space>
           <p v-if="status">签到状态：{{ status }}</p>
-          <n-skeleton text :repeat="1" style="width: 10%" v-else />
-          <br />
+          <n-skeleton text :repeat="1" style="width: 10%" v-else/>
+          <br/>
           <n-gi v-if="status === '已签到'">
-            <img style="width: 100%" src="https://api.lazy.ink/img" />
+            <img style="width: 100%" src="https://api.lazy.ink/img"/>
           </n-gi>
         </n-card>
       </n-grid-item>
@@ -44,6 +44,7 @@
 :deep(.creative-leave-active) {
   transition: all 0.3s ease;
 }
+
 .carousel-img {
   width: 100%;
   height: 800px;
@@ -107,29 +108,20 @@
 }
 </style>
 <script setup>
-import { ref } from "vue";
-import {
-  NSkeleton,
-  NSpace,
-  NCard,
-  NButton,
-  NH1,
-  NText,
-  NGrid,
-  NGridItem,
-} from "naive-ui";
-import { post } from "../utils/request.js";
-import { SendErrorMessage } from "../utils/message";
-import { SendSuccessDialog } from "../utils/dialog.js";
+import {ref} from "vue";
+import {NButton, NCard, NGrid, NGridItem, NH1, NSkeleton, NSpace, NText,} from "naive-ui";
+import {post} from "../utils/request.js";
+import {sendErrorMessage} from "../utils/message";
+import {SendSuccessDialog} from "../utils/dialog.js";
 import store from "../utils/stores/store.js";
 
 const status = ref("");
 
 function CheckSign() {
   const rs = post(
-    "https://api.locyanfrp.cn/User/CheckSign",
-    { token: store.getters.GetToken },
-    {}
+      "https://api.locyanfrp.cn/User/CheckSign",
+      {token: store.getters.get_token},
+      {}
   );
   rs.then((res) => {
     if (!res.status) {
@@ -145,11 +137,11 @@ CheckSign();
 
 function DoSign() {
   const rs = post("https://api.locyanfrp.cn/User/DoSign", {
-    token: store.getters.GetToken,
+    token: store.getters.get_token,
   });
   rs.then((res) => {
     if (!res.status) {
-      SendErrorMessage(res.message);
+      sendErrorMessage(res.message);
       CheckSign();
     } else {
       SendSuccessDialog(res.message);
