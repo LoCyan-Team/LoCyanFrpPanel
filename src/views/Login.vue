@@ -16,7 +16,7 @@
               type="text"
               v-model:value="model.username"
               placeholder="用户名"
-              @keyup.enter="Login"
+              @keyup.enter="login"
           />
         </n-form-item>
         <n-form-item label="密码" path="password">
@@ -24,7 +24,7 @@
               type="password"
               v-model:value="model.password"
               placeholder="密码"
-              @keyup.enter="Login"
+              @keyup.enter="login"
           />
         </n-form-item>
         <div>
@@ -33,7 +33,7 @@
               QQ登录
             </n-button>
             <n-space justify="end">
-              <n-button type="primary" @click="Login"> 登录</n-button>
+              <n-button type="primary" @click="login"> 登录</n-button>
               <n-button
                   ghost
                   style="--n-border: none"
@@ -100,8 +100,8 @@ if (username_qq !== null || token_qq !== null) {
   rs.then((res) => {
     if (res.status) {
       message.success("欢迎回来，指挥官！" + res.userdata.username);
-      store.commit("setToken", res.token);
-      store.commit("setUserInfo", res.userdata);
+      store.commit("set_token", res.token);
+      store.commit("set_user_info", res.userdata);
       router.push(redirect || "/dashboard");
     }
   });
@@ -130,8 +130,8 @@ function login() {
   rs.then((res) => {
     if (res.status === 0) {
       message.success("欢迎回来，指挥官！" + model.value.username);
-      store.commit("setToken", res.token);
-      store.commit("setUserInfo", res.userdata);
+      store.commit("set_token", res.token);
+      store.commit("set_user_info", res.userdata);
       router.push(redirect || "/dashboard");
       ldb.finish();
     } else {

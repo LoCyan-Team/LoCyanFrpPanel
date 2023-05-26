@@ -129,7 +129,7 @@
         <br/>我把使用方法都写在首页了总没人看不见了吧？
         <n-divider/>
         <n-space vertical>
-          <n-steps vertical current="7">
+          <n-steps vertical :current=7>
             <n-step
                 title="创建隧道"
                 description="点击隧道操作中的创建隧道, 填写自己隧道的相应信息（部分高级功能请前往旧面板新建）"

@@ -21,12 +21,12 @@ const routes = [
             },
             {
                 path: "/dashboard",
-                name: "Dashboard",
+                name: "DashBoard",
                 meta: {
                     keepAlive: true,
                     title: "仪表盘",
                 },
-                component: () => import("../views/Dashboard.vue"),
+                component: () => import("../views/DashBoard.vue"),
             },
             {
                 path: "/sign",
@@ -39,7 +39,7 @@ const routes = [
             },
             {
                 path: "/login",
-                name: "Login.vue",
+                name: "Login",
                 meta: {
                     keepAlive: true,
                     title: "登录",
@@ -48,7 +48,7 @@ const routes = [
             },
             {
                 path: "/register",
-                name: "register",
+                name: "Register",
                 meta: {
                     keepAlive: true,
                     title: "注册",
@@ -57,7 +57,7 @@ const routes = [
             },
             {
                 path: "/reset_password",
-                name: "reset_password",
+                name: "ResetPassword",
                 meta: {
                     keepAlive: true,
                     title: "重置密码",
@@ -93,7 +93,7 @@ const routes = [
             },
             {
                 path: "/hello2023",
-                name: "newyear",
+                name: "NewYear",
                 meta: {
                     keepAlive: true,
                     title: "留言",
@@ -102,7 +102,7 @@ const routes = [
             },
             {
                 path: "/prize",
-                name: "prize",
+                name: "Prize",
                 meta: {
                     keepAlive: true,
                     title: "抽奖",
@@ -111,7 +111,7 @@ const routes = [
             },
             {
                 path: "/config",
-                name: "config",
+                name: "Config",
                 meta: {
                     keepAlive: true,
                     title: "配置文件",
@@ -120,7 +120,7 @@ const routes = [
             },
             {
                 path: "/donate",
-                name: "donate",
+                name: "Donate",
                 meta: {
                     keepAlive: true,
                     title: "赞助",
@@ -138,28 +138,28 @@ const router = createRouter({
 
 // 检查本地存储是否存在token，若存在则直接使用
 if (localStorage.getItem("token")) {
-    store.commit("setToken", localStorage.getItem("token"));
+    store.commit("set_token", localStorage.getItem("token"));
 }
 
 router.beforeEach((to, from, next) => {
     StartLoadingBar();
-    if (to.name === "Login.vue") {
+    if (to.name === "Login") {
         if (store.getters.get_token) {
-            next({name: "User"});
+            next({name: "DashBoard"});
         }
         next();
         return;
     }
-    if (to.name === "register") {
+    if (to.name === "Register") {
         if (store.getters.get_token) {
-            next({name: "User"});
+            next({name: "DashBoard"});
         }
         next();
         return;
     }
-    if (to.name === "reset_password") {
+    if (to.name === "ResetPassword") {
         if (store.getters.get_token) {
-            next({name: "User"});
+            next({name: "DashBoard"});
         }
         next();
         return;
@@ -169,7 +169,7 @@ router.beforeEach((to, from, next) => {
         return;
     }
     if (!store.getters.get_token) {
-        next({name: "login", query: {redirect: location.pathname}});
+        next({name: "Login", query: {redirect: location.pathname}});
     } else {
         next();
     }
@@ -188,15 +188,15 @@ router.afterEach((to) => {
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(false);
             break;
-        case "Login.vue":
+        case "Login":
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(true);
             break;
-        case "register":
+        case "Register":
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(true);
             break;
-        case "reset_password":
+        case "ResetPassword":
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(true);
             break;

@@ -56,7 +56,7 @@ export function getProxies(username, token) {
 }
 
 export function logout() {
-    store.commit("delToken");
-    store.commit("delUserInfo");
+    store.commit("delete_token");
+    store.commit("delete_user_info");
     router.push("/login");
 }

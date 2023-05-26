@@ -49,19 +49,19 @@ const menuOptions = [
   {
     path: "/login",
     label: "登录",
-    key: "Login.vue",
+    key: "Login",
     icon: renderIcon(LogInOutline),
   },
   {
     path: "/register",
     label: "注册",
-    key: "register",
+    key: "Register",
     icon: renderIcon(MailOpenOutline),
   },
   {
     path: "/reset_password",
     label: "重置密码",
-    key: "reset_password",
+    key: "ResetPassword",
     icon: renderIcon(PlanetOutline),
   },
 ];

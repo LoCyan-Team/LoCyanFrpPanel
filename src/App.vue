@@ -4,12 +4,12 @@
       <n-message-provider>
         <n-dialog-provider>
           <n-notification-provider>
-            <message/>
-            <loadingbar/>
-            <ndialog/>
-            <Notification/>
-            <MainNav v-if="store.getters.GetToken"/>
-            <GuestNav v-else/>
+            <message />
+            <loadingbar />
+            <ndialog />
+            <Notification />
+            <MainNav v-if="store.getters.get_token" />
+            <GuestNav v-else />
           </n-notification-provider>
         </n-dialog-provider>
       </n-message-provider>
@@ -30,16 +30,16 @@ import {
 import MainNav from "./components/MainNav.vue";
 import GuestNav from "./components/GuestNav.vue";
 import Notification from "./components/Notification.vue";
-import {computed} from "vue";
+import { computed } from "vue";
 import store from "./utils/stores/store.js";
 import hljs from "highlight.js/lib/core";
 import ini from "highlight.js/lib/languages/ini";
 import nginx from "highlight.js/lib/languages/nginx";
-import {get} from "./utils/request.js";
-import {sendWarningMessage} from "./utils/message.js";
-import {logout} from "./utils/profile.js";
+import { get } from "./utils/request.js";
+import { sendWarningMessage } from "./utils/message.js";
+import { logout } from "./utils/profile.js";
 // import { init_ws, SetOnMessageFunction } from "./utils/websocket.js";
-import {sendInfoNotification} from "./utils/notification.js";
+import { sendInfoNotification } from "./utils/notification.js";
 
 const osThemeRef = useOsTheme();
 const theme = computed(() => (osThemeRef.value === "dark" ? darkTheme : null));
@@ -66,11 +66,11 @@ if (inited === false) {
 setInterval(() => {
   if (store.getters.get_token) {
     const rs = get(
-        "https://api.locyanfrp.cn/Account/info?username=" +
-        store.getters.get_username +
-        "&token=" +
-        store.getters.get_token,
-        []
+      "https://api.locyanfrp.cn/Account/info?username=" +
+      store.getters.get_username +
+      "&token=" +
+      store.getters.get_token,
+      []
     );
     rs.then((res) => {
       if (res.status === 0) {

@@ -325,3 +325,5 @@ Temporary Items
 .apdisk
 
 .idea/
+src/components/MSLogin.vue
+src/views/BindMSAccount.vue

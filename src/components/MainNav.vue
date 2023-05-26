@@ -76,7 +76,7 @@ import SideBar from "./MainSideBar.vue";
 import store from "../utils/stores/store.js";
 import router from "../router/index";
 import UserInfo, {ChangeUserInfoShow} from "./UserInfo.vue";
-import {get} from "../utils/request.js";
+import { get } from "../utils/request.js";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);

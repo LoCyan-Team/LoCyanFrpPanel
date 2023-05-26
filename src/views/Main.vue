@@ -14,7 +14,7 @@
             size="large"
             type="primary"
             ghost
-            @click="router.push({ name: 'Login.vue' })"
+            @click="router.push({ name: 'Login' })"
         >进入LCF
         </n-button
         >

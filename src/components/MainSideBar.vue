@@ -57,27 +57,27 @@ const menuOptions = [
   {
     path: "/dashboard",
     label: "仪表盘",
-    key: "Dashboard",
+    key: "DashBoard",
     icon: renderIcon(InformationCircleOutline),
   },
   {
     label: "周年庆活动",
     key: "yearly",
-    show: true,
+    show: false,
     icon: renderIcon(PlanetOutline),
     children: [
       {
         path: "/hello2023",
         label: "评价和祝福",
         show: false,
-        key: "newyear",
+        key: "NewYear",
         icon: renderIcon(PlanetOutline),
       },
       {
         path: "/prize",
         label: "抽奖",
         show: true,
-        key: "prize",
+        key: "Prize",
         icon: renderIcon(PlanetOutline),
       },
     ],
@@ -114,7 +114,7 @@ const menuOptions = [
       {
         path: "/config",
         label: "配置文件",
-        key: "config",
+        key: "Config",
         icon: renderIcon(FileTrayFull),
       },
     ],
@@ -122,7 +122,7 @@ const menuOptions = [
   {
     path: "/donate",
     label: "捐赠",
-    key: "donate",
+    key: "Donate",
     icon: renderIcon(AttachMoneyFilled),
   },
   {
@@ -163,7 +163,7 @@ const menuOptions = [
 const inverted = false;
 </script>
 <script>
-import {ref} from "vue";
+import { ref } from "vue";
 import router from "../router/index.js";
 
 const active = ref("");
