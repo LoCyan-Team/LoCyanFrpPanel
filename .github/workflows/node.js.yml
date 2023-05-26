@@ -21,13 +21,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Run Parasoft Jtest
-      # You may pin to the exact commit or the version.
-      # uses: parasoft/run-jtest-action@ae433ddf714970d4a40842e7a4788facd508d68d
-      uses: parasoft/run-jtest-action@2.0.0
-      with:
-        # Working directory for running Jtest.
-        workingDir: ${{ github.workspace }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
