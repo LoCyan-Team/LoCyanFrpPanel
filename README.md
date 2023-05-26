@@ -1,38 +1,41 @@
-# LoCyanFrpPanel
+# LoCyanFrp Panel
 
-LoCyanFrp Panel, Powered by NaiveUI
+LoCyanFrp Panel, Powered by Naive-UI
 
 ## 地址
 
 新面板地址: [https://preview.locyanfrp.cn](https://preview.locyanfrp.cn)
 
-## 如何安装/运行
+## 如何使用
 
-1. clone本仓库
+1. clone 本仓库
 
 ```shell
 git clone https://github.com/LoCyan-Team/LoCyanFrpPanel.git
 ```
 
-2. 安装Nodejs 16x/18x，并运行命令安装
+2. 安装 [Node.js](https://nodejs.org) 18+
+
+3. 安装 yarn
 
 ```shell
-npm i
+npm i -g yarn
 ```
 
-3. 运行
+4. 安装依赖
 
 ```shell
-npm run dev
+yarn install
 ```
 
-4. 访问输出的地址，即可访问!
+5. 运行项目
 
-## 相关链接&使用的开源项目
+```shell
+yarn dev
+```
 
-- [Emoji.json『unpkg』](https://unpkg.com/emoji.json@14.0.0/emoji.json)
-- [twemoji『Github』](https://github.com/twitter/twemoji)
-- [twemoji-amazing『Github』](https://github.com/SebastianAigner/twemoji-amazing)
+## 相关链接 & 使用的开源项目
 
-<!-- 2023/01/27 by XiaMoHuaHuo_CN：shab Daiyangcheng 连README都写的稀巴烂 -->
-<!-- 2023/05/01 by LiteCat：你说得对，但是Daiyangcheng是一款开放世界冒险··· -->
+- [Emoji.json 『unpkg』](https://unpkg.com/emoji.json@14.0.0/emoji.json)
+- [twemoji 『Github』](https://github.com/twitter/twemoji)
+- [twemoji-amazing 『Github』](https://github.com/SebastianAigner/twemoji-amazing)

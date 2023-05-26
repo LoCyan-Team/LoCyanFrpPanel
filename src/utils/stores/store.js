@@ -1,7 +1,7 @@
-import Vuex from 'vuex'
+import vuex from 'vuex'
 
 // 用Vuex.Store对象用来记录token
-const store = new Vuex.Store({
+const store = new vuex.Store({
     state: {
         token: "",
         username: "",
@@ -13,44 +13,44 @@ const store = new Vuex.Store({
         traffic: ""
     },
     getters: {
-        GetToken(state) {
+        get_token(state) {
             return state.token || localStorage.getItem("token") || "";
         },
-        GetUserName(state) {
+        get_username(state) {
             return state.username || localStorage.getItem("username") || "";
         },
-        GetEmail(state) {
+        get_email(state) {
             return state.email || localStorage.getItem("email") || "";
         },
-        GetFrpToken(state) {
+        get_frp_token(state) {
             return state.frptoken || localStorage.getItem("frptoken") || "";
         },
-        GetInBound(state) {
+        get_in_bound(state) {
             // 限速方面必须返回整数
             return state.inbound / 128 || Number(localStorage.getItem("inbound")) / 128 || 0;
         },
-        GetOutBound(state) {
+        get_out_bound(state) {
             return state.outbound / 128 || Number(localStorage.getItem("outbound")) / 128 || 0;
         },
-        GetAvatar(state) {
+        get_avatar(state) {
             return state.avatar || localStorage.getItem("avatar") + "&size=512" || "";
         },
-        GetTraffic(state) {
+        get_traffic(state) {
             return Number(state.traffic) / 1024 || Number(localStorage.getItem("traffic")) / 1024 || 0;
         }
     },
     mutations: {
         // 修改token，并将token存入localStorage
-        setToken(state, token) {
+        set_token(state, token) {
             state.token = token;
             localStorage.setItem('token', token);
         },
-        delToken(state) {
+        delete_token(state) {
             state.token = "";
             localStorage.removeItem("token");
         },
         // 可选
-        setUserInfo(state, userdata) {
+        set_user_info(state, userdata) {
             state.username = userdata.username;
             state.email = userdata.email;
             state.frptoken = userdata.frptoken;
@@ -66,13 +66,13 @@ const store = new Vuex.Store({
             localStorage.setItem('outbound', userdata.outbound);
             localStorage.setItem('avatar', userdata.avatar);
         },
-        setLimit(state, limit_info) {
+        set_limit(state, limit_info) {
             state.inbound = limit_info.inbound;
             state.outbound = limit_info.outbound;
             localStorage.setItem("inbound", limit_info.inbound);
             localStorage.setItem('outbound', limit_info.outbound);
         },
-        delUserInfo(state) {
+        delete_user_info(state) {
             state.usermame = "";
             state.email = "";
             state.frptoken = "";

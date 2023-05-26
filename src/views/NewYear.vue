@@ -1,21 +1,21 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-red-paper-lantern"></i>
-    <n-text type="primary"> 新年祝福 </n-text>
+    <n-text type="primary"> 新年祝福</n-text>
   </n-h1>
   <n-form :ref="formRef" :model="NewYear" label-width="auto" size="large">
     <n-grid cols="1" item-responsive>
       <n-grid-item span="1" id="item">
         <n-form-item label="评论" path="comment">
           <n-input
-            v-model:value="NewYear.comment"
-            placeholder="您对LOCYAN FRP有何评价呢?"
+              v-model:value="NewYear.comment"
+              placeholder="您对LOCYAN FRP有何评价呢?"
           />
         </n-form-item>
       </n-grid-item>
     </n-grid>
     <div style="display: flex; justify-content: flex-end">
-      <n-button round type="primary" @click="submitcomment()"> 提交 </n-button>
+      <n-button round type="primary" @click="submitcomment()"> 提交</n-button>
     </div>
   </n-form>
   <n-grid cols="3" item-responsive>
@@ -33,14 +33,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import {
-  SendErrorDialog,
-  SendSuccessDialog,
-  SendWarningDialog,
-} from "../utils/dialog";
-import { FinishLoadingBar, StartLoadingBar } from "../utils/loadingbar";
-import { get } from "../utils/request.js";
+import {ref} from "vue";
+import {SendErrorDialog, SendSuccessDialog, SendWarningDialog,} from "../utils/dialog";
+import {FinishLoadingBar, StartLoadingBar} from "../utils/loadingbar";
+import {get} from "../utils/request.js";
 import store from "../utils/stores/store.js";
 
 const CommentList = ref([]);
@@ -53,9 +49,9 @@ function timestampToTime(timestamp) {
   const date = new Date(timestamp * 1000);
   const Y = date.getFullYear() + "-";
   const M =
-    (date.getMonth() + 1 < 10
-      ? "0" + (date.getMonth() + 1)
-      : date.getMonth() + 1) + "-";
+      (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
   const D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
   const h = date.getHours() + ":";
   const m = date.getMinutes() + ":";
@@ -69,11 +65,11 @@ function submitcomment() {
     SendErrorDialog("内容不可为空！");
   }
   const rs = get(
-    "https://api.locyanfrp.cn/App/SubmitComment?username=" +
-      store.getters.GetUserName +
+      "https://api.locyanfrp.cn/App/SubmitComment?username=" +
+      store.getters.get_username +
       "&comment=" +
       NewYear.value.comment,
-    []
+      []
   );
   rs.then((res) => {
     if (res.status) {

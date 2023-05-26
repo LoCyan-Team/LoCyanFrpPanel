@@ -2,66 +2,66 @@
   <n-grid cols="1" item-responsive>
     <n-grid-item span="1">
       <n-form
-        ref="formRef"
-        :model="model"
-        :rules="rules"
-        label-width="auto"
-        require-mark-placement="right-hanging"
-        size="medium"
-        id="item"
-        v-show="send_resset_mail"
+          ref="formRef"
+          :model="model"
+          :rules="rules"
+          label-width="auto"
+          require-mark-placement="right-hanging"
+          size="medium"
+          id="item"
+          v-show="send_resset_mail"
       >
         <n-form-item label="用户名 / 邮箱" path="username">
           <n-input
-            type="text"
-            v-model:value="model.username"
-            placeholder="用户名"
-            @keyup.enter="sendresetmail"
+              type="text"
+              v-model:value="model.username"
+              placeholder="用户名"
+              @keyup.enter="sendresetmail"
           />
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
           <n-space>
             <n-button
-              type="primary"
-              @click="sendresetmail"
-              style="margin-right: 10px"
+                type="primary"
+                @click="sendresetmail"
+                style="margin-right: 10px"
             >
               发送重置邮件
             </n-button>
-            <n-button ghost type="primary" @click="gologin"> 登录 </n-button>
+            <n-button ghost type="primary" @click="gologin"> 登录</n-button>
           </n-space>
         </div>
       </n-form>
       <n-form
-        ref="formRef"
-        :model="reset_password"
-        :rules="rules"
-        label-width="auto"
-        require-mark-placement="right-hanging"
-        size="medium"
-        id="item"
-        v-show="!send_resset_mail"
+          ref="formRef"
+          :model="reset_password"
+          :rules="rules"
+          label-width="auto"
+          require-mark-placement="right-hanging"
+          size="medium"
+          id="item"
+          v-show="!send_resset_mail"
       >
         <n-form-item label="新密码" path="password">
           <n-input
-            type="text"
-            v-model:value="reset_password.password"
-            placeholder="新密码"
+              type="text"
+              v-model:value="reset_password.password"
+              placeholder="新密码"
           />
         </n-form-item>
         <n-form-item label="重复密码" path="confirm">
           <n-input
-            type="text"
-            v-model:value="reset_password.confirm"
-            placeholder="重复密码"
+              type="text"
+              v-model:value="reset_password.confirm"
+              placeholder="重复密码"
           />
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
           <n-space>
             <n-button
-              type="primary"
-              @click="doresetrequest"
-              style="margin-right: 10px"
+                type="primary"
+                @click="doresetrequest"
+                style="margin-right: 10px"
             >
               提交重置请求
             </n-button>
@@ -73,9 +73,9 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useMessage, useLoadingBar } from "naive-ui";
-import { get, getUrlKey } from "../utils/request.js";
+import {ref} from "vue";
+import {useLoadingBar, useMessage} from "naive-ui";
+import {get, getUrlKey} from "../utils/request.js";
 import router from "../router/index.js";
 
 const formRef = ref(null);
@@ -121,13 +121,13 @@ function doresetrequest() {
   status.value = "reseting";
   ldb.start();
   const rs = get(
-    "https://api.locyanfrp.cn/User/DoResetPassword?password=" +
+      "https://api.locyanfrp.cn/User/DoResetPassword?password=" +
       reset_password.value.password +
       "&confirm=" +
       reset_password.value.confirm +
       "&code=" +
       code,
-    []
+      []
   );
   rs.then((res) => {
     if (res.status === true) {
@@ -148,9 +148,9 @@ function sendresetmail() {
   status.value = "sending";
   ldb.start();
   const rs = get(
-    "https://api.locyanfrp.cn/User/DoResetPassowrdEmailSend?username=" +
+      "https://api.locyanfrp.cn/User/DoResetPassowrdEmailSend?username=" +
       model.value.username,
-    []
+      []
   );
   rs.then((res) => {
     if (res.status === true) {

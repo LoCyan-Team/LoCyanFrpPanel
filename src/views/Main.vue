@@ -1,21 +1,22 @@
 <template>
   <div style="text-align: center">
-    <br />
+    <br/>
     <div class="sign">
       <span class="fast-flicker">Lo</span>Cyan<span class="flicker">Frp</span>
     </div>
     <n-alert type="default" style="font-size: 20px; display: inline-block">
       一款真正完全免费的内网穿透软件！
     </n-alert>
-    <br /><br />
+    <br/><br/>
     <n-button-group>
       <n-space :x-gap="5">
         <n-button
-          size="large"
-          type="primary"
-          ghost
-          @click="router.push({ name: 'login' })"
-          >进入LCF</n-button
+            size="large"
+            type="primary"
+            ghost
+            @click="router.push({ name: 'Login.vue' })"
+        >进入LCF
+        </n-button
         >
         <n-button size="large" @click="GoToDocs">文档</n-button>
       </n-space>
@@ -35,9 +36,9 @@ const GoToDocs = () => {
 body {
   background-color: #141114;
   background-image: linear-gradient(335deg, black 23px, transparent 23px),
-    linear-gradient(155deg, black 23px, transparent 23px),
-    linear-gradient(335deg, black 23px, transparent 23px),
-    linear-gradient(155deg, black 23px, transparent 23px);
+  linear-gradient(155deg, black 23px, transparent 23px),
+  linear-gradient(335deg, black 23px, transparent 23px),
+  linear-gradient(155deg, black 23px, transparent 23px);
   background-size: 58px 58px;
   background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
 }
@@ -57,8 +58,8 @@ body {
   font-size: 6ex;
   color: #ffe6ff;
   text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #73e825e1,
-    -0.2rem 0.1rem 1rem #73e825e1, 0.2rem 0.1rem 1rem #73e825e1,
-    0 -0.5rem 2rem #12d00f, 0 0.5rem 3rem #12d00f;
+  -0.2rem 0.1rem 1rem #73e825e1, 0.2rem 0.1rem 1rem #73e825e1,
+  0 -0.5rem 2rem #12d00f, 0 0.5rem 3rem #12d00f;
   animation: shine 2s forwards, flicker 3s infinite;
 }
 
@@ -69,8 +70,8 @@ body {
   75% {
     color: #ffe6ff;
     text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #73e825e1,
-      -0.2rem 0.1rem 1rem #73e825e1, 0.2rem 0.1rem 1rem #73e825e1,
-      0 -0.5rem 2rem #12d00f, 0 0.5rem 3rem #12d00f;
+    -0.2rem 0.1rem 1rem #73e825e1, 0.2rem 0.1rem 1rem #73e825e1,
+    0 -0.5rem 2rem #12d00f, 0 0.5rem 3rem #12d00f;
   }
 
   28%,
@@ -103,8 +104,8 @@ body {
   100% {
     color: #ffe6ff;
     text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #73e825e1,
-      -0.2rem 0.1rem 1rem #73e825e1, 0.2rem 0.1rem 1rem #73e825e1,
-      0 -0.5rem 2rem #12d00f, 0 0.5rem 3rem #12d00f;
+    -0.2rem 0.1rem 1rem #73e825e1, 0.2rem 0.1rem 1rem #73e825e1,
+    0 -0.5rem 2rem #12d00f, 0 0.5rem 3rem #12d00f;
   }
 }
 

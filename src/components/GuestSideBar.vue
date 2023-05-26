@@ -1,39 +1,33 @@
 <template>
   <n-layout-sider
-    bordered
-    show-trigger
-    :collapsed="collapsed"
-    @collapse="collapsed = true"
-    @expand="collapsed = false"
-    collapse-mode="width"
-    :collapsed-width="64"
-    :native-scrollbar="true"
-    id="sider"
-    style="height: 100%; bottom: 0"
+      bordered
+      show-trigger
+      :collapsed="collapsed"
+      @collapse="collapsed = true"
+      @expand="collapsed = false"
+      collapse-mode="width"
+      :collapsed-width="64"
+      :native-scrollbar="true"
+      id="sider"
+      style="height: 100%; bottom: 0"
   >
     <n-menu
-      :collapsed="collapsed"
-      :collapsed-width="64"
-      :collapsed-icon-size="22"
-      :options="menuOptions"
-      style=""
-      :value="active"
-      @update:value="handleUpdateValue"
+        :collapsed="collapsed"
+        :collapsed-width="64"
+        :collapsed-icon-size="22"
+        :options="menuOptions"
+        style=""
+        :value="active"
+        @update:value="handleUpdateValue"
     />
   </n-layout-sider>
 </template>
 
 <script setup>
-import { NMenu } from "naive-ui";
-import { NLayoutSider } from "naive-ui";
-import { h, ref } from "vue";
-import { NIcon } from "naive-ui";
+import {NIcon, NLayoutSider, NMenu} from "naive-ui";
+import {h, ref} from "vue";
 
-import {
-  PlanetOutline,
-  LogInOutline,
-  MailOpenOutline,
-} from "@vicons/ionicons5";
+import {LogInOutline, MailOpenOutline, PlanetOutline,} from "@vicons/ionicons5";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -42,7 +36,7 @@ if (document.body.clientWidth >= 1000) {
 }
 
 function renderIcon(icon) {
-  return () => h(NIcon, null, { default: () => h(icon) });
+  return () => h(NIcon, null, {default: () => h(icon)});
 }
 
 const menuOptions = [
@@ -55,7 +49,7 @@ const menuOptions = [
   {
     path: "/login",
     label: "登录",
-    key: "login",
+    key: "Login.vue",
     icon: renderIcon(LogInOutline),
   },
   {
@@ -73,14 +67,14 @@ const menuOptions = [
 ];
 </script>
 <script>
-import { ref } from "vue";
+import {ref} from "vue";
 import router from "../router/index.js";
 
 const active = ref("");
 
 export const handleUpdateValue = (key, item) => {
   active.value = key;
-  router.push({ path: item.path });
+  router.push({path: item.path});
 };
 
 export function SetSideBarActiveKey_Guest(name) {
