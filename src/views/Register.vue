@@ -60,7 +60,7 @@
     </n-form-item>
     <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
       <n-space>
-        <n-button type="primary" @click="register" style="margin-right: 10px">
+        <n-button type="primary" @click="Register" style="margin-right: 10px">
           注册
         </n-button>
         <n-button

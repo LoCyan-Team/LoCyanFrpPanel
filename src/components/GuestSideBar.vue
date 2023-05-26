@@ -49,7 +49,7 @@ const menuOptions = [
   {
     path: "/login",
     label: "登录",
-    key: "login",
+    key: "Login.vue",
     icon: renderIcon(LogInOutline),
   },
   {

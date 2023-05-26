@@ -39,12 +39,12 @@ const routes = [
             },
             {
                 path: "/login",
-                name: "login",
+                name: "Login.vue",
                 meta: {
                     keepAlive: true,
                     title: "登录",
                 },
-                component: () => import("../views/login.vue"),
+                component: () => import("../views/Login.vue"),
             },
             {
                 path: "/register",
@@ -53,7 +53,7 @@ const routes = [
                     keepAlive: true,
                     title: "注册",
                 },
-                component: () => import("../views/register.vue"),
+                component: () => import("../views/Register.vue"),
             },
             {
                 path: "/reset_password",
@@ -62,7 +62,7 @@ const routes = [
                     keepAlive: true,
                     title: "重置密码",
                 },
-                component: () => import("../views/resetpassword.vue"),
+                component: () => import("../views/ResetPassword.vue"),
             },
             {
                 path: "/proxies",
@@ -71,7 +71,7 @@ const routes = [
                     keepAlive: true,
                     title: "隧道列表",
                 },
-                component: () => import("../views/proxies.vue"),
+                component: () => import("../views/Proxies.vue"),
             },
             {
                 path: "/proxies/addproxies",
@@ -80,7 +80,7 @@ const routes = [
                     keepAlive: true,
                     title: "添加隧道",
                 },
-                component: () => import("../views/addproxies.vue"),
+                component: () => import("../views/AddProxies.vue"),
             },
             {
                 path: "/realname",
@@ -89,7 +89,7 @@ const routes = [
                     keepAlive: true,
                     title: "实名认证",
                 },
-                component: () => import("../views/realname.vue"),
+                component: () => import("../views/RealName.vue"),
             },
             {
                 path: "/hello2023",
@@ -98,7 +98,7 @@ const routes = [
                     keepAlive: true,
                     title: "留言",
                 },
-                component: () => import("../views/newyear.vue"),
+                component: () => import("../views/NewYear.vue"),
             },
             {
                 path: "/prize",
@@ -107,7 +107,7 @@ const routes = [
                     keepAlive: true,
                     title: "抽奖",
                 },
-                component: () => import("../views/prize.vue"),
+                component: () => import("../views/Prize.vue"),
             },
             {
                 path: "/config",
@@ -116,7 +116,7 @@ const routes = [
                     keepAlive: true,
                     title: "配置文件",
                 },
-                component: () => import("../views/config.vue"),
+                component: () => import("../views/Config.vue"),
             },
             {
                 path: "/donate",
@@ -125,7 +125,7 @@ const routes = [
                     keepAlive: true,
                     title: "赞助",
                 },
-                component: () => import("../views/donate.vue"),
+                component: () => import("../views/Donate.vue"),
             },
         ],
     },
@@ -143,7 +143,7 @@ if (localStorage.getItem("token")) {
 
 router.beforeEach((to, from, next) => {
     StartLoadingBar();
-    if (to.name === "login") {
+    if (to.name === "Login.vue") {
         if (store.getters.get_token) {
             next({name: "User"});
         }
@@ -188,7 +188,7 @@ router.afterEach((to) => {
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(false);
             break;
-        case "login":
+        case "Login.vue":
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(true);
             break;
