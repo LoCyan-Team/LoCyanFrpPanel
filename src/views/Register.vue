@@ -2,7 +2,7 @@
   <n-form
       ref="formRef"
       :model="model"
-      style="margin-top: 20px"
+      class="mt-8"
       :rules="rules"
       label-width="auto"
       require-mark-placement="right-hanging"
@@ -48,7 +48,6 @@
         <n-grid-item span="0:6 600:1">
           <n-button
               ghost
-              round
               type="primary"
               @click="sendcode"
               v-bind:disabled="verify.isClick"
@@ -60,7 +59,7 @@
     </n-form-item>
     <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
       <n-space>
-        <n-button type="primary" @click="Register" style="margin-right: 10px">
+        <n-button type="primary" @click="register" style="margin-right: 10px">
           注册
         </n-button>
         <n-button

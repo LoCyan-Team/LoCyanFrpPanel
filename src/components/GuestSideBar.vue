@@ -9,14 +9,13 @@
       :collapsed-width="64"
       :native-scrollbar="true"
       id="sider"
-      style="height: 100%; bottom: 0"
+      class="h-full bottom-0"
   >
     <n-menu
         :collapsed="collapsed"
         :collapsed-width="64"
         :collapsed-icon-size="22"
         :options="menuOptions"
-        style=""
         :value="active"
         @update:value="handleUpdateValue"
     />
@@ -27,7 +26,7 @@
 import {NIcon, NLayoutSider, NMenu} from "naive-ui";
 import {h, ref} from "vue";
 
-import {LogInOutline, MailOpenOutline, PlanetOutline,} from "@vicons/ionicons5";
+import {LogInOutline, HomeOutline, SyncOutline, AddOutline} from "@vicons/ionicons5";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
@@ -44,7 +43,7 @@ const menuOptions = [
     path: "/",
     label: "首页",
     key: "MainPage",
-    icon: renderIcon(LogInOutline),
+    icon: renderIcon(HomeOutline),
   },
   {
     path: "/login",
@@ -56,13 +55,13 @@ const menuOptions = [
     path: "/register",
     label: "注册",
     key: "register",
-    icon: renderIcon(MailOpenOutline),
+    icon: renderIcon(AddOutline),
   },
   {
     path: "/reset_password",
     label: "重置密码",
     key: "reset_password",
-    icon: renderIcon(PlanetOutline),
+    icon: renderIcon(SyncOutline),
   },
 ];
 </script>

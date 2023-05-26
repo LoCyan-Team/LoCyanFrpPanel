@@ -1,5 +1,5 @@
 <template>
-  <n-h1 prefix="bar" style="margin-top: 30px">
+  <n-h1 prefix="bar" class="mt-8">
     <i class="twa twa-spiral-calendar"></i>
     <n-text type="primary"> 每日签到</n-text>
   </n-h1>
@@ -26,7 +26,7 @@
           <n-skeleton text :repeat="1" style="width: 10%" v-else/>
           <br/>
           <n-gi v-if="status === '已签到'">
-            <img style="width: 100%" src="https://api.lazy.ink/img"/>
+            <img style="width: 100%" src="https://api.lazy.ink/img" alt="已签到"/>
           </n-gi>
         </n-card>
       </n-grid-item>
@@ -43,19 +43,6 @@
 :deep(.creative-enter-active),
 :deep(.creative-leave-active) {
   transition: all 0.3s ease;
-}
-
-.carousel-img {
-  width: 100%;
-  height: 800px;
-  object-fit: cover;
-}
-
-.custom-arrow {
-  display: flex;
-  position: absolute;
-  bottom: 25px;
-  right: 10px;
 }
 
 .custom-arrow button {
@@ -82,15 +69,6 @@
   transform-origin: center;
 }
 
-.custom-dots {
-  display: flex;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-}
-
 .custom-dots li {
   display: inline-block;
   width: 12px;
@@ -102,7 +80,7 @@
   cursor: pointer;
 }
 
-.custom-dots li.is-active {
+.custom-dots li {
   width: 40px;
   background: #fff;
 }

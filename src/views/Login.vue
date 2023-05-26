@@ -24,7 +24,7 @@
               type="password"
               v-model:value="model.password"
               placeholder="密码"
-              @keyup.enter="Login"
+              @keyup.enter="login"
           />
         </n-form-item>
         <div>
@@ -33,7 +33,7 @@
               QQ登录
             </n-button>
             <n-space justify="end">
-              <n-button type="primary" @click="Login"> 登录</n-button>
+              <n-button type="primary" @click="login"> 登录</n-button>
               <n-button
                   ghost
                   style="--n-border: none"
@@ -81,7 +81,7 @@ const model = ref([
 // 检查是否存在redirect值
 const redirect = getUrlKey("redirect");
 if (redirect !== null) {
-  console.log("登录后返回" + redirect);
+  console.log("登录后返回 " + redirect);
 }
 
 // 检查是否存在第三方登录返回值
