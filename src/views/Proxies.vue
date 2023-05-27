@@ -128,8 +128,7 @@
       绑定域名：{{ Proxies[indexOfProxies].domain || "该隧道没有绑定域名" }}
     </p>
     <p>
-      简易启动命令：./frpc.exe -u {{ store.getters.GetFrpToken }} -p
-      {{ SelectProxyID }}
+      简易启动命令：./frpc.exe -u {{ store.getters.get_frp_token }} -p {{ SelectProxyID }}
     </p>
     <!-- <template #footer>
             </template> -->
