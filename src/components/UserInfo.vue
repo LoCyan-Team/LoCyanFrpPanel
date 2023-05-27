@@ -1,9 +1,9 @@
 <template>
   <n-drawer v-model:show="show" :width="Width_DiaLog">
     <n-drawer-content title="个人信息" closable>
-      <n-avatar round :size="80" :src="store.getters.GetAvatar"/>
+      <n-avatar round :size="80" :src="store.getters.get_avatar"/>
       <br/>
-      <n-text style="font-size: 20px">{{ store.getters.GetUserName }}
+      <n-text style="font-size: 20px">{{ store.getters.get_username }}
       </n-text
       >
       <br/>
@@ -81,11 +81,11 @@
 </template>
 
 <script setup>
-import {logout} from "../utils/profile.js";
+import { logout } from "../utils/profile.js";
 import store from "../utils/stores/store.js";
-import {sendSuccessMessage} from "../utils/message.js";
-import {ref} from "vue";
-import {get} from "../utils/request.js";
+import { sendSuccessMessage } from "../utils/message.js";
+import { ref } from "vue";
+import { get } from "../utils/request.js";
 
 const username = store.getters.get_username;
 const Width_DiaLog = ref("30vw");
@@ -255,7 +255,7 @@ function DoLogOut() {
 </script>
 
 <script>
-import {ref} from "vue";
+import { ref } from "vue";
 
 const show = ref(false);
 

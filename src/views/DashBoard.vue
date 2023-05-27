@@ -70,7 +70,7 @@
             <n-number-animation
                 ref="TrafficRef"
                 :from="0"
-                :to="store.getters.GetTraffic"
+                :to="store.getters.get_traffic"
             />
             <template #suffix> GiB</template>
           </n-statistic>
