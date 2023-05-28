@@ -142,6 +142,19 @@ const menuOptions = [
             ),
         key: "software_download",
         icon: renderIcon(CloudDownloadOutline),
+      }, 
+      {
+        label: () =>
+            h(
+                "a",
+                {
+                  href: "https://pan.ovome.icu/s/MAhO?password=o28hn3",
+                  target: "_blank",
+                },
+                "上面那个挂了就用这个"
+            ),
+        key: "software_download_backup",
+        icon: renderIcon(CloudDownloadOutline),
       },
       {
         label: () =>
