@@ -33,7 +33,7 @@
           placeholder="再次输入密码"
       />
     </n-form-item>
-    <n-form-item label="QQ & 邮件验证码" path="oth">
+    <n-form-item label="QQ & 邮件验证码" path="qq">
       <n-grid cols="6" :x-gap="8" :y-gap="8" item-responsive>
         <n-grid-item span="0:6 600:3">
           <n-input type="text" v-model:value="model.qq" placeholder="QQ号"/>
@@ -60,7 +60,7 @@
     </n-form-item>
     <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
       <n-space>
-        <n-button type="primary" @click="Register" style="margin-right: 10px">
+        <n-button type="primary" @click="register" style="margin-right: 10px">
           注册
         </n-button>
         <n-button
@@ -93,7 +93,8 @@ const model = ref([
     password: "",
     email: "",
     confirmpwd: "",
-    oth: "",
+    qq: "",
+    verify: "",
   },
 ]);
 
@@ -156,7 +157,12 @@ const rules = {
     trigger: ["blur", "input"],
     message: "请再次输入密码",
   },
-  oth: {
+  qq: {
+    required: true,
+    trigger: ["blur", "input"],
+    message: "请输入信息",
+  },
+  verify: {
     required: true,
     trigger: ["blur", "input"],
     message: "请输入信息",
