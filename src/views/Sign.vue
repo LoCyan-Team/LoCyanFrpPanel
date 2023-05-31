@@ -26,7 +26,7 @@
           <n-skeleton text :repeat="1" style="width: 10%" v-else/>
           <br/>
           <n-gi v-if="status === '已签到'">
-            <img style="width: 100%" src="https://api.lazy.ink/img"/>
+            <img style="width: 100%" src="https://api.imlazy.ink/img"/>
           </n-gi>
         </n-card>
       </n-grid-item>
