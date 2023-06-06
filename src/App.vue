@@ -20,6 +20,7 @@
 <script setup>
 import {
   darkTheme,
+  lightTheme,
   NConfigProvider,
   NDialogProvider,
   NLoadingBarProvider,
