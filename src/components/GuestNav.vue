@@ -11,7 +11,7 @@
       <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
         <GuestSideBar v-if="ShowSideBar" />
         <n-layout :native-scrollbar="false">
-          <div style="text-align: center">
+          <!-- <div style="text-align: center">
             <n-gradient-text :size="32" type="info">
               祝各位高三学子
             </n-gradient-text>
@@ -19,7 +19,7 @@
             <n-gradient-text :size="46" type="danger">
               高考加油！
             </n-gradient-text>
-          </div>
+          </div> -->
           <div style="margin-right: 15px; margin-left: 15px">
             <router-view v-slot="{ Component }">
               <KeepAlive :max="10">
