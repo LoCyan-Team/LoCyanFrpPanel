@@ -2,12 +2,12 @@
 
 <script>
 import {defineComponent} from "vue";
-import {useNotification} from "naive-ui";
+import {useLoadingBar} from "naive-ui";
 
 // content
 export default defineComponent({
   setup() {
-    window.notification = useNotification();
+    window.$loadingBar = useLoadingBar();
   },
 });
 </script>

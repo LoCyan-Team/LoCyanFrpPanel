@@ -1,15 +1,14 @@
-import { createApp } from 'vue';
-import './style.css';
-import './twemoji-amazing.css';
-import App from './App.vue';
-import message from "./components/message.vue";
-import loadingbar from "./components/loadingbar.vue";
-import ndialog from "./components/ndialog.vue";
-import router from './router/index.js';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
+import {createApp} from "vue";
+import "./style.css";
+import "./twemoji-amazing.css";
+import App from "./App.vue";
+import message from "./components/Message.vue";
+import loadingbar from "./components/LoadingBar.vue";
+import ndialog from "./components/Dialog.vue";
+import router from "./router/index.js";
+import axios from "axios";
+import VueAxios from "vue-axios";
 import store from "./utils/stores/store.js";
-import websocket from 'vue-native-websocket';
 
 const app = createApp(App);
 app.use(store);
@@ -21,8 +20,13 @@ app.use(router);
 //     reconnectionAttempts: 5,
 //     reconnectionDelay: 2000,
 // })
+
+const meta = document.createElement('meta')
+meta.name = 'naive-ui-style'
+document.head.appendChild(meta)
+
 app.use(VueAxios, axios);
-app.component('message', message)
-app.component('loadingbar', loadingbar)
-app.component('ndialog', ndialog)
+app.component("message", message);
+app.component("loadingbar", loadingbar);
+app.component("ndialog", ndialog);
 app.mount("#app");

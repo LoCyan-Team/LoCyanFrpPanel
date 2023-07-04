@@ -1,13 +1,13 @@
 <template></template>
 
 <script>
+import {useMessage} from "naive-ui";
 import {defineComponent} from "vue";
-import {useNotification} from "naive-ui";
 
 // content
 export default defineComponent({
   setup() {
-    window.notification = useNotification();
+    window.$message = useMessage();
   },
 });
 </script>

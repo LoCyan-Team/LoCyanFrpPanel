@@ -9,13 +9,22 @@
           </n-gradient-text>
           <!-- 2023-04-30 23：04 by XiaMoHuaHuo_CN: 哪个大聪明在这放一言 -->
           <!--<n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>-->
-          <n-avatar round size="medium" :style="getStyle()" style="margin-top: 20px;margin-right: 23px" :src="avatar"
+          <n-avatar round size="medium" :style="getStyle()" style="margin-top: 20px; margin-right: 23px" :src="avatar"
             @click="DoShowUserInfo()" />
         </n-space>
       </n-layout-header>
-      <n-layout has-sider style="height: calc(100vh - 66px);bottom: 0">
+      <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
         <SideBar v-if="ShowSideBar" />
         <n-layout :native-scrollbar="false">
+          <!-- <div style="text-align: center">
+            <n-gradient-text :size="32" type="info">
+              祝各位高三学子
+            </n-gradient-text>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <n-gradient-text :size="46" type="danger">
+              高考加油！
+            </n-gradient-text>
+          </div> -->
           <div style="margin-right: 15px; margin-left: 15px">
             <router-view v-slot="{ Component }">
               <KeepAlive :max="10">
@@ -28,9 +37,9 @@
             </router-view>
           </div>
           <br />
-          <div style="margin-top: 3%; margin: 15px;" >
-            <div style="text-align: center;">
-              <n-alert type="default" style="font-size: 20px; display:inline-block;">
+          <div style="margin: 15px">
+            <div style="text-align: center">
+              <n-alert type="default" style="font-size: 20px; display: inline-block">
                 <template #icon>
                   <i class="twa-sm twa-speech-balloon"></i>
                 </template>
@@ -61,33 +70,34 @@
 
 <script setup>
 import { h, ref } from "vue";
+import { NGradientText } from "naive-ui";
 import SideBar from "./MainSideBar.vue";
 import store from "../utils/stores/store.js";
 import router from "../router/index";
-import UserInfo from "./UserInfo.vue";
-import { ChangeUserInfoShow } from "./UserInfo.vue";
+import UserInfo, { ChangeUserInfoShow } from "./UserInfo.vue";
 import { get } from "../utils/request.js";
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
 const avatar = ref("");
 const inverted = false;
-const hitokoto_content_rs = get('https://v1.hitokoto.cn/', []);
+const hitokoto_content_rs = get("https://v1.hitokoto.cn/", []);
 const hitokoto_content = ref("");
 // 一言
-hitokoto_content_rs.then(res => {
+hitokoto_content_rs.then((res) => {
   let content = res.hitokoto;
   let from = res.from;
   hitokoto_content.value = content + " —— " + from;
-})
+});
 
 if (document.body.clientWidth >= 1000) {
   collapsed.value = false;
 }
-avatar.value = store.getters.GetAvatar;
+avatar.value = store.getters.get_avatar;
 
 // 刚进入面板不展示用户信息框
-ChangeUserInfoShow(false)
+ChangeUserInfoShow(false);
+
 function DoShowUserInfo() {
   ChangeUserInfoShow(true);
 }
@@ -97,17 +107,18 @@ function renderIcon(icon) {
 }
 
 function getStyle() {
-  if (!store.getters.GetToken) {
-    return 'display: none;';
+  if (!store.getters.get_token) {
+    return "display: none;";
   }
 }
 
-if (location.pathname === "/") window.location = "/dashboard"
+if (location.pathname === "/") window.location = "/dashboard";
 </script>
 <script>
 import { ref } from "vue";
 
 export const ShowSideBar = ref(false);
+
 export function ChangeShowSideBar_Main(is_show) {
   ShowSideBar.value = is_show;
 }
@@ -115,11 +126,11 @@ export function ChangeShowSideBar_Main(is_show) {
 <style>
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.5s ease
+  transition: all 0.5s ease;
 }
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+  opacity: 0;
 }
 </style>

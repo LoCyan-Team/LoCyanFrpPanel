@@ -2,12 +2,12 @@
 
 <script>
 import {defineComponent} from "vue";
-import {useNotification} from "naive-ui";
+import {useDialog} from "naive-ui";
 
 // content
 export default defineComponent({
   setup() {
-    window.notification = useNotification();
+    window.$dialog = useDialog();
   },
 });
 </script>

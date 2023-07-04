@@ -1,175 +1,175 @@
-import { createRouter, createWebHistory } from "vue-router"
-import { StartLoadingBar, FinishLoadingBar } from "../utils/loadingbar.js";
-import store from "../utils/stores/store.js"
-import { ChangeShowSideBar_Main } from "../components/MainNav.vue";
-import { ChangeShowSideBar_Guest } from "../components/GuestNav.vue";
-import { SetSideBarActiveKey } from "../components/MainSideBar.vue";
-import { SetSideBarActiveKey_Guest } from "../components/GuestSideBar.vue";
+import {createRouter, createWebHistory} from "vue-router";
+import {FinishLoadingBar, StartLoadingBar} from "../utils/loadingbar.js";
+import store from "../utils/stores/store.js";
+import {ChangeShowSideBar_Main} from "../components/MainNav.vue";
+import {ChangeShowSideBar_Guest} from "../components/GuestNav.vue";
+import {SetSideBarActiveKey} from "../components/MainSideBar.vue";
+import {SetSideBarActiveKey_Guest} from "../components/GuestSideBar.vue";
 
 const routes = [
     {
-        path: '/',
+        path: "/",
         children: [
             {
-                path: '/',
-                name: 'MainPage',
+                path: "/",
+                name: "MainPage",
                 meta: {
                     keepAlive: true,
-                    title: '首页'
+                    title: "首页",
                 },
-                component: () => import('../views/Main.vue')
+                component: () => import("../views/Main.vue"),
             },
             {
-                path: '/dashboard',
-                name: 'Dashboard',
+                path: "/dashboard",
+                name: "DashBoard",
                 meta: {
                     keepAlive: true,
-                    title: '仪表盘'
+                    title: "仪表盘",
                 },
-                component: () => import('../views/Dashboard.vue')
+                component: () => import("../views/DashBoard.vue"),
             },
             {
-                path: '/sign',
-                name: 'Sign',
+                path: "/sign",
+                name: "Sign",
                 meta: {
                     keepAlive: true,
-                    title: '签到'
+                    title: "签到",
                 },
-                component: () => import('../views/Sign.vue')
+                component: () => import("../views/Sign.vue"),
             },
             {
-                path: '/login',
-                name: 'login',
+                path: "/login",
+                name: "Login",
                 meta: {
                     keepAlive: true,
-                    title: '登录'
+                    title: "登录",
                 },
-                component: () => import('../views/login.vue')
+                component: () => import("../views/Login.vue"),
             },
             {
-                path: '/register',
-                name: 'register',
+                path: "/register",
+                name: "Register",
                 meta: {
                     keepAlive: true,
-                    title: '注册'
+                    title: "注册",
                 },
-                component: () => import('../views/register.vue')
+                component: () => import("../views/Register.vue"),
             },
             {
-                path: '/reset_password',
-                name: 'reset_password',
+                path: "/reset_password",
+                name: "ResetPassword",
                 meta: {
                     keepAlive: true,
-                    title: '重置密码'
+                    title: "重置密码",
                 },
-                component: () => import('../views/resetpassword.vue')
+                component: () => import("../views/ResetPassword.vue"),
             },
             {
                 path: "/proxies",
-                name: 'Proxies',
+                name: "Proxies",
                 meta: {
                     keepAlive: true,
-                    title: '隧道列表'
+                    title: "隧道列表",
                 },
-                component: () => import('../views/proxies.vue')
+                component: () => import("../views/Proxies.vue"),
             },
             {
-                path: '/proxies/addproxies',
+                path: "/proxies/addproxies",
                 name: "AddProxies",
                 meta: {
                     keepAlive: true,
-                    title: '添加隧道'
+                    title: "添加隧道",
                 },
-                component: () => import('../views/addproxies.vue')
+                component: () => import("../views/AddProxies.vue"),
             },
             {
-                path: '/realname',
+                path: "/realname",
                 name: "RealName",
                 meta: {
                     keepAlive: true,
-                    title: '实名认证'
+                    title: "实名认证",
                 },
-                component: () => import('../views/realname.vue')
+                component: () => import("../views/RealName.vue"),
             },
             {
-                path: '/hello2023',
-                name: 'newyear',
+                path: "/hello2023",
+                name: "NewYear",
                 meta: {
                     keepAlive: true,
-                    title: '留言'
+                    title: "留言",
                 },
-                component: () => import('../views/newyear.vue')
+                component: () => import("../views/NewYear.vue"),
             },
             {
-                path: '/prize',
-                name: 'prize',
+                path: "/prize",
+                name: "Prize",
                 meta: {
                     keepAlive: true,
-                    title: '抽奖'
+                    title: "抽奖",
                 },
-                component: () => import('../views/prize.vue')
+                component: () => import("../views/Prize.vue"),
             },
             {
-                path: '/config',
-                name: 'config',
+                path: "/config",
+                name: "Config",
                 meta: {
                     keepAlive: true,
-                    title: '配置文件'
+                    title: "配置文件",
                 },
-                component: () => import('../views/config.vue')
+                component: () => import("../views/Config.vue"),
             },
             {
-                path: '/donate',
-                name: 'donate',
+                path: "/donate",
+                name: "Donate",
                 meta: {
                     keepAlive: true,
-                    title: '赞助'
+                    title: "赞助",
                 },
-                component: () => import('../views/donate.vue')
-            }
-        ]
-    }
-]
+                component: () => import("../views/Donate.vue"),
+            },
+        ],
+    },
+];
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
-})
+    routes,
+});
 
 // 检查本地存储是否存在token，若存在则直接使用
 if (localStorage.getItem("token")) {
-    store.commit("setToken", localStorage.getItem("token"));
+    store.commit("set_token", localStorage.getItem("token"));
 }
 
 router.beforeEach((to, from, next) => {
     StartLoadingBar();
-    if (to.name === 'login'){
-        if (store.getters.GetToken){
-            next({name: 'User' });
+    if (to.name === "Login") {
+        if (store.getters.get_token) {
+            next({name: "DashBoard"});
         }
         next();
-        return
+        return;
     }
-    if (to.name === 'register'){
-        if (store.getters.GetToken){
-            next({name: 'User' });
+    if (to.name === "Register") {
+        if (store.getters.get_token) {
+            next({name: "DashBoard"});
         }
         next();
-        return
+        return;
     }
-    if (to.name === 'reset_password'){
-        if (store.getters.GetToken){
-            next({name: 'User' });
+    if (to.name === "ResetPassword") {
+        if (store.getters.get_token) {
+            next({name: "DashBoard"});
         }
         next();
-        return
+        return;
     }
-    if (to.name === 'MainPage'){
+    if (to.name === "MainPage") {
         next();
-        return
+        return;
     }
-    if (!store.getters.GetToken){
-        next({name: 'login', query:{"redirect": location.pathname}});
+    if (!store.getters.get_token) {
+        next({name: "Login", query: {redirect: location.pathname}});
     } else {
         next();
     }
@@ -178,8 +178,9 @@ router.beforeEach((to, from, next) => {
 // from next
 router.afterEach((to) => {
     FinishLoadingBar();
-    if (to.meta.title) {    //设置标题
-        document.title = to.meta.title + " | LoCyanFrp"
+    if (to.meta.title) {
+        //设置标题
+        document.title = to.meta.title + " | LoCyanFrp";
     }
 
     switch (to.name) {
@@ -187,15 +188,15 @@ router.afterEach((to) => {
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(false);
             break;
-        case "login":
+        case "Login":
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(true);
             break;
-        case "register":
+        case "Register":
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(true);
             break;
-        case "reset_password":
+        case "ResetPassword":
             ChangeShowSideBar_Main(false);
             ChangeShowSideBar_Guest(true);
             break;
@@ -204,11 +205,11 @@ router.afterEach((to) => {
             ChangeShowSideBar_Guest(false);
     }
 
-    if (store.getters.GetToken) {
+    if (store.getters.get_token) {
         SetSideBarActiveKey(to.name);
     } else {
         SetSideBarActiveKey_Guest(to.name);
     }
 });
 
-export default router
+export default router;
