@@ -43,6 +43,12 @@
               <a style="text-align: center;">LoCyan Team 所有</a>
               <br>
               <a style="text-align: center;">鸣谢: XiaMoHuaHuo-CN, 天宇网络, LiteCat</a>
+              <br>
+              <template>
+                <n-alert type="default" style="font-size: 20px; display:inline-block;">
+                <a href="https://spcraft.ml">风雨阁Storm Pavilion</a>
+              </n-alert>
+              </template>
             </div>
           </div>
         </n-layout>
