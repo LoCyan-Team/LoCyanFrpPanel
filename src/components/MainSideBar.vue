@@ -148,7 +148,7 @@ const menuOptions = [
             h(
                 "a",
                 {
-                  href: "https://pan.ovome.icu/s/MAhO?password=o28hn3",
+                  href: "https://pan.1l1.icu/s/MAhO?password=o28hn3",
                   target: "_blank",
                 },
                 "上面那个挂了就用这个"
