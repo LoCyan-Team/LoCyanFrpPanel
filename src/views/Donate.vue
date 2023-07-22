@@ -232,7 +232,7 @@ const DoDonate = () => {
     return;
   }
   const rs = get(
-      "https://api.locyanfrp.cn/Pay?money=" +
+      "https://api.locyanfrp.cn/Pay/AliPayH5?money=" +
       amount.value +
       "&name=LoCyanFrpDonate&username=" +
       store.getters.get_username +
