@@ -82,7 +82,7 @@
       </n-grid-item>
     </n-grid>
     <div style="display: flex; justify-content: flex-end">
-      <n-button round type="primary" @click="addproxy"> 创建</n-button>
+      <n-button color="#99BEF1FF" @click="addproxy"> 创建隧道 </n-button>
     </div>
   </n-form>
 </template>

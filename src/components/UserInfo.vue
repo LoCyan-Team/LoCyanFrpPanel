@@ -72,7 +72,7 @@
         </n-space>
       </n-space>
       <template #footer>
-        <n-button ghost round type="primary" @click="DoLogOut">
+        <n-button ghost type="primary" @click="DoLogOut">
           退出登录
         </n-button>
       </template>
