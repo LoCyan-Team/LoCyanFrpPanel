@@ -69,7 +69,9 @@
           <n-input
               v-model:value="ProxyInfo.remote_port"
               placeholder="映射到远程服务器上的端口"
+              style="margin-right: 10px;"
           />
+          <n-button @click="RandomPort"> 随机端口 </n-button>
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
@@ -82,7 +84,7 @@
       </n-grid-item>
     </n-grid>
     <div style="display: flex; justify-content: flex-end">
-      <n-button color="#99BEF1FF" @click="addproxy"> 创建隧道 </n-button>
+      <n-button round type="primary" @click="addproxy"> 创建</n-button>
     </div>
   </n-form>
 </template>
@@ -92,11 +94,11 @@ n-input {
 }
 </style>
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
 import store from "../utils/stores/store.js";
-import {get} from "../utils/request.js";
-import {sendErrorMessage} from "../utils/message";
-import {SendErrorDialog, SendSuccessDialog} from "../utils/dialog.js";
+import { get } from "../utils/request.js";
+import { sendErrorMessage } from "../utils/message";
+import { SendErrorDialog, SendSuccessDialog } from "../utils/dialog.js";
 
 localStorage.setItem("ViewPage", "add_proxy");
 // 选择框数据
@@ -222,6 +224,17 @@ const ShowDomainInput = ref(false);
 
 function ProxyTypeSelectChangeHandle(value) {
   ShowDomainInput.value = value === "3" || value === "4";
+}
+
+function RandomPort(){
+  if (ProxyInfo.value.node === 0){
+    SendErrorDialog("请先选择你需要的节点");
+    return;
+  }
+  const rs = get("https://api.locyanfrp.cn/Proxies/GetRandomPort?id=" + ProxyInfo.value.node);
+  rs.then((res) => {
+    ProxyInfo.value.remote_port = res.port;
+  })
 }
 
 function addproxy() {
