@@ -88,6 +88,20 @@
         </n-space>
       </n-card>
       <br/>
+      <n-alert title="Frp配置复杂?试试bore!" type="info">
+        XiaMoHuaHuo_CN's Network & Work bore穿透已上线<br>
+        <b>仅支持IPv6</b><br>
+        支持快速TCP穿透，在你的电脑上安装rust后运行命令：<br>
+        cargo install bore-cli<br>
+        或者：<br>
+        cargo install borev6-cli<br>
+        使用以下命令快速创建临时tcp隧道<br>
+        bore local --to xcbs.lcf.icu 端口 --secret XMNWCBoreProject<br>
+        享受它!连接地址为控制台返回的地址<br>
+        支持临时建站测试 无需配置隧道协议等 凡TCP协议均可穿透<br>
+        端口由服务器随机分配，范围50000-65535，不支持固定端口和绑定域名<br>
+        建议使用范围是需要快速创建临时tcp隧道使用
+      </n-alert>
       <n-alert title="关于高级功能" type="info">
         若需要Frp的高级功能, 你可以前往旧面板配置隧道后前往软件下载页面,
         进入LoCyanFrp-0.4X.X的文件夹<br/>
