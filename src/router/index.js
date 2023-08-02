@@ -119,6 +119,15 @@ const routes = [
                 component: () => import("../views/Config.vue"),
             },
             {
+                path: "/xmnetwork/bore",
+                name: "XMNWC-Bore",
+                meta: {
+                    keepAlive: true,
+                    title: "bore穿透",
+                },
+                component: () => import("../views/XMNWCBore.vue"),
+            },
+            {
                 path: "/donate",
                 name: "Donate",
                 meta: {

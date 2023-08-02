@@ -36,6 +36,7 @@ import {
   FileTrayFull,
   InformationCircleOutline,
   List,
+  Flash,
   PaperPlane,
   PencilSharp,
   Person,
@@ -118,6 +119,12 @@ const menuOptions = [
         icon: renderIcon(FileTrayFull),
       },
     ],
+  },
+  {
+    path: "/xmnetwork/bore",
+    label: "Bore穿透",
+    key: "XMNWC-Bore",
+    icon: renderIcon(Flash),
   },
   {
     path: "/donate",
