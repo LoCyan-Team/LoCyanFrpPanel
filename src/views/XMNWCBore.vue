@@ -64,7 +64,7 @@ let data = ref([
     {
         location: "中国-福建-福州",
         bandwidth: "1Gbps/300Mbps",
-        address: "b4cnfjfz1.lcf.icu",
+        address: "b6cnfjfz1.lcf.icu",
         port: "50000-65535",
         net: "IPv6"
     },
