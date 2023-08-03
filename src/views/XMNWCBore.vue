@@ -16,8 +16,8 @@
     <n-grid cols="1" y-gap="1" item-responsive>
         <n-grid-item span="1">
             <n-card title="启动命令">
-                <n-input v-model:value="inp.node" type="text" placeholder="本地端口" />
-                <n-input v-model:value="inp.local_port" type="text" placeholder="远程服务器地址" />
+                <n-input v-model:value="inp.local_port" type="text" placeholder="本地端口" />
+                <n-input v-model:value="inp.node" type="text" placeholder="远程服务器地址" />
                 <n-code :code="code" language="shell" show-line-numbers
                     style="overflow:auto; margin-top: 30px;width: 100%;"></n-code>
                 <n-button strong secondary type="warning" style="margin-top: 30px" @click="generate()">
