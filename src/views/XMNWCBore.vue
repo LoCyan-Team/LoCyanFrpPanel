@@ -5,8 +5,8 @@
             bore节点
         </n-text>
     </n-h1>
-    <n-alert title="Frp配置复杂?试试bore!" type="info">
-        XiaMoHuaHuo_CN's Network & Work bore穿透<br>
+    <n-alert title="bore穿透" type="info">
+        本服务由 XiaMoHuaHuo_CN's Network & Work 提供。<br>
         <!--<b>仅支持IPv6</b><br>-->
         支持快速TCP穿透，在你的电脑上安装rust后运行命令安装bore命令行工具：<br>
         cargo install bore-cli<br>
