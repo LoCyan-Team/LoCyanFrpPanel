@@ -12,8 +12,8 @@
         role="dialog"
         aria-modal="true"
     >
-      <n-p>用户名: {{ store.getters.GetUserName }}</n-p>
-      <n-p>邮箱：{{ store.getters.GetEmail }}</n-p>
+      <n-p>用户名: {{ store.getters.get_username }}</n-p>
+      <n-p>邮箱：{{ store.getters.get_email }}</n-p>
       <n-p>商品名： {{ trade_info.trade_name }}</n-p>
       <n-p>捐赠订单号：{{ trade_no }}</n-p>
       <n-p>捐赠方式：{{ trade_info.type }}</n-p>
@@ -115,7 +115,7 @@
 
 <script setup>
 import {ref} from "vue";
-import {get, getUrlKey} from "../utils/request.js";
+import {get, getUrlKey, post} from "../utils/request.js";
 import store from "../utils/stores/store.js";
 import {SendSuccessDialog, SendWarningDialog} from "../utils/dialog.js";
 
@@ -231,22 +231,19 @@ const DoDonate = () => {
     loading_donate.value = false;
     return;
   }
-  const rs = get(
-      "https://api.locyanfrp.cn/Pay/AliPayH5?money=" +
-      amount.value +
-      "&name=LoCyanFrpDonate&username=" +
-      store.getters.get_username +
-      "&type=" +
-      pay_type.value +
-      "&return_url=https://preview.locyanfrp.cn/donate",
-      []
-  );
+  const rs = post("https://api-v2.locyanfrp.cn/v2/donate/create", {
+    "name": "LoCyanFrpDonate",
+    "money": amount.value,
+    "redirect_url": "https://preview.locyanfrp.cn/donate",
+    "notify_url": "https://api-v2.locyanfrp.cn/v2/donate/notify",
+    "username": store.getters.get_username
+  });
   rs.then((res) => {
-    if (res.status === true) {
-      window.open(res.url);
+    if (res.status === 200) {
+      window.open(res.data.url);
       loading_donate.value = false;
     } else {
-      SendWarningDialog(res.message);
+      SendWarningDialog(res.data.msf);
       loading_donate.value = false;
     }
   });
