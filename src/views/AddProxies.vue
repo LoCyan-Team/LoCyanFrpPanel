@@ -81,6 +81,12 @@
               placeholder="HTTPS/HTTP需要填写, 其他协议不需要填写"
           />
         </n-form-item>
+        <n-form-item label="访问密钥" path="sk" v-show="ShowSecretKeyInput">
+          <n-input
+              v-model:value="ProxyInfo.sk"
+              placeholder="XTCP / STCP 需要填写, 其他协议不需要填写"
+          />
+        </n-form-item>
       </n-grid-item>
     </n-grid>
     <div style="display: flex; justify-content: flex-end">
@@ -125,6 +131,7 @@ const ProxyInfo = ref({
   local_port: "",
   remote_port: "",
   domain: "",
+  sk: "",
 });
 const EditCheck = ref(false);
 const rules = {
@@ -221,9 +228,11 @@ const rules = {
   },
 };
 const ShowDomainInput = ref(false);
+const ShowSecretKeyInput = ref(false);
 
 function ProxyTypeSelectChangeHandle(value) {
   ShowDomainInput.value = value === "3" || value === "4";
+  ShowSecretKeyInput.value = value === "5" || value === "6";
 }
 
 function RandomPort(){
@@ -262,7 +271,9 @@ function addproxy() {
       "&token=" +
       store.getters.get_token +
       "&url=" +
-      ProxyInfo.value.domain
+      ProxyInfo.value.domain +
+      "&sk=" +
+      ProxyInfo.value.sk
   );
   rs.then((res) => {
     if (res.status === true) {

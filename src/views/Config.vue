@@ -7,7 +7,7 @@
   </n-h1>
   <n-grid cols="1" y-gap="1" item-responsive>
     <n-grid-item span="1">
-      <n-card title="配置文件">
+      <n-card title="配置文件, 注: 暂时没有对 XTCP / STCP 做出适配，请等待后续更新">
         <n-select v-model:value="node" :options="ServerList" @update:value="UpdateValue"/>
         <n-button strong secondary type="info" style="margin-top: 30px"
                   @click="copy(code, $event)">复制配置文件
