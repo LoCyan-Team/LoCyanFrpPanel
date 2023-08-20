@@ -42,11 +42,14 @@
 import { ref } from "vue";
 import store from "../utils/stores/store.js";
 import { get } from "../utils/request.js";
-import { sendErrorMessage } from "../utils/message";
+import { sendErrorMessage, sendSuccessMessage } from "../utils/message";
 import { SendErrorDialog, SendSuccessDialog } from "../utils/dialog.js";
+import { useDialog } from "naive-ui";
 
 const showList = ref(false);
 const formRef = ref(null);
+const dialog = useDialog();
+const loading = ref(false);
 const domainInput = ref({
     domain: ""
 });
@@ -61,19 +64,27 @@ const IcpList = ref([{
 }])
 
 function submit() {
+    if (loading.value == true) {
+        return;
+    }
+    loading.value = true;
     if (domainInput.value.domain === "" || domainInput.value.domain === null) {
         SendErrorDialog("域名不得为空!");
+        loading.value = false;
         return;
     }
     const rs = get("https://api-v2.locyanfrp.cn/api/v2/icp/check?domain=" + domainInput.value.domain + "&token=" + store.getters.get_token + "&username=" + store.getters.get_username);
     rs.then((res) => {
         if (res.status != 200) {
+            loading.value = false;
             SendErrorDialog("审核失败, 可能是域名没有备案或格式错误");
         } else {
+            GetList();
+            loading.value = false;
             SendSuccessDialog("添加成功");
         }
     })
-    GetList();
+
 }
 
 function RemoveIcp(id) {
@@ -91,6 +102,7 @@ function RemoveIcp(id) {
                     SendErrorDialog("删除失败, 请联系管理员处理!");
                 }
             })
+            GetList();
         },
         onNegativeClick: () => {
             sendSuccessMessage("你取消了操作！");
@@ -99,7 +111,6 @@ function RemoveIcp(id) {
             sendSuccessMessage("你取消了操作！");
         },
     });
-    GetList();
 }
 
 function GetList() {
