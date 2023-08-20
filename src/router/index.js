@@ -136,6 +136,15 @@ const routes = [
                 },
                 component: () => import("../views/Donate.vue"),
             },
+            {
+                path: "/icp",
+                name: "Icp",
+                meta: {
+                    keepAlive: true,
+                    title: "域名白名单",
+                },
+                component: () => import("../views/IcpCheck.vue"),
+            },
         ],
     },
 ];

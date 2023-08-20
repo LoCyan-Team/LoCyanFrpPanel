@@ -41,6 +41,7 @@ import {
   PencilSharp,
   Person,
   PlanetOutline,
+  KeyOutline,
 } from "@vicons/ionicons5";
 import {AttachMoneyFilled} from "@vicons/material";
 
@@ -131,6 +132,12 @@ const menuOptions = [
     label: "捐赠",
     key: "Donate",
     icon: renderIcon(AttachMoneyFilled),
+  },
+  {
+    path: "/icp",
+    label: "域名白名单",
+    key: "Icp",
+    icon: renderIcon(KeyOutline),
   },
   {
     label: "其他功能",
