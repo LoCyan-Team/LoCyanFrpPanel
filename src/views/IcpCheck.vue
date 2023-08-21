@@ -92,7 +92,7 @@ function RemoveIcp(id) {
         title: "警告",
         content: "你确定要删除这个域名吗？（域名 ID: " + id + "）",
         positiveText: "确定",
-        negativeText: "不确定",
+        negativeText: "取消",
         onPositiveClick: () => {
             const rs = get("https://api-v2.locyanfrp.cn/api/v2/icp/remove?id=" + id + "&token=" + store.getters.get_token + "&username=" + store.getters.get_username);
             rs.then((res) => {
