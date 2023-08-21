@@ -5,7 +5,7 @@
       class="custom-card"
       preset="card"
       :style="bodyStyle"
-      :title="'编辑隧道 - 隧道ID: ' + String(SelectProxyID)"
+      :title="'编辑隧道 - 隧道 ID: ' + String(SelectProxyID)"
       size="huge"
       :bordered="false"
       :segmented="segmented"
@@ -54,10 +54,10 @@
           </n-form-item>
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
-          <n-form-item label="内网IP" path="local_ip">
+          <n-form-item label="内网 IP" path="local_ip">
             <n-input
                 v-model:value="ProxyEditInfo.local_ip"
-                placeholder="内网IP，例如127.0.0.1"
+                placeholder="内网 IP，例如 127.0.0.1"
             />
           </n-form-item>
         </n-grid-item>
@@ -65,7 +65,7 @@
           <n-form-item label="内网端口" path="local_port">
             <n-input
                 v-model:value="ProxyEditInfo.local_port"
-                placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19136 泰拉瑞亚:7777"
+                placeholder="内网端口 | HTTP：80 | HTTPS：443 | MC：25565 / 19136 | 泰拉瑞亚：7777"
             />
           </n-form-item>
         </n-grid-item>
@@ -79,13 +79,13 @@
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
           <n-form-item
-              label="自定义域名"
+              label="自定义域名（国内节点须备案）"
               path="domain"
               v-show="ShowDomainInput"
           >
             <n-input
                 v-model:value="ProxyEditInfo.domain"
-                placeholder="HTTPS/HTTP需要填写，其他协议不需要填写"
+                placeholder="Https / Http 需填写，其他协议不需要填写"
             />
           </n-form-item>
         </n-grid-item>
@@ -109,7 +109,7 @@
       class="custom-card"
       preset="card"
       :style="bodyStyle"
-      :title="'详细信息 - 隧道ID: ' + SelectProxyID"
+      :title="'详细信息 - 隧道 ID: ' + SelectProxyID"
       size="huge"
       :bordered="false"
       :segmented="segmented"
@@ -290,7 +290,7 @@ function makelinkaddr(id) {
 
 function EditProxy(proxyid) {
   if (EditCheck.value === false) {
-    SendWarningDialog("参数检查未通过，请检查信息格式是否正确");
+    SendWarningDialog("参数检查未通过，请检查信息格式是否正确！");
   }
   const rs = get(
       "https://api.locyanfrp.cn/Proxies/update?username=" +
@@ -340,7 +340,7 @@ const rules = {
         return new Error("请输入隧道名");
       } else if (!/[A-Za-z0-9_]$/.test(value)) {
         EditCheck.value = false;
-        return new Error("隧道名格式错误，由字母，数字和下划线组成");
+        return new Error("隧道名格式错误，由字母、数字和下划线组成！");
       }
       EditCheck.value = true;
       return true;
@@ -355,14 +355,14 @@ const rules = {
     validator(rule, value) {
       if (!value) {
         EditCheck.value = false;
-        return new Error("请输入本地IP");
+        return new Error("请输入本地 IP");
       } else if (
           !/(((\d)|([1-9]\d)|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((\d)|([1-9]\d)|(1\d{2})|(2[0-4]\d)|(25[0-5]))/.test(
               value
           )
       ) {
         EditCheck.value = false;
-        return new Error("本地IP格式不合法");
+        return new Error("本地 IP 格式不合法！");
       }
       EditCheck.value = true;
       return true;
@@ -374,14 +374,14 @@ const rules = {
     validator(rule, value) {
       if (!value) {
         EditCheck.value = false;
-        return new Error("请输入本地端口");
+        return new Error("请输入本地端口！");
       } else if (
           !/^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/.test(
               value
           )
       ) {
         EditCheck.value = false;
-        return new Error("本地端口格式不合法");
+        return new Error("本地端口格式不合法！");
       }
       EditCheck.value = true;
       return true;
@@ -393,14 +393,14 @@ const rules = {
     validator(rule, value) {
       if (!value) {
         EditCheck.value = false;
-        return new Error("请输入远程端口");
+        return new Error("请输入远程端口！");
       } else if (
           !/^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/.test(
               value
           )
       ) {
         EditCheck.value = false;
-        return new Error("远程端口格式不合法");
+        return new Error("远程端口格式不合法！");
       }
       EditCheck.value = true;
       return true;
@@ -411,12 +411,12 @@ const rules = {
     validator(rule, value) {
       if (!value) {
         EditCheck.value = false;
-        return new Error("请输入域名");
+        return new Error("请输入域名！");
       } else if (
           !/^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$/.test(value)
       ) {
         EditCheck.value = false;
-        return new Error("域名格式不合法");
+        return new Error("域名格式不合法！");
       }
       EditCheck.value = true;
       return true;
@@ -493,9 +493,9 @@ const ProxyEditInfo = ref({
 function deleteProxy(id) {
   dialog.warning({
     title: "警告",
-    content: "你确定要删除这个隧道吗？(隧道ID：" + Proxies.value[id].id + ")",
+    content: "你确定要删除这个隧道吗？（隧道 ID：" + Proxies.value[id].id + "）",
     positiveText: "确定",
-    negativeText: "不确定",
+    negativeText: "取消",
     onPositiveClick: () => {
       const rs = get(
           "https://api.locyanfrp.cn/Proxies/remove?proxyid=" +
