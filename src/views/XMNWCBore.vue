@@ -2,16 +2,15 @@
     <n-h1 prefix="bar" style="margin-top: 30px;">
         <i class="twa twa-bookmark-tabs"></i>
         <n-text type="primary">
-            bore节点
+            Bore 穿透
         </n-text>
     </n-h1>
     <n-alert title="bore穿透" type="info">
         本服务由 XiaMoHuaHuo_CN's Network & Work 提供。<br>
         <!--<b>仅支持IPv6</b><br>-->
-        支持快速TCP穿透，在你的电脑上安装rust后运行命令安装bore命令行工具：<br>
+        支持快速 Tcp 穿透，在你的电脑上安装 Rust 后运行命令安装 Bore 命令行工具：<br>
         cargo install bore-cli<br>
-        或者：<br>
-        cargo install borev6-cli<br>
+        或 cargo install borev6-cli<br>
       </n-alert>
     <n-grid cols="1" y-gap="1" item-responsive>
         <n-grid-item span="1">
@@ -62,7 +61,7 @@ let data = ref([
         net: "IPv4"
     },
     {
-        location: "中国-福建-福州",
+        location: "中国 福建 福州",
         bandwidth: "1Gbps/300Mbps",
         address: "b6cnfjfz1.lcf.icu",
         port: "50000-65535",
