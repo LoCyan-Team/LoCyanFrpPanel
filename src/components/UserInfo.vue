@@ -58,7 +58,7 @@
           <n-input
               v-model:value="tEmail.verify.code"
               style="max-width: 200px"
-              placeholder="请输入验证码（若邮箱不再使用，请用注册时绑定的 QQ 联系管理员！）"
+              placeholder="请输入验证码"
           />
           <n-button
               round
