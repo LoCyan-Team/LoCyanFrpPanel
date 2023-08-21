@@ -4,7 +4,7 @@
         <n-text type="primary"> 域名白名单</n-text>
     </n-h1>
 
-    <n-alert title="登记帮助" type="info">
+    <n-alert title="说明" type="info">
       1. 使用国内节点建站需要使用备案域名，我站为了防止非备案域名非法解析国内节点造成损失，现启用域名白名单；<br/>
       2. 域名需在中华人民共和国工业和信息化部完成并通过备案，随后将顶级域名填入下方编辑框中提交即可。
     </n-alert>
@@ -14,7 +14,7 @@
         <n-grid y-gap="12" cols="1" item-responsive>
             <n-grid-item span="1">
                 <n-form-item label="域名" path="domain">
-                    <n-input v-model:value="domainInput.domain" placeholder="域名, e.g. locyanfrp.cn" />
+                    <n-input v-model:value="domainInput.domain" placeholder="example.com" />
                 </n-form-item>
                 <div style="display: flex; justify-content: flex-start">
                     <n-button type="primary" @click="submit"> 创建</n-button>
