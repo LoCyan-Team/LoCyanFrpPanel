@@ -123,7 +123,7 @@ const routes = [
                 name: "XMNWC-Bore",
                 meta: {
                     keepAlive: true,
-                    title: "bore穿透",
+                    title: "Bore 穿透",
                 },
                 component: () => import("../views/XMNWCBore.vue"),
             },
