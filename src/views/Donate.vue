@@ -12,16 +12,16 @@
         role="dialog"
         aria-modal="true"
     >
-      <n-p>用户名: {{ store.getters.get_username }}</n-p>
+      <n-p>用户名：{{ store.getters.get_username }}</n-p>
       <n-p>邮箱：{{ store.getters.get_email }}</n-p>
-      <n-p>商品名： {{ trade_info.trade_name }}</n-p>
+      <n-p>商品名：{{ trade_info.trade_name }}</n-p>
       <n-p>捐赠订单号：{{ trade_no }}</n-p>
       <n-p>捐赠方式：{{ trade_info.type }}</n-p>
-      <n-p>捐赠金额: {{ trade_info.amount }}</n-p>
+      <n-p>捐赠金额：{{ trade_info.amount }}</n-p>
       <n-p>捐赠时间：{{ timestampToTime(trade_info.time) }}</n-p>
       <br/>
       <n-p
-      >您可以在该页面放置你的留言，同时你可以保存以下url便于您修改你的留言
+      >您可以在该页面放置你的留言，同时你可以保存以下链接便于您修改你的留言：
       </n-p
       >
       <n-p>https://preview.locyanfrp.cn/donate?out_trade_no={{ trade_no }}</n-p>
