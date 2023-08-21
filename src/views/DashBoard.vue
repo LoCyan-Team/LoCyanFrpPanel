@@ -8,7 +8,7 @@
       class="custom-card"
       preset="card"
       style="width: 600px"
-      title="通知而已"
+      title="通知"
       size="huge"
       :bordered="false"
       :segmented="{ content: 'soft', footer: 'soft' }"
