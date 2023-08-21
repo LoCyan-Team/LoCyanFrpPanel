@@ -49,9 +49,9 @@
               <br>
               <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
               <br>
-              <a style="text-align: center;">LoCyan Team 所有</a>
+              <a style="text-align: center;">LoCyanTeam 所有</a>
               <br>
-              <a style="text-align: center;">鸣谢: XiaMoHuaHuo-CN, 天宇网络, LiteCat</a>
+              <a style="text-align: center;">特别鸣谢: XiaMoHuaHuo-CN，天宇网络，LiteCat</a>
               <br>
               <template>
                 <n-alert type="default" style="font-size: 20px; display:inline-block;">
@@ -67,6 +67,7 @@
   <!-- 气死我了zhoudexuan，让我一个写后端的来搓前端，mmp -->
   <!-- 中考完学不会vue你就死定了 -->
   <!-- 2023-7-22-DXCFTDE-老子把你奇奇怪怪的按钮全部改了.再说我不会搓前端你就s定了 -->
+  <!-- 2023-8-21-Zhiyuan-我发现了什么？ -->
 </template>
 
 <script setup>
