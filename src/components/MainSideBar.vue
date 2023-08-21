@@ -123,7 +123,7 @@ const menuOptions = [
   },
   {
     path: "/xmnetwork/bore",
-    label: "Bore穿透",
+    label: "Bore 穿透",
     key: "XMNWC-Bore",
     icon: renderIcon(Flash),
   },
@@ -165,7 +165,7 @@ const menuOptions = [
                   href: "https://pan.1l1.icu/s/MAhO?password=o28hn3",
                   target: "_blank",
                 },
-                "上面那个挂了就用这个"
+                "备用下载站（首选）"
             ),
         key: "software_download_backup",
         icon: renderIcon(CloudDownloadOutline),
