@@ -123,7 +123,6 @@
       </n-card>
       <br/>
       <n-card title="使用方法">
-        <br/>我把使用方法都写在首页了总没人看不见了吧？
         <n-divider/>
         <n-space vertical>
           <n-steps vertical :current=7>
