@@ -26,7 +26,7 @@
                 @click="sendresetmail"
                 style="margin-right: 10px"
             >
-              发送重置邮件
+              发送邮件
             </n-button>
             <n-button ghost type="primary" @click="gologin"> 登录</n-button>
           </n-space>
@@ -63,7 +63,7 @@
                 @click="doresetrequest"
                 style="margin-right: 10px"
             >
-              提交重置请求
+              提交
             </n-button>
           </n-space>
         </div>
@@ -110,7 +110,7 @@ function gologin() {
 
 function doresetrequest() {
   if (code === "" || code === undefined) {
-    message.warning("非法请求");
+    message.warning("非法请求！");
     return;
   }
 
