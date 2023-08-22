@@ -1,10 +1,10 @@
 # LoCyanFrp Panel
 
-LoCyanFrp Panel, Powered by Naive-UI
+LoCyanFrpPanel | Powered by NaiveUI
 
 ## 地址
 
-新面板地址: [https://preview.locyanfrp.cn](https://preview.locyanfrp.cn)
+新面板地址：[点我跳转](https://preview.locyanfrp.cn)
 
 ## 如何使用
 
@@ -14,7 +14,7 @@ LoCyanFrp Panel, Powered by Naive-UI
 git clone https://github.com/LoCyan-Team/LoCyanFrpPanel.git
 ```
 
-2. 安装 [Node.js](https://nodejs.org) 18+
+2. 安装 [Node.js 18+](https://nodejs.org)
 
 3. 安装 yarn
 
