@@ -129,7 +129,7 @@ const menuOptions = [
   },
   {
     path: "/donate",
-    label: "捐赠",
+    label: "赞助",
     key: "Donate",
     icon: renderIcon(AttachMoneyFilled),
   },
