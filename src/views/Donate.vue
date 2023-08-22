@@ -91,7 +91,7 @@
   <br/>
   <n-spin :show="LoadingDonateList">
     <n-grid cols="3" item-responsive :x-gap="12" :y-gap="12">
-      <n-grid-item v-for="item in DonateList.filter(element => element.amount >= amount_filter_threshold)" span="0:3 950:1">
+      <n-grid-item v-for="item in DonateList.filter(element => element.amount >= amount_filter_threshold).sort((left, right) => right.time - left.time)" span="0:3 950:1">
         <n-space style="display: block">
           <n-card>
             <n-space>
