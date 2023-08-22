@@ -22,7 +22,6 @@
       </template>
       欢迎来到 LoCyanFrp 新后台!
       <br/>
-      <br>
       <i class="twa twa-bell"></i> 通知：{{ notice.contents }}
     </n-alert>
   </template>
@@ -45,6 +44,7 @@
         >
         <br/>
         <a>您的邮箱为：{{ email }}</a>
+        <br/>
         <br/>
         <div v-if="DontShowFrptoken">
           <n-tag type="info" @click="changeShouFrptoken($event)">
