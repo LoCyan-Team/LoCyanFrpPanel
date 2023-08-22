@@ -6,7 +6,7 @@
   <n-modal v-model:show="showModal">
     <n-card
         style="width: 600px"
-        title="感谢您的捐助！"
+        title="感谢您的赞助！"
         :bordered="false"
         size="huge"
         role="dialog"
@@ -21,7 +21,7 @@
       <n-p>捐赠时间：{{ timestampToTime(trade_info.time) }}</n-p>
       <br/>
       <n-p
-      >您可以在该页面放置你的留言，同时你可以保存以下链接便于您修改你的留言：
+      >您可以在该页面放置你的留言，同时你可以保存以下链接便于您修改你的留言（赞助数额小于 3 元留言不公开）：
       </n-p
       >
       <n-p>https://preview.locyanfrp.cn/donate?out_trade_no={{ trade_no }}</n-p>
@@ -118,7 +118,7 @@
     </n-grid>
     <br/>
     <n-button @click="() => { display_all_messages = !display_all_messages; }">
-      {{ display_all_messages ? "折叠部分消息" : "展开全部消息" }}
+      {{ display_all_messages ? "折叠部分留言" : "展开全部留言" }}
     </n-button>
   </n-spin>
 </template>
