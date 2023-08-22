@@ -10,7 +10,7 @@
           <n-space justify="space-between">
             <p>通过签到你可以获得更多流量</p>
             <n-button v-if="status === '已签到'" round @click="DoSign" dashed>
-              已签到！
+              已签到
             </n-button>
             <n-button
                 v-if="status === '尚未签到'"
@@ -19,7 +19,7 @@
                 type="success"
                 @click="DoSign"
             >
-              签到！
+              签到
             </n-button>
           </n-space>
           <p v-if="status">签到状态：{{ status }}</p>
