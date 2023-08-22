@@ -55,7 +55,7 @@
       <n-input type="text" v-model:value="amount" placeholder="金额"/>
       <br/>
       <br/>
-      <n-text>赞助数额达到 {{amount_filter_threshold}} 元的留言会被公开展示。</n-text>
+      <n-text>赞助数额达到 {{ amount_filter_threshold }} 元的留言会被公开展示。</n-text>
       <br/>
       <br/>
       <n-button @click="DoDonate" :loading="loading_donate"> 赞助</n-button>
@@ -91,7 +91,10 @@
   <br/>
   <n-spin :show="LoadingDonateList">
     <n-grid cols="3" item-responsive :x-gap="12" :y-gap="12">
-      <n-grid-item v-for="item in DonateList.filter(element => element.amount >= amount_filter_threshold).sort((left, right) => right.time - left.time)" span="0:3 950:1">
+      <n-grid-item
+          v-for="item in DonateList.filter(element => element.amount >= amount_filter_threshold).sort((left, right) => right.time - left.time).slice(0, display_all_messages ? undefined : display_messages_default)"
+          span="0:3 950:1"
+      >
         <n-space style="display: block">
           <n-card>
             <n-space>
@@ -113,6 +116,10 @@
         </n-space>
       </n-grid-item>
     </n-grid>
+    <br/>
+    <n-button @click="() => { display_all_messages = !display_all_messages; }">
+      {{ display_all_messages ? "折叠部分消息" : "展开全部消息" }}
+    </n-button>
   </n-spin>
 </template>
 
@@ -129,6 +136,8 @@ const trade_no = getUrlKey("out_trade_no");
 const ShowMessageLabel = ref(false);
 const showModal = ref(false);
 const LoadingDonateList = ref(true);
+const display_messages_default = ref(5);
+const display_all_messages = ref(false);
 const trade_info = ref({
   id: 1,
   username: "",
