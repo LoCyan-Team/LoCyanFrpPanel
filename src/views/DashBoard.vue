@@ -23,7 +23,7 @@
       欢迎来到 LoCyanFrp 新后台!
       <br/>
       <br>
-      <i class="twa twa-bell"></i>通知：{{ notice.contents }}
+      <i class="twa twa-bell"></i> 通知：{{ notice.contents }}
     </n-alert>
   </template>
   <template v-else>
@@ -123,8 +123,6 @@
       </n-card>
       <br/>
       <n-card title="使用方法">
-        <n-badge value="简单教程" :max="15"></n-badge
-        >
         <br/>我把使用方法都写在首页了总没人看不见了吧？
         <n-divider/>
         <n-space vertical>
