@@ -124,7 +124,7 @@ import {SendSuccessDialog, SendWarningDialog} from "../utils/dialog.js";
 
 // 页面元素初始化
 const amount = ref("0.01");
-const amount_filter_threshold = ref("5.00");
+const amount_filter_threshold = ref(5.00);
 const trade_no = getUrlKey("out_trade_no");
 const ShowMessageLabel = ref(false);
 const showModal = ref(false);
