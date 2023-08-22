@@ -45,7 +45,6 @@
         <br/>
         <a>您的邮箱为：{{ email }}</a>
         <br/>
-        <br/>
         <div v-if="DontShowFrptoken">
           <n-tag type="info" @click="changeShouFrptoken($event)">
             <template #icon>
@@ -123,7 +122,6 @@
       </n-card>
       <br/>
       <n-card title="使用方法">
-        <n-divider/>
         <n-space vertical>
           <n-steps vertical :current=7>
             <n-step
