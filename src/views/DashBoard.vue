@@ -22,6 +22,7 @@
       </template>
       欢迎来到 LoCyanFrp 新后台!
       <br/>
+      <br>
       <i class="twa twa-bell"></i>通知：{{ notice.contents }}
     </n-alert>
   </template>
