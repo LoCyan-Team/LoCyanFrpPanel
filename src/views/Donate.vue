@@ -55,6 +55,9 @@
       <n-input type="text" v-model:value="amount" placeholder="金额"/>
       <br/>
       <br/>
+      <n-text>赞助数额达到 {{amount_filter_threshold}} 元的留言会被公开展示。</n-text>
+      <br/>
+      <br/>
       <n-button @click="DoDonate" :loading="loading_donate"> 赞助</n-button>
     </n-grid-item>
     <n-grid-item span="1" v-show="ShowMessageLabel">
@@ -88,7 +91,7 @@
   <br/>
   <n-spin :show="LoadingDonateList">
     <n-grid cols="3" item-responsive :x-gap="12" :y-gap="12">
-      <n-grid-item v-for="item in DonateList" span="0:3 950:1">
+      <n-grid-item v-for="item in DonateList.filter(element => element.amount >= amount_filter_threshold).sort((left, right) => right.time - left.time)" span="0:3 950:1">
         <n-space style="display: block">
           <n-card>
             <n-space>
@@ -121,6 +124,7 @@ import {SendSuccessDialog, SendWarningDialog} from "../utils/dialog.js";
 
 // 页面元素初始化
 const amount = ref("0.01");
+const amount_filter_threshold = ref("5.00");
 const trade_no = getUrlKey("out_trade_no");
 const ShowMessageLabel = ref(false);
 const showModal = ref(false);
