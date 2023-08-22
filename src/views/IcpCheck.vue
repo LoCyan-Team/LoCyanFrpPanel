@@ -98,11 +98,11 @@ function RemoveIcp(id) {
             rs.then((res) => {
                 if (res.status === 200) {
                     SendSuccessDialog("删除成功！");
+                    GetList();
                 } else {
                     SendErrorDialog("删除失败，请联系管理员处理！");
                 }
             })
-            GetList();
         },
         onNegativeClick: () => {
             sendSuccessMessage("你取消了操作！");
