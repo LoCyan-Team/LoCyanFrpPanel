@@ -51,7 +51,7 @@
               <br>
               <a style="text-align: center;">特别鸣谢: XiaMoHuaHuo-CN，天宇网络，LiteCat</a>
               <br>
-              <a style="text-align: center;">LoCyanTeam 所有</a>
+              <a style="text-align: center;">LoCyanTeam 所有 | 本项目<a href="https://github.com/LoCyan-Team/LoCyanFrpPane">开源</a></a>
               <br>
               <template>
                 <n-alert type="default" style="font-size: 20px; display:inline-block;">
