@@ -49,7 +49,7 @@
               <br>
               <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
               <br>
-              <a style="text-align: center;">特别鸣谢: XiaMoHuaHuo-CN，天宇网络，LiteCat</a>
+              <a style="text-align: center;">特别鸣谢：XiaMoHuaHuo-CN，天宇网络，LiteCat</a>
               <br>
               <a style="text-align: center;">LoCyanTeam 所有 | 本项目<a href="https://github.com/LoCyan-Team/LoCyanFrpPanel">开源</a></a>
               <br>
