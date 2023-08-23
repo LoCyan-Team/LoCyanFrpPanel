@@ -40,7 +40,7 @@ yarn dev
 - [twemoji 『Github』](https://github.com/twitter/twemoji)
 - [twemoji-amazing 『Github』](https://github.com/SebastianAigner/twemoji-amazing)
 
-## 为本项目贡献代码的所有成员（包括细微的修改，排名不分先后，2023 / 8 / 22 更新）
+### 为本项目贡献代码的所有成员（包括细微的修改，排名不分先后，2023 / 8 / 22 更新）
 
 - [Daiyangcheng](https://github.com/Daiyangcheng)
 - [Zhiyuan36](https://github.com/Zhiyuan36)
