@@ -1,7 +1,7 @@
 <template>
     <n-h1 prefix="bar" style="margin-top: 30px">
         <i class="twa twa-writing-hand-light-skin-tone"></i>
-        <n-text type="primary"> 域名白名单</n-text>
+        <n-text type="primary"> 域名白名单<span title="Feature Release Label: Beta" aria-label="Feature Release Label: Beta" data-view-component="true" class="Label Label--success Label--inline ml-1 px-1">Beta</span></n-text>
     </n-h1>
 
     <n-alert title="说明" type="info">
