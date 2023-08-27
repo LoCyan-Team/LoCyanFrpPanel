@@ -51,13 +51,26 @@
               <br>
               <a style="text-align: center;">特别鸣谢：XiaMoHuaHuo-CN，天宇网络，LiteCat</a>
               <br>
-              <a style="text-align: center;">LoCyanTeam 所有 | 本项目<a href="https://github.com/LoCyan-Team/LoCyanFrpPanel">开源</a></a>
+              <a style="text-align: center;">LoCyanTeam 所有 | 本项目
+                <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel">
+                  <n-button text>
+                    <template #icon>
+                      <n-icon>
+                        <git-alt />
+                      </n-icon>
+                    </template>
+                    开源
+                  </n-button>
+                </a>
+              </a>
               <br>
+              <!--
               <template>
                 <n-alert type="default" style="font-size: 20px; display:inline-block;">
                 <a href="https://spcraft.ml">风雨阁Storm Pavilion</a>
               </n-alert>
               </template>
+              -->
             </div>
           </div>
         </n-layout>
@@ -78,6 +91,7 @@ import store from "../utils/stores/store.js";
 import router from "../router/index";
 import UserInfo, { ChangeUserInfoShow } from "./UserInfo.vue";
 import { get } from "../utils/request.js";
+import { GitAlt } from '@vicons/fa'
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);
