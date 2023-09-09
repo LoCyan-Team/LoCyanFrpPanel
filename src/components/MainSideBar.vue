@@ -144,19 +144,19 @@ const menuOptions = [
     key: "other_options",
     icon: renderIcon(BookIcon),
     children: [
-      {
-        label: () =>
-            h(
-                "a",
-                {
-                  href: "https://download.locyan.cn",
-                  target: "_blank",
-                },
-                "软件下载"
-            ),
-        key: "software_download",
-        icon: renderIcon(CloudDownloadOutline),
-      }, 
+      // {
+      //   label: () =>
+      //       h(
+      //           "a",
+      //           {
+      //             href: "https://download.locyan.cn",
+      //             target: "_blank",
+      //           },
+      //           "软件下载"
+      //       ),
+      //   key: "software_download",
+      //   icon: renderIcon(CloudDownloadOutline),
+      // }, 
       {
         label: () =>
             h(
@@ -165,7 +165,7 @@ const menuOptions = [
                   href: "https://pan.1l1.icu/s/MAhO?password=o28hn3",
                   target: "_blank",
                 },
-                "上面那个挂了就用这个"
+                "软件下载"
             ),
         key: "software_download_backup",
         icon: renderIcon(CloudDownloadOutline),
