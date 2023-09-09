@@ -5,7 +5,7 @@
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
           <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 50px; margin-top: 10%">
-            LoCyan Frp
+            LoCyanFrp
           </n-gradient-text>
           <!-- 2023-04-30 23：04 by XiaMoHuaHuo_CN: 哪个大聪明在这放一言 -->
           <!--<n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>-->
@@ -49,15 +49,28 @@
               <br>
               <a style="text-align: center;">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
               <br>
-              <a style="text-align: center;">LoCyan Team 所有</a>
+              <a style="text-align: center;">特别鸣谢：XiaMoHuaHuo-CN，天宇网络，LiteCat</a>
               <br>
-              <a style="text-align: center;">鸣谢: XiaMoHuaHuo-CN, 天宇网络, LiteCat</a>
+              <a style="text-align: center;">LoCyanTeam 所有 | 本项目
+                <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel">
+                  <n-button text>
+                    <template #icon>
+                      <n-icon>
+                        <git-alt />
+                      </n-icon>
+                    </template>
+                    开源
+                  </n-button>
+                </a>
+              </a>
               <br>
+              <!--
               <template>
                 <n-alert type="default" style="font-size: 20px; display:inline-block;">
                 <a href="https://spcraft.ml">风雨阁Storm Pavilion</a>
               </n-alert>
               </template>
+              -->
             </div>
           </div>
         </n-layout>
@@ -67,6 +80,7 @@
   <!-- 气死我了zhoudexuan，让我一个写后端的来搓前端，mmp -->
   <!-- 中考完学不会vue你就死定了 -->
   <!-- 2023-7-22-DXCFTDE-老子把你奇奇怪怪的按钮全部改了.再说我不会搓前端你就s定了 -->
+  <!-- 2023-8-21-Zhiyuan-我发现了什么？ -->
 </template>
 
 <script setup>
@@ -77,6 +91,7 @@ import store from "../utils/stores/store.js";
 import router from "../router/index";
 import UserInfo, { ChangeUserInfoShow } from "./UserInfo.vue";
 import { get } from "../utils/request.js";
+import { GitAlt } from '@vicons/fa'
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true);

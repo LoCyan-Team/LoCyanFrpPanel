@@ -30,7 +30,7 @@
         <div>
           <n-space justify="space-between">
             <n-button type="info" @click="qqlogin" :loading="qqlogin_loading">
-              QQ登录
+              QQ 登录
             </n-button>
             <n-space justify="end">
               <n-button type="primary" @click="login"> 登录</n-button>
@@ -99,7 +99,7 @@ if (username_qq !== null || token_qq !== null) {
   );
   rs.then((res) => {
     if (res.status) {
-      message.success("欢迎回来，指挥官！" + res.userdata.username);
+      message.success(model.value.username + "，欢迎回来！");
       store.commit("set_token", res.token);
       store.commit("set_user_info", res.userdata);
       router.push(redirect || "/dashboard");
@@ -129,7 +129,7 @@ function login() {
   );
   rs.then((res) => {
     if (res.status === 0) {
-      message.success("欢迎回来，指挥官！" + model.value.username);
+      message.success(model.value.username + "，欢迎回来！");
       store.commit("set_token", res.token);
       store.commit("set_user_info", res.userdata);
       router.push(redirect || "/dashboard");

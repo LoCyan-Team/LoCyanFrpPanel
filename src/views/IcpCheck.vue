@@ -4,9 +4,9 @@
         <n-text type="primary"> 域名白名单</n-text>
     </n-h1>
 
-    <n-alert title="登记帮助" type="info">
-      1, 使用国内节点建站需要使用备案域名, 我站为了防止非备案域名非法解析国内节点造成损失, 现启用域名白名单。<br/>
-      2, 域名需在中华人民共和国工业和信息化部完成并通过备案, 随后将顶级域名填入下方编辑框中提交即可。
+    <n-alert title="说明" type="info">
+      1. 使用国内节点建站需要使用备案域名，我站为了防止非备案域名非法解析国内节点造成损失，现启用域名白名单；<br/>
+      2. 域名需在中华人民共和国工业和信息化部完成并通过备案，随后将顶级域名填入下方编辑框中提交即可。
     </n-alert>
     <br/>
 
@@ -14,7 +14,7 @@
         <n-grid y-gap="12" cols="1" item-responsive>
             <n-grid-item span="1">
                 <n-form-item label="域名" path="domain">
-                    <n-input v-model:value="domainInput.domain" placeholder="域名, e.g. locyanfrp.cn" />
+                    <n-input v-model:value="domainInput.domain" placeholder="example.com" />
                 </n-form-item>
                 <div style="display: flex; justify-content: flex-start">
                     <n-button type="primary" @click="submit"> 创建</n-button>
@@ -69,7 +69,7 @@ function submit() {
     }
     loading.value = true;
     if (domainInput.value.domain === "" || domainInput.value.domain === null) {
-        SendErrorDialog("域名不得为空!");
+        SendErrorDialog("域名不得为空！");
         loading.value = false;
         return;
     }
@@ -77,11 +77,11 @@ function submit() {
     rs.then((res) => {
         if (res.status != 200) {
             loading.value = false;
-            SendErrorDialog("审核失败, 可能是域名没有备案或格式错误");
+            SendErrorDialog("审核失败，可能是域名没有备案或格式错误！");
         } else {
             GetList();
             loading.value = false;
-            SendSuccessDialog("添加成功");
+            SendSuccessDialog("添加成功！");
         }
     })
 
@@ -90,19 +90,19 @@ function submit() {
 function RemoveIcp(id) {
     dialog.warning({
         title: "警告",
-        content: "你确定要删除这个域名吗? (隧道ID: " + id + ")",
+        content: "你确定要删除这个域名吗？（域名 ID: " + id + "）",
         positiveText: "确定",
-        negativeText: "不确定",
+        negativeText: "取消",
         onPositiveClick: () => {
             const rs = get("https://api-v2.locyanfrp.cn/api/v2/icp/remove?id=" + id + "&token=" + store.getters.get_token + "&username=" + store.getters.get_username);
             rs.then((res) => {
                 if (res.status === 200) {
-                    SendSuccessDialog("删除成功");
+                    SendSuccessDialog("删除成功！");
+                    GetList();
                 } else {
-                    SendErrorDialog("删除失败, 请联系管理员处理!");
+                    SendErrorDialog("删除失败，请联系管理员处理！");
                 }
             })
-            GetList();
         },
         onNegativeClick: () => {
             sendSuccessMessage("你取消了操作！");

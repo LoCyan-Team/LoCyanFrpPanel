@@ -6,22 +6,22 @@
   <n-modal v-model:show="showModal">
     <n-card
         style="width: 600px"
-        title="感谢您的捐助！"
+        title="感谢您的赞助！"
         :bordered="false"
         size="huge"
         role="dialog"
         aria-modal="true"
     >
-      <n-p>用户名: {{ store.getters.get_username }}</n-p>
+      <n-p>用户名：{{ store.getters.get_username }}</n-p>
       <n-p>邮箱：{{ store.getters.get_email }}</n-p>
-      <n-p>商品名： {{ trade_info.trade_name }}</n-p>
+      <n-p>商品名：{{ trade_info.trade_name }}</n-p>
       <n-p>捐赠订单号：{{ trade_no }}</n-p>
       <n-p>捐赠方式：{{ trade_info.type }}</n-p>
-      <n-p>捐赠金额: {{ trade_info.amount }}</n-p>
+      <n-p>捐赠金额：{{ trade_info.amount }}</n-p>
       <n-p>捐赠时间：{{ timestampToTime(trade_info.time) }}</n-p>
       <br/>
       <n-p
-      >您可以在该页面放置你的留言，同时你可以保存以下url便于您修改你的留言
+      >您可以在该页面放置你的留言，同时你可以保存以下链接便于您修改你的留言（赞助数额小于 3 元留言不公开）：
       </n-p
       >
       <n-p>https://preview.locyanfrp.cn/donate?out_trade_no={{ trade_no }}</n-p>
@@ -53,6 +53,9 @@
       <br/>
       <br/>
       <n-input type="text" v-model:value="amount" placeholder="金额"/>
+      <br/>
+      <br/>
+      <n-text>赞助数额达到 {{ amount_filter_threshold }} 元的留言会被公开展示</n-text>
       <br/>
       <br/>
       <n-button @click="DoDonate" :loading="loading_donate"> 赞助</n-button>
@@ -88,7 +91,10 @@
   <br/>
   <n-spin :show="LoadingDonateList">
     <n-grid cols="3" item-responsive :x-gap="12" :y-gap="12">
-      <n-grid-item v-for="item in DonateList" span="0:3 950:1">
+      <n-grid-item
+          v-for="item in DonateList.filter(element => element.amount >= amount_filter_threshold).sort((left, right) => right.time - left.time).slice(0, display_all_messages ? undefined : display_messages_default)"
+          span="0:3 950:1"
+      >
         <n-space style="display: block">
           <n-card>
             <n-space>
@@ -110,6 +116,10 @@
         </n-space>
       </n-grid-item>
     </n-grid>
+    <br/>
+    <n-button @click="() => { display_all_messages = !display_all_messages; }">
+      {{ display_all_messages ? "折叠部分留言" : "展开全部留言" }}
+    </n-button>
   </n-spin>
 </template>
 
@@ -121,10 +131,13 @@ import {SendSuccessDialog, SendWarningDialog} from "../utils/dialog.js";
 
 // 页面元素初始化
 const amount = ref("0.01");
+const amount_filter_threshold = ref(3.00);
 const trade_no = getUrlKey("out_trade_no");
 const ShowMessageLabel = ref(false);
 const showModal = ref(false);
 const LoadingDonateList = ref(true);
+const display_messages_default = ref(5);
+const display_all_messages = ref(false);
 const trade_info = ref({
   id: 1,
   username: "",

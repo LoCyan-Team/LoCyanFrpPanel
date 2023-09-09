@@ -9,13 +9,13 @@
         <n-form-item label="评论" path="comment">
           <n-input
               v-model:value="NewYear.comment"
-              placeholder="您对LOCYAN FRP有何评价呢?"
+              placeholder="您对 LoCyanFrp 有何评价呢？"
           />
         </n-form-item>
       </n-grid-item>
     </n-grid>
     <div style="display: flex; justify-content: flex-end">
-      <n-button round type="primary" @click="submitcomment()"> 提交</n-button>
+      <!-- <n-button round type="primary" @click="submitcomment()"> 提交</n-button> -->
     </div>
   </n-form>
   <n-grid cols="3" item-responsive>

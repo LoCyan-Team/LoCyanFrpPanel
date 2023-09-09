@@ -123,13 +123,13 @@ const menuOptions = [
   },
   {
     path: "/xmnetwork/bore",
-    label: "Bore穿透",
+    label: "Bore 穿透",
     key: "XMNWC-Bore",
     icon: renderIcon(Flash),
   },
   {
     path: "/donate",
-    label: "捐赠",
+    label: "赞助",
     key: "Donate",
     icon: renderIcon(AttachMoneyFilled),
   },

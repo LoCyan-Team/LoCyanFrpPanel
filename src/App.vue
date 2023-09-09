@@ -79,7 +79,7 @@ setInterval(() => {
         localStorage.setItem("traffic", res.traffic);
       }
       if (res.status === -3) {
-        sendWarningMessage("登录过期或未登录，请使用 LCF 账户登录后台！");
+        sendWarningMessage("登录过期或未登录，请重新登录后台！");
         logout();
       }
     });

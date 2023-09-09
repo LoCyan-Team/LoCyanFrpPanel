@@ -29,22 +29,22 @@
           <n-grid cols="1" item-responsive :y-gap="5">
             <n-grid-item>
               <p style="color: red">
-                请填写您的姓名和身份证号进行实名认证（请认真填写，实名一旦成功除特殊情况无法修改！）
+                请填写您的姓名和身份证号进行实名认证（请认真填写，实名一旦成功除特殊情况外无法修改）
               </p>
               <p>
-                若点击提交后5s内没有回调信息出现，请再次点击按钮，直到出现提示框，若无法实名，请联系管理员解决！
+                若点击提交后 5 秒内没有回调信息出现，请再次点击按钮，直到出现提示框。若无法实名，请联系管理员解决！
               </p>
               <p>
-                本站全部个人隐私信息遵守<a
+                本站全部个人隐私信息遵守 <a
                   style="color: dodgerblue"
                   href="https://www.locyan.cn/doc/yszc.html"
                   target="_blank"
-              >LoCyan隐私协议</a
-              >的约束，我们将最大限度的保护用户的个人信息数据
+              >LoCyan 隐私协议</a
+              > 的约束，我们将最大限度的保护用户的个人信息数据
               </p>
               <p>
                 我们允许<a style="color: red"><b>未成年人注册</b></a
-              >，请勿冒用非本人身份证实名，已经实名过得既往不咎
+              >，请勿冒用非本人身份证实名，已经实名过得既往不咎！
               </p>
             </n-grid-item>
             <n-grid-item span="1">
@@ -75,7 +75,7 @@
     <n-grid cols="1" item-responsive>
       <n-grid-item span="1">
         <n-card v-show="!showRealnameModal">
-          <i class="twa twa-2x twa-party-popper"></i>恭喜您，您已经完成实名认证
+          <i class="twa twa-2x twa-party-popper"></i>您已经完成实名认证！
         </n-card>
       </n-grid-item>
     </n-grid>

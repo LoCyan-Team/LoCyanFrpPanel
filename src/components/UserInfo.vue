@@ -42,7 +42,7 @@
       >
       <n-space>
         <!--<n-text style="color: gray">一旦修改信息，您的登录账户也会随之改变！</n-text>-->
-        <n-h5 style="margin: 3px"> 邮箱:</n-h5>
+        <n-h5 style="margin: 3px"> 邮箱：</n-h5>
         <n-input
             v-bind:disabled="tEmail.isEditDisable"
             v-model:value="tEmail.email"
@@ -129,7 +129,7 @@ function queryBind() {
       bindQQ.value.unBindmsg = ref("尚未绑定");
     } else {
       bindQQ.value.isDisable = true;
-      bindQQ.value.msg = ref("已绑定！");
+      bindQQ.value.msg = ref("已绑定");
       bindQQ.value.unBindDisable = false;
       bindQQ.value.unBindmsg = ref("解除绑定");
     }
@@ -249,7 +249,7 @@ function UnBindQQ() {
 }
 
 function DoLogOut() {
-  sendSuccessMessage("您已从LCF登出，感谢您的使用！");
+  sendSuccessMessage("您已登出，感谢您的使用！");
   logout();
 }
 </script>

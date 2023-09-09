@@ -4,7 +4,7 @@
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
           <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 50px; margin-top: 10%">
-            LoCyan Frp
+            LoCyanFrp
           </n-gradient-text>
         </n-space>
       </n-layout-header>

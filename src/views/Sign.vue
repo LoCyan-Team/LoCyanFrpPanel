@@ -1,16 +1,16 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-spiral-calendar"></i>
-    <n-text type="primary"> 每日签到</n-text>
+    <n-text type="primary"> 签到</n-text>
   </n-h1>
   <n-space vertical>
     <n-grid cols="1" item-responsive>
       <n-grid-item span="1">
-        <n-card title="每日签到" size="medium">
+        <n-card title="签到" size="medium">
           <n-space justify="space-between">
             <p>通过签到你可以获得更多流量</p>
             <n-button v-if="status === '已签到'" round @click="DoSign" dashed>
-              已签到！
+              已签到
             </n-button>
             <n-button
                 v-if="status === '尚未签到'"
@@ -19,10 +19,10 @@
                 type="success"
                 @click="DoSign"
             >
-              签到！
+              签到
             </n-button>
           </n-space>
-          <p v-if="status">签到状态：{{ status }}</p>
+          <p v-if="status">状态：{{ status }}</p>
           <n-skeleton text :repeat="1" style="width: 10%" v-else/>
           <br/>
           <n-gi v-if="status === '已签到'">

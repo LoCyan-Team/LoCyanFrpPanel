@@ -15,7 +15,7 @@
             type="primary"
             ghost
             @click="router.push({ name: 'Login' })"
-        >进入LCF
+        >进入
         </n-button
         >
         <n-button size="large" @click="GoToDocs">文档</n-button>
