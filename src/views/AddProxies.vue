@@ -60,7 +60,7 @@
         <n-form-item label="内网端口" path="local_port">
           <n-input
               v-model:value="ProxyInfo.local_port"
-              placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19136 泰拉瑞亚:7777"
+              placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19132 泰拉瑞亚:7777"
           />
         </n-form-item>
       </n-grid-item>

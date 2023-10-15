@@ -145,6 +145,15 @@ const routes = [
                 },
                 component: () => import("../views/IcpCheck.vue"),
             },
+            {
+                path: "/status",
+                name: "Status",
+                meta: {
+                    keepAlive: true,
+                    title: "节点状态",
+                },
+                component: () => import("../views/Status.vue"),
+            },
         ],
     },
 ];

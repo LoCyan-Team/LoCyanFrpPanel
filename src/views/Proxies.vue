@@ -86,7 +86,7 @@
     <n-text type="primary"> 隧道列表</n-text>
   </n-h1>
   <n-spin :show="show">
-    <n-grid cols="3" item-responsive>
+    <n-grid cols="4" item-responsive>
       <n-gi v-for="item in Proxies" style="margin: 10px" span="0:4 950:1" :id="Proxies.indexOf(item)">
         <n-space style="display: block">
           <n-card :title="'ID: ' + item.id + ' - ' + item.proxy_name">

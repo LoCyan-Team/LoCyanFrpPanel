@@ -140,6 +140,12 @@ const menuOptions = [
     icon: renderIcon(KeyOutline),
   },
   {
+    path: "/status",
+    label: "节点状态",
+    key: "Status",
+    icon: renderIcon(List),
+  },
+  {
     label: "其他功能",
     key: "other_options",
     icon: renderIcon(BookIcon),

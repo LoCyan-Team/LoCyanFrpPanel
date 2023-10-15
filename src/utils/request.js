@@ -9,9 +9,9 @@ import Base64 from "qs/lib/utils.js";
 
 //这一步的目的是判断出当前是开发环境还是生成环境，方法不止一种，达到目的就行
 // if(process.env.NODE_ENV=="development"){
-//   baseURL=''
+//   baseURL='https://api.locyanfrp.cn'
 // }else{
-//   baseURL=''
+//   baseURL='http://127.0.0.1:8081'
 // }
 
 // 使用自定义的配置文件发送请求
