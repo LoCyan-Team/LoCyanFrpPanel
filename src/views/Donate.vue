@@ -244,7 +244,7 @@ const DoDonate = () => {
     loading_donate.value = false;
     return;
   }
-  const rs = post("https://api-v2.locyanfrp.cn/v2/donate/create", {
+  const rs = post("https://api-v2.locyanfrp.cn/api/v2/donate/create", {
     "name": "LoCyanFrpDonate",
     "money": amount.value,
     "redirect_url": "https://preview.locyanfrp.cn/donate",

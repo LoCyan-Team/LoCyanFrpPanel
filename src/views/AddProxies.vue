@@ -142,7 +142,7 @@ const rules = {
       if (!value) {
         EditCheck.value = false;
         return new Error("请输入隧道名");
-      } else if (!/[A-Za-z0-9_]$/.test(value)) {
+      } else if (!/[a-zA-Z0-9]{1,16}$/.test(value)) {
         EditCheck.value = false;
         return new Error("隧道名格式错误，由字母，数字和下划线组成");
       }
