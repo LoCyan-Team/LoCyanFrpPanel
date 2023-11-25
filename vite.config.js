@@ -1,10 +1,10 @@
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import cssnanoPlugin from "cssnano";
 import autoprefixer from "autoprefixer";
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import {NaiveUiResolver} from 'unplugin-vue-components/resolvers'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
@@ -35,6 +35,15 @@ export default defineConfig({
                 cssnanoPlugin(),
                 autoprefixer()
             ]
+        }
+    },
+    build: {
+        rollupOptions: {
+            manualChunks(id) {
+                if (id.includes('node_modules')) {
+                    return "vendor";
+                }
+            }
         }
     }
 })
