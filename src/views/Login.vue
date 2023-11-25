@@ -99,7 +99,7 @@ if (username_qq !== null || token_qq !== null) {
   );
   rs.then((res) => {
     if (res.status) {
-      message.success(model.value.username + "，欢迎回来！");
+      message.success(res.userdata.username + "，欢迎回来！");
       store.commit("set_token", res.token);
       store.commit("set_user_info", res.userdata);
       router.push(redirect || "/dashboard");
@@ -129,7 +129,7 @@ function login() {
   );
   rs.then((res) => {
     if (res.status === 0) {
-      message.success(model.value.username + "，欢迎回来！");
+      message.success(res.userdata.username + "，欢迎回来！");
       store.commit("set_token", res.token);
       store.commit("set_user_info", res.userdata);
       router.push(redirect || "/dashboard");

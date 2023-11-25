@@ -55,7 +55,7 @@
       <n-input type="text" v-model:value="amount" placeholder="金额"/>
       <br/>
       <br/>
-      <n-text>赞助数额达到 {{ amount_filter_threshold }} 元的留言会被公开展示</n-text>
+      <n-text>赞助数额达到 <b> {{ amount_filter_threshold }} 元 </b> 的留言会被公开展示</n-text>
       <br/>
       <br/>
       <n-button @click="DoDonate" :loading="loading_donate"> 赞助</n-button>
@@ -98,11 +98,11 @@
         <n-space style="display: block">
           <n-card>
             <n-space>
-              <n-gradient-text type="info">
+              <n-gradient-text type="primary">
                 {{ item.username }}
               </n-gradient-text>
               <n-gradient-text type="warning">
-                {{ item.amount }}<i class="twa twa-yen-banknote"></i>
+                {{ item.amount }} <i class="twa twa-yen-banknote"></i>
               </n-gradient-text>
             </n-space>
             <n-ellipsis expand-trigger="click" line-clamp="1" :tooltip="false">
@@ -110,7 +110,7 @@
             </n-ellipsis>
 
             <template #footer>
-              提交时间：{{ timestampToTime(item.time) }}
+              {{ timestampToTime(item.time) }}
             </template>
           </n-card>
         </n-space>

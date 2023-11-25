@@ -1,6 +1,6 @@
 <template>
     <n-h1 prefix="bar" style="margin-top: 30px;">
-        <i class="twa twa-bookmark-tabs"></i>
+        <i class="twa twa-high-voltage"></i>
         <n-text type="primary">
             Bore 穿透
         </n-text>
