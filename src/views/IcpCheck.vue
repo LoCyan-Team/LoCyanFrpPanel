@@ -1,6 +1,6 @@
 <template>
     <n-h1 prefix="bar" style="margin-top: 30px">
-        <i class="twa twa-writing-hand-light-skin-tone"></i>
+        <i class="twa twa-page-facing-up"></i>
         <n-text type="primary"> 域名白名单</n-text>
     </n-h1>
 
