@@ -42,6 +42,8 @@ import {
   Person,
   PlanetOutline,
   KeyOutline,
+  CompassSharp,
+  Server
 } from "@vicons/ionicons5";
 import {AttachMoneyFilled} from "@vicons/material";
 
@@ -60,7 +62,7 @@ const menuOptions = [
     path: "/dashboard",
     label: "仪表盘",
     key: "DashBoard",
-    icon: renderIcon(InformationCircleOutline),
+    icon: renderIcon(CompassSharp),
   },
   {
     label: "周年庆活动",
@@ -143,7 +145,7 @@ const menuOptions = [
     path: "/status",
     label: "节点状态",
     key: "Status",
-    icon: renderIcon(List),
+    icon: renderIcon(Server),
   },
   {
     label: "其他功能",
