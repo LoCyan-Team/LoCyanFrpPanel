@@ -16,23 +16,21 @@
     <n-p v-html="ads_content"></n-p>
   </n-modal>
   <template v-if="notice.contents">
-    <n-alert title="欢迎" type="info" closable class="right">
+    <n-alert :title="username + '，' + howtosayhi()" type="info" closable class="right">
       <template #icon>
         <i class="twa twa-hibiscus"></i>
       </template>
-      欢迎来到 LoCyanFrp 新后台!
+        欢迎来到 LoCyanFrp 新后台!
       <br/>
       <i class="twa twa-bell"></i> 通知：{{ notice.contents }}
     </n-alert>
   </template>
   <template v-else>
-    <n-alert title="欢迎" type="info" closable>
+    <n-alert title="" type="info" closable>
       <template #icon>
         <i class="twa twa-hibiscus"></i>
       </template>
-      欢迎来到 LoCyanFrp 新后台!
-      <br/>
-      <n-skeleton text :repeat="1" style="width: 50%"/>
+      <n-skeleton text :repeat="2" style="width: 50%"/>
     </n-alert>
   </template>
   <br/>
@@ -181,7 +179,7 @@ notice_res.then((res) => {
         marked(notice.value.ads) +
         "<style>" +
         '[href^="https"], [href^="http"]{' +
-        "  color: dodgerblue;" +
+        "  color: #63E2B7;" +
         "p {" +
         "  padding: 2px;" +
         "}" +
@@ -211,7 +209,7 @@ boardcast_request.then((res) => {
         marked(res.broadcast) +
         "<style>\n" +
         '[href^="https"], [href^="http"]{\n' +
-        "  color: dodgerblue;\n" +
+        "  color: #63E2B7;\n" +
         "}\n" +
         "\n" +
         "p {\n" +
@@ -222,6 +220,46 @@ boardcast_request.then((res) => {
     boardcast_show.value = false;
   }
 });
+
+function howtosayhi() {
+    const currentHour = new Date().getHours();
+    switch (currentHour) {
+        case 4:
+        case 5:
+            return '清晨好';
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+            return '早上好';
+        case 10:
+        case 11:
+        case 12:
+            return '中午好';
+        case 13:
+        case 14:
+        case 15:
+            return '下午好';
+        case 16:
+        case 17:
+        case 18:
+            return '傍晚好';
+        case 19:
+        case 20:
+        case 21:
+        case 22:
+        case 23:
+            return '晚上好';
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+            return '凌晨好';
+        default:
+            return '你好';
+    }
+}
+
 
 setInterval(() => {
   Proxiesanimation.value = Number(localStorage.getItem("proxies"));
