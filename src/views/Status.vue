@@ -7,7 +7,7 @@
         <n-button strong secondary type="info" @click="getList()">
             手动刷新列表
         </n-button>
-        <n-grid cols="3" item-responsive>
+        <n-grid cols="3" x-gap="10" y-gap="10" item-responsive>
             <n-gi span="0:3 950:1" v-for="i in StatusList" v-show="i.active === 'online'">
                 <n-card :title=i.name size="medium">
                     <n-space justify="space-between">
