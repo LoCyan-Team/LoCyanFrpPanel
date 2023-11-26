@@ -41,7 +41,7 @@
 <script setup>
 import { ref } from "vue";
 import store from "../utils/stores/store.js";
-import { get } from "../utils/request.js";
+import { get, Delete } from "../utils/request.js";
 import { sendErrorMessage, sendSuccessMessage } from "../utils/message";
 import { SendErrorDialog, SendSuccessDialog } from "../utils/dialog.js";
 import { useDialog } from "naive-ui";
@@ -94,7 +94,7 @@ function RemoveIcp(id) {
         positiveText: "确定",
         negativeText: "取消",
         onPositiveClick: () => {
-            const rs = get("https://api-v2.locyanfrp.cn/api/v2/icp/remove?id=" + id + "&token=" + store.getters.get_token + "&username=" + store.getters.get_username);
+            const rs = Delete("https://api-v2.locyanfrp.cn/api/v2/icp/remove?id=" + id + "&token=" + store.getters.get_token + "&username=" + store.getters.get_username);
             rs.then((res) => {
                 if (res.status === 200) {
                     SendSuccessDialog("删除成功！");

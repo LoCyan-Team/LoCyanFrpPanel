@@ -205,7 +205,7 @@ function makelinkaddr(id) {
     Proxies.value[id].proxy_type === "http" ||
     Proxies.value[id].proxy_type === "https"
   ) {
-    return Proxies.value[id].domain;
+    return Proxies.value[id].domain.substring(2, Proxies.value[id].domain.length-2);
   } else {
     return (
       ServerList.value[Proxies.value[id].node].hostname +
@@ -389,7 +389,7 @@ const ServerList = ref([
 ]);
 
 function initList() {
-  const rs2 = get("https://api.locyanfrp.cn/Proxies/GetServerList", []);
+  const rs2 = get("https://api-v2.locyanfrp.cn/api/v2/nodes/list", []);
   rs2.then((res) => {
     let i = 0;
     res.forEach((s) => {
@@ -404,17 +404,12 @@ function initList() {
   });
 
   const rs = get(
-    "https://api.locyanfrp.cn/Proxies/GetProxiesList?username=" +
-    localStorage.getItem("username") +
-    "&token=" +
-    store.getters.get_token,
-    []
-  );
+    "https://api-v2.locyanfrp.cn/api/v2/proxies/getlist?username=" + localStorage.getItem("username"));
   rs.then((res) => {
-    if (res.status !== 0) {
+    if (res.status !== 200) {
       return res;
     } else {
-      Proxies.value = res.proxies;
+      Proxies.value = res.data.proxies;
       show.value = false;
     }
   });

@@ -248,7 +248,7 @@ const DoDonate = () => {
     "name": "LoCyanFrpDonate",
     "money": amount.value,
     "redirect_url": "https://preview.locyanfrp.cn/donate",
-    "notify_url": "https://api-v2.locyanfrp.cn/v2/donate/notify",
+    "notify_url": "https://api-v2.locyanfrp.cn/api/v2/donate/notify",
     "username": store.getters.get_username
   });
   rs.then((res) => {

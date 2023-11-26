@@ -60,9 +60,8 @@
 <script setup>
 import {ref} from "vue";
 import {useLoadingBar, useMessage} from "naive-ui";
-import {get, getUrlKey} from "../utils/request.js";
+import {get, getUrlKey, post} from "../utils/request.js";
 import router from "../router/index.js";
-import qs from "qs";
 import store from "../utils/stores/store.js";
 
 const formRef = ref(null);
@@ -123,15 +122,12 @@ function login() {
     ldb.error();
     return;
   }
-  const rs = get(
-      "https://api.locyanfrp.cn/User/DoLogin?" + qs.stringify(model.value),
-      []
-  );
+  const rs = post("https://api-v2.locyanfrp.cn/api/v2/users/login", model.value);
   rs.then((res) => {
-    if (res.status === 0) {
-      message.success(res.userdata.username + "，欢迎回来！");
-      store.commit("set_token", res.token);
-      store.commit("set_user_info", res.userdata);
+    if (res.status === 200) {
+      message.success(model.value.username + "，欢迎回来！");
+      store.commit("set_token", res.data.token);
+      store.commit("set_user_info", res.data);
       router.push(redirect || "/dashboard");
       ldb.finish();
     } else {

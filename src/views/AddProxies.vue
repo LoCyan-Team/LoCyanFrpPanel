@@ -284,7 +284,7 @@ function addproxy() {
   });
 }
 
-const rs = get("https://api.locyanfrp.cn/Proxies/GetServerList", []);
+const rs = get("https://api-v2.locyanfrp.cn/api/v2/nodes/list", []);
 rs.then((res) => {
   var i = 0;
   res.forEach((s) => {

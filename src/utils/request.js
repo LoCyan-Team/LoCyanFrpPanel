@@ -6,6 +6,8 @@ import QS from "qs";
 import store from "./stores/store.js";
 import router from "../router/index.js";
 import Base64 from "qs/lib/utils.js";
+import { logout } from "./profile.js";
+import { sendErrorMessage } from "./message";
 
 //这一步的目的是判断出当前是开发环境还是生成环境，方法不止一种，达到目的就行
 // if(process.env.NODE_ENV=="development"){
@@ -73,41 +75,27 @@ instance.interceptors.response.use(
                 // 登录过期对用户进行提示
                 // 清除本地token和清空vuex中token对象
                 // 跳转登录页面
-                case 403:
-                    this.$message({
-                        message: "登录过期，请重新登录",
-                        duration: 1000,
-                        type: "success",
-                    });
-                    // 清除token
-                    localStorage.removeItem("token");
-                    store.commit("loginSuccess", null);
-                    // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
-                    setTimeout(() => {
-                        router.replace({
-                            path: "/login",
-                            query: {
-                                redirect: router.currentRoute.fullPath,
-                            },
-                        });
-                    }, 1000);
-                    break;
-
+                // case 403:
+                //     sendErrorMessage("登录过期, 请重新登陆");
+                //     // 清除token
+                //     logout();
+                //     // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
+                //     setTimeout(() => {
+                //         router.replace({
+                //             path: "/login",
+                //             query: {
+                //                 redirect: router.currentRoute.fullPath,
+                //             },
+                //         });
+                //     }, 1000);
+                //     break;
                 // 404请求不存在
                 case 404:
-                    this.$message({
-                        message: "网络请求不存在",
-                        duration: 1500,
-                        type: "success",
-                    });
+                    sendErrorMessage("请求的资源不存在");
                     break;
                 // 其他错误，直接抛出错误提示
                 default:
-                    this.$message({
-                        message: error.response.data.message,
-                        duration: 1500,
-                        type: "success",
-                    });
+                    sendErrorMessage(error.response.data.message);
             }
             return Promise.reject(error.response);
         }
@@ -144,6 +132,24 @@ export function post(url, params, headers) {
     return new Promise((resolve, reject) => {
         instance
             .post(url, QS.stringify(params), headers)
+            .then((res) => {
+                resolve(res.data);
+            })
+            .catch((err) => {
+                reject(err.data);
+            });
+    });
+}
+
+/**
+ * delete方法，对应delete请求
+ * @param {String} url [请求的url地址]
+ * @param {Object} params [请求时携带的参数]
+ */
+export function Delete(url, params) {
+    return new Promise((resolve, reject) => {
+        instance
+            .delete(url, QS.stringify(params))
             .then((res) => {
                 resolve(res.data);
             })
