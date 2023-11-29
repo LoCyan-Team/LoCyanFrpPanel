@@ -95,7 +95,7 @@ instance.interceptors.response.use(
                     break;
                 // 其他错误，直接抛出错误提示
                 default:
-                    sendErrorMessage(error.response.data.message);
+                    sendErrorMessage(error.response.data.data.msg);
             }
             return Promise.reject(error.response);
         }

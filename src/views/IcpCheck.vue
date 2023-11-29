@@ -74,6 +74,9 @@ function submit() {
         return;
     }
     const rs = get("https://api-v2.locyanfrp.cn/api/v2/icp/check?domain=" + domainInput.value.domain + "&token=" + store.getters.get_token + "&username=" + store.getters.get_username);
+    rs.finally((res) => {
+        loading.value = false;
+    });
     rs.then((res) => {
         if (res.status != 200) {
             loading.value = false;

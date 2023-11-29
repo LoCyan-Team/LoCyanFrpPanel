@@ -131,7 +131,7 @@ function login() {
       router.push(redirect || "/dashboard");
       ldb.finish();
     } else {
-      message.warning(res.message);
+      message.warning(res.data.msg);
       ldb.error();
     }
   });
