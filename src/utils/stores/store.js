@@ -53,7 +53,7 @@ const store = new vuex.Store({
         set_user_info(state, userdata) {
             state.username = userdata.username;
             state.email = userdata.email;
-            state.frptoken = userdata.frptoken;
+            state.frptoken = userdata.frp_token;
             state.inbound = userdata.inbound;
             state.outbound = userdata.outbound;
             state.avatar = userdata.avatar;
@@ -61,7 +61,7 @@ const store = new vuex.Store({
             localStorage.setItem('username', userdata.username);
             localStorage.setItem('email', userdata.email);
             localStorage.setItem('traffic', userdata.traffic);
-            localStorage.setItem('frptoken', userdata.frptoken);
+            localStorage.setItem('frptoken', userdata.frp_token);
             localStorage.setItem("inbound", userdata.inbound);
             localStorage.setItem('outbound', userdata.outbound);
             localStorage.setItem('avatar', userdata.avatar);
