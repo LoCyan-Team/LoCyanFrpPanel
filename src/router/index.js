@@ -92,7 +92,7 @@ const routes = [
                 component: () => import("../views/RealName.vue"),
             },
             {
-                path: "/hello2023",
+                path: "/hello2024",
                 name: "NewYear",
                 meta: {
                     keepAlive: true,

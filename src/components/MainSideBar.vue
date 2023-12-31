@@ -64,15 +64,15 @@ const menuOptions = [
     icon: renderIcon(CompassSharp),
   },
   {
-    label: "周年庆活动",
+    label: "元旦贺岁",
     key: "yearly",
-    show: false,
+    show: true,
     icon: renderIcon(PlanetOutline),
     children: [
       {
-        path: "/hello2023",
+        path: "/hello2024",
         label: "评价和祝福",
-        show: false,
+        show: true,
         key: "NewYear",
         icon: renderIcon(PlanetOutline),
       },

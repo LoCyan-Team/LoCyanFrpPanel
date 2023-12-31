@@ -155,7 +155,6 @@
 import { ref } from "vue";
 import { useDialog } from "naive-ui";
 import store from "../utils/stores/store.js";
-import downloadSoftPage from "../components/InstallCsApp.vue";
 import { get } from "../utils/request.js";
 import { sendErrorMessage, sendSuccessMessage } from "../utils/message";
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog, } from "../utils/dialog.js";

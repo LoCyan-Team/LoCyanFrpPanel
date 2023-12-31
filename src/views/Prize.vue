@@ -7,32 +7,26 @@
     <n-grid-item v-for="item in PrizesList" id="item" span="0:3 950:1">
       <n-space style="display: block">
         <n-card :title="'奖品： ' + item.prizename">
-          <p>开奖时间：{{ timestampToTime(item.prizetime) }}</p>
-          <p>
+          <n-p>
             获奖人:
-            <n-tag
-                style="margin: 3px"
-                type="success"
-                v-for="prizeuser in PrizeUsers[item.id]"
-            >{{ prizeuser }}
-            </n-tag
-            >
-          </p>
-          <p>
+            <n-tag style="margin: 3px" type="success" v-if="!PrizeUsers.length === 0" v-for="prizeuser in PrizeUsers[item.id]">{{ prizeuser }}
+            </n-tag>
+            <n-tag style="margin: 3px" type="success" v-else > 暂未开奖
+            </n-tag>
+          </n-p>
+          <n-p>
             参与用户:
-            <n-tag
-                style="margin: 3px"
-                type="info"
-                v-for="user in users[item.id]"
-            >{{ user }}
-            </n-tag
-            >
-          </p>
-          <p>奖品描述：</p>
-          {{ item.description }}
+            <n-tag style="margin: 3px" type="info" v-if="!users.length === 0" v-for="user in users[item.id]">{{ user }}
+            </n-tag>
+            <n-tag style="margin: 3px" type="info" v-else > 没有用户参与欸
+            </n-tag>
+          </n-p>
+          <n-p>奖品描述：</n-p>
+          <n-text v-html="marked(item.description)"></n-text>
+          <n-p>创建时间：{{ timestampToTime(item.createtime) }}</n-p>
           <template #footer>
             <n-space justify="space-between">
-              创建时间：{{ timestampToTime(item.createtime) }}
+              开奖时间：{{ timestampToTime(item.prizetime) }}
               <n-button @click="submitjoin(item.id)" v-show="item.id">
                 参与
               </n-button>
@@ -45,11 +39,12 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
-import {SendSuccessDialog, SendWarningDialog} from "../utils/dialog";
-import {FinishLoadingBar, StartLoadingBar} from "../utils/loadingbar";
-import {get} from "../utils/request.js";
+import { ref } from "vue";
+import { SendSuccessDialog, SendWarningDialog } from "../utils/dialog";
+import { FinishLoadingBar, StartLoadingBar } from "../utils/loadingbar";
+import { get } from "../utils/request.js";
 import store from "../utils/stores/store.js";
+import { marked } from "marked";
 
 const PrizesList = ref([
   {
@@ -71,9 +66,9 @@ function timestampToTime(timestamp) {
   const date = new Date(timestamp * 1000);
   const Y = date.getFullYear() + "-";
   const M =
-      (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "-";
+    (date.getMonth() + 1 < 10
+      ? "0" + (date.getMonth() + 1)
+      : date.getMonth() + 1) + "-";
   const D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
   const h = date.getHours() + ":";
   const m = date.getMinutes() + ":";
@@ -84,10 +79,10 @@ function timestampToTime(timestamp) {
 function submitjoin(id) {
   StartLoadingBar();
   const rs = get(
-      "https://api.locyanfrp.cn/Prize/JoinPrize?username=" +
-      store.getters.get_username +
-      "&id=" +
-      id
+    "https://api.locyanfrp.cn/Prize/JoinPrize?username=" +
+    store.getters.get_username +
+    "&id=" +
+    id
   );
   rs.then((res) => {
     if (res.status) {
@@ -114,17 +109,33 @@ function GetPrizeList() {
     // 用奖品ID排列
     res.forEach((e) => {
       PrizesList.value[i] = e;
-      if (e.username.indexOf("|") !== -1) {
-        users.value[e.id] = e.username.split("|");
+      if (e.username === null) {
+        users.value = [];
       } else {
-        users.value[e.id] = [e.username];
+        if (e.username === "") {
+          users.value = [];
+        } else {
+          if (e.username.indexOf("|") !== -1) {
+            users.value[e.id] = e.username.split("|");
+          } else {
+            users.value[e.id] = [e.username];
+          }
+        }
       }
 
-      // 获奖用户部分
-      if (e.prize_user.indexOf("|") !== -1) {
-        PrizeUsers.value[e.id] = e.prize_user.split("|");
+      if (e.username === null) {
+        PrizeUsers.value = [];
       } else {
-        PrizeUsers.value[e.id] = [e.prize_user];
+        if (e.username === "") {
+          PrizeUsers.value = [];
+        } else {
+          // 获奖用户部分
+          if (e.prize_user.indexOf("|") !== -1) {
+            PrizeUsers.value[e.id] = e.prize_user.split("|");
+          } else {
+            PrizeUsers.value[e.id] = [e.prize_user];
+          }
+        }
       }
 
       i++;
