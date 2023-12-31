@@ -9,14 +9,14 @@
         <n-card :title="'奖品： ' + item.prizename">
           <n-p>
             获奖人:
-            <n-tag style="margin: 3px" type="success" v-if="!PrizeUsers.length === 0" v-for="prizeuser in PrizeUsers[item.id]">{{ prizeuser }}
+            <n-tag style="margin: 3px" type="success" v-if="PrizeUsers.length" v-for="prizeuser in PrizeUsers[item.id]">{{ prizeuser }}
             </n-tag>
             <n-tag style="margin: 3px" type="success" v-else > 暂未开奖
             </n-tag>
           </n-p>
           <n-p>
             参与用户:
-            <n-tag style="margin: 3px" type="info" v-if="!users.length === 0" v-for="user in users[item.id]">{{ user }}
+            <n-tag style="margin: 3px" type="info" v-if="users.length" v-for="user in users[item.id]">{{ user }}
             </n-tag>
             <n-tag style="margin: 3px" type="info" v-else > 没有用户参与欸
             </n-tag>
@@ -123,10 +123,10 @@ function GetPrizeList() {
         }
       }
 
-      if (e.username === null) {
+      if (e.prize_user === null) {
         PrizeUsers.value = [];
       } else {
-        if (e.username === "") {
+        if (e.prize_user === "") {
           PrizeUsers.value = [];
         } else {
           // 获奖用户部分
