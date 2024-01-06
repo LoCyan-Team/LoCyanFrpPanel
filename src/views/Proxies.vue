@@ -158,6 +158,7 @@ import store from "../utils/stores/store.js";
 import { get } from "../utils/request.js";
 import { sendErrorMessage, sendSuccessMessage } from "../utils/message";
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog, } from "../utils/dialog.js";
+import downloadSoftPage from "../components/InstallCsApp.vue";
 
 const show = ref(true);
 const showEditModal = ref(false);

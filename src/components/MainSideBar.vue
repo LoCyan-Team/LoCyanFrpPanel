@@ -66,7 +66,7 @@ const menuOptions = [
   {
     label: "元旦贺岁",
     key: "yearly",
-    show: true,
+    show: false,
     icon: renderIcon(PlanetOutline),
     children: [
       {
