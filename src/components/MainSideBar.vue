@@ -169,7 +169,7 @@ const menuOptions = [
             h(
                 "a",
                 {
-                  href: "https://pan.1l1.icu/s/MAhO?password=o28hn3",
+                  href: "https://nyalcf.1l1.icu",
                   target: "_blank",
                 },
                 "软件下载"
