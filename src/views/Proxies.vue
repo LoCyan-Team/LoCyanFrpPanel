@@ -205,7 +205,7 @@ function makelinkaddr(id) {
     Proxies.value[id].proxy_type === "http" ||
     Proxies.value[id].proxy_type === "https"
   ) {
-    return Proxies.value[id].domain.substring(2, Proxies.value[id].domain.length-2);
+    return Proxies.value[id].domain;
   } else {
     return (
       ServerList.value[Proxies.value[id].node].hostname +
