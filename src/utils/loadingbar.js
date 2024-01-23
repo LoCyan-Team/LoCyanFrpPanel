@@ -1,11 +1,11 @@
 export const StartLoadingBar = () => {
-    window.$loadingBar.start();
-};
+  window.$loadingBar.start()
+}
 
 export const FinishLoadingBar = () => {
-    window.$loadingBar.finish();
-};
+  window.$loadingBar.finish()
+}
 
 export const ErrorLoadingBar = () => {
-    window.$loadingBar.error();
-};
+  window.$loadingBar.error()
+}

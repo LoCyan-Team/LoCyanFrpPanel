@@ -1,3 +1,9 @@
+# Package lockfile
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
 ### VisualStudioCode template
 .vscode/*
 !.vscode/settings.json

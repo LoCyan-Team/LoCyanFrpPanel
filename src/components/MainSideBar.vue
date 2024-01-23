@@ -1,33 +1,33 @@
 <template>
   <n-layout-sider
-      bordered
-      show-trigger
-      :collapsed="collapsed"
-      @collapse="collapsed = true"
-      @expand="collapsed = false"
-      collapse-mode="width"
-      :collapsed-width="64"
-      :native-scrollbar="true"
-      :inverted="inverted"
-      id="sider"
-      style="height: 100%; bottom: 0"
+    bordered
+    show-trigger
+    :collapsed="collapsed"
+    @collapse="collapsed = true"
+    @expand="collapsed = false"
+    collapse-mode="width"
+    :collapsed-width="64"
+    :native-scrollbar="true"
+    :inverted="inverted"
+    id="sider"
+    style="height: 100%; bottom: 0"
   >
     <n-menu
-        ref="menuInstRef"
-        :collapsed="collapsed"
-        :collapsed-width="64"
-        :collapsed-icon-size="22"
-        :options="menuOptions"
-        style=""
-        :value="active"
-        @update:value="handleUpdateValue"
+      ref="menuInstRef"
+      :collapsed="collapsed"
+      :collapsed-width="64"
+      :collapsed-icon-size="22"
+      :options="menuOptions"
+      style=""
+      :value="active"
+      @update:value="handleUpdateValue"
     />
   </n-layout-sider>
 </template>
 
 <script setup>
-import {h, ref} from "vue";
-import {NIcon} from "naive-ui";
+import { h, ref } from 'vue'
+import { NIcon } from 'naive-ui'
 
 import {
   Add,
@@ -43,112 +43,112 @@ import {
   PlanetOutline,
   KeyOutline,
   CompassSharp
-} from "@vicons/ionicons5";
-import {AttachMoneyFilled} from "@vicons/material";
+} from '@vicons/ionicons5'
+import { AttachMoneyFilled } from '@vicons/material'
 
 // 手机状态下收缩菜单栏
-const collapsed = ref(true);
+const collapsed = ref(true)
 if (document.body.clientWidth >= 1000) {
-  collapsed.value = false;
+  collapsed.value = false
 }
 
 function renderIcon(icon) {
-  return () => h(NIcon, null, {default: () => h(icon)});
+  return () => h(NIcon, null, { default: () => h(icon) })
 }
 
 const menuOptions = [
   {
-    path: "/dashboard",
-    label: "仪表盘",
-    key: "DashBoard",
-    icon: renderIcon(CompassSharp),
+    path: '/dashboard',
+    label: '仪表盘',
+    key: 'DashBoard',
+    icon: renderIcon(CompassSharp)
   },
   {
-    label: "元旦贺岁",
-    key: "yearly",
+    label: '元旦贺岁',
+    key: 'yearly',
     show: false,
     icon: renderIcon(PlanetOutline),
     children: [
       {
-        path: "/hello2024",
-        label: "评价和祝福",
+        path: '/hello2024',
+        label: '评价和祝福',
         show: true,
-        key: "NewYear",
-        icon: renderIcon(PlanetOutline),
+        key: 'NewYear',
+        icon: renderIcon(PlanetOutline)
       },
       {
-        path: "/prize",
-        label: "抽奖",
+        path: '/prize',
+        label: '抽奖',
         show: true,
-        key: "Prize",
-        icon: renderIcon(PlanetOutline),
-      },
-    ],
+        key: 'Prize',
+        icon: renderIcon(PlanetOutline)
+      }
+    ]
   },
   {
-    path: "/realname",
-    label: "实名认证",
-    key: "RealName",
-    icon: renderIcon(Person),
+    path: '/realname',
+    label: '实名认证',
+    key: 'RealName',
+    icon: renderIcon(Person)
   },
   {
-    path: "/sign",
-    label: "签到",
-    key: "Sign",
-    icon: renderIcon(PencilSharp),
+    path: '/sign',
+    label: '签到',
+    key: 'Sign',
+    icon: renderIcon(PencilSharp)
   },
   {
-    label: "隧道操作",
-    key: "control-proxy",
+    label: '隧道操作',
+    key: 'control-proxy',
     icon: renderIcon(PaperPlane),
     children: [
       {
-        path: "/proxies/addproxies",
-        label: "添加隧道",
-        key: "AddProxies",
-        icon: renderIcon(Add),
+        path: '/proxies/addproxies',
+        label: '添加隧道',
+        key: 'AddProxies',
+        icon: renderIcon(Add)
       },
       {
-        path: "/proxies",
-        label: "隧道列表",
-        key: "Proxies",
-        icon: renderIcon(List),
+        path: '/proxies',
+        label: '隧道列表',
+        key: 'Proxies',
+        icon: renderIcon(List)
       },
       {
-        path: "/config",
-        label: "配置文件",
-        key: "Config",
-        icon: renderIcon(FileTrayFull),
-      },
-    ],
+        path: '/config',
+        label: '配置文件',
+        key: 'Config',
+        icon: renderIcon(FileTrayFull)
+      }
+    ]
+  },
+  // {
+  //   path: "/xmnetwork/bore",
+  //   label: "Bore 穿透",
+  //   key: "XMNWC-Bore",
+  //   icon: renderIcon(Flash),
+  // },
+  {
+    path: '/donate',
+    label: '赞助',
+    key: 'Donate',
+    icon: renderIcon(AttachMoneyFilled)
   },
   {
-    path: "/xmnetwork/bore",
-    label: "Bore 穿透",
-    key: "XMNWC-Bore",
-    icon: renderIcon(Flash),
+    path: '/icp',
+    label: '域名白名单',
+    key: 'Icp',
+    icon: renderIcon(KeyOutline)
   },
   {
-    path: "/donate",
-    label: "赞助",
-    key: "Donate",
-    icon: renderIcon(AttachMoneyFilled),
+    path: '/status',
+    label: '节点状态',
+    key: 'Status',
+    icon: renderIcon(List)
   },
   {
-    path: "/icp",
-    label: "域名白名单",
-    key: "Icp",
-    icon: renderIcon(KeyOutline),
-  },
-  {
-    path: "/status",
-    label: "节点状态",
-    key: "Status",
-    icon: renderIcon(List),
-  },
-  {
-    label: "其他功能",
-    key: "other_options",
+    label: '其他功能',
+    key: 'other_options',
     icon: renderIcon(BookIcon),
     children: [
       // {
@@ -163,52 +163,52 @@ const menuOptions = [
       //       ),
       //   key: "software_download",
       //   icon: renderIcon(CloudDownloadOutline),
-      // }, 
+      // },
       {
         label: () =>
-            h(
-                "a",
-                {
-                  href: "https://nyalcf.1l1.icu",
-                  target: "_blank",
-                },
-                "软件下载"
-            ),
-        key: "software_download_backup",
-        icon: renderIcon(CloudDownloadOutline),
+          h(
+            'a',
+            {
+              href: 'https://nyalcf.1l1.icu',
+              target: '_blank'
+            },
+            '软件下载'
+          ),
+        key: 'software_download_backup',
+        icon: renderIcon(CloudDownloadOutline)
       },
       {
         label: () =>
-            h(
-                "a",
-                {
-                  href: "https://doc.locyan.cn",
-                  target: "_blank",
-                },
-                "帮助文档"
-            ),
-        key: "help_docs",
-        icon: renderIcon(BookIcon),
-      },
-    ],
-  },
-];
+          h(
+            'a',
+            {
+              href: 'https://doc.locyan.cn',
+              target: '_blank'
+            },
+            '帮助文档'
+          ),
+        key: 'help_docs',
+        icon: renderIcon(BookIcon)
+      }
+    ]
+  }
+]
 
-const inverted = false;
+const inverted = false
 </script>
 <script>
-import { ref } from "vue";
-import router from "../router/index.js";
+import { ref } from 'vue'
+import router from '../router/index.js'
 
-const active = ref("");
-const menuInstRef = ref(null);
+const active = ref('')
+const menuInstRef = ref(null)
 
 export const handleUpdateValue = (key, item) => {
-  active.value = key;
-  router.push({path: item.path});
-};
+  active.value = key
+  router.push({ path: item.path })
+}
 
 export function SetSideBarActiveKey(name) {
-  active.value = name;
+  active.value = name
 }
 </script>

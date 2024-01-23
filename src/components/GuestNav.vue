@@ -3,7 +3,11 @@
     <n-layout>
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
-          <n-gradient-text :size="24" type="warning" style="margin-left: 20px; height: 50px; margin-top: 10%">
+          <n-gradient-text
+            :size="24"
+            type="warning"
+            style="margin-left: 20px; height: 50px; margin-top: 10%"
+          >
             LoCyanFrp
           </n-gradient-text>
         </n-space>
@@ -38,39 +42,39 @@
 </template>
 
 <script setup>
-import { h, ref } from "vue";
-import { NGradientText } from "naive-ui";
-import GuestSideBar from "./GuestSideBar.vue";
-import router from "../router/index";
-import { get } from "../utils/request.js";
+import { h, ref } from 'vue'
+import { NGradientText } from 'naive-ui'
+import GuestSideBar from './GuestSideBar.vue'
+import router from '../router/index'
+import { get } from '../utils/request.js'
 
 // 手机状态下收缩菜单栏
-const collapsed = ref(true);
+const collapsed = ref(true)
 if (document.body.clientWidth >= 1000) {
-  collapsed.value = false;
+  collapsed.value = false
 }
 
-const hitokoto_content_rs = get("https://v1.hitokoto.cn/", []);
-const hitokoto_content = ref("");
+const hitokoto_content_rs = get('https://v1.hitokoto.cn/', [])
+const hitokoto_content = ref('')
 hitokoto_content_rs.then((res) => {
-  let content = res.hitokoto;
-  let from = res.from;
-  hitokoto_content.value = content + " —— " + from;
-});
+  let content = res.hitokoto
+  let from = res.from
+  hitokoto_content.value = content + ' —— ' + from
+})
 
 function renderIcon(icon) {
-  return () => h(NIcon, null, { default: () => h(icon) });
+  return () => h(NIcon, null, { default: () => h(icon) })
 }
 
-const inverted = false;
+const inverted = false
 </script>
 <script>
-import { ref } from "vue";
+import { ref } from 'vue'
 
-export const ShowSideBar = ref(false);
+export const ShowSideBar = ref(false)
 
 export function ChangeShowSideBar_Guest(is_show) {
-  ShowSideBar.value = is_show;
+  ShowSideBar.value = is_show
 }
 </script>
 <style>
