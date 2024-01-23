@@ -123,7 +123,12 @@
         :id="Proxies.indexOf(item)"
       >
         <n-space style="display: block">
-          <n-card :title="'ID: ' + item.id + ' - ' + item.proxy_name">
+          <n-card style="min-height: 350px;">
+            <div style="overflow-y: auto; height: 75px;" class="node-title">
+              <h2 style="font-weight: 400;">{{ item.proxy_name }}</h2>
+              <n-tag :bordered="false" type="success">ID: {{ item.id }}</n-tag>
+            </div>
+            <br />
             <n-tag :bordered="false" type="success">
               {{ item.proxy_type }}
             </n-tag>
@@ -177,6 +182,7 @@
                   >删除
                 </n-button>
                 <!-- 这个click被我利用到极致了 -->
+                <!-- JS大蛇你妈的也不套 () => {} 帮你套了下次别乱写了 -->
                 <n-button
                   style="margin: 1px"
                   strong
@@ -515,3 +521,9 @@ function deleteProxy(id) {
   })
 }
 </script>
+
+<style scoped>
+.node-title::-webkit-scrollbar {
+  display: none;
+}
+</style>
