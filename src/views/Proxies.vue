@@ -150,7 +150,7 @@
                   strong
                   secondary
                   type="primary"
-                  @click="
+                  @click="() => {
                     indexOfProxies = Proxies.indexOf(item)
                     showEditModal = true
                     SelectProxyID = item.id
@@ -165,7 +165,7 @@
                       domain: item.domain
                     }
                     ShowDomainInput = item.proxy_type === 'http' || item.proxy_type === 'https'
-                  "
+                  }"
                   >编辑
                 </n-button>
                 <n-button
@@ -182,12 +182,12 @@
                   strong
                   secondary
                   type="info"
-                  @click="
+                  @click="() => {
                     indexOfProxies = Proxies.indexOf(item)
                     LinkAddr = makelinkaddr(Proxies.indexOf(item))
                     showDetailModal = true
                     SelectProxyID = item.id
-                  "
+                  }"
                   >详细信息
                 </n-button>
                 <n-button
@@ -256,6 +256,7 @@ function transtype(type) {
 }
 
 // 就是有弱智不知道隧道链接是什么，气死我了
+// 2024-01-23 By Muska_Ami: ↑然而加了依然有弱智不知道
 function makelinkaddr(id) {
   if (Proxies.value[id].proxy_type === 'http' || Proxies.value[id].proxy_type === 'https') {
     return Proxies.value[id].domain
