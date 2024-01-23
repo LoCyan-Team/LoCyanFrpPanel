@@ -77,19 +77,18 @@ if (redirect !== null) {
 
 // 检查是否存在第三方登录返回值
 // 针对QQ登录的处理
-const username_qq = getUrlKey('username_qq')
-const token_qq = getUrlKey('token_qq')
-if (username_qq !== null || token_qq !== null) {
+const code = getUrlKey('code')
+if (code !== null) {
   other_login.value = true
   const rs = get(
-    'https://api.locyanfrp.cn/User/DoLoginByToken?username=' + username_qq + '&token=' + token_qq,
+    "https://api-v2.locyanfrp.cn/api/v2/oauth/qq/loginByCode?code=" + code,
     []
   )
   rs.then((res) => {
-    if (res.status) {
-      message.success(res.userdata.username + '，欢迎回来！')
-      store.commit('set_token', res.token)
-      store.commit('set_user_info', res.userdata)
+    if (res.status === 200) {
+      message.success(res.data.username + '，欢迎回来！')
+      store.commit('set_token', res.data.token)
+      store.commit('set_user_info', res.data)
       router.push(redirect || '/dashboard')
     }
   })
@@ -128,10 +127,10 @@ function login() {
 
 function qqlogin() {
   qqlogin_loading.value = true
-  const rs = get('https://api.locyanfrp.cn/OAuth/QQLogin', [])
+  const rs = get("https://api-v2.locyanfrp.cn/api/v2/oauth/qq/login?redirect_url=" + window.location.toString(), []);
   rs.then((res) => {
-    if (res.status) {
-      window.location.href = res.url
+    if (res.status === 200) {
+      window.location.href = res.data.url
     }
   })
 }

@@ -5,8 +5,7 @@
       <br />
       <n-text style="font-size: 20px">{{ store.getters.get_username }} </n-text>
       <br />
-      <n-text style="color: gray"
-        >本站使用 Cravatar 公用头像库 API ，可以前往
+      <n-text style="color: gray">本站使用 Cravatar 公用头像库 API ，可以前往
         <a target="_blank" href="https://cravatar.cn/">Cravatar</a> 或
         <a target="_blank" href="https://gravatar.com/">Gravatar</a>
         修改您的头像
@@ -15,20 +14,10 @@
       <n-h2>社交账号绑定</n-h2>
       <n-space>
         <n-h5 style="margin: 3px"> QQ:</n-h5>
-        <n-button
-          type="info"
-          v-bind:disabled="bindQQ.isDisable"
-          @click="DoBindQQ"
-          :loading="binding"
-        >
+        <n-button type="info" v-bind:disabled="bindQQ.isDisable" @click="DoBindQQ" :loading="binding">
           {{ bindQQ.msg }}
         </n-button>
-        <n-button
-          type="error"
-          v-bind:disabled="bindQQ.unBindDisable"
-          @click="UnBindQQ"
-          :loading="binding"
-        >
+        <n-button type="error" v-bind:disabled="bindQQ.unBindDisable" @click="UnBindQQ" :loading="binding">
           {{ bindQQ.unBindmsg }}
         </n-button>
       </n-space>
@@ -38,22 +27,12 @@
         <!--<n-text style="color: gray">一旦修改信息，您的登录账户也会随之改变！</n-text>-->
         <n-h5 style="margin: 3px"> 邮箱：</n-h5>
         <n-input v-bind:disabled="tEmail.isEditDisable" v-model:value="tEmail.email" />
-        <n-button @click="changeEmail" v-bind:disabled="tEmail.isBtnDisable" type="info"
-          >{{ tEmail.msg }}
+        <n-button @click="changeEmail" v-bind:disabled="tEmail.isBtnDisable" type="info">{{ tEmail.msg }}
         </n-button>
         <n-space v-bind:style="tEmail.isEditDisable1">
-          <n-input
-            v-model:value="tEmail.verify.code"
-            style="max-width: 200px"
-            placeholder="请输入验证码"
-          />
-          <n-button
-            round
-            ghost
-            type="primary"
-            v-bind:disabled="tEmail.verify.isClick"
-            @click="sendChangeEmailCode"
-            >{{ tEmail.verify.msg }}
+          <n-input v-model:value="tEmail.verify.code" style="max-width: 200px" placeholder="请输入验证码" />
+          <n-button round ghost type="primary" v-bind:disabled="tEmail.verify.isClick" @click="sendChangeEmailCode">{{
+            tEmail.verify.msg }}
           </n-button>
         </n-space>
       </n-space>
@@ -102,10 +81,10 @@ const tEmail = ref({
 
 function queryBind() {
   const rs = get(
-    'https://api.locyanfrp.cn/OAuth/CheckQQIsBind?username=' + store.getters.get_username
+    'https://api-v2.locyanfrp.cn/api/v2/oauth/qq/check?username=' + store.getters.get_username
   )
   rs.then((res) => {
-    if (!res.status) {
+    if (!res.status === 200) {
       bindQQ.value.isDisable = false
       bindQQ.value.msg = ref('点击绑定')
       bindQQ.value.unBindDisable = true
@@ -132,13 +111,13 @@ function changeEmail() {
     tEmail.value.isBtnDisable = true
     const rs = get(
       'https://api.locyanfrp.cn/Account/EditEmail?username=' +
-        store.getters.get_username +
-        '&token=' +
-        store.getters.get_token +
-        '&email=' +
-        tEmail.value.email +
-        '&code=' +
-        tEmail.value.verify.code
+      store.getters.get_username +
+      '&token=' +
+      store.getters.get_token +
+      '&email=' +
+      tEmail.value.email +
+      '&code=' +
+      tEmail.value.verify.code
     )
     rs.then((res) => {
       if (res.status) {
@@ -164,11 +143,11 @@ function sendChangeEmailCode() {
   ldb.start()
   const rs = get(
     'https://api.locyanfrp.cn/Account/SendEditMail?username=' +
-      store.getters.get_username +
-      '&token=' +
-      store.getters.get_token +
-      '&email=' +
-      tEmail.value.email
+    store.getters.get_username +
+    '&token=' +
+    store.getters.get_token +
+    '&email=' +
+    tEmail.value.email
   )
   rs.then((res) => {
     if (res.status) {
@@ -186,15 +165,12 @@ function sendChangeEmailCode() {
 function DoBindQQ() {
   binding.value = true
   const rs = get(
-    'https://api.locyanfrp.cn/OAuth/BindQQAccount?username=' +
-      store.getters.get_username +
-      '&token=' +
-      store.getters.get_token,
+    'https://api-v2.locyanfrp.cn/api/v2/oauth/qq/bind?username=' + store.getters.get_username,
     []
   )
   rs.then((res) => {
-    if (res.status) {
-      window.open(res.url)
+    if (res.status == 200) {
+      window.open(res.data.url)
       binding.value = false
     }
   })
@@ -203,14 +179,11 @@ function DoBindQQ() {
 function UnBindQQ() {
   binding.value = true
   const rs = get(
-    'https://api.locyanfrp.cn/OAuth/QQUnBind?username=' +
-      store.getters.get_username +
-      '&token=' +
-      store.getters.get_token,
+    'https://api-v2.locyanfrp.cn/api/v2/oauth/qq/unbind?username=' + store.getters.get_username,
     []
   )
   rs.then((res) => {
-    if (res.status) {
+    if (res.status == 200) {
       binding.value = false
       bindQQ.value.unBindDisable = true
       bindQQ.value.unBindmsg = ref('解绑成功')
