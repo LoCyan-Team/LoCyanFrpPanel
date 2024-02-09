@@ -64,7 +64,7 @@ const menuOptions = [
     icon: renderIcon(CompassSharp)
   },
   {
-    label: '新年活动',
+    label: '新春活动',
     key: 'yearly',
     show: true,
     icon: renderIcon(PlanetOutline),
