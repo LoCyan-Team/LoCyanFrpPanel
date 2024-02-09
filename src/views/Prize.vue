@@ -9,23 +9,14 @@
         <n-card :title="'奖品： ' + item.prizename">
           <n-p>
             获奖人:
-            <n-tag
-              style="margin: 3px"
-              type="success"
-              v-if="PrizeUsers.length"
-              v-for="prizeuser in PrizeUsers[item.id]"
-              >{{ prizeuser }}
+            <n-tag style="margin: 3px" type="success" v-if="PrizeUsers.length" v-for="prizeuser in PrizeUsers[item.id]">{{
+              prizeuser }}
             </n-tag>
             <n-tag style="margin: 3px" type="info" v-else> 暂未开奖 </n-tag>
           </n-p>
           <n-p>
             参与用户:
-            <n-tag
-              style="margin: 3px"
-              type="info"
-              v-if="users.length"
-              v-for="user in users[item.id]"
-              >{{ user }}
+            <n-tag style="margin: 3px" type="info" v-if="users.length" v-for="user in users[item.id]">{{ user }}
             </n-tag>
             <n-tag style="margin: 3px" type="info" v-else> 没有用户参与欸 </n-tag>
           </n-p>
@@ -107,18 +98,21 @@ function GetPrizeList() {
     // 用奖品ID排列
     res.forEach((e) => {
       PrizesList.value[i] = e
-
-      if (e.username.indexOf('|') !== -1) {
-        users.value[e.id] = e.username.split('|')
-      } else {
-        users.value[e.id] = [e.username]
+      if (e.username != "") {
+        if (e.username.indexOf('|') !== -1) {
+          users.value[e.id] = e.username.split('|')
+        } else {
+          users.value[e.id] = [e.username]
+        }
       }
 
       // 获奖用户部分
-      if (e.prize_user.indexOf('|') !== -1) {
-        PrizeUsers.value[e.id] = e.prize_user.split('|')
-      } else {
-        PrizeUsers.value[e.id] = [e.prize_user]
+      if (e.prize_user != "") {
+        if (e.prize_user.indexOf('|') !== -1) {
+          PrizeUsers.value[e.id] = e.prize_user.split('|')
+        } else {
+          PrizeUsers.value[e.id] = [e.prize_user]
+        }
       }
 
       i++
