@@ -1,35 +1,20 @@
 <template>
   <n-grid cols="1" item-responsive>
     <n-grid-item span="1">
-      <n-form
-        ref="formRef"
-        :model="model"
-        :rules="rules"
-        label-width="auto"
-        require-mark-placement="right-hanging"
-        size="medium"
-        id="item"
-        v-show="!other_login"
-      >
+      <n-form ref="formRef" :model="model" :rules="rules" label-width="auto" require-mark-placement="right-hanging"
+        size="medium" id="item" v-show="!other_login">
         <n-form-item label="用户名 / 邮箱" path="username">
-          <n-input
-            type="text"
-            v-model:value="model.username"
-            placeholder="用户名"
-            @keyup.enter="login"
-          />
+          <n-input type="text" v-model:value="model.username" placeholder="用户名" @keyup.enter="login" />
         </n-form-item>
         <n-form-item label="密码" path="password">
-          <n-input
-            type="password"
-            v-model:value="model.password"
-            placeholder="密码"
-            @keyup.enter="login"
-          />
+          <n-input type="password" v-model:value="model.password" placeholder="密码" @keyup.enter="login" />
         </n-form-item>
         <div>
           <n-space justify="space-between">
-            <n-button type="info" @click="qqlogin" :loading="qqlogin_loading"> QQ 登录 </n-button>
+            <n-space>
+              <n-button type="info" @click="qqlogin" :loading="qqlogin_loading"> QQ 登录 </n-button>
+              <n-button type="info" @click="oauthlogin" :loading="oauthlogin_loading"> OAuth 登录 </n-button>
+            </n-space>
             <n-space justify="end">
               <n-button type="primary" @click="login"> 登录</n-button>
               <n-button ghost style="--n-border: none" type="primary" @click="goregister">
@@ -40,10 +25,7 @@
         </div>
       </n-form>
       <div v-show="other_login">
-        <n-spin
-          description="正在进行第三方登录处理"
-          style="display: flex; justify-content: center; margin-top: 30vh"
-        ></n-spin>
+        <n-spin description="正在进行第三方登录处理" style="display: flex; justify-content: center; margin-top: 30vh"></n-spin>
       </div>
     </n-grid-item>
   </n-grid>
@@ -61,6 +43,7 @@ const message = useMessage()
 const ldb = useLoadingBar()
 const other_login = ref(false)
 const qqlogin_loading = ref(false)
+const oauthlogin_loading = ref(false)
 
 const model = ref([
   {
@@ -78,6 +61,7 @@ if (redirect !== null) {
 // 检查是否存在第三方登录返回值
 // 针对QQ登录的处理
 const code = getUrlKey('code')
+const token = getUrlKey('token')
 if (code !== null) {
   other_login.value = true
   const rs = get(
@@ -94,8 +78,26 @@ if (code !== null) {
   })
 }
 
+if (token !== null) {
+  other_login.value = true
+  const rs = get("https://api-v2.locyanfrp.cn/api/v2/oauth/loginByToken?token=" + token)
+  rs.then((res) => {
+    if (res.status === 200) {
+      message.success(res.data.username + '，欢迎回来！')
+      store.commit('set_token', res.data.token)
+      store.commit('set_user_info', res.data)
+      router.push(redirect || '/dashboard')
+    }
+  })
+}
+
 function goregister() {
   router.push('/register')
+}
+
+function oauthlogin() {
+  oauthlogin_loading.value = true;
+  window.location.href = "https://api-v2.locyanfrp.cn/api/v2/oauth/authorize?redirectUrl=http://" + window.location.host + "/login";
 }
 
 function login() {
