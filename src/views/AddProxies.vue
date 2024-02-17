@@ -255,10 +255,10 @@ function addproxy() {
     'https://api-v2.locyanfrp.cn/api/v2/proxies/add', TunnelCreateInfo
   )
   rs.then((res) => {
-    if (res.status === true) {
-      SendSuccessDialog(res.message)
+    if (res.status === 200) {
+      SendSuccessDialog("添加成功")
     } else {
-      sendErrorMessage(res.message)
+      sendErrorMessage(res.data.message)
     }
   })
 }
