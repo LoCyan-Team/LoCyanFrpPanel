@@ -258,7 +258,7 @@ function addproxy() {
     if (res.status === 200) {
       SendSuccessDialog("添加成功")
     } else {
-      sendErrorMessage(res.data.message)
+      sendErrorMessage(res.data.msg)
     }
   })
 }
