@@ -217,7 +217,7 @@
 import { ref } from 'vue'
 import { useDialog } from 'naive-ui'
 import store from '../utils/stores/store.js'
-import { get } from '../utils/request.js'
+import { get, post } from '../utils/request.js'
 import { sendErrorMessage, sendSuccessMessage } from '../utils/message'
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog.js'
 import downloadSoftPage from '../components/InstallCsApp.vue'
@@ -294,40 +294,28 @@ function EditProxy(proxyid) {
   if (EditCheck.value === false) {
     SendWarningDialog('参数检查未通过，请检查信息格式是否正确！')
   }
-  const rs = get(
-    'https://api.locyanfrp.cn/Proxies/update?username=' +
-      store.getters.get_username +
-      '&name=' +
-      ProxyEditInfo.value.proxy_name +
-      '&key=' +
-      store.getters.get_frp_token +
-      '&ip=' +
-      ProxyEditInfo.value.local_ip +
-      '&type=' +
-      ProxyEditInfo.value.proxy_type +
-      '&lp=' +
-      ProxyEditInfo.value.local_port +
-      '&rp=' +
-      ProxyEditInfo.value.remote_port +
-      '&ue=0&uz=0&id=' +
-      ProxyEditInfo.value.node +
-      '&token=' +
-      store.getters.get_token +
-      '&url=' +
-      ProxyEditInfo.value.domain +
-      '&proxyid=' +
-      proxyid,
-    []
-  )
+
+  const EditInfo = {
+    "id": proxyid,
+    "proxyName": ProxyEditInfo.value.proxy_name,
+    "proxyType": ProxyEditInfo.value.proxy_type,
+    "remotePort": ProxyEditInfo.value.remote_port,
+    "username": store.getters.get_username,
+    "localIp": ProxyEditInfo.value.local_ip,
+    "localPort": ProxyEditInfo.value.local_port,
+    "domain": ProxyEditInfo.value.domain,
+    "node": ProxyEditInfo.value.node
+  }
+  const rs = post("https://api-v2.locyanfrp.cn/api/v2/proxies/update", EditInfo)
   rs.then((res) => {
-    if (res.status === true) {
+    if (res.status === 200) {
       // 重新刷新列表
       initList()
       // 关闭模态框
       showEditModal.value = false
-      SendSuccessDialog(res.message)
+      SendSuccessDialog("修改成功")
     } else {
-      SendErrorDialog(res.message)
+      SendErrorDialog(res.data.msg)
     }
   })
 }
