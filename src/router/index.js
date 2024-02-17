@@ -153,7 +153,16 @@ const routes = [
           title: '节点状态'
         },
         component: () => import('../views/Status.vue')
-      }
+      },
+      // {
+      //   path: '/lan',
+      //   name: 'Lan',
+      //   meta: {
+      //     keepAlive: true,
+      //     title: '联机大厅'
+      //   },
+      //   component: () => import('../views/LanLobby.vue')
+      // }
     ]
   }
 ]

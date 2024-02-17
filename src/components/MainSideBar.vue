@@ -66,7 +66,7 @@ const menuOptions = [
   {
     label: '新春活动',
     key: 'yearly',
-    show: true,
+    show: false,
     icon: renderIcon(PlanetOutline),
     children: [
       {
@@ -127,6 +127,12 @@ const menuOptions = [
   //   label: "Bore 穿透",
   //   key: "XMNWC-Bore",
   //   icon: renderIcon(Flash),
+  // },
+  // {
+  //   path: '/lan',
+  //   label: '联机大厅',
+  //   key: 'Lan',
+  //   icon: renderIcon(AttachMoneyFilled)
   // },
   {
     path: '/donate',

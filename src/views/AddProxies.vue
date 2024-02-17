@@ -89,7 +89,7 @@ n-input {
 <script setup>
 import { ref } from 'vue'
 import store from '../utils/stores/store.js'
-import { get } from '../utils/request.js'
+import { get, post } from '../utils/request.js'
 import { sendErrorMessage } from '../utils/message'
 import { SendErrorDialog, SendSuccessDialog } from '../utils/dialog.js'
 
@@ -236,29 +236,23 @@ function addproxy() {
     SendErrorDialog('参数检查未通过，请检查信息格式是否正确')
     return
   }
-  const rs = get(
-    'https://api.locyanfrp.cn/Proxies/add?username=' +
-      store.getters.get_username +
-      '&name=' +
-      ProxyInfo.value.proxy_name +
-      '&key=' +
-      store.getters.get_frp_token +
-      '&ip=' +
-      ProxyInfo.value.local_ip +
-      '&type=' +
-      ProxyInfo.value.proxy_type +
-      '&lp=' +
-      ProxyInfo.value.local_port +
-      '&rp=' +
-      ProxyInfo.value.remote_port +
-      '&ue=0&uz=0&id=' +
-      ProxyInfo.value.node +
-      '&token=' +
-      store.getters.get_token +
-      '&url=' +
-      ProxyInfo.value.domain +
-      '&sk=' +
-      ProxyInfo.value.sk
+  const TunnelCreateInfo = {
+    "username": store.getters.get_username,
+    "name": ProxyInfo.value.proxy_name,
+    "key": store.getters.get_frp_token,
+    "ip": ProxyInfo.value.local_ip,
+    "type": ProxyInfo.value.proxy_type,
+    "lp": ProxyInfo.value.local_port,
+    "rp": ProxyInfo.value.remote_port,
+    "ue": "0",
+    "uz": "0",
+    "id": ProxyInfo.value.node,
+    "token": store.getters.get_token,
+    "url": ProxyInfo.value.domain,
+    "sk": ProxyInfo.value.sk
+  };
+  const rs = post(
+    'https://api-v2.locyanfrp.cn/api/v2/proxies/add', TunnelCreateInfo
   )
   rs.then((res) => {
     if (res.status === true) {
