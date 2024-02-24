@@ -239,6 +239,7 @@ function CheckRealNameStatus() {
       showFinishModal.value = false
       showRealnameModal.value = false
       // 实人次数足够展示实人，不够展示支付
+      console.log(realPersonCount.value);
       if (realPersonCount.value < 1) {
         getPayUrl();
         showRealpersonMoal.value = false
@@ -250,6 +251,19 @@ function CheckRealNameStatus() {
     }
 
     // 两个都没完成则全部展示
+    if (realName.value === false && realPerson.value == false) {
+      showFinishModal.value = false
+      showRealnameModal.value = true
+      // 实人次数足够展示实人，不够展示支付
+      if (realPersonCount.value < 1) {
+        getPayUrl();
+        showRealpersonMoal.value = false
+        showPayModal.value = true
+      } else {
+        showRealpersonMoal.value = true
+        showPayModal.value = false
+      }
+    }
     loading.value = false;
   })
 }
@@ -266,5 +280,6 @@ function getPayUrl() {
 function realPersonPay() {
   window.open(payUrl.value);
 }
+
 CheckRealNameStatus()
 </script>
