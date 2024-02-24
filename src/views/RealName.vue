@@ -74,7 +74,7 @@
                 <n-grid cols="1" item-responsive :y-gap="5">
                   <n-grid-item>
                     <p style="color: red">
-                      请填写您的姓名和身份证号进行实名认证（请认真填写，实名一旦成功除特殊情况外无法修改）
+                      请填写您的姓名和身份证号进行实人认证（请认真填写，实人一旦成功除特殊情况外无法修改）
                     </p>
                     <p>
                       若点击提交后 5
@@ -88,6 +88,9 @@
                     </p>
                     <p>
                       我们允许<a style="color: red"><b>未成年人注册</b></a>，请勿冒用非本人身份证实名，已经实名过得既往不咎！
+                    </p>
+                    <p>
+                      注意，点击提交后会消耗实人次数，若不小心刷新页面且不想二次付费，请找管理员处理并附支付订单截图
                     </p>
                   </n-grid-item>
                   <n-grid-item span="1">
@@ -198,6 +201,12 @@ function submitrealperson() {
       realPersonUrl.value = res.data.url
       ci.value = res.data.certify_id
       showScanCodeModal.value = true
+      const queryRealPersonInterval = setInterval(() => {
+        queryRealPersonStatus()
+        if (realPerson.value === true){
+          clearInterval(queryRealPersonInterval);
+        }
+      }, 5000)
     }
   })
 }
@@ -210,8 +219,6 @@ function queryRealPersonStatus(){
       SendSuccessDialog("实人成功")
       showScanCodeModal.value = false
       CheckRealNameStatus()
-    } else {
-      SendErrorDialog("查询失败")
     }
   })
 }
@@ -269,7 +276,7 @@ function CheckRealNameStatus() {
 }
 
 function getPayUrl() {
-  const rs = get("https://api-v2.locyanfrp.cn/api/v2/realperson/pay?username=" + store.getters.get_username + "&notify_url=https://api-v2.locyanfrp.cn/api/v2/realperson/notify&redirect_url=https://www.locyanfrp.cn");
+  const rs = get("https://api-v2.locyanfrp.cn/api/v2/realperson/pay?username=" + store.getters.get_username + "&notify_url=https://api-v2.locyanfrp.cn/api/v2/realperson/notify&redirect_url=https://dashboard.locyanfrp.cn/realname");
   rs.then((res) => {
     if (res.status === 200) {
       payUrl.value = res.data.url;
