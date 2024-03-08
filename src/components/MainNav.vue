@@ -64,7 +64,7 @@
               <br />
               <a style="text-align: center"
                 >LoCyanTeam 所有 | 本项目
-                <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel" style="transform: translateY(5px);">
+                <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel" style="transform: translateY(4px);">
                   <n-button text>
                     <template #icon>
                       <n-icon>
