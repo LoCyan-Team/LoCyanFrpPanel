@@ -45,6 +45,7 @@ import {
   CompassSharp
 } from '@vicons/ionicons5'
 import { AttachMoneyFilled } from '@vicons/material'
+import { MdPaperPlane } from '@vicons/ionicons4'
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)
@@ -134,6 +135,12 @@ const menuOptions = [
   //   key: 'Lan',
   //   icon: renderIcon(AttachMoneyFilled)
   // },
+  {
+    path: '/multiplayer',
+    label: '联机大厅',
+    key: 'Multiplayer',
+    icon: renderIcon(MdPaperPlane)
+  },
   {
     path: '/donate',
     label: '赞助',

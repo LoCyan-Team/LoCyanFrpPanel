@@ -163,6 +163,15 @@ const routes = [
       //   },
       //   component: () => import('../views/LanLobby.vue')
       // }
+      {
+        path: '/multiplayer',
+        name: 'Multiplayer',
+        meta: {
+          keepAlive: true,
+          title: '多人游戏大厅'
+        },
+        component: () => import('../views/LanLobby.vue')
+      },
     ]
   }
 ]
