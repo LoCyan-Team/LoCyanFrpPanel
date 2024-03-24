@@ -235,7 +235,7 @@ function createLobby() {
   if (lobbyValue.value.local === "1"){
     lobbyValue.value.node_id = String(Proxies.value[lobbyValue.value.proxy_id].node);
   }
-  const rs = post("http://127.0.0.1:8080/api/v2/lan/private/create", lobbyValue.value);
+  const rs = post("https://api-v2.locyanfrp.cn/api/v2/lan/private/create", lobbyValue.value);
   rs.then((res) => {
     if (res.status === 200) {
       SendSuccessDialog("添加成功!");
