@@ -14,9 +14,10 @@
           <n-tabs :type="'line'" animated :placement="'left'" :default-value="'minecraft-java'"
             @update:value="handleUpdateValue">
             <n-tab-pane v-for="i in gameList" :name="i.game_name" :tab="i.game_tab">
-              <n-grid cols="3" item-responsive y-gap="10" x-gap="10">
-                <n-gi span="0:3 1000:1" v-for="l in lobbyList">
-                  <n-card :title="store.getters.get_username + ' - ' + l.lobby_name">
+              <n-button type="primary" @click="getLobbys(i.game_name)">刷新</n-button>
+              <n-grid cols="2" item-responsive y-gap="10" x-gap="10">
+                <n-gi span="0:2 800:1" v-for="l in lobbyList">
+                  <n-card :title="l.username + ' - ' + l.lobby_name">
                     <template #header-extra>
                       <n-tag type="success" v-if="l.need_client === '0'">不需要专有客户端</n-tag>
                       <n-tag type="warning" v-else>需要专有客户端</n-tag>
@@ -123,6 +124,27 @@
             </n-grid>
           </n-form>
         </n-tab-pane>
+        <n-tab-pane name="list" tab="房间列表">
+          <n-grid cols="1" item-responsive>
+            <n-gi span="1">
+              <n-button type="primary" @click="getPrivateLobby">刷新</n-button>
+              <br />
+              <br />
+              <n-list bordered>
+                <template #header>
+                  我的房间
+                </template>
+                <n-list-item v-for="i in privateLobbyList">
+                  <template #suffix>
+                    <n-button type="error" @click="deleteLobby(i.id)">删除</n-button>
+                  </template>
+                  <n-thing :title="i.lobby_name" :description="i.description">
+                  </n-thing>
+                </n-list-item>
+              </n-list>
+            </n-gi>
+          </n-grid>
+        </n-tab-pane>
       </n-tabs>
 
     </n-gi>
@@ -130,7 +152,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import { get, post } from "../utils/request";
+import { get, post, Delete } from "../utils/request";
 import store from '../utils/stores/store.js';
 import { sendErrorMessage, sendSuccessMessage } from '../utils/message';
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog.js';
@@ -144,6 +166,7 @@ const gameList = ref([{
 
 const gameListSelect = ref([]);
 const lobbyList = ref([{
+  id: 0,
   game_version: "",
   need_client: "",
   create_time: "",
@@ -154,6 +177,26 @@ const lobbyList = ref([{
   description: "",
   proxy_id: "",
   game_id: "",
+  username: "",
+  node_id: "",
+  client_download_url: "",
+  client_download_type: "",
+  client_download_password: ""
+}])
+
+const privateLobbyList = ref([{
+  id: 0,
+  game_version: "",
+  need_client: "",
+  create_time: "",
+  port: "",
+  ip: "",
+  lobby_name: "",
+  local: "",
+  description: "",
+  proxy_id: "",
+  game_id: "",
+  username: "",
   node_id: "",
   client_download_url: "",
   client_download_type: "",
@@ -162,6 +205,7 @@ const lobbyList = ref([{
 
 
 const lobbyValue = ref({
+  id: 0,
   game_version: "",
   need_client: "",
   create_time: "",
@@ -178,6 +222,7 @@ const lobbyValue = ref({
   client_download_password: "",
   username: store.getters.get_username
 })
+
 const Proxies_Select = ref([])
 const Proxies = ref([])
 
@@ -209,6 +254,16 @@ function getLobbys(game_name) {
   })
 }
 
+function getPrivateLobby(){
+  const rs = get("https://api-v2.locyanfrp.cn/api/v2/lan/private/list?username=" + store.getters.get_username);
+  rs.then((res) => {
+    if (res.status === 200) {
+      privateLobbyList.value = res.data.list;
+    }
+    console.log(privateLobbyList.value);
+  })
+}
+
 function getProxyList() {
   const rs = get(
     'https://api-v2.locyanfrp.cn/api/v2/proxies/getlist?username=' +
@@ -226,13 +281,12 @@ function getProxyList() {
         Proxies_Select.value[i] = tmpDict;
         i = i + 1;
       })
-      console.log(Proxies_Select);
     }
   })
 }
 
 function createLobby() {
-  if (lobbyValue.value.local === "1"){
+  if (lobbyValue.value.local === "1") {
     lobbyValue.value.node_id = String(Proxies.value[lobbyValue.value.proxy_id].node);
   }
   const rs = post("https://api-v2.locyanfrp.cn/api/v2/lan/private/create", lobbyValue.value);
@@ -243,9 +297,21 @@ function createLobby() {
   })
 }
 
+function deleteLobby(id){
+  const rs = Delete("https://api-v2.locyanfrp.cn/api/v2/lan/private/delete?username=" + store.getters.get_username + "&id=" + String(id));
+  rs.then((res) => {
+    if (res.status === 200){
+      SendSuccessDialog("删除成功");
+      getPrivateLobby();
+    }
+  })
+
+}
+
 function handleUpdateValue(value) {
   getLobbys(value)
 }
 getGameList();
 getProxyList();
+getPrivateLobby();
 </script>
