@@ -30,7 +30,11 @@
                     </template>
                     <template #action>
                       <n-space justify="end">
-                        <n-button type="primary">加入房间</n-button>
+                        <n-button type="primary" @click="() => {
+    choseLobbyIndex = lobbyList .indexOf(l);
+    showJoinLobby = true;
+    getAddress(lobbyList[choseLobbyIndex].proxy_id, lobbyList[choseLobbyIndex].node_id);
+  }">加入房间</n-button>
                       </n-space>
                     </template>
                   </n-card>
@@ -146,9 +150,21 @@
           </n-grid>
         </n-tab-pane>
       </n-tabs>
-
     </n-gi>
   </n-grid>
+  <n-modal v-model:show="showJoinLobby" class="custom-card" preset="card" :style="bodyStyle" title="房间信息" size="huge"
+    :bordered="false" :segmented="segmented">
+    <n-alert title="通知" type="warning">
+      加入房间功能目前只提供基本信息展示，其他功能（直接启动游戏，换皮肤，资源大厅）会在后续持续更新
+    </n-alert>
+    <n-p>房间名: {{ lobbyList[choseLobbyIndex].lobby_name }}</n-p>
+    <n-p v-if="lobbyList[choseLobbyIndex].local == '1'">房间类型: LCF 隧道</n-p>
+    <n-p v-else>房间类型: 自有 IP</n-p>
+    <n-p v-if="lobbyList[choseLobbyIndex].local == '1'">连接地址: {{ connectAddress }}</n-p>
+    <n-p v-else>连接地址: {{ lobbyList[choseLobbyIndex].ip }}:{{ lobbyList[choseLobbyIndex].port }} </n-p>
+    <n-p v-if="lobbyList[choseLobbyIndex].need_client == '0'">专有客户端: 不需要</n-p>
+    <n-p v-else>专有客户端: 需要 (客户端下载界面正在制作)</n-p>
+  </n-modal>
 </template>
 <script setup>
 import { ref } from "vue";
@@ -157,6 +173,14 @@ import store from '../utils/stores/store.js';
 import { sendErrorMessage, sendSuccessMessage } from '../utils/message';
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog.js';
 
+const bodyStyle = {
+  width: '600px'
+}
+const segmented = {
+  content: 'soft',
+  footer: 'soft'
+}
+
 const gameList = ref([{
   game_name: '',
   create_time: '',
@@ -164,6 +188,8 @@ const gameList = ref([{
   id: 0,
 }]);
 
+const choseLobbyIndex = ref(0);
+const connectAddress = ref("");
 const gameListSelect = ref([]);
 const lobbyList = ref([{
   id: 0,
@@ -225,6 +251,7 @@ const lobbyValue = ref({
 
 const Proxies_Select = ref([])
 const Proxies = ref([])
+const showJoinLobby = ref(false);
 
 function getGameList() {
   const rs = get("https://api-v2.locyanfrp.cn/api/v2/game/list");
@@ -254,7 +281,7 @@ function getLobbys(game_name) {
   })
 }
 
-function getPrivateLobby(){
+function getPrivateLobby() {
   const rs = get("https://api-v2.locyanfrp.cn/api/v2/lan/private/list?username=" + store.getters.get_username);
   rs.then((res) => {
     if (res.status === 200) {
@@ -297,15 +324,23 @@ function createLobby() {
   })
 }
 
-function deleteLobby(id){
+function deleteLobby(id) {
   const rs = Delete("https://api-v2.locyanfrp.cn/api/v2/lan/private/delete?username=" + store.getters.get_username + "&id=" + String(id));
   rs.then((res) => {
-    if (res.status === 200){
+    if (res.status === 200) {
       SendSuccessDialog("删除成功");
       getPrivateLobby();
     }
   })
+}
 
+function getAddress(proxyId, nodeId){
+  const rs = get("https://api-v2.locyanfrp.cn/api/v2/lan/public/address?username=" + store.getters.get_username + "&proxy_id=" + proxyId + "&node_id=" + nodeId);
+  rs.then((res) => {
+    if (res.status === 200){
+      connectAddress.value = res.data.address;
+    }
+  })
 }
 
 function handleUpdateValue(value) {
