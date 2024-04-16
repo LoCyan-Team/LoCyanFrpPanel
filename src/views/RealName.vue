@@ -116,6 +116,7 @@
               </n-space>
             </n-card>
             <n-card title="支付订单" v-show="showPayModal">
+              <p style="color: red">注意！当前发现从 <a href="https://preview.locyanfrp.cn" target="_blank">preview.locyanfrp.cn</a> 发起订单似乎会导致吞单，请从 <a href="https://dashboard.locyanfrp.cn" target="_blank">dashboard.locyanfrp.cn</a> 操作！*2024-04-16 @夏沫花火zzz🌙 注</p>
               <div style="text-align: center;">
                 <n-space justify="vertical">
                   <n-button type="primary" @click="realPersonPay();">
