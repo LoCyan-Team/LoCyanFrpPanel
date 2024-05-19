@@ -54,7 +54,7 @@
                   </n-grid-item>
                 </n-grid>
                 <div style="display: flex; justify-content: flex-end">
-                  <n-button type="primary" @click="submitrealname()"> 提交 </n-button>
+                  <n-button round type="primary" @click="submitrealname()"> 提交 </n-button>
                 </div>
               </n-form>
             </n-card>
@@ -77,7 +77,8 @@
                       请填写您的姓名和身份证号进行实人认证（请认真填写，实人一旦成功除特殊情况外无法修改）
                     </p>
                     <p>
-                      提交信息后请使用支付宝扫描弹出的二维码
+                      若点击提交后 5
+                      秒内没有回调信息出现，请再次点击按钮，直到出现提示框。若无法实名，请联系管理员解决！
                     </p>
                     <p>
                       本站全部个人隐私信息遵守
@@ -86,11 +87,10 @@
                       的约束，我们将最大限度的保护用户的个人信息数据
                     </p>
                     <p>
-                      我们<a style="color: red"><b>允许未成年人</b></a>进行实人
+                      我们允许<a style="color: red"><b>未成年人注册</b></a>，请勿冒用非本人身份证实名，已经实名过得既往不咎！
                     </p>
                     <p>
                       注意，点击提交后会消耗实人次数，若不小心刷新页面且不想二次付费，请找管理员处理并附支付订单截图
-                      请使用与<a style="color: red;">填写的身份信息一致</a>的已实名支付宝账号进行实人
                     </p>
                   </n-grid-item>
                   <n-grid-item span="1">
@@ -105,9 +105,15 @@
                   </n-grid-item>
                 </n-grid>
                 <div style="display: flex; justify-content: flex-end">
-                  <n-button type="primary" @click="submitrealperson()"> 提交 </n-button>
+                  <n-button round type="primary" @click="submitrealperson()"> 提交 </n-button>
                 </div>
               </n-form>
+            </n-card>
+            <n-card title="支付宝扫描二维码" v-show="showScanCodeModal">
+              <n-space justify="vertical">
+                <n-qr-code :value="realPersonUrl" :size="200" :error-correction-level="'L'"/>
+                <n-button type="primary" @click="queryRealPersonStatus()">点此刷新实人状态</n-button>
+              </n-space>
             </n-card>
             <n-card title="支付订单" v-show="showPayModal">
               <div style="text-align: center;">
@@ -135,15 +141,6 @@
       </n-gi>
     </n-grid>
   </template>
-  <n-modal v-model:show="showScanCodeModal" :mask-closable="false" preset="card" :style="bodyStyle" title="请使用支付宝扫描二维码"
-    size="huge" :bordered="false" :segmented="segmented">
-    <n-space justify="vertical">
-      <n-qr-code :value="realPersonUrl" :size="200" :error-correction-level="'L'" />
-    </n-space>
-    <template #footer>
-      <n-button type="primary" @click="queryRealPersonStatus()">点此刷新实人状态</n-button>
-    </template>
-  </n-modal>
 </template>
 
 <script setup>
@@ -170,31 +167,23 @@ const UserProfile = ref({
   name: '',
   idcard: ''
 })
-const bodyStyle = {
-  width: "600px"
-}
-const segmented = {
-  content: "soft",
-  footer: "soft"
-}
 
 function submitrealname() {
   StartLoadingBar()
   const SubmitForm = {
     username: store.getters.get_username,
     name: UserProfile.value.name,
-    idcard: UserProfile.value.idcard,
-    key: 'LocyanRealname'
+    id_card: UserProfile.value.idcard
   }
-  const rs = post('https://api.locyanfrp.cn/Account/realname', SubmitForm)
+  const rs = post('https://api-v2.locyanfrp.cn/api/v2/realname/submit', SubmitForm)
   rs.then((res) => {
-    if (res.status) {
+    if (res.status === 200) {
       CheckRealNameStatus()
       FinishLoadingBar()
-      SendSuccessDialog(res.message)
+      SendSuccessDialog("恭喜, 实名认证成功!")
     } else {
       FinishLoadingBar()
-      SendWarningDialog(res.message)
+      SendWarningDialog(res.data.msg)
     }
   })
 }
@@ -207,13 +196,13 @@ function submitrealperson() {
   }
   const rs = post("https://api-v2.locyanfrp.cn/api/v2/realperson/submit", SubmitForm)
   rs.then((res) => {
-    if (res.status === 200) {
+    if (res.status === 200){
       realPersonUrl.value = res.data.url
       ci.value = res.data.certify_id
       showScanCodeModal.value = true
       const queryRealPersonInterval = setInterval(() => {
         queryRealPersonStatus()
-        if (realPerson.value === true) {
+        if (realPerson.value === true){
           clearInterval(queryRealPersonInterval);
         }
       }, 5000)
@@ -221,10 +210,10 @@ function submitrealperson() {
   })
 }
 
-function queryRealPersonStatus() {
+function queryRealPersonStatus(){
   const rs = get("https://api-v2.locyanfrp.cn/api/v2/realperson/query?username=" + store.getters.get_username + "&certify_id=" + ci.value)
   rs.then((res) => {
-    if (res.status === 200) {
+    if (res.status === 200){
       // 后端会处理所有审核通过的事宜，前端处理消息显示
       SendSuccessDialog("实人成功")
       showScanCodeModal.value = false
@@ -258,7 +247,6 @@ function CheckRealNameStatus() {
       // 实人次数足够展示实人，不够展示支付
       console.log(realPersonCount.value);
       if (realPersonCount.value < 1) {
-        getPayUrl();
         showRealpersonMoal.value = false
         showPayModal.value = true
       } else {
@@ -273,7 +261,6 @@ function CheckRealNameStatus() {
       showRealnameModal.value = true
       // 实人次数足够展示实人，不够展示支付
       if (realPersonCount.value < 1) {
-        getPayUrl();
         showRealpersonMoal.value = false
         showPayModal.value = true
       } else {
@@ -295,6 +282,7 @@ function getPayUrl() {
 }
 
 function realPersonPay() {
+  getPayUrl();
   window.open(payUrl.value);
 }
 

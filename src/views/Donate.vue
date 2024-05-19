@@ -240,7 +240,7 @@ const DoDonate = () => {
   const rs = post('https://api-v2.locyanfrp.cn/api/v2/donate/create', {
     name: 'LoCyanFrpDonate',
     money: amount.value,
-    redirect_url: 'https://preview.locyanfrp.cn/donate',
+    redirect_url: 'https://dashboard.locyanfrp.cn/donate',
     notify_url: 'https://api-v2.locyanfrp.cn/api/v2/donate/notify',
     username: store.getters.get_username
   })
