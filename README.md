@@ -1,6 +1,7 @@
 # LoCyanFrp Panel
 
 LoCyanFrp Panel, Powered by Naive-UI
+!!!⚠请遵守本仓库开源协议，我方发现有存在基于本仓库二改不开源的行为，这是对开发者的不尊重，同时也是违反GPLv3开源协议的，我方有权做出必要的维权措施！！！
 
 ## 地址
 
