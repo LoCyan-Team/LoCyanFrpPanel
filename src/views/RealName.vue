@@ -141,6 +141,15 @@
       </n-gi>
     </n-grid>
   </template>
+  <n-modal v-model:show="showScanCodeModal" :mask-closable="false" preset="card" :style="bodyStyle" title="请使用支付宝扫描二维码"
+    size="huge" :bordered="false" :segmented="segmented">
+    <n-space justify="vertical">
+      <n-qr-code :value="realPersonUrl" :size="200" :error-correction-level="'L'" />
+    </n-space>
+    <template #footer>
+      <n-button type="primary" @click="queryRealPersonStatus()">点此刷新实人状态</n-button>
+    </template>
+  </n-modal>
 </template>
 
 <script setup>
@@ -167,6 +176,13 @@ const UserProfile = ref({
   name: '',
   idcard: ''
 })
+const bodyStyle = {
+  width: "600px"
+}
+const segmented = {
+  content: "soft",
+  footer: "soft"
+}
 
 function submitrealname() {
   StartLoadingBar()
@@ -272,17 +288,13 @@ function CheckRealNameStatus() {
   })
 }
 
-function getPayUrl() {
+function realPersonPay() {
   const rs = get("https://api-v2.locyanfrp.cn/api/v2/realperson/pay?username=" + store.getters.get_username + "&notify_url=https://api-v2.locyanfrp.cn/api/v2/realperson/notify&redirect_url=https://dashboard.locyanfrp.cn/realname");
   rs.then((res) => {
     if (res.status === 200) {
       payUrl.value = res.data.url;
     }
   })
-}
-
-function realPersonPay() {
-  getPayUrl();
   window.open(payUrl.value);
 }
 
