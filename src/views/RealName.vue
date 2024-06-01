@@ -109,12 +109,6 @@
                 </div>
               </n-form>
             </n-card>
-            <n-card title="支付宝扫描二维码" v-show="showScanCodeModal">
-              <n-space justify="vertical">
-                <n-qr-code :value="realPersonUrl" :size="200" :error-correction-level="'L'"/>
-                <n-button type="primary" @click="queryRealPersonStatus()">点此刷新实人状态</n-button>
-              </n-space>
-            </n-card>
             <n-card title="支付订单" v-show="showPayModal">
               <div style="text-align: center;">
                 <n-space justify="vertical">
