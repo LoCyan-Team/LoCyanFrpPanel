@@ -108,7 +108,8 @@
         我们有不在事先通知用户的情况下删除隧道、封停账户、将信息上报公安的权力，
         请不要试图挑战我们的底线；<br />
         6. 我们允许建设图床、网盘等服务，但其必须建设在美国千兆服务器上，
-        违规的隧道将会被强制迁移，这是为了保障大部分用户的体验，谢谢配合！<br />
+        违规的隧道将会被强制迁移，这是为了保障大部分用户的体验，谢谢配合！
+        若您违规使用，可能需要支付相应的流量费用！<br />
       </n-alert>
     </n-grid-item>
     <n-grid-item span="0:3 600:2">
@@ -127,11 +128,13 @@
               description="点击隧道操作中的创建隧道，填写自己隧道的相应信息"
             />
             <n-step title="软件下载" description="点击软件下载,下载最新版本" />
-            <n-step title="启动客户端" description="以管理员身份启动客户端，选择登录自己的账号" />
-            <n-step title="启动隧道" description="启动你的隧道即可" />
+            <n-step title="启动客户端" description="启动客户端，登录自己的账号" />
+            <n-step title="安装Frpc" description="前往 设置->FRPC->安装Frpc" />
+            <n-step title="前往隧道列表" description="返回首页，点击左上角导航按钮，前往隧道列表" />
+            <n-step title="启动隧道" description="找到要启动的隧道，点击启动即可" />
             <n-step
               title="启动成功"
-              description="第一次启动请查看自己的日志文件，不要关闭命令行窗口哦"
+              description="点击左上角导航按钮，前往控制台，即可查看日志"
             />
             <n-step title="开始使用" description="好了，开始享受吧" />
           </n-steps>
