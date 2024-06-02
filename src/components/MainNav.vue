@@ -58,6 +58,8 @@
               </n-alert>
               <br />
               <br />
+              <a style="text-align: center">内网穿透联盟[CFU]识别码: <b>JRXHB5D4</b></a>
+              <br />
               <a style="text-align: center">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
               <br />
               <a style="text-align: center">特别鸣谢: 夏沫花火zzz🌙, 天宇网络, LiteCat</a>
