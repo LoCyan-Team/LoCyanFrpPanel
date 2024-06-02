@@ -20,10 +20,19 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i
     - run: npm run build --if-present
+    - uses: actions/upload-artifact@v4
+      with:
+        # Name of the artifact to upload.
+        # Optional. Default is 'artifact'
+        name: Artifact
+
+        # A file, directory or wildcard pattern that describes what to upload
+        # Required.
+        path: dist/
