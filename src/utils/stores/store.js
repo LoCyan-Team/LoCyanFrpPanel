@@ -10,7 +10,8 @@ const store = new vuex.Store({
     inbound: 0,
     outbound: 0,
     avatar: '',
-    traffic: ''
+    traffic: '',
+    proxies_num: 0
   },
   getters: {
     get_token(state) {
@@ -37,6 +38,9 @@ const store = new vuex.Store({
     },
     get_traffic(state) {
       return Number(state.traffic) / 1024 || Number(localStorage.getItem('traffic')) / 1024 || 0
+    },
+    get_proxies_num(state) {
+      return state.proxies_num || localStorage.getItem('proxies_num') || 0
     }
   },
   mutations: {
@@ -58,6 +62,7 @@ const store = new vuex.Store({
       state.outbound = userdata.outbound
       state.avatar = userdata.avatar
       state.traffic = userdata.traffic
+      state.proxies_num = userdata.proxies_num
       localStorage.setItem('username', userdata.username)
       localStorage.setItem('email', userdata.email)
       localStorage.setItem('traffic', userdata.traffic)
@@ -65,6 +70,7 @@ const store = new vuex.Store({
       localStorage.setItem('inbound', userdata.inbound)
       localStorage.setItem('outbound', userdata.outbound)
       localStorage.setItem('avatar', userdata.avatar)
+      localStorage.setItem('proxies_num', userdata.proxies_num)
     },
     set_limit(state, limit_info) {
       state.inbound = limit_info.inbound

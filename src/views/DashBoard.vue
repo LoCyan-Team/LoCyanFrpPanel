@@ -50,7 +50,7 @@
         <a>您的邮箱为：{{ email }}</a>
         <br />
         <div v-if="DontShowFrptoken">
-          <n-tag type="info" @click="changeShouFrptoken($event)">
+          <n-tag type="info" @click="changeShowFrptoken($event)">
             <template #icon>
               <n-icon :component="Key" />
             </template>
@@ -182,7 +182,7 @@ notice_res.then((res) => {
   }
 })
 
-async function changeShouFrptoken(event) {
+async function changeShowFrptoken(event) {
   DontShowFrptoken.value = !DontShowFrptoken.value
   clipboard(frptoken, event)
   setTimeout(() => {
@@ -191,7 +191,7 @@ async function changeShouFrptoken(event) {
 }
 
 const traffic = ref(Number(localStorage.getItem('traffic')) / 1024 + 'GB')
-const Proxiesanimation = ref(Number(localStorage.getItem('proxies')))
+const Proxiesanimation = ref(Number(localStorage.getItem('proxies_num')))
 const TrafficRef = ref(null)
 const boardcast_html = ref('')
 const boardcast_show = ref(true)
@@ -255,7 +255,7 @@ function howtosayhi() {
 }
 
 setInterval(() => {
-  Proxiesanimation.value = Number(localStorage.getItem('proxies'))
+  Proxiesanimation.value = Number(localStorage.getItem('proxies_num'))
   traffic.value = Number(localStorage.getItem('traffic')) / 1024 + 'GB'
   inbound.value = store.getters.get_in_bound + 'Mbps 下行'
   outbound.value = store.getters.get_out_bound + 'Mbps 上行'

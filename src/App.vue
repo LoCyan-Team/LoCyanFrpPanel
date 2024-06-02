@@ -75,7 +75,7 @@ setInterval(() => {
     )
     rs.then((res) => {
       if (res.status === 0) {
-        store.set_user_info(res);
+        store.commit('set_user_info', res);
         // localStorage.setItem('proxies', res.proxies_num)
         // localStorage.setItem('traffic', res.traffic)
         // localStorage.setItem('set_limit', res)
