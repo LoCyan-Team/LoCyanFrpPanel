@@ -191,7 +191,7 @@ async function changeShowFrptoken(event) {
 }
 
 const traffic = ref(Number(localStorage.getItem('traffic')) / 1024 + 'GB')
-const Proxiesanimation = ref(Number(localStorage.getItem('proxies_num')))
+const Proxiesanimation = ref(Number(store.getters.get_proxies_num))
 const TrafficRef = ref(null)
 const boardcast_html = ref('')
 const boardcast_show = ref(true)
@@ -255,7 +255,7 @@ function howtosayhi() {
 }
 
 setInterval(() => {
-  Proxiesanimation.value = Number(localStorage.getItem('proxies_num'))
+  Proxiesanimation.value = Number(store.getters.get_proxies_num)
   traffic.value = Number(localStorage.getItem('traffic')) / 1024 + 'GB'
   inbound.value = store.getters.get_in_bound + 'Mbps 下行'
   outbound.value = store.getters.get_out_bound + 'Mbps 上行'
