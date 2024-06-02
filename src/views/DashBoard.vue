@@ -122,7 +122,7 @@
       <br />
       <n-card title="使用方法">
         <n-space vertical>
-          <n-steps vertical :current="7">
+          <n-steps vertical :current="8">
             <n-step
               title="创建隧道"
               description="点击隧道操作中的创建隧道，填写自己隧道的相应信息"
