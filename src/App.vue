@@ -75,9 +75,14 @@ setInterval(() => {
     )
     rs.then((res) => {
       if (res.status === 0) {
-        localStorage.setItem('proxies', res.proxies_num)
-        localStorage.setItem('traffic', res.traffic)
-        localStorage.setItem('set_limit', res)
+        store.set_user_info(res);
+        // localStorage.setItem('proxies', res.proxies_num)
+        // localStorage.setItem('traffic', res.traffic)
+        // localStorage.setItem('set_limit', res)
+        // store.set_limit({
+        //   inbound: res.inbound,
+        //   outbound: res.outbound,
+        // })
       }
       if (res.status === -3) {
         sendWarningMessage('登录过期或未登录，请重新登录后台！')
