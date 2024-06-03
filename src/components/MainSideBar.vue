@@ -61,7 +61,7 @@ const menuOptions = [
   {
     path: '/dashboard',
     label: '仪表盘',
-    key: 'DashBoard',
+    key: 'Dashboard',
     icon: renderIcon(CompassSharp)
   },
   {

@@ -57,7 +57,7 @@ const store = new vuex.Store({
     set_user_info(state, userdata) {
       state.username = userdata.username
       state.email = userdata.email
-      state.frptoken = userdata.frp_token
+      state.frptoken = userdata.frp_token ?? userdata.token
       state.inbound = userdata.inbound
       state.outbound = userdata.outbound
       state.avatar = userdata.avatar

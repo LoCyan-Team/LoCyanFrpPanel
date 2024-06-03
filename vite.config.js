@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import GitRevisionVitePlugin from 'git-revision-vite-plugin';
 import cssnanoPlugin from "cssnano";
 import autoprefixer from "autoprefixer";
 import AutoImport from 'unplugin-auto-import/vite'
@@ -9,6 +10,9 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig({
     plugins: [
         vue(),
+        GitRevisionVitePlugin({
+            commitHashCommand: 'rev-parse --short HEAD'
+        }),
         AutoImport({
             imports: [
                 'vue',

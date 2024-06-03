@@ -3,16 +3,8 @@
     <i class="twa twa-compass"></i>
     <n-text type="primary"> 仪表盘</n-text>
   </n-h1>
-  <n-modal
-    v-model:show="showads"
-    class="custom-card"
-    preset="card"
-    style="width: 600px"
-    title="通知"
-    size="huge"
-    :bordered="false"
-    :segmented="{ content: 'soft', footer: 'soft' }"
-  >
+  <n-modal v-model:show="showads" class="custom-card" preset="card" style="width: 600px" title="通知" size="huge"
+    :bordered="false" :segmented="{ content: 'soft', footer: 'soft' }">
     <n-p v-html="ads_content"></n-p>
   </n-modal>
   <template v-if="notice.contents">
@@ -43,28 +35,31 @@
     </n-grid-item> -->
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
-        <a
-          >您好，尊敬的 <a id="username">{{ username }}</a></a
-        >
+        <a>您好，尊敬的 <a id="username">{{ username }}</a></a>
         <br />
         <a>您的邮箱为：{{ email }}</a>
         <br />
-        <div v-if="DontShowFrptoken">
-          <n-tag type="info" @click="changeShowFrptoken($event)">
-            <template #icon>
-              <n-icon :component="Key" />
-            </template>
-            查看访问密钥
-          </n-tag>
+        访问密钥：
+        <br />
+        <div>
+          <div v-if="DontShowFrptoken">
+            <n-tag type="info" @click="changeShowFrptoken($event)">
+              <template #icon>
+                <n-icon :component="Key" />
+              </template>
+              点击显示
+            </n-tag>
+          </div>
+          <template v-else>
+            <n-tag type="info">
+              <template #icon>
+                <n-icon :component="AngleRight" />
+              </template>
+              {{ frptoken }}
+            </n-tag>
+          </template>
         </div>
-        <template v-else>
-          <n-tag type="info">
-            <template #icon>
-              <n-icon :component="AngleRight" />
-            </template>
-            访问密钥: {{ frptoken }}
-          </n-tag>
-        </template>
+        请妥善保管访问密钥，一旦该密钥泄露，他人可通过此密钥访问账户部分信息！
         <br />
       </n-card>
       <br />
@@ -86,9 +81,7 @@
       <br />
       <n-alert title="关于高级功能" type="info">
         若需要 Frp 的高级功能, 你可以配置隧道后前往此处下载纯净版 Frp ：
-        <a href="https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases" target="_blank"
-          >点击前往</a
-        >，<br />
+        <a href="https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases" target="_blank">点击前往</a>，<br />
         下载适合自己系统架构的软件，随后即可自行配置。<br />
         注意：萌新使用此方法导致不会用的后果自行承担！<br />
       </n-alert>
@@ -123,19 +116,13 @@
       <n-card title="使用方法">
         <n-space vertical>
           <n-steps vertical :current="8">
-            <n-step
-              title="创建隧道"
-              description="点击隧道操作中的创建隧道，填写自己隧道的相应信息"
-            />
+            <n-step title="创建隧道" description="点击隧道操作中的创建隧道，填写自己隧道的相应信息" />
             <n-step title="软件下载" description="点击软件下载,下载最新版本" />
             <n-step title="启动客户端" description="启动客户端，登录自己的账号" />
             <n-step title="安装Frpc" description="前往 设置->FRPC->安装Frpc" />
             <n-step title="前往隧道列表" description="返回首页，点击左上角导航按钮，前往隧道列表" />
             <n-step title="启动隧道" description="找到要启动的隧道，点击启动即可" />
-            <n-step
-              title="启动成功"
-              description="点击左上角导航按钮，前往控制台，即可查看日志"
-            />
+            <n-step title="启动成功" description="点击左上角导航按钮，前往控制台，即可查看日志" />
             <n-step title="开始使用" description="好了，开始享受吧" />
           </n-steps>
         </n-space>
@@ -147,7 +134,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import clipboard from '..//utils/clipboard'
+import clipboard from '../utils/clipboard'
 import { get } from '../utils/request.js'
 import { AngleRight, Key } from '@vicons/fa'
 import store from '../utils/stores/store.js'
@@ -158,7 +145,7 @@ const username = store.getters.get_username
 const email = store.getters.get_email
 const inbound = ref(store.getters.get_in_bound + 'Mbps 下行')
 const outbound = ref(store.getters.get_out_bound + 'Mbps 上行')
-const frptoken = store.getters.get_frp_token
+const frptoken = ref(store.getters.get_frp_token)
 const notice = ref('')
 const ProxiesRef = ref(null)
 const DontShowFrptoken = ref(true)
@@ -184,7 +171,7 @@ notice_res.then((res) => {
 
 async function changeShowFrptoken(event) {
   DontShowFrptoken.value = !DontShowFrptoken.value
-  clipboard(frptoken, event)
+  clipboard(frptoken.value, event)
   setTimeout(() => {
     DontShowFrptoken.value = !DontShowFrptoken.value
   }, 3000)
@@ -259,5 +246,6 @@ setInterval(() => {
   traffic.value = Number(localStorage.getItem('traffic')) / 1024 + 'GB'
   inbound.value = store.getters.get_in_bound + 'Mbps 下行'
   outbound.value = store.getters.get_out_bound + 'Mbps 上行'
+  frptoken.value = store.getters.get_frp_token
 }, 10000)
 </script>

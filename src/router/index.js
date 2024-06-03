@@ -21,12 +21,12 @@ const routes = [
       },
       {
         path: '/dashboard',
-        name: 'DashBoard',
+        name: 'Dashboard',
         meta: {
           keepAlive: true,
           title: '仪表盘'
         },
-        component: () => import('../views/DashBoard.vue')
+        component: () => import('../views/Dashboard.vue')
       },
       {
         path: '/sign',
@@ -190,21 +190,21 @@ router.beforeEach((to, from, next) => {
   StartLoadingBar()
   if (to.name === 'Login') {
     if (store.getters.get_token) {
-      next({ name: 'DashBoard' })
+      next({ name: 'Dashboard' })
     }
     next()
     return
   }
   if (to.name === 'Register') {
     if (store.getters.get_token) {
-      next({ name: 'DashBoard' })
+      next({ name: 'Dashboard' })
     }
     next()
     return
   }
   if (to.name === 'ResetPassword') {
     if (store.getters.get_token) {
-      next({ name: 'DashBoard' })
+      next({ name: 'Dashboard' })
     }
     next()
     return

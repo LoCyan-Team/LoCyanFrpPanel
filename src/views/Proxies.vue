@@ -106,7 +106,17 @@
     <p>本地端口：{{ Proxies[indexOfProxies].local_port }}</p>
     <p>远程端口：{{ Proxies[indexOfProxies].remote_port }}</p>
     <p>绑定域名：{{ Proxies[indexOfProxies].domain || '该隧道没有绑定域名' }}</p>
-    <p>简易启动命令：./frpc.exe -u {{ store.getters.get_frp_token }} -p {{ SelectProxyID }}</p>
+    <!-- 2024-06-03 13:01 Muska_Ami: 加一个隐藏防止意外泄露token -->
+    简易启动命令：
+    <n-tooltip placement="bottom" trigger="click">
+      <template #trigger>
+        <n-button> 点击显示/隐藏 </n-button>
+      </template>
+      <p>
+        ./frpc.exe -u {{ store.getters.get_frp_token }} -p {{ SelectProxyID }}
+        <!-- <n-button type="tertiary" @click="($event) => clipboard("./frpc.exe -u " + store.getters.get_frp_token.value + " -p " + SelectProxyID, event)"> 复制 </n-button> -->
+      </p>
+    </n-tooltip>
     <!-- <template #footer>
             </template> -->
   </n-modal>
@@ -216,6 +226,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useDialog } from 'naive-ui'
+// import clipboard from '../utils/clipboard'
 import store from '../utils/stores/store.js'
 import { get, post } from '../utils/request.js'
 import { sendErrorMessage, sendSuccessMessage } from '../utils/message'

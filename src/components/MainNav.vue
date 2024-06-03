@@ -58,22 +58,30 @@
               </n-alert>
               <br />
               <br />
-              <a style="text-align: center">内网穿透联盟[CFU]识别码: <b>JRXHB5D4</b></a>
+              <a style="text-align: center">
+                <a target="_blank" href="https://内网穿透.中国/">
+                  <n-button text>
+                    内网穿透联盟[CFU]
+                  </n-button>
+                </a>
+                识别码: 
+                <b>JRXHB5D4</b>
+              </a>
               <br />
               <a style="text-align: center">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
               <br />
               <a style="text-align: center">特别鸣谢: 夏沫花火zzz🌙, 天宇网络, LiteCat</a>
               <br />
               <a style="text-align: center"
-                >LoCyanTeam 所有 | 本项目
-                <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel" style="transform: translateY(8px);">
-                  <n-button text>
+                >LoCyanTeam 所有 | 
+                <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel">
+                  <n-button text style="transform: translateY(4.5px)">
                     <template #icon>
                       <n-icon>
                         <git-alt />
                       </n-icon>
                     </template>
-                    开源
+                    {{ gitHash }}
                   </n-button>
                 </a>
               </a>
@@ -107,6 +115,8 @@ import router from '../router/index'
 import UserInfo, { ChangeUserInfoShow } from './UserInfo.vue'
 import { get } from '../utils/request.js'
 import { GitAlt } from '@vicons/fa'
+
+const gitHash = GIT_COMMITHASH;
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)
