@@ -10,6 +10,8 @@ LoCyanFrp Panel, Powered by Naive-UI
 
 ## 如何使用
 
+必须安装 Git 并初始化了仓库才能正常启动本项目
+
 1. clone 本仓库
 
 ```shell
