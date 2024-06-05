@@ -178,7 +178,7 @@ async function changeShowFrptoken(event) {
 }
 
 const traffic = ref(Number(localStorage.getItem('traffic')) / 1024 + 'GB')
-const Proxiesanimation = ref(Number(store.getters.get_proxies_num))
+const Proxiesanimation = ref(Number(store.getters.get_proxies_num || localStorage.getItem('proxies_num')))
 const TrafficRef = ref(null)
 const boardcast_html = ref('')
 const boardcast_show = ref(true)
