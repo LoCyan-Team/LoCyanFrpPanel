@@ -26,15 +26,20 @@
                     </template>
                     {{ l.description }}
                     <template #footer>
-                      房间状态：开发中...
+                      房间状态：开发中...<br />
+                      <MinecraftServerStatus v-if='i.game_name === "minecraft-java"'
+                        :address='getAddress(lobbyList[choseLobbyIndex].proxy_id, lobbyList[choseLobbyIndex].node_id)'
+                        :bedrock=false
+                      >
+                      </MinecraftServerStatus>
                     </template>
                     <template #action>
                       <n-space justify="end">
                         <n-button type="primary" @click="() => {
-    choseLobbyIndex = lobbyList .indexOf(l);
-    showJoinLobby = true;
-    getAddress(lobbyList[choseLobbyIndex].proxy_id, lobbyList[choseLobbyIndex].node_id);
-  }">加入房间</n-button>
+                          choseLobbyIndex = lobbyList.indexOf(l);
+                          showJoinLobby = true;
+                          getAddress(lobbyList[choseLobbyIndex].proxy_id, lobbyList[choseLobbyIndex].node_id);
+                        }">加入房间</n-button>
                       </n-space>
                     </template>
                   </n-card>
@@ -334,16 +339,17 @@ function deleteLobby(id) {
   })
 }
 
-function getAddress(proxyId, nodeId){
+function getAddress(proxyId, nodeId) {
   const rs = get("https://api-v2.locyanfrp.cn/api/v2/lan/public/address?username=" + store.getters.get_username + "&proxy_id=" + proxyId + "&node_id=" + nodeId);
   rs.then((res) => {
-    if (res.status === 200){
+    if (res.status === 200) {
       connectAddress.value = res.data.address;
     }
   })
 }
 
 function handleUpdateValue(value) {
+  // console.log(value.value)
   getLobbys(value)
 }
 getGameList();
