@@ -316,9 +316,9 @@ function getGameList() {
 function getLobbys(game_name) {
   const rs = get(
     'https://api-v2.locyanfrp.cn/api/v2/lan/public/getListByGameName?username=' +
-      store.getters.get_username +
-      '&game_name=' +
-      game_name
+    store.getters.get_username +
+    '&game_name=' +
+    game_name
   )
   rs.then((res) => {
     if (res.status === 200) {
@@ -342,7 +342,7 @@ function getPrivateLobby() {
 function getProxyList() {
   const rs = get(
     'https://api-v2.locyanfrp.cn/api/v2/proxies/getlist?username=' +
-      localStorage.getItem('username')
+    localStorage.getItem('username')
   )
   rs.then((res) => {
     if (res.status === 200) {
@@ -375,9 +375,9 @@ function createLobby() {
 function deleteLobby(id) {
   const rs = Delete(
     'https://api-v2.locyanfrp.cn/api/v2/lan/private/delete?username=' +
-      store.getters.get_username +
-      '&id=' +
-      String(id)
+    store.getters.get_username +
+    '&id=' +
+    String(id)
   )
   rs.then((res) => {
     if (res.status === 200) {
@@ -388,22 +388,30 @@ function deleteLobby(id) {
 }
 
 function getAddress(proxyId, nodeId) {
+<<<<<<< HEAD
   const rs = get(
     'https://api-v2.locyanfrp.cn/api/v2/lan/public/address?username=' +
-      store.getters.get_username +
-      '&proxy_id=' +
-      proxyId +
-      '&node_id=' +
-      nodeId
+    store.getters.get_username +
+    '&proxy_id=' +
+    proxyId +
+    '&node_id=' +
+    nodeId
   )
   rs.then((res) => {
     if (res.status === 200) {
       connectAddress.value = res.data.address
+=======
+  const rs = get("https://api-v2.locyanfrp.cn/api/v2/lan/public/address?username=" + store.getters.get_username + "&proxy_id=" + proxyId + "&node_id=" + nodeId);
+  rs.then((res) => {
+    if (res.status === 200) {
+      connectAddress.value = res.data.address;
+>>>>>>> c3b585d0767a5e5e549b09c61caa05e744a3bacf
     }
   })
 }
 
 function handleUpdateValue(value) {
+  // console.log(value.value)
   getLobbys(value)
 }
 getGameList()
