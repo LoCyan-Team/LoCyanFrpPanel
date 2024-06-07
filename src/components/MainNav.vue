@@ -28,13 +28,9 @@
         <SideBar v-if="ShowSideBar" />
         <n-layout :native-scrollbar="false">
           <div style="text-align: center">
-            <n-gradient-text :size="32" type="info">
-              祝各位高三学子
-            </n-gradient-text>
+            <n-gradient-text :size="32" type="info"> 祝各位高三学子 </n-gradient-text>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <n-gradient-text :size="46" type="danger">
-              高考加油！
-            </n-gradient-text>
+            <n-gradient-text :size="46" type="danger"> 高考加油！ </n-gradient-text>
           </div>
           <div style="margin-right: 15px; margin-left: 15px">
             <router-view v-slot="{ Component }">
@@ -60,11 +56,9 @@
               <br />
               <a style="text-align: center">
                 <a target="_blank" href="https://内网穿透.中国/">
-                  <n-button text>
-                    内网穿透联盟[CFU]
-                  </n-button>
+                  <n-button text> 内网穿透联盟[CFU] </n-button>
                 </a>
-                识别码: 
+                识别码:
                 <b>JRXHB5D4</b>
               </a>
               <br />
@@ -73,7 +67,7 @@
               <a style="text-align: center">特别鸣谢: 夏沫花火zzz🌙, 天宇网络, LiteCat</a>
               <br />
               <a style="text-align: center"
-                >LoCyanTeam 所有 | 
+                >LoCyanTeam 所有 |
                 <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel">
                   <n-button text style="transform: translateY(4.5px)">
                     <template #icon>
@@ -116,7 +110,7 @@ import UserInfo, { ChangeUserInfoShow } from './UserInfo.vue'
 import { get } from '../utils/request.js'
 import { GitAlt } from '@vicons/fa'
 
-const gitHash = GIT_COMMITHASH;
+const gitHash = GIT_COMMITHASH
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)

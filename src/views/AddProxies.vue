@@ -237,26 +237,24 @@ function addproxy() {
     return
   }
   const TunnelCreateInfo = {
-    "username": store.getters.get_username,
-    "name": ProxyInfo.value.proxy_name,
-    "key": store.getters.get_frp_token,
-    "ip": ProxyInfo.value.local_ip,
-    "type": ProxyInfo.value.proxy_type,
-    "lp": ProxyInfo.value.local_port,
-    "rp": ProxyInfo.value.remote_port,
-    "ue": "0",
-    "uz": "0",
-    "id": ProxyInfo.value.node,
-    "token": store.getters.get_token,
-    "url": ProxyInfo.value.domain,
-    "sk": ProxyInfo.value.sk
-  };
-  const rs = post(
-    'https://api-v2.locyanfrp.cn/api/v2/proxies/add', TunnelCreateInfo
-  )
+    username: store.getters.get_username,
+    name: ProxyInfo.value.proxy_name,
+    key: store.getters.get_frp_token,
+    ip: ProxyInfo.value.local_ip,
+    type: ProxyInfo.value.proxy_type,
+    lp: ProxyInfo.value.local_port,
+    rp: ProxyInfo.value.remote_port,
+    ue: '0',
+    uz: '0',
+    id: ProxyInfo.value.node,
+    token: store.getters.get_token,
+    url: ProxyInfo.value.domain,
+    sk: ProxyInfo.value.sk
+  }
+  const rs = post('https://api-v2.locyanfrp.cn/api/v2/proxies/add', TunnelCreateInfo)
   rs.then((res) => {
     if (res.status === 200) {
-      SendSuccessDialog("添加成功")
+      SendSuccessDialog('添加成功')
     } else {
       sendErrorMessage(res.data.msg)
     }

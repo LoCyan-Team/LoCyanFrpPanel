@@ -171,7 +171,7 @@ const routes = [
           title: '多人游戏大厅'
         },
         component: () => import('../views/LanLobby.vue')
-      },
+      }
     ]
   }
 ]

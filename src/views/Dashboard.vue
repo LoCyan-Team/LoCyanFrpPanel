@@ -3,8 +3,16 @@
     <i class="twa twa-compass"></i>
     <n-text type="primary"> 仪表盘</n-text>
   </n-h1>
-  <n-modal v-model:show="showads" class="custom-card" preset="card" style="width: 600px" title="通知" size="huge"
-    :bordered="false" :segmented="{ content: 'soft', footer: 'soft' }">
+  <n-modal
+    v-model:show="showads"
+    class="custom-card"
+    preset="card"
+    style="width: 600px"
+    title="通知"
+    size="huge"
+    :bordered="false"
+    :segmented="{ content: 'soft', footer: 'soft' }"
+  >
     <n-p v-html="ads_content"></n-p>
   </n-modal>
   <template v-if="notice.contents">
@@ -35,7 +43,9 @@
     </n-grid-item> -->
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
-        <a>您好，尊敬的 <a id="username">{{ username }}</a></a>
+        <a
+          >您好，尊敬的 <a id="username">{{ username }}</a></a
+        >
         <br />
         <a>您的邮箱为：{{ email }}</a>
         <br />
@@ -81,14 +91,17 @@
       <br />
       <n-alert title="关于高级功能" type="info">
         若需要 Frp 的高级功能, 你可以配置隧道后前往此处下载纯净版 Frp ：
-        <a href="https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases" target="_blank">点击前往</a>，<br />
+        <a href="https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases" target="_blank"
+          >点击前往</a
+        >，<br />
         下载适合自己系统架构的软件，随后即可自行配置。<br />
         注意：萌新使用此方法导致不会用的后果自行承担！<br />
       </n-alert>
       <n-divider />
       <n-alert title="注意事项" type="warning">
         1. 若因为自己的迷幻操作导致的各种问题我们没有义务给予回答；<br />
-        2. 不要因为群里没有人回答你的问题而到处宣扬我们没素质，任何人的时间都是宝贵的，不要因为你的问题而去浪费他人的时间。
+        2.
+        不要因为群里没有人回答你的问题而到处宣扬我们没素质，任何人的时间都是宝贵的，不要因为你的问题而去浪费他人的时间。
         在诋毁我们之前请你想想你自身有没有做到自己该做的事情；<br />
         3. 我们是公益性的服务，不要把我们与任何付费的Frp服务商进行比较，
         免费的服务无法保障稳定性等各方面的问题，
@@ -116,7 +129,10 @@
       <n-card title="使用方法">
         <n-space vertical>
           <n-steps vertical :current="8">
-            <n-step title="创建隧道" description="点击隧道操作中的创建隧道，填写自己隧道的相应信息" />
+            <n-step
+              title="创建隧道"
+              description="点击隧道操作中的创建隧道，填写自己隧道的相应信息"
+            />
             <n-step title="软件下载" description="点击软件下载,下载最新版本" />
             <n-step title="启动客户端" description="启动客户端，登录自己的账号" />
             <n-step title="安装Frpc" description="前往 设置->FRPC->安装Frpc" />
@@ -178,7 +194,9 @@ async function changeShowFrptoken(event) {
 }
 
 const traffic = ref(Number(localStorage.getItem('traffic')) / 1024 + 'GB')
-const Proxiesanimation = ref(Number(store.getters.get_proxies_num || localStorage.getItem('proxies_num')))
+const Proxiesanimation = ref(
+  Number(store.getters.get_proxies_num || localStorage.getItem('proxies_num'))
+)
 const TrafficRef = ref(null)
 const boardcast_html = ref('')
 const boardcast_show = ref(true)

@@ -114,7 +114,19 @@
       </template>
       <p>
         ./frpc.exe -u {{ store.getters.get_frp_token }} -p {{ SelectProxyID }}
-        <!-- <n-button type="tertiary" @click="($event) => clipboard("./frpc.exe -u " + store.getters.get_frp_token.value + " -p " + SelectProxyID, event)"> 复制 </n-button> -->
+        <n-button
+          type="tertiary"
+          @click="
+            ($event) => {
+              clipboard(
+                './frpc.exe -u ' + store.getters.get_frp_token + ' -p ' + SelectProxyID,
+                event
+              )
+            }
+          "
+        >
+          复制
+        </n-button>
       </p>
     </n-tooltip>
     <!-- <template #footer>
@@ -133,9 +145,9 @@
         :id="Proxies.indexOf(item)"
       >
         <n-space style="display: block">
-          <n-card style="min-height: 350px;">
-            <div style="overflow-y: auto; height: 75px;" class="node-title">
-              <h2 style="font-weight: 400;">{{ item.proxy_name }}</h2>
+          <n-card style="min-height: 350px">
+            <div style="overflow-y: auto; height: 75px" class="node-title">
+              <h2 style="font-weight: 400">{{ item.proxy_name }}</h2>
               <n-tag :bordered="false" type="success">ID: {{ item.id }}</n-tag>
             </div>
             <br />
@@ -165,22 +177,24 @@
                   strong
                   secondary
                   type="primary"
-                  @click="() => {
-                    indexOfProxies = Proxies.indexOf(item)
-                    showEditModal = true
-                    SelectProxyID = item.id
-                    ProxyEditInfo = {
-                      node: item.node,
-                      id: SelectProxyID,
-                      proxy_name: item.proxy_name,
-                      proxy_type: transtype(item.proxy_type),
-                      local_ip: item.local_ip,
-                      local_port: item.local_port.toString(),
-                      remote_port: item.remote_port,
-                      domain: item.domain
+                  @click="
+                    () => {
+                      indexOfProxies = Proxies.indexOf(item)
+                      showEditModal = true
+                      SelectProxyID = item.id
+                      ProxyEditInfo = {
+                        node: item.node,
+                        id: SelectProxyID,
+                        proxy_name: item.proxy_name,
+                        proxy_type: transtype(item.proxy_type),
+                        local_ip: item.local_ip,
+                        local_port: item.local_port.toString(),
+                        remote_port: item.remote_port,
+                        domain: item.domain
+                      }
+                      ShowDomainInput = item.proxy_type === 'http' || item.proxy_type === 'https'
                     }
-                    ShowDomainInput = item.proxy_type === 'http' || item.proxy_type === 'https'
-                  }"
+                  "
                   >编辑
                 </n-button>
                 <n-button
@@ -198,12 +212,14 @@
                   strong
                   secondary
                   type="info"
-                  @click="() => {
-                    indexOfProxies = Proxies.indexOf(item)
-                    LinkAddr = makelinkaddr(Proxies.indexOf(item))
-                    showDetailModal = true
-                    SelectProxyID = item.id
-                  }"
+                  @click="
+                    () => {
+                      indexOfProxies = Proxies.indexOf(item)
+                      LinkAddr = makelinkaddr(Proxies.indexOf(item))
+                      showDetailModal = true
+                      SelectProxyID = item.id
+                    }
+                  "
                   >详细信息
                 </n-button>
                 <n-button
@@ -226,7 +242,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useDialog } from 'naive-ui'
-// import clipboard from '../utils/clipboard'
+import clipboard from '../utils/clipboard'
 import store from '../utils/stores/store.js'
 import { get, post } from '../utils/request.js'
 import { sendErrorMessage, sendSuccessMessage } from '../utils/message'
@@ -307,24 +323,24 @@ function EditProxy(proxyid) {
   }
 
   const EditInfo = {
-    "id": proxyid,
-    "proxyName": ProxyEditInfo.value.proxy_name,
-    "proxyType": ProxyEditInfo.value.proxy_type,
-    "remotePort": ProxyEditInfo.value.remote_port,
-    "username": store.getters.get_username,
-    "localIp": ProxyEditInfo.value.local_ip,
-    "localPort": ProxyEditInfo.value.local_port,
-    "domain": ProxyEditInfo.value.domain,
-    "node": ProxyEditInfo.value.node
+    id: proxyid,
+    proxyName: ProxyEditInfo.value.proxy_name,
+    proxyType: ProxyEditInfo.value.proxy_type,
+    remotePort: ProxyEditInfo.value.remote_port,
+    username: store.getters.get_username,
+    localIp: ProxyEditInfo.value.local_ip,
+    localPort: ProxyEditInfo.value.local_port,
+    domain: ProxyEditInfo.value.domain,
+    node: ProxyEditInfo.value.node
   }
-  const rs = post("https://api-v2.locyanfrp.cn/api/v2/proxies/update", EditInfo)
+  const rs = post('https://api-v2.locyanfrp.cn/api/v2/proxies/update', EditInfo)
   rs.then((res) => {
     if (res.status === 200) {
       // 重新刷新列表
       initList()
       // 关闭模态框
       showEditModal.value = false
-      SendSuccessDialog("修改成功")
+      SendSuccessDialog('修改成功')
     } else {
       SendErrorDialog(res.data.msg)
     }
