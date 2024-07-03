@@ -35,12 +35,12 @@
   </template>
   <br />
   <n-grid :y-gap="3" :x-gap="20" cols="3" item-responsive>
-    <!-- <n-grid-item span="3">
+    <n-grid-item span="3">
       <n-card title="赞助商广告">
-        <img style="width: 100%" src="https://www.locyanfrp.cn/assets/img/ad1.png" />
+        <img style="width: 100%" src="https://apac-cloudflare-r2.img.1l1.icu/2024/07/03/6685745b965eb.webp" />
       </n-card>
       <br />
-    </n-grid-item> -->
+    </n-grid-item>
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
         <a
