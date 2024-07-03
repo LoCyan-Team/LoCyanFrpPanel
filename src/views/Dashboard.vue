@@ -37,7 +37,9 @@
   <n-grid :y-gap="3" :x-gap="20" cols="3" item-responsive>
     <n-grid-item span="3">
       <n-card title="赞助商广告">
-        <img style="width: 100%" src="https://apac-cloudflare-r2.img.1l1.icu/2024/07/03/6685745b965eb.webp" />
+        <a href="https://spcraft.cn">
+          <img style="width: 100%" src="https://apac-cloudflare-r2.img.1l1.icu/2024/07/03/6685745b965eb.webp" />
+        </a>
       </n-card>
       <br />
     </n-grid-item>
