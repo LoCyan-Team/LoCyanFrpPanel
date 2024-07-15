@@ -177,7 +177,6 @@ const realPersonCount = ref(0)
 const realPerson = ref(false)
 const realPersonUrl = ref('')
 const ci = ref('')
-const payUrl = ref('')
 const UserProfile = ref({
   name: '',
   idcard: ''
@@ -308,10 +307,9 @@ function realPersonPay() {
   )
   rs.then((res) => {
     if (res.status === 200) {
-      payUrl.value = res.data.url
+      window.open(res.data.url);
     }
   })
-  window.open(payUrl.value)
 }
 
 CheckRealNameStatus()
