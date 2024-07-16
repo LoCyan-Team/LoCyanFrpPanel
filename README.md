@@ -36,8 +36,12 @@ bun i
 bun dev
 ```
 
-## 相关链接 & 使用的开源项目
+## Technology Stack
 
-- [Emoji.json 『unpkg』](https://unpkg.com/emoji.json@14.0.0/emoji.json)
-- [twemoji 『Github』](https://github.com/twitter/twemoji)
-- [twemoji-amazing 『Github』](https://github.com/SebastianAigner/twemoji-amazing)
+- [Vue3](https://vuejs.org/)
+- [Axios](https://axios-http.com/)
+- [Naive UI](https://www.naiveui.com/)
+- [TaliwindCSS](https://tailwindcss.com/)
+- [Emoji.json (UNPKG)](https://unpkg.com/emoji.json@14.0.0/emoji.json)
+- [twemoji](https://github.com/twitter/twemoji)
+- [twemoji-amazing](https://github.com/SebastianAigner/twemoji-amazing)
