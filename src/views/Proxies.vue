@@ -161,7 +161,7 @@
             <template #footer>
               <div v-if="ServerList[item.node]">
                 连接地址： <br />
-                {{ makelinkaddr(Proxies.indexOf(item)) }}
+                {{ makeLinkAddr(Proxies.indexOf(item)) }}
               </div>
               <div v-else>
                 连接地址： <br />
@@ -215,7 +215,7 @@
                   @click="
                     () => {
                       indexOfProxies = Proxies.indexOf(item)
-                      LinkAddr = makelinkaddr(Proxies.indexOf(item))
+                      LinkAddr = makeLinkAddr(Proxies.indexOf(item))
                       showDetailModal = true
                       SelectProxyID = item.id
                     }
@@ -290,7 +290,7 @@ function transtype(type) {
 
 // 就是有弱智不知道隧道链接是什么，气死我了
 // 2024-01-23 By Muska_Ami: ↑然而加了依然有弱智不知道
-function makelinkaddr(id) {
+function makeLinkAddr(id) {
   if (Proxies.value[id].proxy_type === 'http' || Proxies.value[id].proxy_type === 'https') {
     return Proxies.value[id].domain
   } else {
@@ -301,7 +301,7 @@ function makelinkaddr(id) {
 function LaunchProxyThroughApplication(id) {
   dialog.success({
     title: '通知',
-    content: '该功能需要配合 C# 客户端使用! \n 使用过程中千万不要直接关掉窗口, 请按组合键 Ctrl + C',
+    content: '该功能需要配合 C# 客户端或开发者预览版 NyaLCF 使用! \n 使用过程中千万不要直接关掉窗口, 请按组合键 Ctrl + C',
     positiveText: '已经安装好了',
     negativeText: '没安装...',
     onPositiveClick: () => {
