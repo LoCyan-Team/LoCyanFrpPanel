@@ -35,14 +35,11 @@
   </template>
   <br />
   <n-grid :y-gap="3" :x-gap="20" cols="3" item-responsive>
-    <n-grid-item span="3">
+    <!--<n-grid-item span="3">
       <n-card title="赞助商广告">
-        <a href="https://spcraft.cn" target="_blank">
-          <img style="width: 100%" src="https://apac-cloudflare-r2.img.1l1.icu/2024/07/03/6685745b965eb.webp" />
-        </a>
       </n-card>
       <br />
-    </n-grid-item>
+    </n-grid-item>-->
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
         <a
@@ -73,6 +70,14 @@
         </div>
         请妥善保管访问密钥，一旦该密钥泄露，他人可通过此密钥访问账户部分信息！
         <br />
+      </n-card>
+      <br />
+      <n-card title="赞助商广告" size="large">
+        <n-space>
+          <a href="https://spcraft.cn" target="_blank">
+            <img style="width: 100%" src="https://apac-cloudflare-r2.img.1l1.icu/2024/07/03/6685745b965eb.webp" />
+          </a>
+        </n-space>
       </n-card>
       <br />
       <n-card title="数据报表" size="large">
