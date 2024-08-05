@@ -89,12 +89,13 @@ instance.interceptors.response.use(
         //     }, 1000);
         //     break;
         // 404请求不存在
-        case 404:
-          sendErrorMessage('请求的资源不存在')
-          break
+        // case 404:
+        //   sendErrorMessage('请求的资源不存在')
+        //   break
         // 其他错误，直接抛出错误提示
         default:
-          sendErrorMessage(error.response.data.data.msg)
+          // sendErrorMessage(error.response.data.data.msg)
+          return Promise.resolve(error.response);
       }
       return Promise.reject(error.response)
     }
@@ -127,17 +128,17 @@ export function get(url, params) {
  * @param {Object} params [请求时携带的参数]
  * @param headers
  */
-export function post(url, params, headers) {
+export function post(url, params, headers = {}) {
   return new Promise((resolve, reject) => {
-    instance
-      .post(url, QS.stringify(params), headers)
-      .then((res) => {
-        resolve(res.data)
-      })
-      .catch((err) => {
-        reject(err.data)
-      })
-  })
+      instance
+          .post(url, QS.stringify(params), { headers: { ...headers, 'Content-Type': 'application/x-www-form-urlencoded' } })
+          .then((res) => {
+              resolve(res.data);
+          })
+          .catch((err) => {
+              reject(err.data);
+          });
+  });
 }
 
 /**
