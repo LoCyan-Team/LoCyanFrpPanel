@@ -9,6 +9,7 @@ import router from './router/index.js'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from './utils/stores/store.js'
+import { printTitle } from "./utils/title.js";
 
 const app = createApp(App)
 app.use(store)
@@ -30,3 +31,4 @@ app.component('message', message)
 app.component('loadingbar', loadingbar)
 app.component('ndialog', ndialog)
 app.mount('#app')
+printTitle();

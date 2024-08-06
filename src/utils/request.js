@@ -149,7 +149,9 @@ export function post(url, params, headers = {}) {
 export function Delete(url, params) {
   return new Promise((resolve, reject) => {
     instance
-      .delete(url, QS.stringify(params))
+      .delete(url, {
+        params: params
+      })
       .then((res) => {
         resolve(res.data)
       })
