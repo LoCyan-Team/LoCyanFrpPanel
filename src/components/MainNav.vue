@@ -1,7 +1,7 @@
 <template>
   <UserInfo />
   <n-space vertical>
-    <n-layout>
+    <n-layout style="height: 100vh;">
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
           <n-gradient-text
