@@ -17,8 +17,8 @@
         <n-h5 style="margin: 3px"> QQ:</n-h5>
         <n-button
           type="info"
-          v-bind:disabled="bindQQ.isDisable"
-          @click="DoBindQQ"
+          v-bind:disabled="doBindQQ.isDisable"
+          @click="doBindQQ"
           :loading="binding"
         >
           {{ bindQQ.msg }}
@@ -26,7 +26,7 @@
         <n-button
           type="error"
           v-bind:disabled="bindQQ.unBindDisable"
-          @click="UnBindQQ"
+          @click="unBindQQ"
           :loading="binding"
         >
           {{ bindQQ.unBindmsg }}
@@ -83,7 +83,7 @@
         </n-space>
       </n-space>
       <template #footer>
-        <n-button ghost type="primary" @click="DoLogOut"> 退出登录 </n-button>
+        <n-button ghost type="primary" @click="doLogOut"> 退出登录 </n-button>
       </template>
     </n-drawer-content>
   </n-drawer>
@@ -235,49 +235,57 @@ async function sendChangeEmailCode() {
   ldb.finish()
 }
 
-function DoBindQQ() {
+async function doBindQQ() {
   binding.value = true
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/oauth/qq/bind?username=' + store.getters.get_username,
-    []
-  )
-  rs.then((res) => {
-    if (res.status == 200) {
-      window.open(res.data.url)
-      binding.value = false
-    }
-  })
+  let rs
+  try {
+    rs = await api.v2.oauth.qq.bind(store.getters.get_username)
+  } catch (e) {
+    message.error('请求失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status == 200) {
+    window.open(rs.data.url)
+    binding.value = false
+  }
 }
 
-function UnBindQQ() {
+async function unBindQQ() {
   binding.value = true
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/oauth/qq/unbind?username=' + store.getters.get_username,
-    []
-  )
-  rs.then((res) => {
-    if (res.status == 200) {
-      binding.value = false
-      bindQQ.value.unBindDisable = true
-      bindQQ.value.unBindmsg = ref('解绑成功')
-      bindQQ.value.isDisable = false
-      bindQQ.value.msg = ref('点击绑定')
-      setTimeout(() => {
-        bindQQ.value.unBindmsg = ref('尚未绑定')
-      }, 1000)
-    } else {
-      binding.value = false
-      bindQQ.value.unBindDisable = false
-      bindQQ.value.unBindmsg = ref('解绑失败')
-      message.error('解绑失败，服务器错误')
-      setTimeout(() => {
-        bindQQ.value.unBindmsg = ref('解除绑定')
-      }, 1000)
-    }
-  })
+  let rs
+  try {
+    rs = await api.v2.oauth.qq.unbind(store.getters.get_username)
+  } catch (e) {
+    binding.value = false
+    bindQQ.value.unBindDisable = false
+    bindQQ.value.unBindmsg = ref('解绑失败')
+    message.error('请求失败: ' + e)
+    setTimeout(() => {
+      bindQQ.value.unBindmsg = ref('解除绑定')
+    }, 1000)
+  }
+  if (!rs) return
+  if (rs.status == 200) {
+    binding.value = false
+    bindQQ.value.unBindDisable = true
+    bindQQ.value.unBindmsg = ref('解绑成功')
+    bindQQ.value.isDisable = false
+    bindQQ.value.msg = ref('点击绑定')
+    setTimeout(() => {
+      bindQQ.value.unBindmsg = ref('尚未绑定')
+    }, 1000)
+  } else {
+    binding.value = false
+    bindQQ.value.unBindDisable = false
+    bindQQ.value.unBindmsg = ref('解绑失败')
+    message.error('解绑失败，服务器错误')
+    setTimeout(() => {
+      bindQQ.value.unBindmsg = ref('解除绑定')
+    }, 1000)
+  }
 }
 
-function DoLogOut() {
+function doLogOut() {
   sendSuccessMessage('您已登出，感谢您的使用！')
   logout()
 }
@@ -294,12 +302,18 @@ async function changePassword() {
     old_password: tPassword.value.oldPaxsword,
     new_password: tPassword.value.newPassword
   }
-
-  const rs = await post('https://api-v2.locyanfrp.cn/api/v2/users/reset/password', data)
+  let rs
+  try {
+    rs = await api.v2.users.reset.password(data.username, data.old_password, data.new_password)
+  } catch (e) {
+    tPassword.value.isLoading = false
+    message.error('修改失败: ' + e)
+  }
+  if (!rs) return
   if (rs.status === 200) {
     tPassword.value.isLoading = false
     sendSuccessMessage('修改成功')
-    DoLogOut()
+    doLogOut()
   } else {
     tPassword.value.isLoading = false
     message.error('密码修改失败, 后端返回: ' + rs.data.msg)
@@ -320,10 +334,17 @@ async function resetFrpToken() {
     negativeText: '取消',
     maskClosable: false,
     onPositiveClick: async () => {
-      const rs = await get('https://api-v2.locyanfrp.cn/api/v2/users/reset/frp_token', data)
+      let rs
+      try {
+        rs = await api.v2.users.reset.frp_token(data.username)
+      } catch (e) {
+        resetFrpTokenLoading.value = false
+        message.error('请求失败: ' + e)
+      }
+      if (!rs) return
       if (rs.status === 200) {
         resetFrpTokenLoading.value = false
-        store.commit('setFrpToken')
+        store.commit('set_frp_token', rs.data.token)
         sendSuccessMessage('重置成功')
       } else {
         resetFrpTokenLoading.value = false
@@ -350,11 +371,19 @@ async function exitAllDevices() {
     negativeText: '取消',
     maskClosable: false,
     onPositiveClick: async () => {
-      const rs = await deleteReq('https://api-v2.locyanfrp.cn/api/v2/users/reset/token/all', data)
+      let rs
+      try {
+        rs = await api.v2.users.reset.token.all(data.username)
+      } catch (e) {
+        exitAllDevicesLoading.value = false
+        message.error('请求失败: ' + e)
+      }
+      if (!rs) return
+      // const rs = await deleteReq('https://api-v2.locyanfrp.cn/api/v2/users/reset/token/all', data)
       if (rs.status === 200) {
         exitAllDevicesLoading.value = false
         sendSuccessMessage('已全部退出')
-        DoLogOut()
+        doLogOut()
       } else {
         exitAllDevicesLoading.value = false
         message.error('退出失败, 后端返回: ' + rs.data.msg)

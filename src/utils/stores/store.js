@@ -112,7 +112,7 @@ const store = new vuex.Store({
       localStorage.removeItem('proxies')
       localStorage.removeItem('avator')
     },
-    setFrpToken(state, frptoken) {
+    set_frp_token(state, frptoken) {
       state.frptoken = frptoken
       localStorage.setItem('frptoken', frptoken)
     }

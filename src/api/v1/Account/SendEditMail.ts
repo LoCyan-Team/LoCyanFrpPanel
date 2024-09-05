@@ -1,4 +1,5 @@
 import base from '@/api/base'
+//@ts-ignore
 import { get } from '@/utils/request'
 
 const SendEditEmail = async (username: string, token: string, email: string) => {
