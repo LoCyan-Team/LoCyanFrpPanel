@@ -1,7 +1,5 @@
 import App from "./App"
 
-const v1 = {
+export default {
     App: App,
 }
-
-export default v1

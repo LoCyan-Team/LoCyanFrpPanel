@@ -1,7 +1,7 @@
+import oauth from "./oauth"
 import users from "./users"
 
-const v2 = {
-    users: users
+export default {
+    users: users,
+    oauth: oauth
 }
-
-export default v2

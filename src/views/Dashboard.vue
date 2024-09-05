@@ -195,7 +195,7 @@ onMounted(async () => {
   // console.log('Rquest ads')
   let res;
   try {
-    res = await api.v1.App.root
+    res = await api.v1.App.root()
   } catch (e) {
     sendErrorMessage('获取 Ads 失败: ' + e)
   }
@@ -220,7 +220,7 @@ onMounted(async () => {
 onMounted(async () => {
   let res;
   try {
-    res = await api.v1.App.GetBroadCast
+    res = await api.v1.App.GetBroadCast()
   } catch (e) {
     sendErrorMessage('获取 Broadcast 信息失败: ' + e)
   }

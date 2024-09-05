@@ -3,7 +3,7 @@ import { get } from '@/utils/request'
 
 const root = async () => {
     const rs = await get(`${base.api_v1_url}/App`, {})
-    return base.buildResponse(rs)
+    return base.buildResponse(rs, false)
 }
 
 export default root
