@@ -17,7 +17,7 @@
         <n-h5 style="margin: 3px"> QQ:</n-h5>
         <n-button
           type="info"
-          v-bind:disabled="doBindQQ.isDisable"
+          v-bind:disabled="bindQQ.isDisable"
           @click="doBindQQ"
           :loading="binding"
         >
@@ -94,7 +94,6 @@ import { logout } from '@/utils/profile.js'
 import store from '@/utils/stores/store.js'
 import { sendSuccessMessage } from '@/utils/message.js'
 import { onMounted, ref } from 'vue'
-import { get, post, deleteReq } from '@/utils/request.js'
 import { useDialog } from 'naive-ui'
 
 const dialogWidth = ref('30vw')
