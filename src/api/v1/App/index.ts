@@ -1,4 +1,4 @@
-import root from './root'
+import root from './_root'
 import GetBroadCast from './GetBroadCast'
 import GetCSApp from './GetCSApp'
 
