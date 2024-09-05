@@ -1,5 +1,5 @@
 <template>
-  <n-drawer v-model:show="show" :width="Width_DiaLog">
+  <n-drawer v-model:show="show" :width="dialogWidth">
     <n-drawer-content title="个人信息" closable>
       <n-avatar round :size="80" :src="store.getters.get_avatar" />
       <br />
@@ -93,12 +93,11 @@
 import { logout } from '@/utils/profile.js'
 import store from '@/utils/stores/store.js'
 import { sendSuccessMessage } from '@/utils/message.js'
-import { ref } from 'vue'
-import { get, post, Delete } from '@/utils/request.js'
+import { onMounted, ref } from 'vue'
+import { get, post, deleteReq } from '@/utils/request.js'
 import { useDialog } from 'naive-ui'
 
-const username = store.getters.get_username
-const Width_DiaLog = ref('30vw')
+const dialogWidth = ref('30vw')
 const ldb = useLoadingBar()
 const message = useMessage()
 const binding = ref(false)
@@ -106,7 +105,7 @@ const resetFrpTokenLoading = ref(false)
 const exitAllDevicesLoading = ref(false)
 const dialog = useDialog()
 if (document.body.clientWidth <= 800) {
-  Width_DiaLog.value = '75vw'
+  dialogWidth.value = '75vw'
 }
 
 const bindQQ = ref({
@@ -137,28 +136,30 @@ const tPassword = ref({
   isLoading: false
 })
 
-function queryBind() {
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/oauth/qq/check?username=' + store.getters.get_username
-  )
-  rs.then((res) => {
-    if (!res.status === 200) {
-      bindQQ.value.isDisable = false
-      bindQQ.value.msg = ref('点击绑定')
-      bindQQ.value.unBindDisable = true
-      bindQQ.value.unBindmsg = ref('尚未绑定')
-    } else {
-      bindQQ.value.isDisable = true
-      bindQQ.value.msg = ref('已绑定')
-      bindQQ.value.unBindDisable = false
-      bindQQ.value.unBindmsg = ref('解除绑定')
-    }
-  })
-}
+// 检查 QQ 绑定状态
+onMounted(async () => {
+  let rs
+  try {
+    rs = await api.v2.oauth.qq.check(store.getters.get_username)
+  } catch (e) {
+    bindQQ.value.isDisable = true
+    bindQQ.value.msg = ref('未知')
+  }
+  if (!rs) return
+  if (!rs.status === 200) {
+    bindQQ.value.isDisable = false
+    bindQQ.value.msg = ref('点击绑定')
+    bindQQ.value.unBindDisable = true
+    bindQQ.value.unBindmsg = ref('尚未绑定')
+  } else {
+    bindQQ.value.isDisable = true
+    bindQQ.value.msg = ref('已绑定')
+    bindQQ.value.unBindDisable = false
+    bindQQ.value.unBindmsg = ref('解除绑定')
+  }
+})
 
-queryBind()
-
-function changeEmail() {
+async function changeEmail() {
   if (tEmail.value.isEditDisable) {
     tEmail.value.isEditDisable = false
     tEmail.value.isEditDisable1 = ref('')
@@ -166,57 +167,72 @@ function changeEmail() {
   } else if (!tEmail.value.isEditDisable) {
     //换绑
     tEmail.value.isBtnDisable = true
-    const rs = get(
-      'https://api.locyanfrp.cn/Account/EditEmail?username=' +
-        store.getters.get_username +
-        '&token=' +
-        store.getters.get_token +
-        '&email=' +
-        tEmail.value.email +
-        '&code=' +
+    let rs
+    ldb.start()
+    try {
+      rs = await api.v1.Account.EditEmail(
+        store.getters.get_username,
+        store.getters.get_token,
+        tEmail.value.email,
         tEmail.value.verify.code
-    )
-    rs.then((res) => {
-      if (res.status) {
-        message.success(res.message)
-        tEmail.value.isEditDisable = true
-        tEmail.value.isBtnDisable = false
-        tEmail.value.isEditDisable1 = ref('display:none')
-        tEmail.value.msg = '修改'
-      } else {
-        message.error(res.message)
-        tEmail.value.isEditDisable = true
-        tEmail.value.isBtnDisable = false
-        tEmail.value.isEditDisable1 = ref('display:none')
-        tEmail.value.msg = '修改'
-      }
-    })
+      )
+    } catch (e) {
+      message.error('请求换绑失败: ' + e)
+      tEmail.value.isEditDisable = true
+      tEmail.value.isBtnDisable = false
+      tEmail.value.isEditDisable1 = ref('display:none')
+      tEmail.value.msg = '修改'
+    }
+    if (!rs) {
+      ldb.error()
+      return
+    }
+    if (rs.status) {
+      message.success(rs.data.message)
+      tEmail.value.isEditDisable = true
+      tEmail.value.isBtnDisable = false
+      tEmail.value.isEditDisable1 = ref('display:none')
+      tEmail.value.msg = '修改'
+    } else {
+      message.error(rs.data.message)
+      tEmail.value.isEditDisable = true
+      tEmail.value.isBtnDisable = false
+      tEmail.value.isEditDisable1 = ref('display:none')
+      tEmail.value.msg = '修改'
+    }
+    ldb.finish()
   }
 }
 
-function sendChangeEmailCode() {
+async function sendChangeEmailCode() {
   tEmail.value.verify.isClick = true
   tEmail.value.verify.msg = ref(`正在处理`)
   ldb.start()
-  const rs = get(
-    'https://api.locyanfrp.cn/Account/SendEditMail?username=' +
-      store.getters.get_username +
-      '&token=' +
-      store.getters.get_token +
-      '&email=' +
+  let rs
+  try {
+    rs = await api.v1.Account.SendEditEmail(
+      store.getters.get_username,
+      store.getters.get_token,
       tEmail.value.email
-  )
-  rs.then((res) => {
-    if (res.status) {
-      message.success(res.message)
-      tEmail.value.verify.msg = ref(`已发送`)
-    } else {
-      message.error(res.message)
-      tEmail.value.verify.isClick = false
-      tEmail.value.verify.msg = ref(`发送验证码`)
-    }
-    ldb.finish()
-  })
+    )
+  } catch (e) {
+    message.error('请求邮件验证码失败: ' + e)
+    tEmail.value.verify.isClick = false
+    tEmail.value.verify.msg = ref(`发送验证码`)
+  }
+  if (!rs) {
+    ldb.error()
+    return
+  }
+  if (rs.status) {
+    message.success(rs.data.message)
+    tEmail.value.verify.msg = ref(`已发送`)
+  } else {
+    message.error(rs.data.message)
+    tEmail.value.verify.isClick = false
+    tEmail.value.verify.msg = ref(`发送验证码`)
+  }
+  ldb.finish()
 }
 
 function DoBindQQ() {
@@ -334,7 +350,7 @@ async function exitAllDevices() {
     negativeText: '取消',
     maskClosable: false,
     onPositiveClick: async () => {
-      const rs = await Delete('https://api-v2.locyanfrp.cn/api/v2/users/reset/token/all', data)
+      const rs = await deleteReq('https://api-v2.locyanfrp.cn/api/v2/users/reset/token/all', data)
       if (rs.status === 200) {
         exitAllDevicesLoading.value = false
         sendSuccessMessage('已全部退出')
@@ -353,6 +369,7 @@ async function exitAllDevices() {
 
 <script>
 import { ref } from 'vue'
+import api from '@/api'
 
 const show = ref(false)
 

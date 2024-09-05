@@ -26,9 +26,9 @@
   </n-modal>
 </template>
 <script setup>
-import { get } from '@/utils/request.js'
 import { ref, onMounted } from 'vue'
 import { sendErrorMessage } from './utils/message.js'
+import api from '@/api'
 
 const show = ref(true)
 const file_name = ref('')
@@ -37,13 +37,13 @@ const down_link = ref('')
 onMounted(async () => {
   let rs
   try {
-    rs = await get('https://api.locyanfrp.cn/App/GetCSApp', {})
+    rs = await api.v1.App.GetCSApp()
   } catch (e) {
     sendErrorMessage('获取下载链接失败: ' + e)
   }
   if (!rs) return
-  down_link.value = rs.data.data.url
-  file_name.value = res.data.data.name
+  down_link.value = rs.data.url
+  file_name.value = res.data.name
   show.value = false
 })
 

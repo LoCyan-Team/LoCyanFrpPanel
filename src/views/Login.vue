@@ -58,7 +58,7 @@
 import { ref, onMounted } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
 import { get, getUrlKey, post } from '@/utils/request.js'
-import router from '@/router/index.js'
+import router from '@/router/index'
 import store from '@/utils/stores/store.js'
 import { sendWarningMessage, sendErrorMessage } from '@/utils/message.js'
 import api from '@/api'

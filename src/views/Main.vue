@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import router from '@/router/index.js'
+import router from '@/router/index'
 
 const GoToDocs = () => {
   window.open('https://doc.locyan.cn')

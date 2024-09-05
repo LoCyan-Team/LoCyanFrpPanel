@@ -42,9 +42,7 @@
     </n-grid-item>-->
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
-        <a
-          >您好，尊敬的 <a id="username">{{ username }}</a></a
-        >
+        <span>您好，尊敬的 <a id="username">{{ username }}</a></span>
         <br />
         <a>您的邮箱为：{{ email }}</a>
         <br />

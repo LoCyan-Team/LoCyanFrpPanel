@@ -1,20 +1,19 @@
 import base from '@/api/base'
 import { get } from '@/utils/request'
 
-
 /**
- * 获取通知
+ * 获取公告
  * @returns {
  *   status: int,
  *   data: {
- *      ads: string,
- *      content: string
+ *      url: string,
+ *      name: string,
  *   }
  * }
  */
-const root = async () => {
-    const rs = await get(`${base.api_v1_url}/App`, {})
+const GetCSApp = async () => {
+    const rs = await get(`${base.api_v1_url}/App/GetCSApp`, {})
     return base.buildResponse(rs, false)
 }
 
-export default root
+export default GetCSApp

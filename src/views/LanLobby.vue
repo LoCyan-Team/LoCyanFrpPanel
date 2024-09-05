@@ -202,7 +202,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { get, post, Delete } from '@/utils/request'
+import { get, post, deleteReq } from '@/utils/request'
 import store from '@/utils/stores/store.js'
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog.js'
@@ -373,8 +373,8 @@ function createLobby() {
 }
 
 function deleteLobby(id) {
-  const rs = Delete(
-    'https://api-v2.locyanfrp.cn/api/v2/lan/private/delete?username=' +
+  const rs = deleteReq(
+    'https://api-v2.locyanfrp.cn/api/v2/lan/private/deleteReq?username=' +
       store.getters.get_username +
       '&id=' +
       String(id)

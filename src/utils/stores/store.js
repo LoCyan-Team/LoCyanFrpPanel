@@ -73,6 +73,22 @@ const store = new vuex.Store({
       localStorage.setItem('avatar', userdata.avatar)
       // localStorage.setItem('proxies_num', userdata.proxies_num)
     },
+    set_user_inbound(state, inbound) {
+      state.inbound = inbound
+      localStorage.setItem('inbound', inbound)
+    },
+    set_user_outbound(state, outbound) {
+      state.outbound = outbound
+      localStorage.setItem('outbound', outbound)
+    },
+    set_user_email(state, email) {
+      state.email = email
+      localStorage.setItem('email', email)
+    },
+    set_user_traffic(state, traffic) {
+      state.traffic = traffic
+      localStorage.setItem('traffic', traffic)
+    },
     set_limit(state, limit_info) {
       state.inbound = limit_info.inbound
       state.outbound = limit_info.outbound

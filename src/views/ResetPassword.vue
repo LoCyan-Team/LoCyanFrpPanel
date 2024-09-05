@@ -60,7 +60,7 @@
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
 import { get, getUrlKey } from '@/utils/request.js'
-import router from '@/router/index.js'
+import router from '@/router/index'
 
 const formRef = ref(null)
 const message = useMessage()

@@ -4,7 +4,7 @@ import axios from 'axios'
 import QS from 'qs'
 // vuex
 import store from './stores/store.js'
-import router from '@/router/index.js'
+import router from '@/router/index'
 import Base64 from 'qs/lib/utils.js'
 import { logout } from './profile.js'
 import { sendErrorMessage } from './message'
@@ -121,7 +121,7 @@ export async function post(url, params, headers = {}) {
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export async function Delete(url, params) {
+export async function deleteReq(url, params) {
   return await instance.delete(url, {
     params: params
   })

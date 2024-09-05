@@ -51,7 +51,7 @@
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
 import { post } from '@/utils/request.js'
-import router from '@/router/index.js'
+import router from '@/router/index'
 
 const refkey = 0
 const formRef = ref(null)

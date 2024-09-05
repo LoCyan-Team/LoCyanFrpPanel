@@ -76,7 +76,10 @@ setInterval(async () => {
     if (!rs) return
     if (rs.status === 200) {
       // console.log(rs)
-      store.commit('set_user_info', rs.data)
+      store.commit('set_user_email', rs.data.email)
+      store.commit('set_user_inbound', rs.data.inbound)
+      store.commit('set_user_outbound', rs.data.inbound)
+      store.commit('set_user_traffic', rs.data.traffic)
       // localStorage.setItem('proxies', res.proxies_num)
       // localStorage.setItem('traffic', res.traffic)
       // localStorage.setItem('set_limit', res)
