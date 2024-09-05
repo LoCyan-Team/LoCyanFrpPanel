@@ -160,10 +160,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog'
-import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar'
-import { get, post } from '../utils/request.js'
-import store from '../utils/stores/store.js'
+import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog'
+import { FinishLoadingBar, StartLoadingBar } from '@/utils/loadingbar'
+import { get, post } from '@/utils/request.js'
+import store from '@/utils/stores/store.js'
 
 const loading = ref(true)
 const showRealnameModal = ref(true)
@@ -307,7 +307,7 @@ function realPersonPay() {
   )
   rs.then((res) => {
     if (res.status === 200) {
-      window.open(res.data.url);
+      window.open(res.data.url)
     }
   })
 }

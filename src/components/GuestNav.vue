@@ -38,11 +38,11 @@
 </template>
 
 <script setup>
-import { h, ref } from 'vue'
+import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
 import GuestSideBar from './GuestSideBar.vue'
-import router from '../router/index'
-import { get } from '../utils/request.js'
+import router from '@/router/index'
+import { get } from '@/utils/request.js'
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)
@@ -50,19 +50,27 @@ if (document.body.clientWidth >= 1000) {
   collapsed.value = false
 }
 
-const hitokoto_content_rs = get('https://v1.hitokoto.cn/', [])
 const hitokoto_content = ref('')
-hitokoto_content_rs.then((res) => {
-  let content = res.hitokoto
-  let from = res.from
-  hitokoto_content.value = content + ' —— ' + from
-})
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 
 const inverted = false
+
+onMounted(async () => {
+  let rs
+  try {
+    rs = await get('https://v1.hitokoto.cn/', {})
+  } catch {
+    hitokoto_content.value = '加载失败'
+  }
+  if (!rs) return
+  // 一言
+  let content = rs.data.hitokoto
+  let from = rs.data.from
+  hitokoto_content.value = content + ' —— ' + from
+})
 </script>
 <script>
 import { ref } from 'vue'

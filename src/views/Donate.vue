@@ -56,7 +56,7 @@
       >
       <br />
       <br />
-      <n-button @click="DoDonate" :loading="loading_donate"> 赞助</n-button>
+      <n-button @click="doDonate" :loading="loading_donate"> 赞助</n-button>
     </n-grid-item>
     <n-grid-item span="1" v-show="ShowMessageLabel">
       <n-form
@@ -127,9 +127,9 @@
 
 <script setup>
 import { ref } from 'vue'
-import { get, getUrlKey, post } from '../utils/request.js'
-import store from '../utils/stores/store.js'
-import { SendSuccessDialog, SendWarningDialog } from '../utils/dialog.js'
+import { get, getUrlKey, post } from '@/utils/request.js'
+import store from '@/utils/stores/store.js'
+import { SendSuccessDialog, SendWarningDialog } from '@/utils/dialog.js'
 
 // 页面元素初始化
 const amount = ref('0.01')
@@ -230,7 +230,7 @@ const submit = () => {
   })
 }
 
-const DoDonate = () => {
+const doDonate = () => {
   loading_donate.value = true
   if (pay_type.value === '' || pay_type.value === null) {
     SendWarningDialog('请选择支付方式')

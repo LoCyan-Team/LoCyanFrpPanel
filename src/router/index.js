@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar.js'
-import store from '../utils/stores/store.js'
-import { ChangeShowSideBar_Main } from '../components/MainNav.vue'
+import { FinishLoadingBar, StartLoadingBar } from '@/utils/loadingbar.js'
+import store from '@/utils/stores/store.js'
+import { changeMainSideBarShow } from '../components/MainNav.vue'
 import { ChangeShowSideBar_Guest } from '../components/GuestNav.vue'
 import { SetSideBarActiveKey } from '../components/MainSideBar.vue'
 import { SetSideBarActiveKey_Guest } from '../components/GuestSideBar.vue'
@@ -230,23 +230,23 @@ router.afterEach((to) => {
 
   switch (to.name) {
     case 'MainPage':
-      ChangeShowSideBar_Main(false)
+      changeMainSideBarShow(false)
       ChangeShowSideBar_Guest(false)
       break
     case 'Login':
-      ChangeShowSideBar_Main(false)
+      changeMainSideBarShow(false)
       ChangeShowSideBar_Guest(true)
       break
     case 'Register':
-      ChangeShowSideBar_Main(false)
+      changeMainSideBarShow(false)
       ChangeShowSideBar_Guest(true)
       break
     case 'ResetPassword':
-      ChangeShowSideBar_Main(false)
+      changeMainSideBarShow(false)
       ChangeShowSideBar_Guest(true)
       break
     default:
-      ChangeShowSideBar_Main(true)
+      changeMainSideBarShow(true)
       ChangeShowSideBar_Guest(false)
   }
 

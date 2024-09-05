@@ -55,14 +55,15 @@ const store = new vuex.Store({
     },
     // 可选
     set_user_info(state, userdata) {
+      console.log(userdata)
       state.username = userdata.username
       state.email = userdata.email
-      state.frptoken = userdata.frp_token ?? userdata.token
+      state.frptoken = userdata.frp_token
       state.inbound = userdata.inbound
       state.outbound = userdata.outbound
       state.avatar = userdata.avatar
       state.traffic = userdata.traffic
-      state.proxies_num = userdata.proxies_num
+      // state.proxies_num = userdata.proxies_num
       localStorage.setItem('username', userdata.username)
       localStorage.setItem('email', userdata.email)
       localStorage.setItem('traffic', userdata.traffic)
@@ -70,7 +71,7 @@ const store = new vuex.Store({
       localStorage.setItem('inbound', userdata.inbound)
       localStorage.setItem('outbound', userdata.outbound)
       localStorage.setItem('avatar', userdata.avatar)
-      localStorage.setItem('proxies_num', userdata.proxies_num)
+      // localStorage.setItem('proxies_num', userdata.proxies_num)
     },
     set_limit(state, limit_info) {
       state.inbound = limit_info.inbound
@@ -98,7 +99,7 @@ const store = new vuex.Store({
     setFrpToken(state, frptoken) {
       state.frptoken = frptoken
       localStorage.setItem('frptoken', frptoken)
-    },
+    }
   },
 
   actions: {

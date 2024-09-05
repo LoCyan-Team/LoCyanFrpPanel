@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import path from "path";
 import GitRevisionVitePlugin from 'git-revision-vite-plugin';
 import cssnanoPlugin from "cssnano";
 import autoprefixer from "autoprefixer";
@@ -40,6 +41,11 @@ export default defineConfig({
                 autoprefixer()
             ]
         }
+    },
+    resolve: {
+        alias: {
+            "@": path.resolve("./src"), // @代替src
+        },
     },
     build: {
         rollupOptions: {

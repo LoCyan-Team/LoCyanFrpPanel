@@ -202,10 +202,10 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { get, post, Delete } from '../utils/request'
-import store from '../utils/stores/store.js'
-import { sendErrorMessage, sendSuccessMessage } from '../utils/message'
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog.js'
+import { get, post, Delete } from '@/utils/request'
+import store from '@/utils/stores/store.js'
+import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
+import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog.js'
 
 const bodyStyle = {
   width: '600px'

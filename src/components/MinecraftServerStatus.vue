@@ -15,7 +15,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { get } from '../utils/request'
+import { get } from '@/utils/request'
 
 export default defineComponent({
   name: 'MinecraftServerStatus',

@@ -3,8 +3,16 @@
     <i class="twa twa-compass"></i>
     <n-text type="primary"> 仪表盘</n-text>
   </n-h1>
-  <n-modal v-model:show="showads" class="custom-card" preset="card" style="width: 600px" title="通知" size="huge"
-    :bordered="false" :segmented="{ content: 'soft', footer: 'soft' }">
+  <n-modal
+    v-model:show="showads"
+    class="custom-card"
+    preset="card"
+    style="width: 600px"
+    title="通知"
+    size="huge"
+    :bordered="false"
+    :segmented="{ content: 'soft', footer: 'soft' }"
+  >
     <n-p v-html="ads_content"></n-p>
   </n-modal>
   <template v-if="notice.contents">
@@ -12,7 +20,7 @@
       <template #icon>
         <i class="twa twa-hibiscus"></i>
       </template>
-      欢迎来到 LoCyanFrp 新后台!
+      指挥官，您好!
       <br />
       <i class="twa twa-bell"></i> 通知：{{ notice.contents }}
     </n-alert>
@@ -34,14 +42,16 @@
     </n-grid-item>-->
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
-        <a>您好，尊敬的 <a id="username">{{ username }}</a></a>
+        <a
+          >您好，尊敬的 <a id="username">{{ username }}</a></a
+        >
         <br />
         <a>您的邮箱为：{{ email }}</a>
         <br />
         访问密钥：
         <br />
         <div>
-          <div v-if="DontShowFrptoken">
+          <div v-if="notShowFrpToken">
             <n-tag type="info" @click="changeShowFrptoken($event)">
               <template #icon>
                 <n-icon :component="Key" />
@@ -65,7 +75,10 @@
       <n-card title="赞助商广告" size="large">
         <n-space>
           <a href="https://spcraft.cn" target="_blank">
-            <img style="width: 100%" src="https://apac-cloudflare-r2.img.1l1.icu/2024/07/03/6685745b965eb.webp" />
+            <img
+              style="width: 100%"
+              src="https://apac-cloudflare-r2.img.1l1.icu/2024/07/03/6685745b965eb.webp"
+            />
           </a>
         </n-space>
       </n-card>
@@ -77,7 +90,7 @@
             <template #suffix> GiB</template>
           </n-statistic>
           <n-statistic label="隧道数" tabular-nums>
-            <n-number-animation ref="ProxiesRef" :from="0" :to="Proxiesanimation" />
+            <n-number-animation ref="proxiesRef" :from="0" :to="Proxiesanimation" />
             <template #suffix> 条</template>
           </n-statistic>
           <n-statistic label="速度限制" tabular-nums>
@@ -86,12 +99,17 @@
         </n-space>
         <!-- API: https://api-v2.locyanfrp.cn/api/v2/users/reset/traffic -->
         <!-- 需要传入Params: username -->
-        <a>流量太多, 用不完?</a><n-button @click="resetTraffic" style="margin-left: 20px;margin-top: 10px;">重置流量</n-button>
+        <a>流量太多, 用不完?</a
+        ><n-button @click="resetTraffic" style="margin-left: 20px; margin-top: 10px"
+          >重置流量</n-button
+        >
       </n-card>
       <br />
       <n-alert title="关于高级功能" type="info">
         若需要 Frp 的高级功能, 你可以配置隧道后前往此处下载纯净版 Frp ：
-        <a href="https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases" target="_blank">点击前往</a>，<br />
+        <a href="https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases" target="_blank"
+          >点击前往</a
+        >，<br />
         下载适合自己系统架构的软件，随后即可自行配置。<br />
         注意：萌新使用此方法导致不会用的后果自行承担！<br />
       </n-alert>
@@ -127,7 +145,10 @@
       <n-card title="使用方法">
         <n-space vertical>
           <n-steps vertical :current="8">
-            <n-step title="创建隧道" description="点击隧道操作中的创建隧道，填写自己隧道的相应信息" />
+            <n-step
+              title="创建隧道"
+              description="点击隧道操作中的创建隧道，填写自己隧道的相应信息"
+            />
             <n-step title="软件下载" description="点击软件下载,下载最新版本" />
             <n-step title="启动客户端" description="启动客户端，登录自己的账号" />
             <n-step title="安装Frpc" description="前往 设置->FRPC->安装Frpc" />
@@ -144,14 +165,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import clipboard from '../utils/clipboard'
-import { get } from '../utils/request'
+import { ref, onMounted } from 'vue'
+import clipboard from '@/utils/clipboard'
+import { get } from '@/utils/request'
 import { AngleRight, Key } from '@vicons/fa'
-import store from '../utils/stores/store'
+import store from '@/utils/stores/store'
 import { marked } from 'marked'
-import { useDialog, useMessage } from "naive-ui";
-import { StartLoadingBar } from '../utils/loadingbar'
+import { useDialog, useMessage } from 'naive-ui'
+import { StartLoadingBar } from '@/utils/loadingbar'
+import { sendWarningMessage, sendErrorMessage } from '@/utils/message.js'
+import api from '@/api'
 
 localStorage.setItem('ViewPage', 'personality')
 const username = store.getters.get_username
@@ -160,16 +183,25 @@ const inbound = ref(store.getters.get_in_bound + 'Mbps 下行')
 const outbound = ref(store.getters.get_out_bound + 'Mbps 上行')
 const frptoken = ref(store.getters.get_frp_token)
 const notice = ref('')
-const ProxiesRef = ref(null)
-const DontShowFrptoken = ref(true)
+const proxiesRef = ref(null)
+const notShowFrpToken = ref(true)
 const showads = ref(false)
 const ads_content = ref('')
-const dialog = useDialog();
-const message = useMessage();
+const dialog = useDialog()
+const message = useMessage()
 
-const notice_res = get('https://api.locyanfrp.cn/App', [])
-notice_res.then((res) => {
-  notice.value = res
+// 通知 or AD
+onMounted(async () => {
+  // console.log('Rquest ads')
+  let res;
+  try {
+    res = await api.v1.App.root
+  } catch (e) {
+    sendErrorMessage('获取 Ads 失败: ' + e)
+  }
+  // console.log(res)
+  if (!res) return;
+  notice.value = res.data
   if (notice.value.ads !== '') {
     ads_content.value =
       marked(notice.value.ads) +
@@ -184,27 +216,18 @@ notice_res.then((res) => {
   }
 })
 
-async function changeShowFrptoken(event) {
-  DontShowFrptoken.value = !DontShowFrptoken.value
-  clipboard(frptoken.value, event)
-  setTimeout(() => {
-    DontShowFrptoken.value = !DontShowFrptoken.value
-  }, 3000)
-}
-
-const traffic = ref(Number(localStorage.getItem('traffic')) / 1024 + 'GB')
-const Proxiesanimation = ref(
-  Number(store.getters.get_proxies_num || localStorage.getItem('proxies_num'))
-)
-const TrafficRef = ref(null)
-const boardcast_html = ref('')
-const boardcast_show = ref(true)
 // 公告
-const boardcast_request = get('https://api.locyanfrp.cn/App/GetBroadCast', [])
-boardcast_request.then((res) => {
-  if (res.status === true) {
+onMounted(async () => {
+  let res;
+  try {
+    res = await api.v1.App.GetBroadCast
+  } catch (e) {
+    sendErrorMessage('获取 Broadcast 信息失败: ' + e)
+  }
+  if (!res) return
+  if (res.data.status === true) {
     boardcast_html.value =
-      marked(res.broadcast) +
+      marked(res.data.broadcast) +
       '<style>\n' +
       '[href^="https"], [href^="http"]{\n' +
       '  color: #63E2B7;\n' +
@@ -218,6 +241,22 @@ boardcast_request.then((res) => {
     boardcast_show.value = false
   }
 })
+
+async function changeShowFrptoken(event) {
+  notShowFrpToken.value = !notShowFrpToken.value
+  clipboard(frptoken.value, event)
+  setTimeout(() => {
+    notShowFrpToken.value = !notShowFrpToken.value
+  }, 3000)
+}
+
+const traffic = ref(Number(localStorage.getItem('traffic')) / 1024 + 'GB')
+const Proxiesanimation = ref(
+  Number(store.getters.get_proxies_num || localStorage.getItem('proxies_num'))
+)
+const TrafficRef = ref(null)
+const boardcast_html = ref('')
+const boardcast_show = ref(true)
 
 function howtosayhi() {
   const currentHour = new Date().getHours()
@@ -267,13 +306,13 @@ async function resetTraffic() {
     onPositiveClick: async () => {
       StartLoadingBar()
       const data = {
-        "username": store.getters.get_username
-      };
-      const rs = await get("https://api-v2.locyanfrp.cn/api/v2/users/reset/traffic", data);
+        username: store.getters.get_username
+      }
+      const rs = await get('https://api-v2.locyanfrp.cn/api/v2/users/reset/traffic', data)
       if (rs.status === 200) {
-        message.success("重置成功!");
+        message.success('重置成功!')
       } else {
-        message.success("重置失败, API 返回: " + rs.data.msg);
+        message.success('重置失败, API 返回: ' + rs.data.msg)
       }
       FinishLoadingBar()
     }

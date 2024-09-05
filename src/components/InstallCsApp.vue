@@ -17,7 +17,7 @@
             下载链接: {{ down_link }}
             <br />
             <br />
-            <n-button type="success" @click="StartDownloading()">点击下载</n-button>
+            <n-button type="success" @click="startDownload()">点击下载</n-button>
           </div>
           <template #description> 正在获取下载地址 </template>
         </n-spin>
@@ -26,25 +26,28 @@
   </n-modal>
 </template>
 <script setup>
-import { get } from '../utils/request.js'
-import { ref } from 'vue'
+import { get } from '@/utils/request.js'
+import { ref, onMounted } from 'vue'
+import { sendErrorMessage } from './utils/message.js'
 
 const show = ref(true)
 const file_name = ref('')
 const down_link = ref('')
 
-function GetCsApp() {
-  const rs = get('https://api.locyanfrp.cn/App/GetCSApp', [])
-  rs.then((res) => {
-    down_link.value = res.url
-    file_name.value = res.name
-  })
+onMounted(async () => {
+  let rs
+  try {
+    rs = await get('https://api.locyanfrp.cn/App/GetCSApp', {})
+  } catch (e) {
+    sendErrorMessage('获取下载链接失败: ' + e)
+  }
+  if (!rs) return
+  down_link.value = rs.data.data.url
+  file_name.value = res.data.data.name
   show.value = false
-}
+})
 
-function StartDownloading() {
+function startDownload() {
   window.open(down_link.value)
 }
-
-GetCsApp()
 </script>

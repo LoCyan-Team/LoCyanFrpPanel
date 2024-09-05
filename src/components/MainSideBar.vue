@@ -211,7 +211,7 @@ const inverted = false
 </script>
 <script>
 import { ref } from 'vue'
-import router from '../router/index.js'
+import router from '@/router/index.js'
 
 const active = ref('')
 const menuInstRef = ref(null)

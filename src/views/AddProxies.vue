@@ -88,10 +88,10 @@ n-input {
 </style>
 <script setup>
 import { ref } from 'vue'
-import store from '../utils/stores/store.js'
-import { get, post } from '../utils/request.js'
-import { sendErrorMessage } from '../utils/message'
-import { SendErrorDialog, SendSuccessDialog } from '../utils/dialog.js'
+import store from '@/utils/stores/store.js'
+import { get, post } from '@/utils/request.js'
+import { sendErrorMessage } from '@/utils/message'
+import { SendErrorDialog, SendSuccessDialog } from '@/utils/dialog.js'
 
 localStorage.setItem('ViewPage', 'add_proxy')
 // 选择框数据

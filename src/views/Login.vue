@@ -57,9 +57,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { get, getUrlKey, post } from '../utils/request.js'
-import router from '../router/index.js'
-import store from '../utils/stores/store.js'
+import { get, getUrlKey, post } from '@/utils/request.js'
+import router from '@/router/index.js'
+import store from '@/utils/stores/store.js'
+import { sendWarningMessage, sendErrorMessage } from '@/utils/message.js'
 
 const formRef = ref(null)
 const message = useMessage()
@@ -92,6 +93,7 @@ if (code !== null) {
     if (res.status === 200) {
       message.success(res.data.username + '，欢迎回来！')
       store.commit('set_token', res.data.token)
+      console.log(res.data)
       store.commit('set_user_info', res.data)
       router.push(redirect || '/dashboard')
     }
@@ -123,7 +125,7 @@ function oauthlogin() {
     '/login'
 }
 
-function login() {
+async function login() {
   ldb.start()
   if (
     model.value.username === null ||
@@ -135,19 +137,27 @@ function login() {
     ldb.error()
     return
   }
-  const rs = post('https://api-v2.locyanfrp.cn/api/v2/users/login', model.value)
-  rs.then((res) => {
-    if (res.status === 200) {
-      message.success(model.value.username + '，欢迎回来！')
-      store.commit('set_token', res.data.token)
-      store.commit('set_user_info', res.data)
-      router.push(redirect || '/dashboard')
-      ldb.finish()
-    } else {
-      message.warning(res.data.msg)
-      ldb.error()
-    }
-  })
+  let res
+  try {
+    res = await post('https://api-v2.locyanfrp.cn/api/v2/users/login', model.value)
+  } catch (e) {
+    sendErrorMessage('请求失败: ' + e)
+  }
+  if (!res) {
+    ldb.error()
+    return
+  }
+  if (res.status === 200) {
+    message.success(model.value.username + '，欢迎回来！')
+    store.commit('set_token', res.data.data.token)
+    console.log(res.data)
+    store.commit('set_user_info', res.data.data)
+    router.push(redirect || '/dashboard')
+    ldb.finish()
+  } else {
+    message.warning(res.data.data.msg)
+    ldb.error()
+  }
 }
 
 function qqlogin() {

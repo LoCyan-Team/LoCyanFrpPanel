@@ -242,11 +242,11 @@
 <script setup>
 import { ref } from 'vue'
 import { useDialog } from 'naive-ui'
-import clipboard from '../utils/clipboard'
-import store from '../utils/stores/store.js'
-import { get, post } from '../utils/request.js'
-import { sendErrorMessage, sendSuccessMessage } from '../utils/message'
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog.js'
+import clipboard from '@/utils/clipboard'
+import store from '@/utils/stores/store.js'
+import { get, post } from '@/utils/request.js'
+import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
+import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog.js'
 import downloadSoftPage from '../components/InstallCsApp.vue'
 
 const show = ref(true)
@@ -301,7 +301,8 @@ function makeLinkAddr(id) {
 function LaunchProxyThroughApplication(id) {
   dialog.success({
     title: '通知',
-    content: '该功能需要配合 C# 客户端或开发者预览版 NyaLCF 使用! \n 使用过程中千万不要直接关掉窗口, 请按组合键 Ctrl + C',
+    content:
+      '该功能需要配合 C# 客户端或开发者预览版 NyaLCF 使用! \n 使用过程中千万不要直接关掉窗口, 请按组合键 Ctrl + C',
     positiveText: '已经安装好了',
     negativeText: '没安装...',
     onPositiveClick: () => {

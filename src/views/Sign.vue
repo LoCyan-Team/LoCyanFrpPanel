@@ -93,10 +93,10 @@
 <script setup>
 import { ref } from 'vue'
 import { NButton, NCard, NGrid, NGridItem, NH1, NSkeleton, NSpace, NText } from 'naive-ui'
-import { post } from '../utils/request.js'
-import { sendErrorMessage } from '../utils/message'
-import { SendSuccessDialog } from '../utils/dialog.js'
-import store from '../utils/stores/store.js'
+import { post } from '@/utils/request.js'
+import { sendErrorMessage } from '@/utils/message'
+import { SendSuccessDialog } from '@/utils/dialog.js'
+import store from '@/utils/stores/store.js'
 
 const status = ref('')
 

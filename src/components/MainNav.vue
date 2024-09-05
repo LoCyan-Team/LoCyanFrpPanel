@@ -1,7 +1,7 @@
 <template>
   <UserInfo />
   <n-space vertical>
-    <n-layout style="height: 100vh;">
+    <n-layout style="height: 100vh">
       <n-layout-header :inverted="inverted" bordered>
         <n-space justify="space-between">
           <n-gradient-text
@@ -54,19 +54,19 @@
               </n-alert>
               <br />
               <br />
-              <a style="text-align: center">
+              <span style="text-align: center">
                 <a target="_blank" href="https://内网穿透.中国/">
                   <n-button text> 内网穿透联盟[CFU] </n-button>
                 </a>
                 识别码:
                 <b>JRXHB5D4</b>
-              </a>
+              </span>
               <br />
-              <a style="text-align: center">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</a>
+              <span style="text-align: center">Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</span>
               <br />
-              <a style="text-align: center">特别鸣谢: 夏沫花火zzz🌙, 天宇网络, LiteCat</a>
+              <span style="text-align: center">特别鸣谢: 夏沫花火zzz🌙, 天宇网络, LiteCat</span>
               <br />
-              <a style="text-align: center"
+              <span style="text-align: center"
                 >LoCyanTeam 所有 |
                 <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel">
                   <n-button text style="transform: translateY(4.5px)">
@@ -78,7 +78,7 @@
                     {{ gitHash }}
                   </n-button>
                 </a>
-              </a>
+              </span>
               <br />
               <!--
               <template>
@@ -101,13 +101,13 @@
 </template>
 
 <script setup>
-import { h, ref } from 'vue'
+import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
 import SideBar from './MainSideBar.vue'
-import store from '../utils/stores/store.js'
-import router from '../router/index'
-import UserInfo, { ChangeUserInfoShow } from './UserInfo.vue'
-import { get } from '../utils/request.js'
+import store from '@/utils/stores/store.js'
+import router from '@/router/index'
+import UserInfo, { changeUserInfoShow } from './UserInfo.vue'
+import { get } from '@/utils/request.js'
 import { GitAlt } from '@vicons/fa'
 
 const gitHash = GIT_COMMITHASH
@@ -116,14 +116,7 @@ const gitHash = GIT_COMMITHASH
 const collapsed = ref(true)
 const avatar = ref('')
 const inverted = false
-const hitokoto_content_rs = get('https://v1.hitokoto.cn/', [])
 const hitokoto_content = ref('')
-// 一言
-hitokoto_content_rs.then((res) => {
-  let content = res.hitokoto
-  let from = res.from
-  hitokoto_content.value = content + ' —— ' + from
-})
 
 if (document.body.clientWidth >= 1000) {
   collapsed.value = false
@@ -131,10 +124,10 @@ if (document.body.clientWidth >= 1000) {
 avatar.value = store.getters.get_avatar
 
 // 刚进入面板不展示用户信息框
-ChangeUserInfoShow(false)
+changeUserInfoShow(false)
 
 function DoShowUserInfo() {
-  ChangeUserInfoShow(true)
+  changeUserInfoShow(true)
 }
 
 function renderIcon(icon) {
@@ -148,16 +141,32 @@ function getStyle() {
 }
 
 if (location.pathname === '/') window.location = '/dashboard'
+
+onMounted(async () => {
+  let rs
+  try {
+    rs = await get('https://v1.hitokoto.cn/', {})
+  } catch {
+    hitokoto_content.value = '加载失败'
+  }
+  if (!rs) return
+  // 一言
+  let content = rs.data.data.hitokoto
+  let from = rs.data.data.from
+  hitokoto_content.value = content + ' —— ' + from
+})
 </script>
+
 <script>
 import { ref } from 'vue'
 
 export const ShowSideBar = ref(false)
 
-export function ChangeShowSideBar_Main(is_show) {
+export function changeMainSideBarShow(is_show) {
   ShowSideBar.value = is_show
 }
 </script>
+
 <style>
 .fade-enter-active,
 .fade-leave-active {
