@@ -10,7 +10,14 @@
           <n-space justify="space-between">
             <p>通过签到你可以获得更多流量</p>
             <n-button v-if="status" round @click="doSign" dashed> 已签到 </n-button>
-            <n-button v-if="!status" v-bind:disabled="loading" strong secondary type="success" @click="doSign">
+            <n-button
+              v-if="!status"
+              v-bind:disabled="loading"
+              strong
+              secondary
+              type="success"
+              @click="doSign"
+            >
               签到
             </n-button>
           </n-space>

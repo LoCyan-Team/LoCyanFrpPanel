@@ -23,6 +23,10 @@
       指挥官，您好!
       <br />
       <i class="twa twa-bell"></i> 通知：{{ notice.contents }}
+      <br />
+      <n-button @click="showAds">
+        查看全部
+      </n-button>
     </n-alert>
   </template>
   <template v-else>
@@ -190,6 +194,10 @@ const ads_content = ref('')
 const dialog = useDialog()
 const message = useMessage()
 
+function showAds() {
+  showads.value = true
+} 
+
 // 通知 or AD
 onMounted(async () => {
   // console.log('Rquest ads')
@@ -212,7 +220,7 @@ onMounted(async () => {
       '  padding: 2px;' +
       '}' +
       '</style>'
-    showads.value = true
+      showAds()
   }
 })
 

@@ -9,7 +9,7 @@ const EditEmail = async (username: string, token: string, email: string, code: s
     email: email,
     code: code
   })
-  return base.buildResponse(rs)
+  return base.buildResponse(rs, false)
 }
 
 export default EditEmail

@@ -50,7 +50,7 @@ if (document.body.clientWidth >= 1000) {
   collapsed.value = false
 }
 
-const hitokoto_content = ref('')
+const hitokoto_content = ref('Loading')
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
@@ -62,10 +62,13 @@ onMounted(async () => {
   let rs
   try {
     rs = await get('https://v1.hitokoto.cn/', {})
-  } catch {
+  } catch (e) {
     hitokoto_content.value = '加载失败'
   }
-  if (!rs) return
+  if (!rs) {
+    hitokoto_content.value = '加载失败'
+    return
+  }
   // 一言
   let content = rs.data.hitokoto
   let from = rs.data.from

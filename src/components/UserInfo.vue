@@ -209,7 +209,7 @@ async function sendChangeEmailCode() {
   ldb.start()
   let rs
   try {
-    rs = await api.v1.Account.SendEditEmail(
+    rs = await api.v1.Account.SendEditMail(
       store.getters.get_username,
       store.getters.get_token,
       tEmail.value.email

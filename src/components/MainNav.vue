@@ -118,7 +118,7 @@ const gitHash = GIT_COMMITHASH
 const collapsed = ref(true)
 const avatar = ref('')
 const inverted = false
-const hitokoto_content = ref('')
+const hitokoto_content = ref('Loading')
 
 if (document.body.clientWidth >= 1000) {
   collapsed.value = false
@@ -148,13 +148,16 @@ onMounted(async () => {
   let rs
   try {
     rs = await get('https://v1.hitokoto.cn/', {})
-  } catch {
+  } catch (e) {
     hitokoto_content.value = '加载失败'
   }
-  if (!rs) return
+  if (!rs) {
+    hitokoto_content.value = '加载失败'
+    return
+  }
   // 一言
-  let content = rs.data.data.hitokoto
-  let from = rs.data.data.from
+  let content = rs.data.hitokoto
+  let from = rs.data.from
   hitokoto_content.value = content + ' —— ' + from
 })
 </script>

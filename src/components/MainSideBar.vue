@@ -34,9 +34,7 @@ import {
   BookOutline as BookIcon,
   CloudDownloadOutline,
   FileTrayFull,
-  InformationCircleOutline,
   List,
-  Flash,
   PaperPlane,
   PencilSharp,
   Person,
@@ -123,12 +121,6 @@ const menuOptions = [
       }
     ]
   },
-  // {
-  //   path: "/xmnetwork/bore",
-  //   label: "Bore 穿透",
-  //   key: "XMNWC-Bore",
-  //   icon: renderIcon(Flash),
-  // },
   // {
   //   path: '/lan',
   //   label: '联机大厅',
