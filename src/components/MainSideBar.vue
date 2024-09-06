@@ -102,7 +102,7 @@ const menuOptions = [
     icon: renderIcon(PaperPlane),
     children: [
       {
-        path: '/proxies/addproxies',
+        path: '/proxies/add',
         label: '添加隧道',
         key: 'AddProxies',
         icon: renderIcon(Add)

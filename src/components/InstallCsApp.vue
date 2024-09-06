@@ -43,7 +43,7 @@ onMounted(async () => {
   }
   if (!rs) return
   down_link.value = rs.data.url
-  file_name.value = res.data.name
+  file_name.value = rs.data.name
   show.value = false
 })
 

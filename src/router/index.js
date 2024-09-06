@@ -74,7 +74,7 @@ const routes = [
         component: () => import('../views/Proxies.vue')
       },
       {
-        path: '/proxies/addproxies',
+        path: '/proxies/add',
         name: 'AddProxies',
         meta: {
           keepAlive: true,
