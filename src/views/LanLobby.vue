@@ -203,9 +203,9 @@
 <script setup>
 import { ref } from 'vue'
 import { get, post, deleteReq } from '@/utils/request'
-import store from '@/utils/stores/store.js'
+import store from '@/utils/stores/store
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog.js'
+import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog
 
 const bodyStyle = {
   width: '600px'

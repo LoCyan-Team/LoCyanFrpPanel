@@ -104,10 +104,10 @@
 import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
 import SideBar from './MainSideBar.vue'
-import store from '@/utils/stores/store.js'
+import store from '@/utils/stores/store'
 import router from '@/router/index'
 import UserInfo, { changeUserInfoShow } from './UserInfo.vue'
-import { get } from '@/utils/request.js'
+import { get } from '@/utils/request'
 import { GitAlt } from '@vicons/fa'
 
 const gitHash = GIT_COMMITHASH

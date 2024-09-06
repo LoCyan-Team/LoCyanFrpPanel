@@ -171,7 +171,7 @@ import store from '@/utils/stores/store'
 import { marked } from 'marked'
 import { useDialog, useMessage } from 'naive-ui'
 import { StartLoadingBar } from '@/utils/loadingbar'
-import { sendWarningMessage, sendErrorMessage } from '@/utils/message.js'
+import { sendWarningMessage, sendErrorMessage } from '@/utils/message'
 import api from '@/api'
 
 localStorage.setItem('ViewPage', 'personality')

@@ -42,7 +42,7 @@ import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
 import GuestSideBar from './GuestSideBar.vue'
 import router from '@/router/index'
-import { get } from '@/utils/request.js'
+import { get } from '@/utils/request'
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)

@@ -3,11 +3,11 @@ import axios from 'axios'
 // 序列化
 import QS from 'qs'
 // vuex
-import store from './stores/store.js'
+import store from './stores/store'
 import router from '@/router/index'
-import Base64 from 'qs/lib/utils.js'
-import { logout } from './profile.js'
-import { sendErrorMessage } from './message'
+import Base64 from 'qs/lib/utils'
+// import { logout } from './profile'
+// import { sendErrorMessage } from './message'
 
 //这一步的目的是判断出当前是开发环境还是生成环境，方法不止一种，达到目的就行
 // if(process.env.NODE_ENV=="development"){

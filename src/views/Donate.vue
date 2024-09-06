@@ -127,9 +127,9 @@
 
 <script setup>
 import { ref } from 'vue'
-import { get, getUrlKey, post } from '@/utils/request.js'
-import store from '@/utils/stores/store.js'
-import { SendSuccessDialog, SendWarningDialog } from '@/utils/dialog.js'
+import { get, getUrlKey, post } from '@/utils/request'
+import store from '@/utils/stores/store'
+import { SendSuccessDialog, SendWarningDialog } from '@/utils/dialog'
 
 // 页面元素初始化
 const amount = ref('0.01')

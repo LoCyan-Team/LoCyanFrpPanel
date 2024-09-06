@@ -90,9 +90,9 @@
 </template>
 
 <script setup>
-import { logout } from '@/utils/profile.js'
-import store from '@/utils/stores/store.js'
-import { sendSuccessMessage } from '@/utils/message.js'
+import { logout } from '@/utils/profile'
+import store from '@/utils/stores/store'
+import { sendSuccessMessage } from '@/utils/message'
 import { onMounted, ref } from 'vue'
 import { useDialog } from 'naive-ui'
 

@@ -27,7 +27,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue'
-import { sendErrorMessage } from './utils/message.js'
+import { sendErrorMessage } from '@/utils/message'
 import api from '@/api'
 
 const show = ref(true)

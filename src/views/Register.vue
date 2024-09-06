@@ -50,7 +50,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { post } from '@/utils/request.js'
+import { post } from '@/utils/request
 import router from '@/router/index'
 
 const refkey = 0

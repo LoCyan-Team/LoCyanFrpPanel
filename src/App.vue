@@ -32,15 +32,15 @@ import MainNav from './components/MainNav.vue'
 import GuestNav from './components/GuestNav.vue'
 import Notification from './components/Notification.vue'
 import { computed } from 'vue'
-import store from './utils/stores/store.js'
+import store from '@/utils/stores/store'
 import hljs from 'highlight.js/lib/core'
 import ini from 'highlight.js/lib/languages/ini'
 import nginx from 'highlight.js/lib/languages/nginx'
 import api from '@/api'
-import { sendWarningMessage, sendErrorMessage } from './utils/message.js'
-import { logout } from './utils/profile.js'
-// import { init_ws, SetOnMessageFunction } from "./utils/websocket.js";
-import { sendInfoNotification } from './utils/notification.js'
+import { sendWarningMessage, sendErrorMessage } from '@/utils/message'
+import { logout } from '@/utils/profile'
+// import { init_ws, SetOnMessageFunction } from "@/utils/websocket.js";
+import { sendInfoNotification } from '@/utils/notification'
 
 const osThemeRef = useOsTheme()
 const theme = computed(() => (osThemeRef.value === 'dark' ? darkTheme : null))

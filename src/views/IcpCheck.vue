@@ -41,10 +41,10 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import store from '@/utils/stores/store.js'
-import { get, deleteReq } from '@/utils/request.js'
+import store from '@/utils/stores/store
+import { get, deleteReq } from '@/utils/request
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
-import { SendErrorDialog, SendSuccessDialog } from '@/utils/dialog.js'
+import { SendErrorDialog, SendSuccessDialog } from '@/utils/dialog
 import { useDialog } from 'naive-ui'
 
 const showList = ref(false)

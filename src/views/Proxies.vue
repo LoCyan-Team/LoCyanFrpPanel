@@ -243,10 +243,10 @@
 import { ref } from 'vue'
 import { useDialog } from 'naive-ui'
 import clipboard from '@/utils/clipboard'
-import store from '@/utils/stores/store.js'
-import { get, post } from '@/utils/request.js'
+import store from '@/utils/stores/store
+import { get, post } from '@/utils/request
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog.js'
+import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog
 import downloadSoftPage from '../components/InstallCsApp.vue'
 
 const show = ref(true)

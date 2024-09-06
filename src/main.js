@@ -5,11 +5,11 @@ import App from './App.vue'
 import message from './components/Message.vue'
 import loadingbar from './components/LoadingBar.vue'
 import ndialog from './components/Dialog.vue'
-import router from './router/index.js'
+import router from './router/index'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import store from './utils/stores/store.js'
-import { printTitle } from './utils/title.js'
+import store from '@/utils/stores/store'
+import { printTitle } from '@/utils/title'
 
 const app = createApp(App)
 app.use(store)

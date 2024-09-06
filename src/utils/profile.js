@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { ref } from 'vue'
-import store from './stores/store.js'
+import store from './stores/store'
 import router from '@/router/index'
-import { get } from './request.js'
-import { sendWarningMessage } from './message.js'
+import { get } from './request'
+import { sendWarningMessage } from './message'
 
 export function getNotice() {
   const rs = ref('')

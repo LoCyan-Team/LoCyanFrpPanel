@@ -59,7 +59,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { get, getUrlKey } from '@/utils/request.js'
+import { get, getUrlKey } from '@/utils/request
 import router from '@/router/index'
 
 const formRef = ref(null)

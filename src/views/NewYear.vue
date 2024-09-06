@@ -36,8 +36,8 @@
 import { ref } from 'vue'
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog'
 import { FinishLoadingBar, StartLoadingBar } from '@/utils/loadingbar'
-import { get } from '@/utils/request.js'
-import store from '@/utils/stores/store.js'
+import { get } from '@/utils/request
+import store from '@/utils/stores/store
 
 const CommentList = ref([])
 const formRef = ref(null)

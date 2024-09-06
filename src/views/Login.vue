@@ -57,10 +57,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { get, getUrlKey, post } from '@/utils/request.js'
+import { getUrlKey } from '@/utils/request'
 import router from '@/router/index'
-import store from '@/utils/stores/store.js'
-import { sendWarningMessage, sendErrorMessage } from '@/utils/message.js'
+import store from '@/utils/stores/store'
+import { sendWarningMessage, sendErrorMessage } from '@/utils/message'
 import api from '@/api'
 
 const formRef = ref(null)
