@@ -22,7 +22,7 @@
         <n-grid cols="1" item-responsive>
           <n-gi span="1" v-show="showRealnameModal">
             <n-card title="实名认证">
-              <n-form :ref="formRef" :model="UserProfile" label-width="auto" :size="'large'">
+              <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
                 <n-grid cols="1" item-responsive :y-gap="5">
                   <n-grid-item>
                     <p style="color: red">
@@ -49,17 +49,17 @@
                   </n-grid-item>
                   <n-grid-item span="1">
                     <n-form-item label="姓名" path="name">
-                      <n-input v-model:value="UserProfile.name" placeholder="您的姓名" />
+                      <n-input v-model:value="userProfile.name" placeholder="您的姓名" />
                     </n-form-item>
                   </n-grid-item>
                   <n-grid-item span="1">
                     <n-form-item label="身份证号" path="idcard">
-                      <n-input v-model:value="UserProfile.idcard" placeholder="您的身份证号" />
+                      <n-input v-model:value="userProfile.idcard" placeholder="您的身份证号" />
                     </n-form-item>
                   </n-grid-item>
                 </n-grid>
                 <div style="display: flex; justify-content: flex-end">
-                  <n-button round type="primary" @click="submitrealname()"> 提交 </n-button>
+                  <n-button round type="primary" @click="submitRealName()"> 提交 </n-button>
                 </div>
               </n-form>
             </n-card>
@@ -75,7 +75,7 @@
         <n-grid cols="1" item-responsive>
           <n-gi span="1">
             <n-card v-show="showRealpersonMoal && !showPayModal" title="实人认证">
-              <n-form :ref="formRef" :model="UserProfile" label-width="auto" :size="'large'">
+              <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
                 <n-grid cols="1" item-responsive :y-gap="5">
                   <n-grid-item>
                     <p style="color: red">
@@ -105,17 +105,17 @@
                   </n-grid-item>
                   <n-grid-item span="1">
                     <n-form-item label="姓名" path="name">
-                      <n-input v-model:value="UserProfile.name" placeholder="您的姓名" />
+                      <n-input v-model:value="userProfile.name" placeholder="您的姓名" />
                     </n-form-item>
                   </n-grid-item>
                   <n-grid-item span="1">
                     <n-form-item label="身份证号" path="idcard">
-                      <n-input v-model:value="UserProfile.idcard" placeholder="您的身份证号" />
+                      <n-input v-model:value="userProfile.idcard" placeholder="您的身份证号" />
                     </n-form-item>
                   </n-grid-item>
                 </n-grid>
                 <div style="display: flex; justify-content: flex-end">
-                  <n-button round type="primary" @click="submitrealperson()"> 提交 </n-button>
+                  <n-button round type="primary" @click="submitRealPerson()"> 提交 </n-button>
                 </div>
               </n-form>
             </n-card>
@@ -123,7 +123,7 @@
               <div style="text-align: center">
                 <n-space justify="vertical">
                   <n-button type="primary" @click="realPersonPay()"> 点此付款 </n-button>
-                  <n-button type="primary" @click="CheckRealNameStatus()"> 刷新付款状态 </n-button>
+                  <n-button type="primary" @click="checkRealNameStatus()"> 刷新付款状态 </n-button>
                 </n-space>
               </div>
             </n-card>
@@ -160,10 +160,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog'
-import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar'
-import { get, post } from '../utils/request.js'
-import store from '../utils/stores/store.js'
+import { sendErrorMessage } from '@/utils/message'
+import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
+import { finishLoadingBar, startLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
+import { get, post } from '@/utils/request'
+import store from '@/utils/stores/store'
+import api from '@/api'
 
 const loading = ref(true)
 const showRealnameModal = ref(true)
@@ -177,7 +179,7 @@ const realPersonCount = ref(0)
 const realPerson = ref(false)
 const realPersonUrl = ref('')
 const ci = ref('')
-const UserProfile = ref({
+const userProfile = ref({
   name: '',
   idcard: ''
 })
@@ -189,128 +191,150 @@ const segmented = {
   footer: 'soft'
 }
 
-function submitrealname() {
-  StartLoadingBar()
-  const SubmitForm = {
+async function submitRealName() {
+  startLoadingBar()
+  const submitForm = {
     username: store.getters.get_username,
-    name: UserProfile.value.name,
-    id_card: UserProfile.value.idcard
+    name: userProfile.value.name,
+    id_card: userProfile.value.idcard
   }
-  const rs = post('https://api-v2.locyanfrp.cn/api/v2/realname/submit', SubmitForm)
-  rs.then((res) => {
-    if (res.status === 200) {
-      CheckRealNameStatus()
-      FinishLoadingBar()
-      SendSuccessDialog('恭喜, 实名认证成功!')
-    } else {
-      FinishLoadingBar()
-      SendWarningDialog(res.data.msg)
-    }
-  })
+  let rs
+  try {
+    rs = await api.v2.realname.submit(submitForm.username, submitForm.name, submitForm.id_card)
+  } catch (e) {
+    sendErrorMessage('请求失败: ' + e)
+  }
+  if (!rs) {
+    errorLoadingBar()
+    return
+  }
+  if (rs.status === 200) {
+    checkRealNameStatus()
+    finishLoadingBar()
+    sendSuccessDialog('恭喜, 实名认证成功!')
+  } else {
+    finishLoadingBar()
+    sendWarningDialog(rs.data.msg)
+  }
 }
 
-function submitrealperson() {
-  const SubmitForm = {
+async function submitRealPerson() {
+  startLoadingBar()
+  const submitForm = {
     username: store.getters.get_username,
-    name: UserProfile.value.name,
-    id_card: UserProfile.value.idcard
+    name: userProfile.value.name,
+    id_card: userProfile.value.idcard
   }
-  const rs = post('https://api-v2.locyanfrp.cn/api/v2/realperson/submit', SubmitForm)
-  rs.then((res) => {
-    if (res.status === 200) {
-      realPersonUrl.value = res.data.url
-      ci.value = res.data.certify_id
-      showScanCodeModal.value = true
-      const queryRealPersonInterval = setInterval(() => {
-        queryRealPersonStatus()
-        if (realPerson.value === true) {
-          clearInterval(queryRealPersonInterval)
-        }
-      }, 5000)
-    }
-  })
+  let rs
+  try {
+    rs = await api.v2.realperson.submit(submitForm.username, submitForm.name, submitForm.id_card)
+  } catch (e) {
+    sendErrorMessage('请求失败: ' + e)
+  }
+  if (!rs) {
+    errorLoadingBar()
+    return
+  }
+  if (rs.status === 200) {
+    realPersonUrl.value = rs.data.url
+    ci.value = rs.data.certify_id
+    showScanCodeModal.value = true
+    const queryRealPersonInterval = setInterval(() => {
+      queryRealPersonStatus()
+      if (realPerson.value === true) {
+        finishLoadingBar()
+        clearInterval(queryRealPersonInterval)
+      }
+    }, 5000)
+  } else {
+    sendErrorMessage('发生错误: ' + rs.data.msg)
+    finishLoadingBar()
+  }
 }
 
-function queryRealPersonStatus() {
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/realperson/query?username=' +
-      store.getters.get_username +
-      '&certify_id=' +
-      ci.value
-  )
-  rs.then((res) => {
-    if (res.status === 200) {
-      // 后端会处理所有审核通过的事宜，前端处理消息显示
-      SendSuccessDialog('实人成功')
-      showScanCodeModal.value = false
-      CheckRealNameStatus()
-    }
-  })
+async function queryRealPersonStatus() {
+  let rs
+  try {
+    rs = await api.v2.realperson.query(store.getters.get_username, ci.value)
+  } catch (e) {
+    sendErrorMessage('请求失败: ' + e)
+  }
+  if (!rs) return
+  if (res.status === 200) {
+    // 后端会处理所有审核通过的事宜，前端处理消息显示
+    sendSuccessDialog('实人成功')
+    showScanCodeModal.value = false
+    checkRealNameStatus()
+  }
 }
 
-function CheckRealNameStatus() {
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/realperson/get_status?username=' +
-      store.getters.get_username
-  )
-  rs.then((res) => {
-    // 如果已经完成实名，那么关闭实名的框，展示实人的框
-    realName.value = res.data.real_name
-    realPersonCount.value = res.data.real_person_count
-    realPerson.value = res.data.real_person
+async function checkRealNameStatus() {
+  let rs
+  try {
+    rs = await api.v2.realperson.get_status(store.getters.get_username)
+  } catch (e) {
+    sendErrorMessage('请求失败: ' + e)
+  }
+  if (!rs) return
+  // 如果已经完成实名，那么关闭实名的框，展示实人的框
+  realName.value = rs.data.real_name
+  realPersonCount.value = rs.data.real_person_count
+  realPerson.value = rs.data.real_person
 
-    // 实名和实人都完成则展示最终窗口
-    if (realName.value === true && realPerson.value == true) {
-      showFinishModal.value = true
-      showRealnameModal.value = false
+  // 实名和实人都完成则展示最终窗口
+  if (realName.value === true && realPerson.value == true) {
+    showFinishModal.value = true
+    showRealnameModal.value = false
+    showRealpersonMoal.value = false
+    showPayModal.value = false
+  }
+
+  // 实名完成但是实人没有完成，展示实人窗口关闭实名窗口
+  if (realName.value === true && realPerson.value == false) {
+    showFinishModal.value = false
+    showRealnameModal.value = false
+    // 实人次数足够展示实人，不够展示支付
+    console.log(realPersonCount.value)
+    if (realPersonCount.value < 1) {
       showRealpersonMoal.value = false
+      showPayModal.value = true
+    } else {
+      showRealpersonMoal.value = true
       showPayModal.value = false
     }
+  }
 
-    // 实名完成但是实人没有完成，展示实人窗口关闭实名窗口
-    if (realName.value === true && realPerson.value == false) {
-      showFinishModal.value = false
-      showRealnameModal.value = false
-      // 实人次数足够展示实人，不够展示支付
-      console.log(realPersonCount.value)
-      if (realPersonCount.value < 1) {
-        showRealpersonMoal.value = false
-        showPayModal.value = true
-      } else {
-        showRealpersonMoal.value = true
-        showPayModal.value = false
-      }
+  // 两个都没完成则全部展示
+  if (realName.value === false && realPerson.value == false) {
+    showFinishModal.value = false
+    showRealnameModal.value = true
+    // 实人次数足够展示实人，不够展示支付
+    if (realPersonCount.value < 1) {
+      showRealpersonMoal.value = false
+      showPayModal.value = true
+    } else {
+      showRealpersonMoal.value = true
+      showPayModal.value = false
     }
-
-    // 两个都没完成则全部展示
-    if (realName.value === false && realPerson.value == false) {
-      showFinishModal.value = false
-      showRealnameModal.value = true
-      // 实人次数足够展示实人，不够展示支付
-      if (realPersonCount.value < 1) {
-        showRealpersonMoal.value = false
-        showPayModal.value = true
-      } else {
-        showRealpersonMoal.value = true
-        showPayModal.value = false
-      }
-    }
-    loading.value = false
-  })
+  }
+  loading.value = false
 }
 
-function realPersonPay() {
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/realperson/pay?username=' +
-      store.getters.get_username +
-      '&notify_url=https://api-v2.locyanfrp.cn/api/v2/realperson/notify&redirect_url=https://dashboard.locyanfrp.cn/realname'
-  )
-  rs.then((res) => {
-    if (res.status === 200) {
-      window.open(res.data.url);
-    }
-  })
+async function realPersonPay() {
+  let rs
+  try {
+    rs = await api.v2.realperson.pay(
+      store.getters.get_username,
+      'https://api-v2.locyanfrp.cn/api/v2/realperson/notify&redirect_url=https://dashboard.locyanfrp.cn/realname'
+    )
+  } catch (e) {
+    sendErrorMessage('请求失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status === 200) {
+    window.open(rs.data.url)
+  }
 }
 
-CheckRealNameStatus()
+checkRealNameStatus()
 </script>

@@ -202,10 +202,9 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { get, post, Delete } from '../utils/request'
-import store from '../utils/stores/store.js'
-import { sendErrorMessage, sendSuccessMessage } from '../utils/message'
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog.js'
+import { get, post, deleteReq } from '@/utils/request'
+import store from '@/utils/stores/store'
+import { sendSuccessDialog } from '@/utils/dialog'
 
 const bodyStyle = {
   width: '600px'
@@ -367,21 +366,21 @@ function createLobby() {
   const rs = post('https://api-v2.locyanfrp.cn/api/v2/lan/private/create', lobbyValue.value)
   rs.then((res) => {
     if (res.status === 200) {
-      SendSuccessDialog('添加成功!')
+      sendSuccessDialog('添加成功!')
     }
   })
 }
 
 function deleteLobby(id) {
-  const rs = Delete(
-    'https://api-v2.locyanfrp.cn/api/v2/lan/private/delete?username=' +
+  const rs = deleteReq(
+    'https://api-v2.locyanfrp.cn/api/v2/lan/private/deleteReq?username=' +
       store.getters.get_username +
       '&id=' +
       String(id)
   )
   rs.then((res) => {
     if (res.status === 200) {
-      SendSuccessDialog('删除成功')
+      sendSuccessDialog('删除成功')
       getPrivateLobby()
     }
   })

@@ -34,9 +34,7 @@ import {
   BookOutline as BookIcon,
   CloudDownloadOutline,
   FileTrayFull,
-  InformationCircleOutline,
   List,
-  Flash,
   PaperPlane,
   PencilSharp,
   Person,
@@ -104,7 +102,7 @@ const menuOptions = [
     icon: renderIcon(PaperPlane),
     children: [
       {
-        path: '/proxies/addproxies',
+        path: '/proxies/add',
         label: '添加隧道',
         key: 'AddProxies',
         icon: renderIcon(Add)
@@ -123,24 +121,13 @@ const menuOptions = [
       }
     ]
   },
+  // 没做完，先注释了吧
   // {
-  //   path: "/xmnetwork/bore",
-  //   label: "Bore 穿透",
-  //   key: "XMNWC-Bore",
-  //   icon: renderIcon(Flash),
+  //   path: '/multiplayer',
+  //   label: '多人游戏大厅',
+  //   key: 'Multiplayer',
+  //   icon: renderIcon(MdPaperPlane)
   // },
-  // {
-  //   path: '/lan',
-  //   label: '联机大厅',
-  //   key: 'Lan',
-  //   icon: renderIcon(AttachMoneyFilled)
-  // },
-  {
-    path: '/multiplayer',
-    label: '联机大厅',
-    key: 'Multiplayer',
-    icon: renderIcon(MdPaperPlane)
-  },
   {
     path: '/donate',
     label: '赞助',
@@ -154,9 +141,16 @@ const menuOptions = [
     icon: renderIcon(KeyOutline)
   },
   {
-    path: '/status',
-    label: '节点状态',
-    key: 'Status',
+    label: () =>
+      h(
+        'a',
+        {
+          href: 'https://status.locyan.cn',
+          target: '_blank'
+        },
+        '服务状态'
+      ),
+    key: 'status',
     icon: renderIcon(List)
   },
   {
@@ -211,7 +205,7 @@ const inverted = false
 </script>
 <script>
 import { ref } from 'vue'
-import router from '../router/index.js'
+import router from '@/router/index'
 
 const active = ref('')
 const menuInstRef = ref(null)
@@ -221,7 +215,7 @@ export const handleUpdateValue = (key, item) => {
   router.push({ path: item.path })
 }
 
-export function SetSideBarActiveKey(name) {
+export function setSideBarActiveKey(name) {
   active.value = name
 }
 </script>

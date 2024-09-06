@@ -31,7 +31,7 @@
     </n-card>
   </n-modal>
   <n-grid cols="1" :y-gap="3">
-    <n-grid-item span="1" v-show="!ShowMessageLabel">
+    <n-grid-item span="1" v-if="!showMessageLabel">
       <n-text>选择支付方式</n-text>
       <br />
       <br />
@@ -56,9 +56,9 @@
       >
       <br />
       <br />
-      <n-button @click="DoDonate" :loading="loading_donate"> 赞助</n-button>
+      <n-button @click="doDonate" :loading="loading_donate"> 赞助</n-button>
     </n-grid-item>
-    <n-grid-item span="1" v-show="ShowMessageLabel">
+    <n-grid-item span="1" v-if="showMessageLabel">
       <n-form
         ref="formRef"
         :model="message"
@@ -73,7 +73,7 @@
           <n-button
             type="primary"
             style="margin-right: 10px"
-            @click="submit"
+            @click="submitMessage"
             :loading="loading_submit"
           >
             提交
@@ -83,10 +83,11 @@
     </n-grid-item>
   </n-grid>
   <br />
-  <n-spin :show="LoadingDonateList">
+  <n-spin :show="loadingDonateList">
     <n-grid cols="3" item-responsive :x-gap="12" :y-gap="12">
       <n-grid-item
-        v-for="item in DonateList.filter((element) => element.amount >= amount_filter_threshold)
+        v-for="item in donateList
+          .filter((element) => element.amount >= amount_filter_threshold)
           .sort((left, right) => right.time - left.time)
           .slice(0, display_all_messages ? undefined : display_messages_default)"
         span="0:3 950:1"
@@ -126,18 +127,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { get, getUrlKey, post } from '../utils/request.js'
-import store from '../utils/stores/store.js'
-import { SendSuccessDialog, SendWarningDialog } from '../utils/dialog.js'
+import { onMounted, ref } from 'vue'
+import { getUrlKey } from '@/utils/request'
+import store from '@/utils/stores/store'
+import { sendErrorMessage } from '@/utils/message'
+import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
+import api from '@/api'
 
 // 页面元素初始化
 const amount = ref('0.01')
 const amount_filter_threshold = ref(3.0)
 const trade_no = getUrlKey('out_trade_no')
-const ShowMessageLabel = ref(false)
+const showMessageLabel = ref(false)
 const showModal = ref(false)
-const LoadingDonateList = ref(true)
+const loadingDonateList = ref(true)
 const display_messages_default = ref(5)
 const display_all_messages = ref(false)
 const trade_info = ref({
@@ -160,14 +163,25 @@ const payments = ref([
 ])
 const pay_type = ref('')
 
-if (trade_no !== null) {
-  ShowMessageLabel.value = true
-  showModal.value = true
-  const trade_res = get('https://api.locyanfrp.cn/donate/GetDonateInfo?trade_no=' + trade_no, [])
-  trade_res.then((res) => {
-    trade_info.value = res
-  })
-}
+onMounted(async () => {
+  if (trade_no !== null) {
+    showMessageLabel.value = true
+    showModal.value = true
+    let rs
+    try {
+      rs = await api.v1.Donate.GetDonateInfo(trade_no)
+    } catch (e) {
+      sendErrorMessage('请求列表失败: ' + e)
+    }
+    if (!rs) return
+    if (rs.status === 200) {
+      if (rs.data) trade_info.value = rs.data
+      else sendErrorMessage('返回数据无效')
+    } else {
+      sendErrorMessage(rs.data.message)
+    }
+  }
+})
 const loading_submit = ref(false)
 const loading_donate = ref(false)
 const formRef = ref(null)
@@ -177,16 +191,24 @@ const message = ref([
   }
 ])
 
-const DonateList = ref([])
-const GetDonateList = () => {
-  const DonateList_res = get('https://api.locyanfrp.cn/Donate/GetDonateList', [])
-  DonateList_res.then((res) => {
-    DonateList.value = res
-    LoadingDonateList.value = false
-  })
+const donateList = ref([])
+async function getDonateList() {
+  let rs
+  try {
+    rs = await api.v1.Donate.GetDonateList()
+  } catch (e) {
+    sendErrorMessage('请求列表失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status === 200) {
+    donateList.value = rs.data
+    loadingDonateList.value = false
+  } else {
+    sendErrorMessage(rs.data.message)
+  }
 }
 
-GetDonateList()
+getDonateList()
 
 const timestampToTime = (timestamp) => {
   const date = new Date(timestamp * 1000)
@@ -199,59 +221,67 @@ const timestampToTime = (timestamp) => {
   return Y + M + D + h + m + s
 }
 
-const submit = () => {
+async function submitMessage() {
   loading_submit.value = true
   if (message.message === '') {
-    SendWarningDialog('内容不能为空！')
+    sendWarningDialog('内容不能为空！')
     loading_submit.value = false
     return
   }
 
-  const rs = get(
-    'https://api.locyanfrp.cn/donate/SetMessage?username=' +
-      store.getters.get_username +
-      '&token=' +
-      store.getters.get_token +
-      '&trade_no=' +
-      trade_no +
-      '&message=' +
-      message.value.message,
-    []
-  )
-  rs.then((res) => {
-    if (res.status === true) {
-      SendSuccessDialog(res.message)
-      GetDonateList()
-      loading_submit.value = false
+  let rs
+  try {
+    rs = await api.v1.Donate.SetMessage(
+      store.getters.get_username,
+      store.getters.get_token,
+      trade_no,
+      message.value.message
+    )
+  } catch (e) {
+    sendErrorMessage('请求列表失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status === 200) {
+    if (rs.data.status) {
+      sendSuccessDialog(rs.data.message)
+      getDonateList()
     } else {
-      SendWarningDialog(res.message)
+      sendWarningDialog(rs.data.message)
       loading_submit.value = false
     }
-  })
+    loading_submit.value = false
+  } else {
+    sendWarningDialog(rs.data.message)
+    loading_submit.value = false
+  }
 }
 
-const DoDonate = () => {
+async function doDonate() {
   loading_donate.value = true
   if (pay_type.value === '' || pay_type.value === null) {
-    SendWarningDialog('请选择支付方式')
+    sendWarningDialog('请选择支付方式')
     loading_donate.value = false
     return
   }
-  const rs = post('https://api-v2.locyanfrp.cn/api/v2/donate/create', {
-    name: 'LoCyanFrpDonate',
-    money: amount.value,
-    redirect_url: 'https://dashboard.locyanfrp.cn/donate',
-    notify_url: 'https://api-v2.locyanfrp.cn/api/v2/donate/notify',
-    username: store.getters.get_username
-  })
-  rs.then((res) => {
-    if (res.status === 200) {
-      window.open(res.data.url)
-      loading_donate.value = false
-    } else {
-      SendWarningDialog(res.data.msf)
-      loading_donate.value = false
-    }
-  })
+  let rs
+  try {
+    rs = await api.v2.donate.create(
+      store.getters.get_username,
+      'LoCyanFrpDonate',
+      amount.value,
+      'https://dashboard.locyanfrp.cn/donate',
+      'https://api-v2.locyanfrp.cn/api/v2/donate/notify'
+    )
+  } catch (e) {
+    sendErrorMessage('请求列表失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status === 200) {
+    window.open(rs.data.url)
+    loading_donate.value = false
+  } else {
+    sendWarningDialog(rs.data.msg)
+    loading_donate.value = false
+  }
 }
 </script>

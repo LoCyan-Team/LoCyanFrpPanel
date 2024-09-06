@@ -32,15 +32,15 @@ import MainNav from './components/MainNav.vue'
 import GuestNav from './components/GuestNav.vue'
 import Notification from './components/Notification.vue'
 import { computed } from 'vue'
-import store from './utils/stores/store.js'
+import store from '@/utils/stores/store'
 import hljs from 'highlight.js/lib/core'
 import ini from 'highlight.js/lib/languages/ini'
 import nginx from 'highlight.js/lib/languages/nginx'
-import { get } from './utils/request.js'
-import { sendWarningMessage } from './utils/message.js'
-import { logout } from './utils/profile.js'
-// import { init_ws, SetOnMessageFunction } from "./utils/websocket.js";
-import { sendInfoNotification } from './utils/notification.js'
+import api from '@/api'
+import { sendWarningMessage, sendErrorMessage } from '@/utils/message'
+import { logout } from '@/utils/profile'
+// import { init_ws, SetOnMessageFunction } from "@/utils/websocket.js";
+import { sendInfoNotification } from '@/utils/notification'
 
 const osThemeRef = useOsTheme()
 const theme = computed(() => (osThemeRef.value === 'dark' ? darkTheme : null))
@@ -64,31 +64,34 @@ if (inited === false) {
   inited = true
 }
 
-setInterval(() => {
+setInterval(async () => {
   if (store.getters.get_token) {
-    const rs = get(
-      'https://api.locyanfrp.cn/Account/info?username=' +
-        store.getters.get_username +
-        '&token=' +
-        store.getters.get_token,
-      []
-    )
-    rs.then((res) => {
-      if (res.status === 0) {
-        store.commit('set_user_info', res)
-        // localStorage.setItem('proxies', res.proxies_num)
-        // localStorage.setItem('traffic', res.traffic)
-        // localStorage.setItem('set_limit', res)
-        // store.set_limit({
-        //   inbound: res.inbound,
-        //   outbound: res.outbound,
-        // })
-      }
-      if (res.status === -3) {
-        sendWarningMessage('登录过期或未登录，请重新登录后台！')
-        logout()
-      }
-    })
+    let rs
+    try {
+      rs = await api.v2.users.info(store.getters.get_username)
+    } catch (e) {
+      sendWarningMessage('查询用户信息失败: ' + e + '，请重新登录后台！')
+      logout()
+    }
+    if (!rs) return
+    if (rs.status === 200) {
+      // console.log(rs)
+      store.commit('set_user_email', rs.data.email)
+      store.commit('set_user_inbound', rs.data.inbound)
+      store.commit('set_user_outbound', rs.data.inbound)
+      store.commit('set_user_traffic', rs.data.traffic)
+      // localStorage.setItem('proxies', res.proxies_num)
+      // localStorage.setItem('traffic', res.traffic)
+      // localStorage.setItem('set_limit', res)
+      // store.set_limit({
+      //   inbound: res.inbound,
+      //   outbound: res.outbound,
+      // })
+    }
+    if (rs.status === 401) {
+      sendWarningMessage('登录过期或未登录，请重新登录后台！')
+      logout()
+    }
   }
 }, 10000)
 </script>

@@ -1,4 +1,4 @@
-export const SendSuccessDialog = (message) => {
+export const sendSuccessDialog = (message) => {
   window.$dialog.success({
     title: '厉害捏！',
     content: message,
@@ -6,7 +6,7 @@ export const SendSuccessDialog = (message) => {
   })
 }
 
-export const SendWarningDialog = (message) => {
+export const sendWarningDialog = (message) => {
   window.$dialog.warning({
     title: '这只是个警告罢了~',
     content: message,
@@ -14,7 +14,7 @@ export const SendWarningDialog = (message) => {
   })
 }
 
-export const SendErrorDialog = (message) => {
+export const sendErrorDialog = (message) => {
   window.$dialog.error({
     title: '发生了点小错误...',
     content: message,

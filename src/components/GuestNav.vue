@@ -13,7 +13,7 @@
         </n-space>
       </n-layout-header>
       <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
-        <GuestSideBar v-if="ShowSideBar" />
+        <GuestSideBar v-if="showSideBar" />
         <n-layout :native-scrollbar="false">
           <!-- <div style="text-align: center">
             <n-gradient-text :size="32" type="info"> 祝各位高三学子 </n-gradient-text>
@@ -38,11 +38,11 @@
 </template>
 
 <script setup>
-import { h, ref } from 'vue'
+import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
 import GuestSideBar from './GuestSideBar.vue'
-import router from '../router/index'
-import { get } from '../utils/request.js'
+import router from '@/router/index'
+import { get } from '@/utils/request'
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)
@@ -50,27 +50,38 @@ if (document.body.clientWidth >= 1000) {
   collapsed.value = false
 }
 
-const hitokoto_content_rs = get('https://v1.hitokoto.cn/', [])
-const hitokoto_content = ref('')
-hitokoto_content_rs.then((res) => {
-  let content = res.hitokoto
-  let from = res.from
-  hitokoto_content.value = content + ' —— ' + from
-})
+const hitokoto_content = ref('Loading')
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 
 const inverted = false
+
+onMounted(async () => {
+  let rs
+  try {
+    rs = await get('https://v1.hitokoto.cn/', {})
+  } catch (e) {
+    hitokoto_content.value = '加载失败'
+  }
+  if (!rs) {
+    hitokoto_content.value = '加载失败'
+    return
+  }
+  // 一言
+  let content = rs.data.hitokoto
+  let from = rs.data.from
+  hitokoto_content.value = content + ' —— ' + from
+})
 </script>
 <script>
 import { ref } from 'vue'
 
-export const ShowSideBar = ref(false)
+export const showSideBar = ref(false)
 
-export function ChangeShowSideBar_Guest(is_show) {
-  ShowSideBar.value = is_show
+export function changeShowGuestSideBar(is_show) {
+  showSideBar.value = is_show
 }
 </script>
 <style>

@@ -34,10 +34,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog'
-import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar'
-import { get } from '../utils/request.js'
-import store from '../utils/stores/store.js'
+import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
+import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
+import { get } from '@/utils/request'
+import store from '@/utils/stores/store'
 
 const CommentList = ref([])
 const formRef = ref(null)
@@ -57,10 +57,10 @@ function timestampToTime(timestamp) {
 }
 
 function submitcomment() {
-  StartLoadingBar()
+  startLoadingBar()
   if (NewYear.value.comment === '') {
-    SendErrorDialog('内容不可为空！')
-    FinishLoadingBar()
+    sendErrorDialog('内容不可为空！')
+    finishLoadingBar()
     return
   }
   const rs = get(
@@ -72,12 +72,12 @@ function submitcomment() {
   )
   rs.then((res) => {
     if (res.status) {
-      FinishLoadingBar()
-      SendSuccessDialog(res.message)
+      finishLoadingBar()
+      sendSuccessDialog(res.message)
       getMessageList()
     } else {
-      FinishLoadingBar()
-      SendWarningDialog(res.message)
+      finishLoadingBar()
+      sendWarningDialog(res.message)
     }
   })
 }

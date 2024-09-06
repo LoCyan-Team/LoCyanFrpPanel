@@ -30,7 +30,7 @@
           <n-input type="text" v-model:value="model.verify" placeholder="验证码" />
         </n-grid-item>
         <n-grid-item span="0:6 600:1">
-          <n-button ghost round type="primary" @click="sendcode" v-bind:disabled="verify.isClick">
+          <n-button ghost round type="primary" @click="sendCode" v-bind:disabled="verify.isClick">
             {{ verify.msg }}
           </n-button>
         </n-grid-item>
@@ -39,7 +39,7 @@
     <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
       <n-space>
         <n-button type="primary" @click="register" style="margin-right: 10px"> 注册 </n-button>
-        <n-button ghost type="primary" style="--n-border: none" @click="gologin">
+        <n-button ghost type="primary" style="--n-border: none" @click="goLogin">
           已有账户？去登录
         </n-button>
       </n-space>
@@ -50,8 +50,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { post } from '../utils/request.js'
-import router from '../router/index.js'
+import router from '@/router/index'
+import api from '@/api'
 
 const refkey = 0
 const formRef = ref(null)
@@ -65,7 +65,7 @@ const model = ref([
     email: '',
     confirmpwd: '',
     qq: '',
-    verify: ''
+    verify: null
   }
 ])
 
@@ -74,42 +74,57 @@ const verify = ref({
   msg: `发送验证码`
 })
 
-function gologin() {
+function goLogin() {
   router.push('/login')
 }
 
-function sendcode() {
+async function sendCode() {
   console.log('尝试发送验证码')
   verify.value.isClick = true
   verify.value.msg = ref(`正在处理`)
   ldb.start()
-  const rs = post('https://api.locyanfrp.cn/User/SendRegCode', model.value)
-  rs.then((res) => {
-    if (res.status) {
-      message.success(res.message)
-      verify.value.msg = ref(`已发送`)
-    } else {
-      message.error(res.message)
-      verify.value.isClick = false
-      verify.value.msg = ref(`发送验证码`)
-    }
-    ldb.finish()
-    console.log('处理发送验证码事件完毕')
-  })
+  let rs
+  try {
+    rs = await api.v2.users.send(model.value.email)
+  } catch (e) {
+    message.error('请求邮件验证代码失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status) {
+    message.success('已发送，若未收到请检查收件箱')
+    verify.value.msg = ref(`已发送`)
+  } else {
+    message.error(rs.data.msg)
+    verify.value.isClick = ref(false)
+    verify.value.msg = ref(`发送验证码`)
+  }
+  ldb.finish()
+  // console.log('处理发送验证码事件完毕')
 }
 
-function register() {
+async function register() {
   ldb.start()
-  const rs = post('https://api.locyanfrp.cn/User/DoReg', model.value)
-  rs.then((res) => {
-    if (res.status) {
-      message.success(res.message)
-      router.push('/login')
-    } else {
-      message.error(res.message)
-    }
-    ldb.finish()
-  })
+  let rs
+  try {
+    rs = await api.v2.users.register(
+      model.value.username,
+      model.value.password,
+      model.value.confirmpwd,
+      model.value.email,
+      model.value.verify
+    )
+  } catch (e) {
+    message.error('请求注册失败: ' + e)
+  }
+  if (!rs) return
+  // const rs = post('https://api.locyanfrp.cn/User/DoReg', model.value)
+  if (rs.status === 200) {
+    message.success(rs.data.msg)
+    router.push('/login')
+  } else {
+    message.error(rs.data.msg)
+  }
+  ldb.finish()
 }
 
 const rules = {

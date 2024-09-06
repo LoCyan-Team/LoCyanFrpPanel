@@ -3,11 +3,12 @@ import axios from 'axios'
 // 序列化
 import QS from 'qs'
 // vuex
-import store from './stores/store.js'
-import router from '../router/index.js'
-import Base64 from 'qs/lib/utils.js'
-import { logout } from './profile.js'
+import store from './stores/store'
+import router from '@/router/index'
+import Base64 from 'qs/lib/utils'
 import { sendErrorMessage } from './message'
+// import { logout } from './profile'
+// import { sendErrorMessage } from './message'
 
 //这一步的目的是判断出当前是开发环境还是生成环境，方法不止一种，达到目的就行
 // if(process.env.NODE_ENV=="development"){
@@ -24,22 +25,19 @@ const instance = axios.create({
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 // 添加请求拦截器
 instance.interceptors.request.use(
-  function (config) {
+  async (config) => {
     // 每次发送请求之前判断vuex中是否存在token
     // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
     // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
     const token = store.getters.get_token
     if (token) {
       // 已经登录成功，统一添加token
-      config.headers.Authorization = `Bearer ${token}`
+      ;(await config).headers.Authorization = `Bearer ${token}`
     }
     // token && (config.headers.Authorization = token);
-    return config
+    return await config
   },
-  function (error) {
-    // 对请求错误做些什么
-    return Promise.reject(error)
-  }
+  async (error) => await error
 )
 
 // 这里说一下token，一般是在登录完成之后，将用户的token通过localStorage或者cookie存在本地，
@@ -48,17 +46,11 @@ instance.interceptors.request.use(
 // 后台人员就可以根据你携带的token来判断你的登录是否过期，如果没有携带，则说明没有登录过。
 // 添加响应拦截器
 instance.interceptors.response.use(
-  function (response) {
-    if (response.status === 200) {
-      return Promise.resolve(response)
-    } else {
-      return Promise.reject(response)
-    }
-  },
-  function (error) {
+  async (response) => response,
+  async (error) => {
     // 对响应错误做点什么
-    if (error.response.status) {
-      switch (error.response.status) {
+    if ((await error).status) {
+      switch ((await error).status) {
         // 401: 未登录
         // 未登录则跳转登录页面，并携带当前页面的路径
         // 在登录成功后返回当前页面，这一步需要在登录页操作。
@@ -70,6 +62,8 @@ instance.interceptors.response.use(
             }
           })
           break
+        case 500:
+          sendErrorMessage('服务器响应时发生错误')
         // 403 token过期
         // 登录过期对用户进行提示
         // 清除本地token和清空vuex中token对象
@@ -95,9 +89,9 @@ instance.interceptors.response.use(
         // 其他错误，直接抛出错误提示
         default:
           // sendErrorMessage(error.response.data.data.msg)
-          return Promise.resolve(error.response);
+          return await error
       }
-      return Promise.reject(error.response)
+      return await error
     }
   }
 )
@@ -107,18 +101,9 @@ instance.interceptors.response.use(
  * @param {String} url [请求的url地址]
  * @param params
  */
-export function get(url, params) {
-  return new Promise((resolve, reject) => {
-    instance
-      .get(url, {
-        params: params
-      })
-      .then((res) => {
-        resolve(res.data)
-      })
-      .catch((err) => {
-        reject(err.data)
-      })
+export async function get(url, params) {
+  return await instance.get(url, {
+    params: params
   })
 }
 
@@ -128,17 +113,10 @@ export function get(url, params) {
  * @param {Object} params [请求时携带的参数]
  * @param headers
  */
-export function post(url, params, headers = {}) {
-  return new Promise((resolve, reject) => {
-      instance
-          .post(url, QS.stringify(params), { headers: { ...headers, 'Content-Type': 'application/x-www-form-urlencoded' } })
-          .then((res) => {
-              resolve(res.data);
-          })
-          .catch((err) => {
-              reject(err.data);
-          });
-  });
+export async function post(url, params, headers = {}) {
+  return await instance.post(url, QS.stringify(params), {
+    headers: { ...headers, 'Content-Type': 'application/x-www-form-urlencoded' }
+  })
 }
 
 /**
@@ -146,18 +124,9 @@ export function post(url, params, headers = {}) {
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function Delete(url, params) {
-  return new Promise((resolve, reject) => {
-    instance
-      .delete(url, {
-        params: params
-      })
-      .then((res) => {
-        resolve(res.data)
-      })
-      .catch((err) => {
-        reject(err.data)
-      })
+export async function deleteReq(url, params) {
+  return await instance.delete(url, {
+    params: params
   })
 }
 

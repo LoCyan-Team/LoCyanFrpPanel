@@ -6,32 +6,32 @@
     class="custom-card"
     preset="card"
     :style="bodyStyle"
-    :title="'编辑隧道 - 隧道ID: ' + String(SelectProxyID)"
+    :title="'编辑隧道 - 隧道ID: ' + String(selectProxyID)"
     size="huge"
     :bordered="false"
     :segmented="segmented"
     :mask-closable="false"
   >
     <template #header-extra> 点此关闭 -></template>
-    <n-form :ref="formRef" :model="ProxyEditInfo" :rules="rules" label-width="auto" size="large">
+    <n-form :ref="formRef" :model="proxyEditInfo" :rules="rules" label-width="auto" size="large">
       <n-grid cols="2" item-responsive>
         <n-grid-item span="0:2 1000:1">
           <n-form-item label="选择服务器" path="node">
-            <n-select v-model:value="ProxyEditInfo.node" :options="EditServerList" />
+            <n-select v-model:value="proxyEditInfo.node" :options="editServerList" />
           </n-form-item>
-          <template v-if="!ServerList[ProxyEditInfo.node]">
+          <template v-if="!serverList[proxyEditInfo.node]">
             <n-alert title="该隧道节点已下线" type="error"></n-alert>
             <br />
           </template>
           <n-form-item label="隧道名" path="proxy_name">
-            <n-input v-model:value="ProxyEditInfo.proxy_name" placeholder="隧道名" />
+            <n-input v-model:value="proxyEditInfo.proxy_name" placeholder="隧道名" />
           </n-form-item>
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
           <n-form-item label="穿透协议" path="proxy_type">
             <n-radio-group
-              v-model:value="ProxyEditInfo.proxy_type"
-              @update:value="ProxyTypeSelectChangeHandle"
+              v-model:value="proxyEditInfo.proxy_type"
+              @update:value="proxyTypeSelectChangeHandle"
             >
               <n-radio-button value="1"> TCP</n-radio-button>
               <n-radio-button value="2"> UDP</n-radio-button>
@@ -44,13 +44,13 @@
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
           <n-form-item label="内网IP" path="local_ip">
-            <n-input v-model:value="ProxyEditInfo.local_ip" placeholder="内网IP，例如127.0.0.1" />
+            <n-input v-model:value="proxyEditInfo.local_ip" placeholder="内网IP，例如127.0.0.1" />
           </n-form-item>
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
           <n-form-item label="内网端口" path="local_port">
             <n-input
-              v-model:value="ProxyEditInfo.local_port"
+              v-model:value="proxyEditInfo.local_port"
               placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19136 泰拉瑞亚:7777"
             />
           </n-form-item>
@@ -58,15 +58,15 @@
         <n-grid-item span="0:2 1000:1">
           <n-form-item label="远程端口" path="remote_port">
             <n-input
-              v-model:value="ProxyEditInfo.remote_port"
+              v-model:value="proxyEditInfo.remote_port"
               placeholder="映射到远程服务器上的端口"
             />
           </n-form-item>
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
-          <n-form-item label="自定义域名" path="domain" v-show="ShowDomainInput">
+          <n-form-item label="自定义域名" path="domain" v-show="showDomainInput">
             <n-input
-              v-model:value="ProxyEditInfo.domain"
+              v-model:value="proxyEditInfo.domain"
               placeholder="HTTPS/HTTP需要填写，其他协议不需要填写"
             />
           </n-form-item>
@@ -79,7 +79,7 @@
         strong
         secondary
         type="primary"
-        @click="EditProxy(Proxies[indexOfProxies].id)"
+        @click="editProxy(proxiesList[indexOfProxies].id)"
         >提交
       </n-button>
     </template>
@@ -90,43 +90,31 @@
     class="custom-card"
     preset="card"
     :style="bodyStyle"
-    :title="'详细信息 - 隧道ID: ' + SelectProxyID"
+    :title="'详细信息 - 隧道ID: ' + selectProxyID"
     size="huge"
     :bordered="false"
     :segmented="segmented"
   >
     <template #header-extra> 点此关闭 -></template>
-    <p>连接地址：{{ LinkAddr }}</p>
-    <p>服务器ID：{{ ServerList[Proxies[indexOfProxies].node].id }}</p>
-    <p>服务器：{{ ServerList[Proxies[indexOfProxies].node].name }}</p>
-    <p>服务器IP：{{ ServerList[Proxies[indexOfProxies].node].ip }}</p>
-    <p>服务器域名：{{ ServerList[Proxies[indexOfProxies].node].hostname }}</p>
-    <p>本地地址：{{ Proxies[indexOfProxies].local_ip }}</p>
-    <p>穿透协议：{{ Proxies[indexOfProxies].proxy_type }}</p>
-    <p>本地端口：{{ Proxies[indexOfProxies].local_port }}</p>
-    <p>远程端口：{{ Proxies[indexOfProxies].remote_port }}</p>
-    <p>绑定域名：{{ Proxies[indexOfProxies].domain || '该隧道没有绑定域名' }}</p>
+    <p>连接地址：{{ linkAddr }}</p>
+    <p>服务器ID：{{ serverList[proxiesList[indexOfProxies].node].id }}</p>
+    <p>服务器：{{ serverList[proxiesList[indexOfProxies].node].name }}</p>
+    <p>服务器IP：{{ serverList[proxiesList[indexOfProxies].node].ip }}</p>
+    <p>服务器域名：{{ serverList[proxiesList[indexOfProxies].node].hostname }}</p>
+    <p>本地地址：{{ proxiesList[indexOfProxies].local_ip }}</p>
+    <p>穿透协议：{{ proxiesList[indexOfProxies].proxy_type }}</p>
+    <p>本地端口：{{ proxiesList[indexOfProxies].local_port }}</p>
+    <p>远程端口：{{ proxiesList[indexOfProxies].remote_port }}</p>
+    <p>绑定域名：{{ proxiesList[indexOfProxies].domain || '该隧道没有绑定域名' }}</p>
     <!-- 2024-06-03 13:01 Muska_Ami: 加一个隐藏防止意外泄露token -->
     简易启动命令：
     <n-tooltip placement="bottom" trigger="click">
       <template #trigger>
-        <n-button> 点击显示/隐藏 </n-button>
+        <n-button @click="buildQuickstartCommand"> 点击显示/隐藏 </n-button>
       </template>
       <p>
-        ./frpc.exe -u {{ store.getters.get_frp_token }} -p {{ SelectProxyID }}
-        <n-button
-          type="tertiary"
-          @click="
-            ($event) => {
-              clipboard(
-                './frpc.exe -u ' + store.getters.get_frp_token + ' -p ' + SelectProxyID,
-                event
-              )
-            }
-          "
-        >
-          复制
-        </n-button>
+        {{ quickstartCommand }}
+        <n-button type="tertiary" @click="copy(quickstartCommand, $event)"> 复制 </n-button>
       </p>
     </n-tooltip>
     <!-- <template #footer>
@@ -139,10 +127,10 @@
   <n-spin :show="show">
     <n-grid cols="4" item-responsive>
       <n-gi
-        v-for="item in Proxies"
+        v-for="item in proxiesList"
         style="margin: 10px"
         span="0:4 950:1"
-        :id="Proxies.indexOf(item)"
+        :id="proxiesList.indexOf(item)"
       >
         <n-space style="display: block">
           <n-card style="min-height: 350px">
@@ -154,14 +142,14 @@
             <n-tag :bordered="false" type="success">
               {{ item.proxy_type }}
             </n-tag>
-            <n-tag :bordered="false" type="info" v-if="ServerList[item.node]">
-              {{ ServerList[item.node].name || '未知节点' }}
+            <n-tag :bordered="false" type="info" v-if="serverList[item.node]">
+              {{ serverList[item.node].name || '未知节点' }}
             </n-tag>
             <n-tag :bordered="false" type="error" v-else> 未知节点</n-tag>
             <template #footer>
-              <div v-if="ServerList[item.node]">
+              <div v-if="serverList[item.node]">
                 连接地址： <br />
-                {{ makeLinkAddr(Proxies.indexOf(item)) }}
+                {{ makeLinkAddr(proxiesList.indexOf(item)) }}
               </div>
               <div v-else>
                 连接地址： <br />
@@ -179,12 +167,12 @@
                   type="primary"
                   @click="
                     () => {
-                      indexOfProxies = Proxies.indexOf(item)
+                      indexOfProxies = proxiesList.indexOf(item)
                       showEditModal = true
-                      SelectProxyID = item.id
-                      ProxyEditInfo = {
+                      selectProxyID = item.id
+                      proxyEditInfo = {
                         node: item.node,
-                        id: SelectProxyID,
+                        id: selectProxyID,
                         proxy_name: item.proxy_name,
                         proxy_type: transtype(item.proxy_type),
                         local_ip: item.local_ip,
@@ -192,7 +180,7 @@
                         remote_port: item.remote_port,
                         domain: item.domain
                       }
-                      ShowDomainInput = item.proxy_type === 'http' || item.proxy_type === 'https'
+                      showDomainInput = item.proxy_type === 'http' || item.proxy_type === 'https'
                     }
                   "
                   >编辑
@@ -202,7 +190,7 @@
                   strong
                   secondary
                   type="error"
-                  @click="deleteProxy(Proxies.indexOf(item))"
+                  @click="deleteProxy(proxiesList.indexOf(item))"
                   >删除
                 </n-button>
                 <!-- 这个click被我利用到极致了 -->
@@ -214,10 +202,10 @@
                   type="info"
                   @click="
                     () => {
-                      indexOfProxies = Proxies.indexOf(item)
-                      LinkAddr = makeLinkAddr(Proxies.indexOf(item))
+                      indexOfProxies = proxiesList.indexOf(item)
+                      linkAddr = makeLinkAddr(proxiesList.indexOf(item))
                       showDetailModal = true
-                      SelectProxyID = item.id
+                      selectProxyID = item.id
                     }
                   "
                   >详细信息
@@ -227,7 +215,7 @@
                   strong
                   secondary
                   type="warning"
-                  @click="LaunchProxyThroughApplication(item.id)"
+                  @click="launchProxyThroughApplication(item.id)"
                   >一键启动
                 </n-button>
               </n-space>
@@ -242,21 +230,22 @@
 <script setup>
 import { ref } from 'vue'
 import { useDialog } from 'naive-ui'
-import clipboard from '../utils/clipboard'
-import store from '../utils/stores/store.js'
-import { get, post } from '../utils/request.js'
-import { sendErrorMessage, sendSuccessMessage } from '../utils/message'
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '../utils/dialog.js'
+import clipboard from '@/utils/clipboard'
+import store from '@/utils/stores/store'
+import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
+import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import downloadSoftPage from '../components/InstallCsApp.vue'
+import api from '@/api'
 
 const show = ref(true)
 const showEditModal = ref(false)
 const showDetailModal = ref(false)
-const SelectProxyID = ref(0)
+const selectProxyID = ref(0)
 const indexOfProxies = ref(0)
 const dialog = useDialog()
-const LinkAddr = ref('')
-const EditServerList = ref([])
+const linkAddr = ref('')
+const quickstartCommand = ref('')
+const editServerList = ref([])
 const bodyStyle = {
   width: '600px'
 }
@@ -264,7 +253,7 @@ const segmented = {
   content: 'soft',
   footer: 'soft'
 }
-const EditCheck = ref(true)
+const editCheck = ref(true)
 const showDownloadPage = ref(false)
 
 // 隧道类型翻译
@@ -291,17 +280,22 @@ function transtype(type) {
 // 就是有弱智不知道隧道链接是什么，气死我了
 // 2024-01-23 By Muska_Ami: ↑然而加了依然有弱智不知道
 function makeLinkAddr(id) {
-  if (Proxies.value[id].proxy_type === 'http' || Proxies.value[id].proxy_type === 'https') {
-    return Proxies.value[id].domain
+  if (proxiesList.value[id].proxy_type === 'http' || proxiesList.value[id].proxy_type === 'https') {
+    return proxiesList.value[id].domain
   } else {
-    return ServerList.value[Proxies.value[id].node].hostname + ':' + Proxies.value[id].remote_port
+    return (
+      serverList.value[proxiesList.value[id].node].hostname +
+      ':' +
+      proxiesList.value[id].remote_port
+    )
   }
 }
 
-function LaunchProxyThroughApplication(id) {
+function launchProxyThroughApplication(id) {
   dialog.success({
     title: '通知',
-    content: '该功能需要配合 C# 客户端或开发者预览版 NyaLCF 使用! \n 使用过程中千万不要直接关掉窗口, 请按组合键 Ctrl + C',
+    content:
+      '该功能需要配合 C# 客户端或 NyaLCF 使用! \n 使用过程中千万不要直接关掉窗口, 请按组合键 Ctrl + C',
     positiveText: '已经安装好了',
     negativeText: '没安装...',
     onPositiveClick: () => {
@@ -317,34 +311,49 @@ function LaunchProxyThroughApplication(id) {
   })
 }
 
-function EditProxy(proxyid) {
-  if (EditCheck.value === false) {
-    SendWarningDialog('参数检查未通过，请检查信息格式是否正确！')
+async function editProxy(proxyid) {
+  if (editCheck.value === false) {
+    sendWarningDialog('参数检查未通过，请检查信息格式是否正确！')
   }
 
-  const EditInfo = {
+  const editInfo = {
     id: proxyid,
-    proxyName: ProxyEditInfo.value.proxy_name,
-    proxyType: ProxyEditInfo.value.proxy_type,
-    remotePort: ProxyEditInfo.value.remote_port,
+    proxyName: proxyEditInfo.value.proxy_name,
+    proxyType: proxyEditInfo.value.proxy_type,
+    remotePort: proxyEditInfo.value.remote_port,
     username: store.getters.get_username,
-    localIp: ProxyEditInfo.value.local_ip,
-    localPort: ProxyEditInfo.value.local_port,
-    domain: ProxyEditInfo.value.domain,
-    node: ProxyEditInfo.value.node
+    localIp: proxyEditInfo.value.local_ip,
+    localPort: proxyEditInfo.value.local_port,
+    domain: proxyEditInfo.value.domain,
+    node: proxyEditInfo.value.node
   }
-  const rs = post('https://api-v2.locyanfrp.cn/api/v2/proxies/update', EditInfo)
-  rs.then((res) => {
-    if (res.status === 200) {
-      // 重新刷新列表
-      initList()
-      // 关闭模态框
-      showEditModal.value = false
-      SendSuccessDialog('修改成功')
-    } else {
-      SendErrorDialog(res.data.msg)
-    }
-  })
+  let rs
+  try {
+    rs = await api.v2.proxies.update(
+      editInfo.id,
+      editInfo.proxyName,
+      editInfo.proxyType,
+      editInfo.username,
+      editInfo.localIp,
+      editInfo.localPort,
+      editInfo.remotePort,
+      editInfo.domain,
+      editInfo.node
+    )
+  } catch (e) {
+    sendErrorMessage('请求修改隧道信息失败: ' + e)
+    sendErrorDialog('修改隧道信息失败，再试一次吧~')
+  }
+  if (!rs) return
+  if (rs.status === 200) {
+    // 重新刷新列表
+    initList()
+    // 关闭模态框
+    showEditModal.value = false
+    sendSuccessDialog('修改成功')
+  } else {
+    sendErrorDialog(rs.data.msg)
+  }
 }
 
 const rules = {
@@ -353,13 +362,13 @@ const rules = {
     trigger: ['blur', 'input'],
     validator(rule, value) {
       if (!value) {
-        EditCheck.value = false
+        editCheck.value = false
         return new Error('请输入隧道名')
       } else if (!/[A-Za-z0-9_]$/.test(value)) {
-        EditCheck.value = false
+        editCheck.value = false
         return new Error('隧道名格式错误，由字母、数字和下划线组成！')
       }
-      EditCheck.value = true
+      editCheck.value = true
       return true
     }
   },
@@ -371,17 +380,17 @@ const rules = {
     trigger: ['blur', 'input'],
     validator(rule, value) {
       if (!value) {
-        EditCheck.value = false
+        editCheck.value = false
         return new Error('请输入本地 IP')
       } else if (
         !/(((\d)|([1-9]\d)|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((\d)|([1-9]\d)|(1\d{2})|(2[0-4]\d)|(25[0-5]))/.test(
           value
         )
       ) {
-        EditCheck.value = false
+        editCheck.value = false
         return new Error('本地 IP 格式不合法！')
       }
-      EditCheck.value = true
+      editCheck.value = true
       return true
     }
   },
@@ -390,17 +399,17 @@ const rules = {
     trigger: ['blur', 'input'],
     validator(rule, value) {
       if (!value) {
-        EditCheck.value = false
+        editCheck.value = false
         return new Error('请输入本地端口！')
       } else if (
         !/^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/.test(
           value
         )
       ) {
-        EditCheck.value = false
+        editCheck.value = false
         return new Error('本地端口格式不合法！')
       }
-      EditCheck.value = true
+      editCheck.value = true
       return true
     }
   },
@@ -409,17 +418,17 @@ const rules = {
     trigger: ['blur', 'input'],
     validator(rule, value) {
       if (!value) {
-        EditCheck.value = false
+        editCheck.value = false
         return new Error('请输入远程端口！')
       } else if (
         !/^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/.test(
           value
         )
       ) {
-        EditCheck.value = false
+        editCheck.value = false
         return new Error('远程端口格式不合法！')
       }
-      EditCheck.value = true
+      editCheck.value = true
       return true
     }
   },
@@ -427,26 +436,26 @@ const rules = {
     required: false,
     validator(rule, value) {
       if (!value) {
-        EditCheck.value = false
+        editCheck.value = false
         return new Error('请输入域名！')
       } else if (!/^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$/.test(value)) {
-        EditCheck.value = false
+        editCheck.value = false
         return new Error('域名格式不合法！')
       }
-      EditCheck.value = true
+      editCheck.value = true
       return true
     }
   }
 }
 
-const ShowDomainInput = ref(false)
+const showDomainInput = ref(false)
 
-function ProxyTypeSelectChangeHandle(value) {
-  ShowDomainInput.value = value === '3' || value === '4'
+function proxyTypeSelectChangeHandle(value) {
+  showDomainInput.value = value === '3' || value === '4'
 }
 
-const Proxies = ref([])
-const ServerList = ref([
+const proxiesList = ref([])
+const serverList = ref([
   {
     id: 0,
     name: '',
@@ -457,33 +466,37 @@ const ServerList = ref([
   }
 ])
 
-function initList() {
-  const rs2 = get('https://api-v2.locyanfrp.cn/api/v2/nodes/list', [])
-  rs2.then((res) => {
-    let i = 0
-    res.forEach((s) => {
-      EditServerList.value[i] = {
-        label: s.name,
-        value: s.id
-      }
-
-      ServerList.value[s.id] = s
-      i = i + 1
-    })
-  })
-
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/proxies/getlist?username=' +
-      localStorage.getItem('username')
-  )
-  rs.then((res) => {
-    if (res.status !== 200) {
-      return res
-    } else {
-      Proxies.value = res.data.proxies
-      show.value = false
+async function initList() {
+  let rs1
+  try {
+    rs1 = await api.v2.nodes.list()
+  } catch (e) {
+    sendErrorMessage('请求节点列表失败: ' + e)
+  }
+  if (!rs1) return
+  let i = 0
+  rs1.data.forEach((s) => {
+    editServerList.value[i] = {
+      label: s.name,
+      value: s.id
     }
+    serverList.value[s.id] = s
+    i = i + 1
   })
+
+  let rs2
+  try {
+    rs2 = await api.v2.proxies.getlist(store.getters.get_username)
+  } catch (e) {
+    sendErrorMessage('请求节点列表失败: ' + e)
+  }
+  if (!rs2) return
+  if (rs2.status === 200) {
+    proxiesList.value = rs2.data.proxies
+    show.value = false
+  } else {
+    return rs2.data
+  }
 }
 
 initList()
@@ -491,7 +504,7 @@ initList()
 // 表格数据
 const formRef = ref(null)
 // 表单数据集合
-const ProxyEditInfo = ref({
+const proxyEditInfo = ref({
   node: 0,
   id: 0,
   proxy_name: '',
@@ -505,27 +518,27 @@ const ProxyEditInfo = ref({
 function deleteProxy(id) {
   dialog.warning({
     title: '警告',
-    content: '你确定要删除这个隧道吗？（隧道 ID：' + Proxies.value[id].id + '）',
+    content: '你确定要删除这个隧道吗？（隧道 ID：' + proxiesList.value[id].id + '）',
     positiveText: '确定',
     negativeText: '取消',
-    onPositiveClick: () => {
-      const rs = get(
-        'https://api.locyanfrp.cn/Proxies/remove?proxyid=' +
-          Proxies.value[id].id +
-          '&username=' +
-          store.getters.get_username +
-          '&token=' +
-          store.getters.get_token,
-        []
-      )
-      rs.then((res) => {
-        if (res.status) {
-          sendSuccessMessage(res.message)
-          Proxies.value.splice(id, 1)
-        } else {
-          sendErrorMessage(res.message)
-        }
-      })
+    onPositiveClick: async () => {
+      let rs
+      try {
+        rs = await api.v2.proxies.delete(
+          store.getters.get_username,
+          proxiesList.value[id].id,
+          store.getters.get_token
+        )
+      } catch (e) {
+        sendErrorMessage('请求删除隧道失败: ' + e)
+      }
+      if (!rs) return
+      if (rs.status === 200) {
+        sendSuccessMessage('删除成功！')
+        proxiesList.value.splice(id, 1)
+      } else {
+        sendErrorMessage(res.data.message)
+      }
     },
     onNegativeClick: () => {
       sendSuccessMessage('你取消了操作！')
@@ -534,6 +547,14 @@ function deleteProxy(id) {
       sendSuccessMessage('你取消了操作！')
     }
   })
+}
+
+function buildQuickstartCommand() {
+  quickstartCommand.value = `./frpc -u ${store.getters.get_frp_token} -p ${selectProxyID.value}`
+}
+
+function copy(data, event) {
+  clipboard(data, event)
 }
 </script>
 

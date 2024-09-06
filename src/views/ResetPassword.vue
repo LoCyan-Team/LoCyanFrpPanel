@@ -16,15 +16,15 @@
             type="text"
             v-model:value="model.username"
             placeholder="用户名"
-            @keyup.enter="sendresetmail"
+            @keyup.enter="sendResetMail"
           />
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
           <n-space>
-            <n-button type="primary" @click="sendresetmail" style="margin-right: 10px">
+            <n-button type="primary" @click="sendResetMail" style="margin-right: 10px">
               发送邮件
             </n-button>
-            <n-button ghost type="primary" @click="gologin"> 登录</n-button>
+            <n-button ghost type="primary" @click="goLogin"> 登录</n-button>
           </n-space>
         </div>
       </n-form>
@@ -46,7 +46,7 @@
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
           <n-space>
-            <n-button type="primary" @click="doresetrequest" style="margin-right: 10px">
+            <n-button type="primary" @click="doResetRequest" style="margin-right: 10px">
               提交
             </n-button>
           </n-space>
@@ -59,8 +59,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { get, getUrlKey } from '../utils/request.js'
-import router from '../router/index.js'
+import { getUrlKey } from '@/utils/request'
+import router from '@/router/index'
+import api from '@/api'
 
 const formRef = ref(null)
 const message = useMessage()
@@ -88,13 +89,13 @@ if (code !== null) {
   send_resset_mail.value = false
 }
 
-function gologin() {
+function goLogin() {
   router.push('/login')
 }
 
-function doresetrequest() {
+async function doResetRequest() {
   if (code === '' || code === undefined) {
-    message.warning('非法请求！')
+    message.error('非法请求！')
     return
   }
 
@@ -104,46 +105,61 @@ function doresetrequest() {
   }
   status.value = 'reseting'
   ldb.start()
-  const rs = get(
-    'https://api.locyanfrp.cn/User/DoResetPassword?password=' +
-      reset_password.value.password +
-      '&confirm=' +
-      reset_password.value.confirm +
-      '&code=' +
-      code,
-    []
-  )
-  rs.then((res) => {
-    if (res.status === true) {
-      message.success(res.message)
+  let rs
+  try {
+    rs = await api.v1.User.DoResetPassword(
+      reset_password.value.password,
+      reset_password.value.confirm,
+      code
+    )
+  } catch (e) {
+    message.error('请求重置密码失败: ' + e)
+  }
+  if (!rs) {
+    ldb.error()
+    return
+  }
+  if (rs.status === 200) {
+    if (rs.data.status) {
+      message.success(rs.data.message)
     } else {
-      message.warning(res.message)
+      message.error(rs.data.message)
     }
-    ldb.finish()
-    status.value = 'complete'
-  })
+  } else {
+    message.error(rs.data.message)
+  }
+  ldb.finish()
+  status.value = 'complete'
 }
 
-function sendresetmail() {
+async function sendResetMail() {
   if (status.value === 'sending') {
     message.warning('上一个请求正在处理！')
     return
   }
   status.value = 'sending'
   ldb.start()
-  const rs = get(
-    'https://api.locyanfrp.cn/User/DoResetPassowrdEmailSend?username=' + model.value.username,
-    []
-  )
-  rs.then((res) => {
-    if (res.status === true) {
-      message.success(res.message)
+  let rs
+  try {
+    rs = await api.v1.User.DoResetPasswordEmailSend(model.value.username)
+  } catch (e) {
+    message.error('请求' + e)
+  }
+  if (!rs) {
+    ldb.error()
+    return
+  }
+  if (rs.status === 200) {
+    if (rs.data.status) {
+      message.success(rs.data.message)
     } else {
-      message.warning(res.message)
+      message.error(rs.data.message)
     }
-    ldb.finish()
-    status.value = 'complete'
-  })
+  } else {
+    message.error(rs.data.message)
+  }
+  ldb.finish()
+  status.value = 'complete'
 }
 
 const rules = {

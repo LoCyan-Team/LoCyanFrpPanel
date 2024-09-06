@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { FinishLoadingBar, StartLoadingBar } from '../utils/loadingbar.js'
-import store from '../utils/stores/store.js'
-import { ChangeShowSideBar_Main } from '../components/MainNav.vue'
-import { ChangeShowSideBar_Guest } from '../components/GuestNav.vue'
-import { SetSideBarActiveKey } from '../components/MainSideBar.vue'
-import { SetSideBarActiveKey_Guest } from '../components/GuestSideBar.vue'
+import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
+import store from '@/utils/stores/store'
+import { changeMainSideBarShow } from '../components/MainNav.vue'
+import { changeShowGuestSideBar } from '../components/GuestNav.vue'
+import { setSideBarActiveKey } from '../components/MainSideBar.vue'
+import { setGuestSideBarActiveKey } from '../components/GuestSideBar.vue'
 
 const routes = [
   {
@@ -74,7 +74,7 @@ const routes = [
         component: () => import('../views/Proxies.vue')
       },
       {
-        path: '/proxies/addproxies',
+        path: '/proxies/add',
         name: 'AddProxies',
         meta: {
           keepAlive: true,
@@ -118,15 +118,6 @@ const routes = [
         },
         component: () => import('../views/Config.vue')
       },
-      // {
-      //     path: "/xmnetwork/bore",
-      //     name: "XMNWC-Bore",
-      //     meta: {
-      //         keepAlive: true,
-      //         title: "Bore 穿透",
-      //     },
-      //     component: () => import("../views/XMNWCBore.vue"),
-      // },
       {
         path: '/donate',
         name: 'Donate',
@@ -144,34 +135,17 @@ const routes = [
           title: '域名白名单'
         },
         component: () => import('../views/IcpCheck.vue')
-      },
-      {
-        path: '/status',
-        name: 'Status',
-        meta: {
-          keepAlive: true,
-          title: '节点状态'
-        },
-        component: () => import('../views/Status.vue')
-      },
+      }
+      // 没做完的
       // {
-      //   path: '/lan',
-      //   name: 'Lan',
+      //   path: '/multiplayer',
+      //   name: 'Multiplayer',
       //   meta: {
       //     keepAlive: true,
-      //     title: '联机大厅'
+      //     title: '多人游戏大厅'
       //   },
       //   component: () => import('../views/LanLobby.vue')
       // }
-      {
-        path: '/multiplayer',
-        name: 'Multiplayer',
-        meta: {
-          keepAlive: true,
-          title: '多人游戏大厅'
-        },
-        component: () => import('../views/LanLobby.vue')
-      }
     ]
   }
 ]
@@ -187,7 +161,7 @@ if (localStorage.getItem('token')) {
 }
 
 router.beforeEach((to, from, next) => {
-  StartLoadingBar()
+  startLoadingBar()
   if (to.name === 'Login') {
     if (store.getters.get_token) {
       next({ name: 'Dashboard' })
@@ -222,7 +196,7 @@ router.beforeEach((to, from, next) => {
 
 // from next
 router.afterEach((to) => {
-  FinishLoadingBar()
+  finishLoadingBar()
   if (to.meta.title) {
     //设置标题
     document.title = to.meta.title + ' | LoCyanFrp'
@@ -230,30 +204,30 @@ router.afterEach((to) => {
 
   switch (to.name) {
     case 'MainPage':
-      ChangeShowSideBar_Main(false)
-      ChangeShowSideBar_Guest(false)
+      changeMainSideBarShow(false)
+      changeShowGuestSideBar(false)
       break
     case 'Login':
-      ChangeShowSideBar_Main(false)
-      ChangeShowSideBar_Guest(true)
+      changeMainSideBarShow(false)
+      changeShowGuestSideBar(true)
       break
     case 'Register':
-      ChangeShowSideBar_Main(false)
-      ChangeShowSideBar_Guest(true)
+      changeMainSideBarShow(false)
+      changeShowGuestSideBar(true)
       break
     case 'ResetPassword':
-      ChangeShowSideBar_Main(false)
-      ChangeShowSideBar_Guest(true)
+      changeMainSideBarShow(false)
+      changeShowGuestSideBar(true)
       break
     default:
-      ChangeShowSideBar_Main(true)
-      ChangeShowSideBar_Guest(false)
+      changeMainSideBarShow(true)
+      changeShowGuestSideBar(false)
   }
 
   if (store.getters.get_token) {
-    SetSideBarActiveKey(to.name)
+    setSideBarActiveKey(to.name)
   } else {
-    SetSideBarActiveKey_Guest(to.name)
+    setGuestSideBarActiveKey(to.name)
   }
 })
 

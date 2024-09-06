@@ -68,7 +68,7 @@ const menuOptions = [
 </script>
 <script>
 import { ref } from 'vue'
-import router from '../router/index.js'
+import router from '@/router/index'
 
 const active = ref('')
 
@@ -77,7 +77,7 @@ export const handleUpdateValue = (key, item) => {
   router.push({ path: item.path })
 }
 
-export function SetSideBarActiveKey_Guest(name) {
+export function setGuestSideBarActiveKey(name) {
   active.value = name
 }
 </script>

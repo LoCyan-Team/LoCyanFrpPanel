@@ -30,14 +30,14 @@
         <div>
           <n-space justify="space-between">
             <n-space>
-              <n-button type="info" @click="qqlogin" :loading="qqlogin_loading"> QQ 登录 </n-button>
-              <n-button type="info" @click="oauthlogin" :loading="oauthlogin_loading">
+              <n-button type="info" @click="qqLogin" :loading="qqLogin_loading"> QQ 登录 </n-button>
+              <n-button type="info" @click="oauthLogin" :loading="oauthLogin_loading">
                 OAuth 登录
               </n-button>
             </n-space>
             <n-space justify="end">
               <n-button type="primary" @click="login"> 登录</n-button>
-              <n-button ghost style="--n-border: none" type="primary" @click="goregister">
+              <n-button ghost style="--n-border: none" type="primary" @click="goRegister">
                 没有账户？去注册
               </n-button>
             </n-space>
@@ -55,18 +55,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { get, getUrlKey, post } from '../utils/request.js'
-import router from '../router/index.js'
-import store from '../utils/stores/store.js'
+import { getUrlKey } from '@/utils/request'
+import router from '@/router/index'
+import store from '@/utils/stores/store'
+import { sendWarningMessage, sendErrorMessage } from '@/utils/message'
+import api from '@/api'
 
 const formRef = ref(null)
 const message = useMessage()
 const ldb = useLoadingBar()
 const other_login = ref(false)
-const qqlogin_loading = ref(false)
-const oauthlogin_loading = ref(false)
+const qqLogin_loading = ref(false)
+const oauthLogin_loading = ref(false)
 
 const model = ref([
   {
@@ -86,44 +88,61 @@ if (redirect !== null) {
 const code = getUrlKey('code')
 const token = getUrlKey('token')
 if (code !== null) {
-  other_login.value = true
-  const rs = get('https://api-v2.locyanfrp.cn/api/v2/oauth/qq/loginByCode?code=' + code, [])
-  rs.then((res) => {
-    if (res.status === 200) {
-      message.success(res.data.username + '，欢迎回来！')
-      store.commit('set_token', res.data.token)
-      store.commit('set_user_info', res.data)
+  onMounted(async () => {
+    other_login.value = true
+    let rs
+    try {
+      rs = await api.v2.oauth.qq.loginByCode(code)
+    } catch (e) {
+      sendErrorMessage('登录失败: ' + e)
+      router.push('/login')
+    }
+    if (!rs) return
+    if (rs.status === 200) {
+      message.success(rs.data.username + '，欢迎回来！')
+      store.commit('set_token', rs.data.token)
+      // console.log(rs.data)
+      store.commit('set_user_info', rs.data)
       router.push(redirect || '/dashboard')
     }
   })
 }
 
 if (token !== null) {
-  other_login.value = true
-  const rs = get('https://api-v2.locyanfrp.cn/api/v2/oauth/loginByToken?token=' + token)
-  rs.then((res) => {
-    if (res.status === 200) {
-      message.success(res.data.username + '，欢迎回来！')
-      store.commit('set_token', res.data.token)
-      store.commit('set_user_info', res.data)
+  onMounted(async () => {
+    other_login.value = true
+    let rs
+    try {
+      rs = await api.v2.oauth.loginByToken(token)
+    } catch (e) {
+      sendErrorMessage('登录失败: ' + e)
+      router.push('/login')
+    }
+    if (!rs) return
+    if (rs.status === 200) {
+      message.success(rs.data.username + '，欢迎回来！')
+      store.commit('set_token', rs.data.token)
+      store.commit('set_user_info', rs.data)
       router.push(redirect || '/dashboard')
     }
   })
 }
 
-function goregister() {
+function goRegister() {
   router.push('/register')
 }
 
-function oauthlogin() {
-  oauthlogin_loading.value = true
+// LoCyan OAuth 2.0
+function oauthLogin() {
+  oauthLogin_loading.value = true
   window.location.href =
     'https://api-v2.locyanfrp.cn/api/v2/oauth/authorize?redirectUrl=http://' +
     window.location.host +
     '/login'
 }
 
-function login() {
+// 登录
+async function login() {
   ldb.start()
   if (
     model.value.username === null ||
@@ -135,32 +154,42 @@ function login() {
     ldb.error()
     return
   }
-  const rs = post('https://api-v2.locyanfrp.cn/api/v2/users/login', model.value)
-  rs.then((res) => {
-    if (res.status === 200) {
-      message.success(model.value.username + '，欢迎回来！')
-      store.commit('set_token', res.data.token)
-      store.commit('set_user_info', res.data)
-      router.push(redirect || '/dashboard')
-      ldb.finish()
-    } else {
-      message.warning(res.data.msg)
-      ldb.error()
-    }
-  })
+  let res
+  try {
+    res = await api.v2.users.login(model.value.username, model.value.password)
+  } catch (e) {
+    sendErrorMessage('请求失败: ' + e)
+  }
+  if (!res) {
+    ldb.error()
+    return
+  }
+  if (res.status === 200) {
+    message.success(res.data.username + '，欢迎回来！')
+    store.commit('set_token', res.data.token)
+    console.log(res.data)
+    store.commit('set_user_info', res.data)
+    router.push(redirect || '/dashboard')
+    ldb.finish()
+  } else {
+    message.warning(res.data.msg)
+    ldb.error()
+  }
 }
 
-function qqlogin() {
-  qqlogin_loading.value = true
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/oauth/qq/login?redirect_url=' + window.location.toString(),
-    []
-  )
-  rs.then((res) => {
-    if (res.status === 200) {
-      window.location.href = res.data.url
-    }
-  })
+// QQ 登录
+async function qqLogin() {
+  qqLogin_loading.value = true
+  let rs
+  try {
+    rs = await api.v2.oauth.qq.login(window.location.toString())
+  } catch (e) {
+    sendErrorMessage('请求 QQ 登录失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status === 200) {
+    window.location.href = rs.data.url
+  }
 }
 
 const rules = {

@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import router from '../router/index.js'
+import router from '@/router/index'
 
 const GoToDocs = () => {
   window.open('https://doc.locyan.cn')
@@ -53,7 +53,11 @@ body {
     linear-gradient(335deg, black 23px, transparent 23px),
     linear-gradient(155deg, black 23px, transparent 23px);
   background-size: 58px 58px;
-  background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+  background-position:
+    0px 2px,
+    4px 35px,
+    29px 31px,
+    34px 6px;
 }
 .sign {
   position: absolute;
@@ -69,9 +73,16 @@ body {
   text-transform: uppercase;
   font-size: 6ex;
   color: #ffe6ff;
-  text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #73e825e1, -0.2rem 0.1rem 1rem #73e825e1,
-    0.2rem 0.1rem 1rem #73e825e1, 0 -0.5rem 2rem #12d00f, 0 0.5rem 3rem #12d00f;
-  animation: shine 2s forwards, flicker 3s infinite;
+  text-shadow:
+    0 0 0.6rem #ffe6ff,
+    0 0 1.5rem #73e825e1,
+    -0.2rem 0.1rem 1rem #73e825e1,
+    0.2rem 0.1rem 1rem #73e825e1,
+    0 -0.5rem 2rem #12d00f,
+    0 0.5rem 3rem #12d00f;
+  animation:
+    shine 2s forwards,
+    flicker 3s infinite;
 }
 @keyframes blink {
   0%,
@@ -79,8 +90,13 @@ body {
   36%,
   75% {
     color: #ffe6ff;
-    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #73e825e1, -0.2rem 0.1rem 1rem #73e825e1,
-      0.2rem 0.1rem 1rem #73e825e1, 0 -0.5rem 2rem #12d00f, 0 0.5rem 3rem #12d00f;
+    text-shadow:
+      0 0 0.6rem #ffe6ff,
+      0 0 1.5rem #73e825e1,
+      -0.2rem 0.1rem 1rem #73e825e1,
+      0.2rem 0.1rem 1rem #73e825e1,
+      0 -0.5rem 2rem #12d00f,
+      0 0.5rem 3rem #12d00f;
   }
   28%,
   33% {
@@ -94,10 +110,14 @@ body {
   }
 }
 .flicker {
-  animation: shine 2s forwards, blink 3s 2s infinite;
+  animation:
+    shine 2s forwards,
+    blink 3s 2s infinite;
 }
 .fast-flicker {
-  animation: shine 2s forwards, blink 10s 1s infinite;
+  animation:
+    shine 2s forwards,
+    blink 10s 1s infinite;
 }
 @keyframes shine {
   0% {
@@ -106,8 +126,13 @@ body {
   }
   100% {
     color: #ffe6ff;
-    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #73e825e1, -0.2rem 0.1rem 1rem #73e825e1,
-      0.2rem 0.1rem 1rem #73e825e1, 0 -0.5rem 2rem #12d00f, 0 0.5rem 3rem #12d00f;
+    text-shadow:
+      0 0 0.6rem #ffe6ff,
+      0 0 1.5rem #73e825e1,
+      -0.2rem 0.1rem 1rem #73e825e1,
+      0.2rem 0.1rem 1rem #73e825e1,
+      0 -0.5rem 2rem #12d00f,
+      0 0.5rem 3rem #12d00f;
   }
 }
 @keyframes flicker {

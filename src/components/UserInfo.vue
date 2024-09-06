@@ -1,11 +1,12 @@
 <template>
-  <n-drawer v-model:show="show" :width="Width_DiaLog">
+  <n-drawer v-model:show="show" :width="dialogWidth">
     <n-drawer-content title="个人信息" closable>
       <n-avatar round :size="80" :src="store.getters.get_avatar" />
       <br />
       <n-text style="font-size: 20px">{{ store.getters.get_username }} </n-text>
       <br />
-      <n-text style="color: gray">本站使用 Cravatar 公用头像库 API ，可以前往
+      <n-text style="color: gray"
+        >本站使用 Cravatar 公用头像库 API ，可以前往
         <a target="_blank" href="https://cravatar.cn/">Cravatar</a> 或
         <a target="_blank" href="https://gravatar.com/">Gravatar</a>
         修改您的头像
@@ -14,10 +15,20 @@
       <n-h2>社交账号绑定</n-h2>
       <n-space>
         <n-h5 style="margin: 3px"> QQ:</n-h5>
-        <n-button type="info" v-bind:disabled="bindQQ.isDisable" @click="DoBindQQ" :loading="binding">
+        <n-button
+          type="info"
+          v-bind:disabled="bindQQ.isDisable"
+          @click="doBindQQ"
+          :loading="binding"
+        >
           {{ bindQQ.msg }}
         </n-button>
-        <n-button type="error" v-bind:disabled="bindQQ.unBindDisable" @click="UnBindQQ" :loading="binding">
+        <n-button
+          type="error"
+          v-bind:disabled="bindQQ.unBindDisable"
+          @click="unBindQQ"
+          :loading="binding"
+        >
           {{ bindQQ.unBindmsg }}
         </n-button>
       </n-space>
@@ -28,12 +39,22 @@
         <n-space>
           <n-h5 style="margin: 3px"> 邮箱：</n-h5>
           <n-input v-bind:disabled="tEmail.isEditDisable" v-model:value="tEmail.email" />
-          <n-button @click="changeEmail" v-bind:disabled="tEmail.isBtnDisable" type="info">{{ tEmail.msg }}
+          <n-button @click="changeEmail" v-bind:disabled="tEmail.isBtnDisable" type="info"
+            >{{ tEmail.msg }}
           </n-button>
           <n-space v-bind:style="tEmail.isEditDisable1">
-            <n-input v-model:value="tEmail.verify.code" style="max-width: 200px" placeholder="请输入验证码" />
-            <n-button round ghost type="primary" v-bind:disabled="tEmail.verify.isClick" @click="sendChangeEmailCode">{{
-    tEmail.verify.msg }}
+            <n-input
+              v-model:value="tEmail.verify.code"
+              style="max-width: 200px"
+              placeholder="请输入验证码"
+            />
+            <n-button
+              round
+              ghost
+              type="primary"
+              v-bind:disabled="tEmail.verify.isClick"
+              @click="sendChangeEmailCode"
+              >{{ tEmail.verify.msg }}
             </n-button>
           </n-space>
         </n-space>
@@ -42,8 +63,13 @@
           <n-h5 style="margin: 3px"> 密码：</n-h5>
           <n-input v-model:value="tPassword.oldPaxsword" placeholder="原密码" type="password" />
           <n-input v-model:value="tPassword.newPassword" placeholder="新密码" type="password" />
-          <n-input v-model:value="tPassword.confirmPassword" placeholder="重复密码" type="password" />
-          <n-button @click="changePassword" :loading="tPassword.isLoading" type="info">{{ tPassword.msg }}
+          <n-input
+            v-model:value="tPassword.confirmPassword"
+            placeholder="重复密码"
+            type="password"
+          />
+          <n-button @click="changePassword" :loading="tPassword.isLoading" type="info"
+            >{{ tPassword.msg }}
           </n-button>
         </n-space>
         <n-space>
@@ -57,30 +83,28 @@
         </n-space>
       </n-space>
       <template #footer>
-        <n-button ghost type="primary" @click="DoLogOut"> 退出登录 </n-button>
+        <n-button ghost type="primary" @click="doLogOut"> 退出登录 </n-button>
       </template>
     </n-drawer-content>
   </n-drawer>
 </template>
 
 <script setup>
-import { logout } from '../utils/profile.js'
-import store from '../utils/stores/store.js'
-import { sendSuccessMessage } from '../utils/message.js'
-import { ref } from 'vue'
-import { get, post, Delete } from '../utils/request.js'
+import { logout } from '@/utils/profile'
+import store from '@/utils/stores/store'
+import { sendSuccessMessage } from '@/utils/message'
+import { onMounted, ref } from 'vue'
 import { useDialog } from 'naive-ui'
 
-const username = store.getters.get_username
-const Width_DiaLog = ref('30vw')
+const dialogWidth = ref('30vw')
 const ldb = useLoadingBar()
 const message = useMessage()
 const binding = ref(false)
-const resetFrpTokenLoading = ref(false);
-const exitAllDevicesLoading = ref(false);
-const dialog = useDialog();
+const resetFrpTokenLoading = ref(false)
+const exitAllDevicesLoading = ref(false)
+const dialog = useDialog()
 if (document.body.clientWidth <= 800) {
-  Width_DiaLog.value = '75vw'
+  dialogWidth.value = '75vw'
 }
 
 const bindQQ = ref({
@@ -105,34 +129,36 @@ const tEmail = ref({
 
 const tPassword = ref({
   msg: '重置',
-  oldPaxsword: "",
-  newPassword: "",
-  confirmPassword: "",
-  isLoading: false,
+  oldPaxsword: '',
+  newPassword: '',
+  confirmPassword: '',
+  isLoading: false
 })
 
-function queryBind() {
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/oauth/qq/check?username=' + store.getters.get_username
-  )
-  rs.then((res) => {
-    if (!res.status === 200) {
-      bindQQ.value.isDisable = false
-      bindQQ.value.msg = ref('点击绑定')
-      bindQQ.value.unBindDisable = true
-      bindQQ.value.unBindmsg = ref('尚未绑定')
-    } else {
-      bindQQ.value.isDisable = true
-      bindQQ.value.msg = ref('已绑定')
-      bindQQ.value.unBindDisable = false
-      bindQQ.value.unBindmsg = ref('解除绑定')
-    }
-  })
-}
+// 检查 QQ 绑定状态
+onMounted(async () => {
+  let rs
+  try {
+    rs = await api.v2.oauth.qq.check(store.getters.get_username)
+  } catch (e) {
+    bindQQ.value.isDisable = true
+    bindQQ.value.msg = ref('未知')
+  }
+  if (!rs) return
+  if (!rs.status === 200) {
+    bindQQ.value.isDisable = false
+    bindQQ.value.msg = ref('点击绑定')
+    bindQQ.value.unBindDisable = true
+    bindQQ.value.unBindmsg = ref('尚未绑定')
+  } else {
+    bindQQ.value.isDisable = true
+    bindQQ.value.msg = ref('已绑定')
+    bindQQ.value.unBindDisable = false
+    bindQQ.value.unBindmsg = ref('解除绑定')
+  }
+})
 
-queryBind()
-
-function changeEmail() {
+async function changeEmail() {
   if (tEmail.value.isEditDisable) {
     tEmail.value.isEditDisable = false
     tEmail.value.isEditDisable1 = ref('')
@@ -140,136 +166,165 @@ function changeEmail() {
   } else if (!tEmail.value.isEditDisable) {
     //换绑
     tEmail.value.isBtnDisable = true
-    const rs = get(
-      'https://api.locyanfrp.cn/Account/EditEmail?username=' +
-      store.getters.get_username +
-      '&token=' +
-      store.getters.get_token +
-      '&email=' +
-      tEmail.value.email +
-      '&code=' +
-      tEmail.value.verify.code
-    )
-    rs.then((res) => {
-      if (res.status) {
-        message.success(res.message)
-        tEmail.value.isEditDisable = true
-        tEmail.value.isBtnDisable = false
-        tEmail.value.isEditDisable1 = ref('display:none')
-        tEmail.value.msg = '修改'
-      } else {
-        message.error(res.message)
-        tEmail.value.isEditDisable = true
-        tEmail.value.isBtnDisable = false
-        tEmail.value.isEditDisable1 = ref('display:none')
-        tEmail.value.msg = '修改'
-      }
-    })
+    let rs
+    ldb.start()
+    try {
+      rs = await api.v1.Account.EditEmail(
+        store.getters.get_username,
+        store.getters.get_token,
+        tEmail.value.email,
+        tEmail.value.verify.code
+      )
+    } catch (e) {
+      message.error('请求换绑失败: ' + e)
+      tEmail.value.isEditDisable = true
+      tEmail.value.isBtnDisable = false
+      tEmail.value.isEditDisable1 = ref('display:none')
+      tEmail.value.msg = '修改'
+    }
+    if (!rs) {
+      ldb.error()
+      return
+    }
+    if (rs.status) {
+      message.success(rs.data.message)
+      tEmail.value.isEditDisable = true
+      tEmail.value.isBtnDisable = false
+      tEmail.value.isEditDisable1 = ref('display:none')
+      tEmail.value.msg = '修改'
+    } else {
+      message.error(rs.data.message)
+      tEmail.value.isEditDisable = true
+      tEmail.value.isBtnDisable = false
+      tEmail.value.isEditDisable1 = ref('display:none')
+      tEmail.value.msg = '修改'
+    }
+    ldb.finish()
   }
 }
 
-function sendChangeEmailCode() {
+async function sendChangeEmailCode() {
   tEmail.value.verify.isClick = true
   tEmail.value.verify.msg = ref(`正在处理`)
   ldb.start()
-  const rs = get(
-    'https://api.locyanfrp.cn/Account/SendEditMail?username=' +
-    store.getters.get_username +
-    '&token=' +
-    store.getters.get_token +
-    '&email=' +
-    tEmail.value.email
-  )
-  rs.then((res) => {
-    if (res.status) {
-      message.success(res.message)
-      tEmail.value.verify.msg = ref(`已发送`)
-    } else {
-      message.error(res.message)
-      tEmail.value.verify.isClick = false
-      tEmail.value.verify.msg = ref(`发送验证码`)
-    }
-    ldb.finish()
-  })
+  let rs
+  try {
+    rs = await api.v1.Account.SendEditMail(
+      store.getters.get_username,
+      store.getters.get_token,
+      tEmail.value.email
+    )
+  } catch (e) {
+    message.error('请求邮件验证码失败: ' + e)
+    tEmail.value.verify.isClick = false
+    tEmail.value.verify.msg = ref(`发送验证码`)
+  }
+  if (!rs) {
+    ldb.error()
+    return
+  }
+  if (rs.status) {
+    message.success(rs.data.message)
+    tEmail.value.verify.msg = ref(`已发送`)
+  } else {
+    message.error(rs.data.message)
+    tEmail.value.verify.isClick = false
+    tEmail.value.verify.msg = ref(`发送验证码`)
+  }
+  ldb.finish()
 }
 
-function DoBindQQ() {
+async function doBindQQ() {
   binding.value = true
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/oauth/qq/bind?username=' + store.getters.get_username,
-    []
-  )
-  rs.then((res) => {
-    if (res.status == 200) {
-      window.open(res.data.url)
-      binding.value = false
-    }
-  })
+  let rs
+  try {
+    rs = await api.v2.oauth.qq.bind(store.getters.get_username)
+  } catch (e) {
+    message.error('请求失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status === 200) {
+    window.open(rs.data.url)
+    binding.value = false
+  }
 }
 
-function UnBindQQ() {
+async function unBindQQ() {
   binding.value = true
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/oauth/qq/unbind?username=' + store.getters.get_username,
-    []
-  )
-  rs.then((res) => {
-    if (res.status == 200) {
-      binding.value = false
-      bindQQ.value.unBindDisable = true
-      bindQQ.value.unBindmsg = ref('解绑成功')
-      bindQQ.value.isDisable = false
-      bindQQ.value.msg = ref('点击绑定')
-      setTimeout(() => {
-        bindQQ.value.unBindmsg = ref('尚未绑定')
-      }, 1000)
-    } else {
-      binding.value = false
-      bindQQ.value.unBindDisable = false
-      bindQQ.value.unBindmsg = ref('解绑失败')
-      message.error('解绑失败，服务器错误')
-      setTimeout(() => {
-        bindQQ.value.unBindmsg = ref('解除绑定')
-      }, 1000)
-    }
-  })
+  let rs
+  try {
+    rs = await api.v2.oauth.qq.unbind(store.getters.get_username)
+  } catch (e) {
+    binding.value = false
+    bindQQ.value.unBindDisable = false
+    bindQQ.value.unBindmsg = ref('解绑失败')
+    message.error('请求失败: ' + e)
+    setTimeout(() => {
+      bindQQ.value.unBindmsg = ref('解除绑定')
+    }, 1000)
+  }
+  if (!rs) return
+  if (rs.status === 200) {
+    binding.value = false
+    bindQQ.value.unBindDisable = true
+    bindQQ.value.unBindmsg = ref('解绑成功')
+    bindQQ.value.isDisable = false
+    bindQQ.value.msg = ref('点击绑定')
+    setTimeout(() => {
+      bindQQ.value.unBindmsg = ref('尚未绑定')
+    }, 1000)
+  } else {
+    binding.value = false
+    bindQQ.value.unBindDisable = false
+    bindQQ.value.unBindmsg = ref('解绑失败')
+    message.error('解绑失败，服务器错误')
+    setTimeout(() => {
+      bindQQ.value.unBindmsg = ref('解除绑定')
+    }, 1000)
+  }
 }
 
-function DoLogOut() {
+function doLogOut() {
   sendSuccessMessage('您已登出，感谢您的使用！')
   logout()
 }
 
 async function changePassword() {
-  tPassword.value.isLoading = true;
+  tPassword.value.isLoading = true
   if (tPassword.value.confirmPassword !== tPassword.value.newPassword) {
-    tPassword.value.isLoading = false;
-    message.error("两次输入的密码不一致");
-    return;
+    tPassword.value.isLoading = false
+    message.error('两次输入的密码不一致')
+    return
   }
   const data = {
-    "username": store.getters.get_username,
-    "old_password": tPassword.value.oldPaxsword,
-    "new_password": tPassword.value.newPassword,
-  };
-
-  const rs = await post("https://api-v2.locyanfrp.cn/api/v2/users/reset/password", data);
+    username: store.getters.get_username,
+    old_password: tPassword.value.oldPaxsword,
+    new_password: tPassword.value.newPassword
+  }
+  let rs
+  try {
+    rs = await api.v2.users.reset.password(data.username, data.old_password, data.new_password)
+  } catch (e) {
+    tPassword.value.isLoading = false
+    message.error('修改失败: ' + e)
+  }
+  if (!rs) return
   if (rs.status === 200) {
-    tPassword.value.isLoading = false;
-    sendSuccessMessage("修改成功");
-    DoLogOut();
+    tPassword.value.isLoading = false
+    sendSuccessMessage('修改成功')
+    doLogOut()
   } else {
-    tPassword.value.isLoading = false;
-    message.error("密码修改失败, 后端返回: " + rs.data.msg);
+    tPassword.value.isLoading = false
+    message.error('密码修改失败, 后端返回: ' + rs.data.msg)
   }
 }
 
 async function resetFrpToken() {
-  resetFrpTokenLoading.value = true;
+  resetFrpTokenLoading.value = true
 
   const data = {
-    "username": store.getters.get_username
-  };
+    username: store.getters.get_username
+  }
 
   dialog.warning({
     title: '警告',
@@ -278,28 +333,35 @@ async function resetFrpToken() {
     negativeText: '取消',
     maskClosable: false,
     onPositiveClick: async () => {
-      const rs = await get("https://api-v2.locyanfrp.cn/api/v2/users/reset/frp_token", data);
+      let rs
+      try {
+        rs = await api.v2.users.reset.frp_token(data.username)
+      } catch (e) {
+        resetFrpTokenLoading.value = false
+        message.error('请求失败: ' + e)
+      }
+      if (!rs) return
       if (rs.status === 200) {
-        resetFrpTokenLoading.value = false;
-        store.commit("setFrpToken",)
-        sendSuccessMessage("重置成功");
+        resetFrpTokenLoading.value = false
+        store.commit('set_frp_token', rs.data.token)
+        sendSuccessMessage('重置成功')
       } else {
-        resetFrpTokenLoading.value = false;
-        message.error("重置失败, 后端返回: " + rs.data.msg);
+        resetFrpTokenLoading.value = false
+        message.error('重置失败, 后端返回: ' + rs.data.msg)
       }
     },
     onNegativeClick: () => {
-      resetFrpTokenLoading.value = false;
+      resetFrpTokenLoading.value = false
     }
   })
 }
 
 async function exitAllDevices() {
-  exitAllDevicesLoading.value = true;
+  exitAllDevicesLoading.value = true
 
   const data = {
-    "username": store.getters.get_username
-  };
+    username: store.getters.get_username
+  }
 
   dialog.warning({
     title: '警告',
@@ -308,18 +370,26 @@ async function exitAllDevices() {
     negativeText: '取消',
     maskClosable: false,
     onPositiveClick: async () => {
-      const rs = await Delete("https://api-v2.locyanfrp.cn/api/v2/users/reset/token/all", data);
+      let rs
+      try {
+        rs = await api.v2.users.reset.token.all(data.username)
+      } catch (e) {
+        exitAllDevicesLoading.value = false
+        message.error('请求失败: ' + e)
+      }
+      if (!rs) return
+      // const rs = await deleteReq('https://api-v2.locyanfrp.cn/api/v2/users/reset/token/all', data)
       if (rs.status === 200) {
-        exitAllDevicesLoading.value = false;
-        sendSuccessMessage("已全部退出");
-        DoLogOut();
+        exitAllDevicesLoading.value = false
+        sendSuccessMessage('已全部退出')
+        doLogOut()
       } else {
-        exitAllDevicesLoading.value = false;
-        message.error("退出失败, 后端返回: " + rs.data.msg);
+        exitAllDevicesLoading.value = false
+        message.error('退出失败, 后端返回: ' + rs.data.msg)
       }
     },
     onNegativeClick: () => {
-      exitAllDevicesLoading.value = false;
+      exitAllDevicesLoading.value = false
     }
   })
 }
@@ -327,10 +397,11 @@ async function exitAllDevices() {
 
 <script>
 import { ref } from 'vue'
+import api from '@/api'
 
 const show = ref(false)
 
-export const ChangeUserInfoShow = (status1) => {
+export const changeUserInfoShow = (status1) => {
   show.value = status1
 }
 </script>

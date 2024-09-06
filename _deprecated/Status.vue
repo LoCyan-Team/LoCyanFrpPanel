@@ -34,7 +34,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { get } from '../utils/request.js'
+import { get } from '@/utils/request'
 
 const StatusList = ref([
   {
