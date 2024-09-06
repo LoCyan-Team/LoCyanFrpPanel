@@ -168,7 +168,7 @@ async function login() {
   if (res.status === 200) {
     message.success(res.data.username + '，欢迎回来！')
     store.commit('set_token', res.data.token)
-    console.log(res.data)
+    // console.log(res.data)
     store.commit('set_user_info', res.data)
     router.push(redirect || '/dashboard')
     ldb.finish()

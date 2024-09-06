@@ -62,6 +62,7 @@ import { useLoadingBar, useMessage } from 'naive-ui'
 import { getUrlKey } from '@/utils/request'
 import router from '@/router/index'
 import api from '@/api'
+import logger from '@/logger'
 
 const formRef = ref(null)
 const message = useMessage()
@@ -85,7 +86,7 @@ const reset_password = ref([
 // 检查是否存在redirect值
 const code = getUrlKey('code')
 if (code !== null) {
-  console.log('重置密码标识符 ' + code)
+  logger.info('重置密码标识符: ' + code)
   send_resset_mail.value = false
 }
 

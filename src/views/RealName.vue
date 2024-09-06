@@ -163,9 +163,9 @@ import { ref } from 'vue'
 import { sendErrorMessage } from '@/utils/message'
 import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import { finishLoadingBar, startLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
-import { get, post } from '@/utils/request'
 import store from '@/utils/stores/store'
 import api from '@/api'
+import logger from '@/logger'
 
 const loading = ref(true)
 const showRealnameModal = ref(true)
@@ -294,7 +294,7 @@ async function checkRealNameStatus() {
     showFinishModal.value = false
     showRealnameModal.value = false
     // 实人次数足够展示实人，不够展示支付
-    console.log(realPersonCount.value)
+    logger.info('剩余实人次数: ' + realPersonCount.value)
     if (realPersonCount.value < 1) {
       showRealpersonMoal.value = false
       showPayModal.value = true

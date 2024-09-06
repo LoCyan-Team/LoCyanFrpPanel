@@ -52,6 +52,7 @@ import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
 import router from '@/router/index'
 import api from '@/api'
+// import logger from '@/logger'
 
 const refkey = 0
 const formRef = ref(null)
@@ -79,7 +80,7 @@ function goLogin() {
 }
 
 async function sendCode() {
-  console.log('尝试发送验证码')
+  // logger.info('发送邮件验证代码')
   verify.value.isClick = true
   verify.value.msg = ref(`正在处理`)
   ldb.start()
@@ -99,7 +100,7 @@ async function sendCode() {
     verify.value.msg = ref(`发送验证码`)
   }
   ldb.finish()
-  // console.log('处理发送验证码事件完毕')
+  // logger.info('处理发送邮件验证代码事件完毕')
 }
 
 async function register() {
