@@ -6,6 +6,7 @@ import QS from 'qs'
 import store from './stores/store'
 import router from '@/router/index'
 import Base64 from 'qs/lib/utils'
+import { sendErrorMessage } from './message'
 // import { logout } from './profile'
 // import { sendErrorMessage } from './message'
 
@@ -61,6 +62,8 @@ instance.interceptors.response.use(
             }
           })
           break
+        case 500:
+          sendErrorMessage('服务器响应时发生错误')
         // 403 token过期
         // 登录过期对用户进行提示
         // 清除本地token和清空vuex中token对象

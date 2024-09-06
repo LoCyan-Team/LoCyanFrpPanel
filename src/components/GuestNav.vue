@@ -13,7 +13,7 @@
         </n-space>
       </n-layout-header>
       <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
-        <GuestSideBar v-if="ShowSideBar" />
+        <GuestSideBar v-if="showSideBar" />
         <n-layout :native-scrollbar="false">
           <!-- <div style="text-align: center">
             <n-gradient-text :size="32" type="info"> 祝各位高三学子 </n-gradient-text>
@@ -78,10 +78,10 @@ onMounted(async () => {
 <script>
 import { ref } from 'vue'
 
-export const ShowSideBar = ref(false)
+export const showSideBar = ref(false)
 
-export function ChangeShowSideBar_Guest(is_show) {
-  ShowSideBar.value = is_show
+export function changeShowGuestSideBar(is_show) {
+  showSideBar.value = is_show
 }
 </script>
 <style>

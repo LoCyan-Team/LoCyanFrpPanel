@@ -108,11 +108,7 @@ async function removeICP(id) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.icp.remove(
-          store.getters.get_username,
-          store.getters.get_token,
-          id
-        )
+        rs = await api.v2.icp.remove(store.getters.get_username, store.getters.get_token, id)
       } catch (e) {
         sendErrorMessage('请求移除域名失败: ' + e)
       }

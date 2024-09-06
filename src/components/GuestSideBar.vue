@@ -77,7 +77,7 @@ export const handleUpdateValue = (key, item) => {
   router.push({ path: item.path })
 }
 
-export function SetSideBarActiveKey_Guest(name) {
+export function setGuestSideBarActiveKey(name) {
   active.value = name
 }
 </script>

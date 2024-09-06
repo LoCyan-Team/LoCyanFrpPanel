@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import store from '@/utils/stores/store'
 import { changeMainSideBarShow } from '../components/MainNav.vue'
-import { ChangeShowSideBar_Guest } from '../components/GuestNav.vue'
-import { SetSideBarActiveKey } from '../components/MainSideBar.vue'
-import { SetSideBarActiveKey_Guest } from '../components/GuestSideBar.vue'
+import { changeShowGuestSideBar } from '../components/GuestNav.vue'
+import { setSideBarActiveKey } from '../components/MainSideBar.vue'
+import { setGuestSideBarActiveKey } from '../components/GuestSideBar.vue'
 
 const routes = [
   {
@@ -118,15 +118,6 @@ const routes = [
         },
         component: () => import('../views/Config.vue')
       },
-      // {
-      //     path: "/xmnetwork/bore",
-      //     name: "XMNWC-Bore",
-      //     meta: {
-      //         keepAlive: true,
-      //         title: "Bore 穿透",
-      //     },
-      //     component: () => import("../views/XMNWCBore.vue"),
-      // },
       {
         path: '/donate',
         name: 'Donate',
@@ -144,34 +135,17 @@ const routes = [
           title: '域名白名单'
         },
         component: () => import('../views/IcpCheck.vue')
-      },
-      {
-        path: '/status',
-        name: 'Status',
-        meta: {
-          keepAlive: true,
-          title: '节点状态'
-        },
-        component: () => import('../views/Status.vue')
-      },
+      }
+      // 没做完的
       // {
-      //   path: '/lan',
-      //   name: 'Lan',
+      //   path: '/multiplayer',
+      //   name: 'Multiplayer',
       //   meta: {
       //     keepAlive: true,
-      //     title: '联机大厅'
+      //     title: '多人游戏大厅'
       //   },
       //   component: () => import('../views/LanLobby.vue')
       // }
-      {
-        path: '/multiplayer',
-        name: 'Multiplayer',
-        meta: {
-          keepAlive: true,
-          title: '多人游戏大厅'
-        },
-        component: () => import('../views/LanLobby.vue')
-      }
     ]
   }
 ]
@@ -231,29 +205,29 @@ router.afterEach((to) => {
   switch (to.name) {
     case 'MainPage':
       changeMainSideBarShow(false)
-      ChangeShowSideBar_Guest(false)
+      changeShowGuestSideBar(false)
       break
     case 'Login':
       changeMainSideBarShow(false)
-      ChangeShowSideBar_Guest(true)
+      changeShowGuestSideBar(true)
       break
     case 'Register':
       changeMainSideBarShow(false)
-      ChangeShowSideBar_Guest(true)
+      changeShowGuestSideBar(true)
       break
     case 'ResetPassword':
       changeMainSideBarShow(false)
-      ChangeShowSideBar_Guest(true)
+      changeShowGuestSideBar(true)
       break
     default:
       changeMainSideBarShow(true)
-      ChangeShowSideBar_Guest(false)
+      changeShowGuestSideBar(false)
   }
 
   if (store.getters.get_token) {
-    SetSideBarActiveKey(to.name)
+    setSideBarActiveKey(to.name)
   } else {
-    SetSideBarActiveKey_Guest(to.name)
+    setGuestSideBarActiveKey(to.name)
   }
 })
 

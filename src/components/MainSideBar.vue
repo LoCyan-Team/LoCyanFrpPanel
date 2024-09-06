@@ -121,18 +121,13 @@ const menuOptions = [
       }
     ]
   },
+  // 没做完，先注释了吧
   // {
-  //   path: '/lan',
-  //   label: '联机大厅',
-  //   key: 'Lan',
-  //   icon: renderIcon(AttachMoneyFilled)
+  //   path: '/multiplayer',
+  //   label: '多人游戏大厅',
+  //   key: 'Multiplayer',
+  //   icon: renderIcon(MdPaperPlane)
   // },
-  {
-    path: '/multiplayer',
-    label: '联机大厅',
-    key: 'Multiplayer',
-    icon: renderIcon(MdPaperPlane)
-  },
   {
     path: '/donate',
     label: '赞助',
@@ -146,9 +141,16 @@ const menuOptions = [
     icon: renderIcon(KeyOutline)
   },
   {
-    path: '/status',
-    label: '节点状态',
-    key: 'Status',
+    label: () =>
+      h(
+        'a',
+        {
+          href: 'https://status.locyan.cn',
+          target: '_blank'
+        },
+        '服务状态'
+      ),
+    key: 'status',
     icon: renderIcon(List)
   },
   {
@@ -213,7 +215,7 @@ export const handleUpdateValue = (key, item) => {
   router.push({ path: item.path })
 }
 
-export function SetSideBarActiveKey(name) {
+export function setSideBarActiveKey(name) {
   active.value = name
 }
 </script>
