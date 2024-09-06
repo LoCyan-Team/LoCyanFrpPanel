@@ -95,6 +95,8 @@ import store from '@/utils/stores/store'
 import { sendSuccessMessage } from '@/utils/message'
 import { onMounted, ref } from 'vue'
 import { useDialog } from 'naive-ui'
+import api from '@/api'
+import logger from '@/utils/logger'
 
 const dialogWidth = ref('30vw')
 const ldb = useLoadingBar()
@@ -141,6 +143,7 @@ onMounted(async () => {
   try {
     rs = await api.v2.oauth.qq.check(store.getters.get_username)
   } catch (e) {
+    logger.error(e)
     bindQQ.value.isDisable = true
     bindQQ.value.msg = ref('未知')
   }
@@ -176,6 +179,7 @@ async function changeEmail() {
         tEmail.value.verify.code
       )
     } catch (e) {
+      logger.error(e)
       message.error('请求换绑失败: ' + e)
       tEmail.value.isEditDisable = true
       tEmail.value.isBtnDisable = false
@@ -187,13 +191,13 @@ async function changeEmail() {
       return
     }
     if (rs.status) {
-      message.success(rs.data.message)
+      message.success(rs.message)
       tEmail.value.isEditDisable = true
       tEmail.value.isBtnDisable = false
       tEmail.value.isEditDisable1 = ref('display:none')
       tEmail.value.msg = '修改'
     } else {
-      message.error(rs.data.message)
+      message.error(rs.message)
       tEmail.value.isEditDisable = true
       tEmail.value.isBtnDisable = false
       tEmail.value.isEditDisable1 = ref('display:none')
@@ -215,6 +219,7 @@ async function sendChangeEmailCode() {
       tEmail.value.email
     )
   } catch (e) {
+    logger.error(e)
     message.error('请求邮件验证码失败: ' + e)
     tEmail.value.verify.isClick = false
     tEmail.value.verify.msg = ref(`发送验证码`)
@@ -224,10 +229,10 @@ async function sendChangeEmailCode() {
     return
   }
   if (rs.status) {
-    message.success(rs.data.message)
+    message.success(rs.message)
     tEmail.value.verify.msg = ref(`已发送`)
   } else {
-    message.error(rs.data.message)
+    message.error(rs.message)
     tEmail.value.verify.isClick = false
     tEmail.value.verify.msg = ref(`发送验证码`)
   }
@@ -240,6 +245,7 @@ async function doBindQQ() {
   try {
     rs = await api.v2.oauth.qq.bind(store.getters.get_username)
   } catch (e) {
+    logger.error(e)
     message.error('请求失败: ' + e)
   }
   if (!rs) return
@@ -255,6 +261,7 @@ async function unBindQQ() {
   try {
     rs = await api.v2.oauth.qq.unbind(store.getters.get_username)
   } catch (e) {
+    logger.error(e)
     binding.value = false
     bindQQ.value.unBindDisable = false
     bindQQ.value.unBindmsg = ref('解绑失败')
@@ -305,6 +312,7 @@ async function changePassword() {
   try {
     rs = await api.v2.users.reset.password(data.username, data.old_password, data.new_password)
   } catch (e) {
+    logger.error(e)
     tPassword.value.isLoading = false
     message.error('修改失败: ' + e)
   }
@@ -315,7 +323,7 @@ async function changePassword() {
     doLogOut()
   } else {
     tPassword.value.isLoading = false
-    message.error('密码修改失败, 后端返回: ' + rs.data.msg)
+    message.error('密码修改失败, 后端返回: ' + rs.message)
   }
 }
 
@@ -337,6 +345,7 @@ async function resetFrpToken() {
       try {
         rs = await api.v2.users.reset.frp_token(data.username)
       } catch (e) {
+        logger.error(e)
         resetFrpTokenLoading.value = false
         message.error('请求失败: ' + e)
       }
@@ -347,7 +356,7 @@ async function resetFrpToken() {
         sendSuccessMessage('重置成功')
       } else {
         resetFrpTokenLoading.value = false
-        message.error('重置失败, 后端返回: ' + rs.data.msg)
+        message.error('重置失败, 后端返回: ' + rs.message)
       }
     },
     onNegativeClick: () => {
@@ -374,6 +383,7 @@ async function exitAllDevices() {
       try {
         rs = await api.v2.users.reset.token.all(data.username)
       } catch (e) {
+        logger.error(e)
         exitAllDevicesLoading.value = false
         message.error('请求失败: ' + e)
       }
@@ -385,7 +395,7 @@ async function exitAllDevices() {
         doLogOut()
       } else {
         exitAllDevicesLoading.value = false
-        message.error('退出失败, 后端返回: ' + rs.data.msg)
+        message.error('退出失败, 后端返回: ' + rs.message)
       }
     },
     onNegativeClick: () => {
@@ -397,7 +407,6 @@ async function exitAllDevices() {
 
 <script>
 import { ref } from 'vue'
-import api from '@/api'
 
 const show = ref(false)
 

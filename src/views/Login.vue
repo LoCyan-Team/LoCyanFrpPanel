@@ -60,7 +60,8 @@ import { useLoadingBar, useMessage } from 'naive-ui'
 import { getUrlKey } from '@/utils/request'
 import router from '@/router/index'
 import store from '@/utils/stores/store'
-import { sendWarningMessage, sendErrorMessage } from '@/utils/message'
+import { sendErrorMessage } from '@/utils/message'
+import logger from '@/utils/logger'
 import api from '@/api'
 
 const formRef = ref(null)
@@ -80,7 +81,7 @@ const model = ref([
 // 检查是否存在redirect值
 const redirect = getUrlKey('redirect')
 if (redirect !== null) {
-  console.log('登录后返回' + redirect)
+  logger.info('登录后返回' + redirect)
 }
 
 // 检查是否存在第三方登录返回值

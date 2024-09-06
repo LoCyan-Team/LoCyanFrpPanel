@@ -29,6 +29,7 @@
 import { ref, onMounted } from 'vue'
 import { sendErrorMessage } from '@/utils/message'
 import api from '@/api'
+import logger from '@/utils/logger'
 
 const show = ref(true)
 const file_name = ref('')
@@ -39,6 +40,7 @@ onMounted(async () => {
   try {
     rs = await api.v1.App.GetCSApp()
   } catch (e) {
+    logger.error(e)
     sendErrorMessage('获取下载链接失败: ' + e)
   }
   if (!rs) return

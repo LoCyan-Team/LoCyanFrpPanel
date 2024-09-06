@@ -214,7 +214,7 @@ async function submitRealName() {
     sendSuccessDialog('恭喜, 实名认证成功!')
   } else {
     finishLoadingBar()
-    sendWarningDialog(rs.data.msg)
+    sendWarningDialog(rs.message)
   }
 }
 
@@ -247,7 +247,7 @@ async function submitRealPerson() {
       }
     }, 5000)
   } else {
-    sendErrorMessage('发生错误: ' + rs.data.msg)
+    sendErrorMessage('发生错误: ' + rs.message)
     finishLoadingBar()
   }
 }

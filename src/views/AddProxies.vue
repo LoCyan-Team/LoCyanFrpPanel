@@ -89,10 +89,10 @@ n-input {
 <script setup>
 import { onMounted, ref } from 'vue'
 import store from '@/utils/stores/store'
-import { get, post } from '@/utils/request'
 import { sendErrorMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
 import api from '@/api'
+import logger from '@/utils/logger'
 
 localStorage.setItem('ViewPage', 'add_proxy')
 // 选择框数据
@@ -230,6 +230,7 @@ async function randomPort() {
   try {
     rs = await api.v1.Proxies.GetRandomPort(proxyInfo.value.node)
   } catch (e) {
+    logger.error(e)
     sendErrorMessage('请求隧道端口失败: ' + e)
   }
   if (!rs) return
@@ -276,6 +277,7 @@ async function addProxy() {
       tunnelCreateInfo.sk
     )
   } catch (e) {
+    logger.error(e)
     sendErrorMessage(e)
     sendErrorDialog('添加失败，再试一次吧~')
   }
@@ -292,6 +294,7 @@ onMounted(async () => {
   try {
     rs = await api.v2.nodes.list()
   } catch (e) {
+    logger.error(e)
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs) return

@@ -175,8 +175,9 @@ import store from '@/utils/stores/store'
 import { marked } from 'marked'
 import { useDialog, useMessage } from 'naive-ui'
 import { startLoadingBar } from '@/utils/loadingbar'
-import { sendWarningMessage, sendErrorMessage } from '@/utils/message'
+import { sendErrorMessage } from '@/utils/message'
 import api from '@/api'
+import logger from '@/utils/logger'
 
 localStorage.setItem('ViewPage', 'personality')
 const username = store.getters.get_username
@@ -203,6 +204,7 @@ onMounted(async () => {
   try {
     res = await api.v1.App.root()
   } catch (e) {
+    logger.error(e)
     sendErrorMessage('获取 Ads 失败: ' + e)
   }
   // console.log(res)
@@ -228,6 +230,7 @@ onMounted(async () => {
   try {
     res = await api.v1.App.GetBroadCast()
   } catch (e) {
+    logger.error(e)
     sendErrorMessage('获取 Broadcast 信息失败: ' + e)
   }
   if (!res) return
@@ -318,7 +321,7 @@ async function resetTraffic() {
       if (rs.status === 200) {
         message.success('重置成功!')
       } else {
-        message.success('重置失败, API 返回: ' + rs.data.msg)
+        message.success('重置失败, API 返回: ' + rs.message)
       }
       finishLoadingBar()
     }

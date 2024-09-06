@@ -7,6 +7,7 @@ import store from './stores/store'
 import router from '@/router/index'
 import Base64 from 'qs/lib/utils'
 import { sendErrorMessage } from './message'
+import logger from '@/utils/logger'
 // import { logout } from './profile'
 // import { sendErrorMessage } from './message'
 
@@ -21,6 +22,12 @@ import { sendErrorMessage } from './message'
 const instance = axios.create({
   timeout: 80000
 })
+
+const tokenDomains = [
+  'api.locyanfrp.cn',
+  'api-v2.locyanfrp.cn'
+]
+
 // post请求的时候，我们需要加上一个请求头，所以可以在这里进行一个默认的设置，即设置post的请求头为
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 // 添加请求拦截器
@@ -30,12 +37,15 @@ instance.interceptors.request.use(
     // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
     // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
     const token = store.getters.get_token
-    if (token) {
+    // 2024-09-07 Muska_Ami: 修复 Token 泄露问题 只有在指定域名请求时才应该添加 Token
+    const url = new URL(config.url)
+    logger.info(url.hostname + ', ' + url.pathname + ', ' + tokenDomains.includes(url.hostname))
+    if (token && tokenDomains.includes(url.hostname)) {
       // 已经登录成功，统一添加token
-      ;(await config).headers.Authorization = `Bearer ${token}`
+      config.headers.Authorization = `Bearer ${token}`
     }
     // token && (config.headers.Authorization = token);
-    return await config
+    return config
   },
   async (error) => await error
 )

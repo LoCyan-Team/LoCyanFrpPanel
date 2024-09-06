@@ -352,7 +352,7 @@ async function editProxy(proxyid) {
     showEditModal.value = false
     sendSuccessDialog('修改成功')
   } else {
-    sendErrorDialog(rs.data.msg)
+    sendErrorDialog(rs.message)
   }
 }
 
@@ -537,7 +537,7 @@ function deleteProxy(id) {
         sendSuccessMessage('删除成功！')
         proxiesList.value.splice(id, 1)
       } else {
-        sendErrorMessage(res.data.message)
+        sendErrorMessage(rs.message)
       }
     },
     onNegativeClick: () => {

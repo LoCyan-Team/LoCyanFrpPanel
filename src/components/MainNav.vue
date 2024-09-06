@@ -111,6 +111,7 @@ import router from '@/router/index'
 import UserInfo, { changeUserInfoShow } from './UserInfo.vue'
 import { get } from '@/utils/request'
 import { GitAlt } from '@vicons/fa'
+import logger from '@/utils/logger'
 
 const gitHash = GIT_COMMITHASH
 
@@ -149,6 +150,7 @@ onMounted(async () => {
   try {
     rs = await get('https://v1.hitokoto.cn/', {})
   } catch (e) {
+    logger.error(e)
     hitokoto_content.value = '加载失败'
   }
   if (!rs) {

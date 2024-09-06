@@ -55,7 +55,7 @@ const store = new vuex.Store({
     },
     // 可选
     set_user_info(state, userdata) {
-      console.log(userdata)
+      // console.log(userdata)
       state.username = userdata.username
       state.email = userdata.email
       state.frptoken = userdata.frp_token

@@ -121,12 +121,12 @@ async function doResetRequest() {
   }
   if (rs.status === 200) {
     if (rs.data.status) {
-      message.success(rs.data.message)
+      message.success(rs.message)
     } else {
-      message.error(rs.data.message)
+      message.error(rs.message)
     }
   } else {
-    message.error(rs.data.message)
+    message.error(rs.message)
   }
   ldb.finish()
   status.value = 'complete'
@@ -151,12 +151,12 @@ async function sendResetMail() {
   }
   if (rs.status === 200) {
     if (rs.data.status) {
-      message.success(rs.data.message)
+      message.success(rs.message)
     } else {
-      message.error(rs.data.message)
+      message.error(rs.message)
     }
   } else {
-    message.error(rs.data.message)
+    message.error(rs.message)
   }
   ldb.finish()
   status.value = 'complete'

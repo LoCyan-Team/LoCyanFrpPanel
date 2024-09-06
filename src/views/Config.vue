@@ -57,6 +57,7 @@ import store from '@/utils/stores/store'
 import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 import clipboard from '@/utils/clipboard'
 import api from '@/api'
+import logger from '@/utils/logger'
 
 const node = ref('')
 // 选择框数据
@@ -84,6 +85,7 @@ onMounted(async () => {
   try {
     rs = await api.v2.nodes.list()
   } catch (e) {
+    logger.error(e)
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs) return
@@ -114,14 +116,15 @@ async function updateValue(value) {
       value
     )
   } catch (e) {
+    logger.error(e)
     sendErrorMessage('请求获取隧道配置文件失败: ' + e)
   }
   if (!rs) return
   if (rs.data.status) {
-    sendSuccessMessage(rs.data.message)
+    sendSuccessMessage(rs.message)
     code.value = rs.data.config
   } else {
-    sendErrorMessage(rs.data.message)
+    sendErrorMessage(rs.message)
     code.value = '该节点下没有任何隧道捏~'
   }
 }

@@ -94,7 +94,7 @@ async function sendCode() {
     message.success('已发送，若未收到请检查收件箱')
     verify.value.msg = ref(`已发送`)
   } else {
-    message.error(rs.data.msg)
+    message.error(rs.message)
     verify.value.isClick = ref(false)
     verify.value.msg = ref(`发送验证码`)
   }
@@ -119,10 +119,10 @@ async function register() {
   if (!rs) return
   // const rs = post('https://api.locyanfrp.cn/User/DoReg', model.value)
   if (rs.status === 200) {
-    message.success(rs.data.msg)
+    message.success(rs.message)
     router.push('/login')
   } else {
-    message.error(rs.data.msg)
+    message.error(rs.message)
   }
   ldb.finish()
 }

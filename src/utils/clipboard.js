@@ -1,5 +1,6 @@
 import Clipboard from 'clipboard'
 import { sendErrorMessage, sendSuccessMessage } from './message'
+import logger from '@/utils/logger'
 
 function clipboardSuccess(msg) {
   sendSuccessMessage(msg || '复制成功')
@@ -10,7 +11,7 @@ function clipboardError(msg) {
 }
 
 export default function handleClipboard(text, event, msg) {
-  console.log('Writing clipboard:\n' + text)
+  logger.info('Writing clipboard: ' + text)
   const clipboard = new Clipboard(event.target, {
     text: () => text
   })

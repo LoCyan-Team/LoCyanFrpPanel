@@ -178,7 +178,7 @@ onMounted(async () => {
       if (rs.data) trade_info.value = rs.data
       else sendErrorMessage('返回数据无效')
     } else {
-      sendErrorMessage(rs.data.message)
+      sendErrorMessage(rs.message)
     }
   }
 })
@@ -204,7 +204,7 @@ async function getDonateList() {
     donateList.value = rs.data
     loadingDonateList.value = false
   } else {
-    sendErrorMessage(rs.data.message)
+    sendErrorMessage(rs.message)
   }
 }
 
@@ -243,15 +243,15 @@ async function submitMessage() {
   if (!rs) return
   if (rs.status === 200) {
     if (rs.data.status) {
-      sendSuccessDialog(rs.data.message)
+      sendSuccessDialog(rs.message)
       getDonateList()
     } else {
-      sendWarningDialog(rs.data.message)
+      sendWarningDialog(rs.message)
       loading_submit.value = false
     }
     loading_submit.value = false
   } else {
-    sendWarningDialog(rs.data.message)
+    sendWarningDialog(rs.message)
     loading_submit.value = false
   }
 }
@@ -280,7 +280,7 @@ async function doDonate() {
     window.open(rs.data.url)
     loading_donate.value = false
   } else {
-    sendWarningDialog(rs.data.msg)
+    sendWarningDialog(rs.message)
     loading_donate.value = false
   }
 }
