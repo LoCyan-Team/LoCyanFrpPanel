@@ -174,7 +174,7 @@ onMounted(async () => {
       sendErrorMessage('请求列表失败: ' + e)
     }
     if (!rs) return
-    if (rs.status == 200) {
+    if (rs.status === 200) {
       if (rs.data) trade_info.value = rs.data
       else sendErrorMessage('返回数据无效')
     } else {
@@ -200,7 +200,7 @@ async function getDonateList() {
     sendErrorMessage('请求列表失败: ' + e)
   }
   if (!rs) return
-  if (rs.status == 200) {
+  if (rs.status === 200) {
     donateList.value = rs.data
     loadingDonateList.value = false
   } else {
@@ -241,7 +241,7 @@ async function submitMessage() {
     sendErrorMessage('请求列表失败: ' + e)
   }
   if (!rs) return
-  if (rs.status == 200) {
+  if (rs.status === 200) {
     if (rs.data.status) {
       sendSuccessDialog(rs.data.message)
       getDonateList()

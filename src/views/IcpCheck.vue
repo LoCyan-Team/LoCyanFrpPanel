@@ -24,14 +24,14 @@
       <n-grid-item span="1">
         <n-list bordered v-show="showList">
           <template #header> 已登记的域名 </template>
-          <n-list-item v-for="item in IcpList">
+          <n-list-item v-for="item in icpList">
             <n-thing
               :title="item.domain"
               :description="item.unitName + ' (' + item.natureName + ') - ' + item.icp"
             >
             </n-thing>
             <template #suffix>
-              <n-button type="error" @click="RemoveIcp(item.id)">删除</n-button>
+              <n-button type="error" @click="removeICP(item.id)">删除</n-button>
             </template>
           </n-list-item>
         </n-list>
@@ -43,9 +43,10 @@
 import { ref } from 'vue'
 import store from '@/utils/stores/store'
 import { get, deleteReq } from '@/utils/request'
-import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
+import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
 import { useDialog } from 'naive-ui'
+import api from '@/api'
 
 const showList = ref(false)
 const formRef = ref(null)
@@ -54,7 +55,7 @@ const loading = ref(false)
 const domainInput = ref({
   domain: ''
 })
-const IcpList = ref([
+const icpList = ref([
   {
     id: 0,
     icp: '',
@@ -66,7 +67,7 @@ const IcpList = ref([
   }
 ])
 
-function submit() {
+async function submit() {
   if (loading.value == true) {
     return
   }
@@ -76,52 +77,52 @@ function submit() {
     loading.value = false
     return
   }
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/icp/check?domain=' +
-      domainInput.value.domain +
-      '&token=' +
-      store.getters.get_token +
-      '&username=' +
-      store.getters.get_username
-  )
-  rs.finally((res) => {
+  let rs
+  try {
+    rs = await api.v2.icp.check(
+      store.getters.get_username,
+      store.getters.get_token,
+      domainInput.value.domain
+    )
+  } catch (e) {
+    sendErrorMessage('请求审核失败: ' + e)
+  }
+  loading.value = false
+  if (!rs) return
+  if (rs.status != 200) {
     loading.value = false
-  })
-  rs.then((res) => {
-    if (res.status != 200) {
-      loading.value = false
-      sendErrorDialog('审核失败，可能是域名没有备案或格式错误！')
-    } else {
-      GetList()
-      loading.value = false
-      sendSuccessDialog('添加成功！')
-    }
-  })
+    sendErrorDialog('审核失败，可能是域名没有备案或格式错误！')
+  } else {
+    getList()
+    loading.value = false
+    sendSuccessDialog('添加成功！')
+  }
 }
 
-function RemoveIcp(id) {
+async function removeICP(id) {
   dialog.warning({
     title: '警告',
     content: '你确定要删除这个域名吗？（域名 ID: ' + id + '）',
     positiveText: '确定',
     negativeText: '取消',
-    onPositiveClick: () => {
-      const rs = deleteReq(
-        'https://api-v2.locyanfrp.cn/api/v2/icp/remove?id=' +
-          id +
-          '&token=' +
-          store.getters.get_token +
-          '&username=' +
-          store.getters.get_username
-      )
-      rs.then((res) => {
-        if (res.status === 200) {
-          sendSuccessDialog('删除成功！')
-          GetList()
-        } else {
-          sendErrorDialog('删除失败，请联系管理员处理！')
-        }
-      })
+    onPositiveClick: async () => {
+      let rs
+      try {
+        rs = await api.v2.icp.remove(
+          store.getters.get_username,
+          store.getters.get_token,
+          id
+        )
+      } catch (e) {
+        sendErrorMessage('请求移除域名失败: ' + e)
+      }
+      if (!rs) return
+      if (rs.status === 200) {
+        sendSuccessDialog('删除成功！')
+        getList()
+      } else {
+        sendErrorDialog('删除失败，请联系管理员处理！')
+      }
     },
     onNegativeClick: () => {
       sendSuccessMessage('你取消了操作！')
@@ -132,22 +133,21 @@ function RemoveIcp(id) {
   })
 }
 
-function GetList() {
-  const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/icp/list?token=' +
-      store.getters.get_token +
-      '&username=' +
-      store.getters.get_username
-  )
-  rs.then((res) => {
-    if (res.status === 200) {
-      IcpList.value = res.data.list
-      showList.value = true
-    } else {
-      showList.value = false
-    }
-  })
+async function getList() {
+  let rs
+  try {
+    rs = await api.v2.icp.list(store.getters.get_username, store.getters.get_token)
+  } catch (e) {
+    sendErrorMessage('请求移除域名失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status === 200) {
+    icpList.value = rs.data.list
+    showList.value = true
+  } else {
+    showList.value = false
+  }
 }
 
-GetList()
+getList()
 </script>

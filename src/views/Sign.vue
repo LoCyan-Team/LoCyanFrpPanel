@@ -123,7 +123,7 @@ async function checkSign() {
     loading.value = false
   }
   if (!rs) return
-  if (rs.status == 200) {
+  if (rs.status === 200) {
     status.value = rs.data.status
   }
   loading.value = false
@@ -137,7 +137,7 @@ async function doSign() {
     sendErrorMessage('签到失败: ' + e)
   }
   if (!rs) return
-  if (rs.status == 200) {
+  if (rs.status === 200) {
     sendErrorMessage(rs.message)
     checkSign()
   } else {

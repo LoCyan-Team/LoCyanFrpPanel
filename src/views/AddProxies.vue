@@ -233,7 +233,7 @@ async function randomPort() {
     sendErrorMessage('请求隧道端口失败: ' + e)
   }
   if (!rs) return
-  if (rs.status == 200) {
+  if (rs.status === 200) {
     proxyInfo.value.remote_port = rs.data.port
   }
 }

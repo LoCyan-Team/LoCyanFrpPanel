@@ -491,7 +491,7 @@ async function initList() {
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs2) return
-  if (rs2.status == 200) {
+  if (rs2.status === 200) {
     proxiesList.value = rs2.data.proxies
     show.value = false
   } else {
@@ -533,7 +533,7 @@ function deleteProxy(id) {
         sendErrorMessage('请求删除隧道失败: ' + e)
       }
       if (!rs) return
-      if (rs.status == 200) {
+      if (rs.status === 200) {
         sendSuccessMessage('删除成功！')
         proxiesList.value.splice(id, 1)
       } else {

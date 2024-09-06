@@ -243,7 +243,7 @@ async function doBindQQ() {
     message.error('请求失败: ' + e)
   }
   if (!rs) return
-  if (rs.status == 200) {
+  if (rs.status === 200) {
     window.open(rs.data.url)
     binding.value = false
   }
@@ -264,7 +264,7 @@ async function unBindQQ() {
     }, 1000)
   }
   if (!rs) return
-  if (rs.status == 200) {
+  if (rs.status === 200) {
     binding.value = false
     bindQQ.value.unBindDisable = true
     bindQQ.value.unBindmsg = ref('解绑成功')

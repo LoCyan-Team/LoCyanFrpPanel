@@ -3,7 +3,7 @@ const base = {
   api_v2_url: 'https://api-v2.locyanfrp.cn/api/v2',
   buildResponse: (res: any, useDataPath: boolean = true) => {
     return {
-      status: res.status,
+      status: res.status as number,
       data: useDataPath ? res.data.data : res.data
     }
   }

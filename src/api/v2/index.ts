@@ -1,5 +1,6 @@
 import config from './config'
 import donate from './donate'
+import icp from './icp'
 import nodes from './nodes'
 import oauth from './oauth'
 import proxies from './proxies'
@@ -17,5 +18,6 @@ export default {
   proxies: proxies,
   nodes: nodes,
   config: config,
-  donate: donate
+  donate: donate,
+  icp: icp
 }
