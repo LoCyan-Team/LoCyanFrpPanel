@@ -9,15 +9,19 @@
         <n-card title="签到" size="medium">
           <n-space justify="space-between">
             <p>通过签到你可以获得更多流量</p>
-            <n-button v-if="status === '已签到'" round @click="DoSign" dashed> 已签到 </n-button>
-            <n-button v-if="status === '尚未签到'" strong secondary type="success" @click="DoSign">
+            <n-button v-if="status" round @click="doSign" dashed> 已签到 </n-button>
+            <n-button v-if="!status" v-bind:disabled="loading" strong secondary type="success" @click="doSign">
               签到
             </n-button>
           </n-space>
-          <p v-if="status">状态：{{ status }}</p>
+          <p v-if="!loading">
+            状态：
+            <span v-if="status"> 已签到 </span>
+            <span v-else> 尚未签到 </span>
+          </p>
           <n-skeleton text :repeat="1" style="width: 10%" v-else />
           <br />
-          <n-gi v-if="status === '已签到'">
+          <n-gi v-if="status">
             <img style="width: 100%" src="https://api.imlazy.ink/img" />
           </n-gi>
         </n-card>
@@ -93,39 +97,45 @@
 <script setup>
 import { ref } from 'vue'
 import { NButton, NCard, NGrid, NGridItem, NH1, NSkeleton, NSpace, NText } from 'naive-ui'
-import { post } from '@/utils/request'
 import { sendErrorMessage } from '@/utils/message'
 import { sendSuccessDialog } from '@/utils/dialog'
 import store from '@/utils/stores/store'
+import api from '@/api'
 
-const status = ref('')
+const loading = ref(true)
+const status = ref(false)
 
-function CheckSign() {
-  const rs = post('https://api.locyanfrp.cn/User/CheckSign', { token: store.getters.get_token }, {})
-  rs.then((res) => {
-    if (!res.status) {
-      status.value = res.message
-    } else {
-      status.value = res.message
-    }
-  })
+async function checkSign() {
+  let rs
+  try {
+    rs = await api.v2.sign.check(store.getters.get_username)
+  } catch (e) {
+    sendErrorMessage('获取签到状态失败: ' + e)
+    loading.value = false
+  }
+  if (!rs) return
+  if (rs.status == 200) {
+    status.value = rs.data.status
+  }
+  loading.value = false
 }
 
-// 检测签到状态
-CheckSign()
-
-function DoSign() {
-  const rs = post('https://api.locyanfrp.cn/User/DoSign', {
-    token: store.getters.get_token
-  })
-  rs.then((res) => {
-    if (!res.status) {
-      sendErrorMessage(res.message)
-      CheckSign()
-    } else {
-      sendSuccessDialog(res.message)
-      CheckSign()
-    }
-  })
+async function doSign() {
+  let rs
+  try {
+    rs = await api.v2.sign.sign(store.getters.get_username)
+  } catch (e) {
+    sendErrorMessage('签到失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status == 200) {
+    sendErrorMessage(rs.message)
+    checkSign()
+  } else {
+    sendSuccessDialog(rs.message)
+    checkSign()
+  }
 }
+
+checkSign()
 </script>
