@@ -165,7 +165,7 @@ import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import { finishLoadingBar, startLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
 import store from '@/utils/stores/store'
 import api from '@/api'
-import logger from '@/logger'
+import logger from '@/utils/logger'
 
 const loading = ref(true)
 const showRealnameModal = ref(true)
