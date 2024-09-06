@@ -114,12 +114,7 @@
       </template>
       <p>
         {{ quickstartCommand }}
-        <n-button
-          type="tertiary"
-          @click="copy(quickstartCommand, $event)"
-        >
-          复制
-        </n-button>
+        <n-button type="tertiary" @click="copy(quickstartCommand, $event)"> 复制 </n-button>
       </p>
     </n-tooltip>
     <!-- <template #footer>

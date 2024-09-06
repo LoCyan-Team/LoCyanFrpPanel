@@ -93,7 +93,9 @@
   margin: 0 3px;
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.4);
-  transition: width 0.3s, background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    width 0.3s,
+    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
 .custom-dots li.is-active {

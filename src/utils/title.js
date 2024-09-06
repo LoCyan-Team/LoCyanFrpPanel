@@ -1,4 +1,5 @@
-const colorTitle = 'background: linear-gradient(to right, #e66465, #9198e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;'
+const colorTitle =
+  'background: linear-gradient(to right, #e66465, #9198e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;'
 const colorBadgeA = 'background-color: #F14E32; color: #fff;'
 const colorBadgeB = 'background-color: #000; color: #fff;'
 const colorBadgeC = 'background-color: #862d59; color: #fff;'
@@ -7,7 +8,8 @@ const colorReset = 'background-color: none; color: none;'
 const colorCFU = 'wdith: 100%; background-color: #66ccff; color: #fff;'
 
 export function printTitle() {
-  console.log(`%c
+  console.log(
+    `%c
         _           ____                  _____           
        | |    ___  / ___|   _  __ _ _ __ |  ___| __ _ __  
        | |   / _ \\| |  | | | |/ _\` | '_ \\| |_ | '__| '_ \\ 

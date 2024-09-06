@@ -1,4 +1,5 @@
 import config from './config'
+import donate from './donate'
 import nodes from './nodes'
 import oauth from './oauth'
 import proxies from './proxies'
@@ -15,5 +16,6 @@ export default {
   sign: sign,
   proxies: proxies,
   nodes: nodes,
-  config: config
+  config: config,
+  donate: donate
 }
