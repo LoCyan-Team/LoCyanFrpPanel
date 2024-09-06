@@ -1,3 +1,4 @@
+//@ts-ignore
 import { get } from '@/utils/request'
 import base from '@/api/base'
 

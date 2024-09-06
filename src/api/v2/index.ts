@@ -1,4 +1,6 @@
+import nodes from './nodes'
 import oauth from './oauth'
+import proxies from './proxies'
 import realname from './realname'
 import realperson from './realperson'
 import sign from './sign'
@@ -9,5 +11,7 @@ export default {
   oauth: oauth,
   realname: realname,
   realperson: realperson,
-  sign: sign
+  sign: sign,
+  proxies: proxies,
+  nodes: nodes
 }
