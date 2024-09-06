@@ -6,7 +6,7 @@
   <n-grid cols="1" y-gap="1" item-responsive>
     <n-grid-item span="1">
       <n-card title="节点">
-        <n-select v-model:value="node" :options="ServerList" @update:value="UpdateValue" />
+        <n-select v-model:value="node" :options="ServerList" @update:value="updateValue" />
         <n-button strong secondary type="info" style="margin-top: 30px" @click="copy(code, $event)"
           >复制
         </n-button>
@@ -42,7 +42,7 @@ set_real_ip_from 127.0.0.1;"
           language="nginx"
           word-wrap
         ></n-code>
-        <p>3. 更改最后一个参数中的 127.0.0.1 请你改为创建隧道时填写的本地 IP（Local_Ip）。</p>
+        <p>3. 更改最后一个参数中的 127.0.0.1 请你改为创建隧道时填写的本地 IP（local_ip）。</p>
         <p>4. 保存，重启 Nginx，你就可以获取用户的真实 IP 啦！</p>
       </n-card>
     </n-grid-item>
@@ -54,22 +54,44 @@ set_real_ip_from 127.0.0.1;"
 <script setup>
 import { ref } from 'vue'
 import store from '@/utils/stores/store'
-import { get } from '@/utils/request'
 import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
-import clipboard from '..//utils/clipboard'
+import clipboard from '@/utils/clipboard'
+import api from '@/api'
 
 const node = ref('')
 // 选择框数据
 const ServerList = ref([])
 const code = ref('')
 
-const rs = get('https://api.locyanfrp.cn/Proxies/GetServerList')
-rs.then((res) => {
+// const rs = get('https://api.locyanfrp.cn/Proxies/GetServerList')
+// rs.then((res) => {
+//   var i = 0
+//   res.forEach((s) => {
+//     if (i === 0) {
+//       node.value = s.id
+//       updateValue(s.id)
+//     }
+//     ServerList.value[i] = {
+//       label: s.name,
+//       value: s.id
+//     }
+//     i = i + 1
+//   })
+// })
+
+onMounted(async () => {
+  let rs
+  try {
+    rs = await api.v2.nodes.list()
+  } catch (e) {
+    sendErrorMessage('请求节点列表失败: ' + e)
+  }
+  if (!rs) return
   var i = 0
-  res.forEach((s) => {
+  rs.data.forEach((s) => {
     if (i === 0) {
       node.value = s.id
-      UpdateValue(s.id)
+      updateValue(s.id)
     }
     ServerList.value[i] = {
       label: s.name,
@@ -83,24 +105,24 @@ function copy(data, event) {
   clipboard(data, event)
 }
 
-function UpdateValue(value) {
-  const rs = get(
-    'https://api.locyanfrp.cn/Proxies/GetConfigFile?username=' +
-      store.getters.get_username +
-      '&token=' +
-      store.getters.get_token +
-      '&node=' +
-      value,
-    []
-  )
-  rs.then((res) => {
-    if (res.status) {
-      sendSuccessMessage(res.message)
-      code.value = res.config
-    } else {
-      sendErrorMessage(res.message)
-      code.value = '该节点下没有任何隧道捏~'
-    }
-  })
+async function updateValue(value) {
+  let rs
+  try {
+    rs = await api.v1.Proxies.GetConfigFile(
+      store.getters.get_username,
+      store.getters.get_token,
+      value
+    )
+  } catch (e) {
+    sendErrorMessage('请求获取隧道配置文件失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.data.status) {
+    sendSuccessMessage(rs.data.message)
+    code.value = rs.data.config
+  } else {
+    sendErrorMessage(rs.data.message)
+    code.value = '该节点下没有任何隧道捏~'
+  }
 }
 </script>

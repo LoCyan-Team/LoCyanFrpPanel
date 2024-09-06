@@ -10,6 +10,7 @@ function clipboardError(msg) {
 }
 
 export default function handleClipboard(text, event, msg) {
+  console.log('Writing clipboard:\n' + text)
   const clipboard = new Clipboard(event.target, {
     text: () => text
   })

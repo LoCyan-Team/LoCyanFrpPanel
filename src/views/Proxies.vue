@@ -110,20 +110,13 @@
     简易启动命令：
     <n-tooltip placement="bottom" trigger="click">
       <template #trigger>
-        <n-button> 点击显示/隐藏 </n-button>
+        <n-button @click="buildQuickstartCommand"> 点击显示/隐藏 </n-button>
       </template>
       <p>
-        ./frpc.exe -u {{ store.getters.get_frp_token }} -p {{ selectProxyID }}
+        {{ quickstartCommand }}
         <n-button
           type="tertiary"
-          @click="
-            ($event) => {
-              clipboard(
-                './frpc.exe -u ' + store.getters.get_frp_token + ' -p ' + selectProxyID,
-                event
-              )
-            }
-          "
+          @click="copy(quickstartCommand, $event)"
         >
           复制
         </n-button>
@@ -256,6 +249,7 @@ const selectProxyID = ref(0)
 const indexOfProxies = ref(0)
 const dialog = useDialog()
 const linkAddr = ref('')
+const quickstartCommand = ref('')
 const editServerList = ref([])
 const bodyStyle = {
   width: '600px'
@@ -558,6 +552,14 @@ function deleteProxy(id) {
       sendSuccessMessage('你取消了操作！')
     }
   })
+}
+
+function buildQuickstartCommand() {
+  quickstartCommand.value = `./frpc -u ${store.getters.get_frp_token} -p ${selectProxyID.value}`
+}
+
+function copy(data, event) {
+  clipboard(data, event)
 }
 </script>
 

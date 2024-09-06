@@ -1,3 +1,4 @@
+import config from './config'
 import nodes from './nodes'
 import oauth from './oauth'
 import proxies from './proxies'
@@ -13,5 +14,6 @@ export default {
   realperson: realperson,
   sign: sign,
   proxies: proxies,
-  nodes: nodes
+  nodes: nodes,
+  config: config
 }
