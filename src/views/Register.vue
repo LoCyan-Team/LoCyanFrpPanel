@@ -118,13 +118,13 @@ async function register() {
   }
   if (!rs) return
   // const rs = post('https://api.locyanfrp.cn/User/DoReg', model.value)
-    if (rs.status === 200) {
-      message.success(rs.data.msg)
-      router.push('/login')
-    } else {
-      message.error(rs.data.msg)
-    }
-    ldb.finish()
+  if (rs.status === 200) {
+    message.success(rs.data.msg)
+    router.push('/login')
+  } else {
+    message.error(rs.data.msg)
+  }
+  ldb.finish()
 }
 
 const rules = {
