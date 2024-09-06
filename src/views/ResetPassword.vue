@@ -16,12 +16,12 @@
             type="text"
             v-model:value="model.username"
             placeholder="用户名"
-            @keyup.enter="sendresetmail"
+            @keyup.enter="sendResetMail"
           />
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
           <n-space>
-            <n-button type="primary" @click="sendresetmail" style="margin-right: 10px">
+            <n-button type="primary" @click="sendResetMail" style="margin-right: 10px">
               发送邮件
             </n-button>
             <n-button ghost type="primary" @click="gologin"> 登录</n-button>
@@ -124,7 +124,7 @@ function doresetrequest() {
   })
 }
 
-function sendresetmail() {
+function sendResetMail() {
   if (status.value === 'sending') {
     message.warning('上一个请求正在处理！')
     return
