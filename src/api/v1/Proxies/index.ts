@@ -1,5 +1,5 @@
-import GetRandomPort from "./GetRandomPort";
+import GetRandomPort from './GetRandomPort'
 
 export default {
-    GetRandomPort: GetRandomPort
+  GetRandomPort: GetRandomPort
 }
