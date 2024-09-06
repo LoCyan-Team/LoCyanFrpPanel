@@ -162,8 +162,8 @@
 import { ref } from 'vue'
 import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog'
 import { FinishLoadingBar, StartLoadingBar } from '@/utils/loadingbar'
-import { get, post } from '@/utils/request
-import store from '@/utils/stores/store
+import { get, post } from '@/utils/request'
+import store from '@/utils/stores/store'
 
 const loading = ref(true)
 const showRealnameModal = ref(true)
