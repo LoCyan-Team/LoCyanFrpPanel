@@ -91,7 +91,7 @@ import { ref } from 'vue'
 import store from '@/utils/stores/store'
 import { get, post } from '@/utils/request'
 import { sendErrorMessage } from '@/utils/message'
-import { SendErrorDialog, SendSuccessDialog } from '@/utils/dialog'
+import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
 
 localStorage.setItem('ViewPage', 'add_proxy')
 // 选择框数据
@@ -222,7 +222,7 @@ function ProxyTypeSelectChangeHandle(value) {
 
 function RandomPort() {
   if (ProxyInfo.value.node === 0) {
-    SendErrorDialog('请先选择你需要的节点')
+    sendErrorDialog('请先选择你需要的节点')
     return
   }
   const rs = get('https://api.locyanfrp.cn/Proxies/GetRandomPort?id=' + ProxyInfo.value.node)
@@ -233,7 +233,7 @@ function RandomPort() {
 
 function addproxy() {
   if (EditCheck.value === false) {
-    SendErrorDialog('参数检查未通过，请检查信息格式是否正确')
+    sendErrorDialog('参数检查未通过，请检查信息格式是否正确')
     return
   }
   const TunnelCreateInfo = {
@@ -254,7 +254,7 @@ function addproxy() {
   const rs = post('https://api-v2.locyanfrp.cn/api/v2/proxies/add', TunnelCreateInfo)
   rs.then((res) => {
     if (res.status === 200) {
-      SendSuccessDialog('添加成功')
+      sendSuccessDialog('添加成功')
     } else {
       sendErrorMessage(res.data.msg)
     }

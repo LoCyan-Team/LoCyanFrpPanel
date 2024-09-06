@@ -42,7 +42,9 @@
     </n-grid-item>-->
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
-        <span>您好，尊敬的 <a id="username">{{ username }}</a></span>
+        <span
+          >您好，尊敬的 <a id="username">{{ username }}</a></span
+        >
         <br />
         <a>您的邮箱为：{{ email }}</a>
         <br />
@@ -170,7 +172,7 @@ import { AngleRight, Key } from '@vicons/fa'
 import store from '@/utils/stores/store'
 import { marked } from 'marked'
 import { useDialog, useMessage } from 'naive-ui'
-import { StartLoadingBar } from '@/utils/loadingbar'
+import { startLoadingBar } from '@/utils/loadingbar'
 import { sendWarningMessage, sendErrorMessage } from '@/utils/message'
 import api from '@/api'
 
@@ -191,14 +193,14 @@ const message = useMessage()
 // 通知 or AD
 onMounted(async () => {
   // console.log('Rquest ads')
-  let res;
+  let res
   try {
     res = await api.v1.App.root()
   } catch (e) {
     sendErrorMessage('获取 Ads 失败: ' + e)
   }
   // console.log(res)
-  if (!res) return;
+  if (!res) return
   notice.value = res.data
   if (notice.value.ads !== '') {
     ads_content.value =
@@ -216,7 +218,7 @@ onMounted(async () => {
 
 // 公告
 onMounted(async () => {
-  let res;
+  let res
   try {
     res = await api.v1.App.GetBroadCast()
   } catch (e) {
@@ -302,7 +304,7 @@ async function resetTraffic() {
     positiveText: '确定',
     negativeText: '还是算了~',
     onPositiveClick: async () => {
-      StartLoadingBar()
+      startLoadingBar()
       const data = {
         username: store.getters.get_username
       }
@@ -312,7 +314,7 @@ async function resetTraffic() {
       } else {
         message.success('重置失败, API 返回: ' + rs.data.msg)
       }
-      FinishLoadingBar()
+      finishLoadingBar()
     }
   })
 }

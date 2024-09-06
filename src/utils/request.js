@@ -31,10 +31,10 @@ instance.interceptors.request.use(
     const token = store.getters.get_token
     if (token) {
       // 已经登录成功，统一添加token
-      (await config).headers.Authorization = `Bearer ${token}`
+      ;(await config).headers.Authorization = `Bearer ${token}`
     }
     // token && (config.headers.Authorization = token);
-    return (await config)
+    return await config
   },
   async (error) => await error
 )

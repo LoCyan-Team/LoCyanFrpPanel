@@ -13,8 +13,8 @@ import { get } from '@/utils/request'
  * }
  */
 const GetCSApp = async () => {
-    const rs = await get(`${base.api_v1_url}/App/GetCSApp`, {})
-    return base.buildResponse(rs, false)
+  const rs = await get(`${base.api_v1_url}/App/GetCSApp`, {})
+  return base.buildResponse(rs, false)
 }
 
 export default GetCSApp

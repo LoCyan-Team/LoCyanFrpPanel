@@ -44,7 +44,7 @@ import { ref } from 'vue'
 import store from '@/utils/stores/store'
 import { get, deleteReq } from '@/utils/request'
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
-import { SendErrorDialog, SendSuccessDialog } from '@/utils/dialog'
+import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
 import { useDialog } from 'naive-ui'
 
 const showList = ref(false)
@@ -72,7 +72,7 @@ function submit() {
   }
   loading.value = true
   if (domainInput.value.domain === '' || domainInput.value.domain === null) {
-    SendErrorDialog('域名不得为空！')
+    sendErrorDialog('域名不得为空！')
     loading.value = false
     return
   }
@@ -90,11 +90,11 @@ function submit() {
   rs.then((res) => {
     if (res.status != 200) {
       loading.value = false
-      SendErrorDialog('审核失败，可能是域名没有备案或格式错误！')
+      sendErrorDialog('审核失败，可能是域名没有备案或格式错误！')
     } else {
       GetList()
       loading.value = false
-      SendSuccessDialog('添加成功！')
+      sendSuccessDialog('添加成功！')
     }
   })
 }
@@ -116,10 +116,10 @@ function RemoveIcp(id) {
       )
       rs.then((res) => {
         if (res.status === 200) {
-          SendSuccessDialog('删除成功！')
+          sendSuccessDialog('删除成功！')
           GetList()
         } else {
-          SendErrorDialog('删除失败，请联系管理员处理！')
+          sendErrorDialog('删除失败，请联系管理员处理！')
         }
       })
     },

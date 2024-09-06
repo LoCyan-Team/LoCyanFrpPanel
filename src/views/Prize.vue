@@ -46,8 +46,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { SendSuccessDialog, SendWarningDialog } from '@/utils/dialog'
-import { FinishLoadingBar, StartLoadingBar } from '@/utils/loadingbar'
+import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
+import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import { get } from '@/utils/request'
 import store from '@/utils/stores/store'
 import { marked } from 'marked'
@@ -80,21 +80,21 @@ function timestampToTime(timestamp) {
 }
 
 function submitjoin(id) {
-  StartLoadingBar()
+  startLoadingBar()
   const rs = get(
     'https://api.locyanfrp.cn/Prize/JoinPrize?username=' + store.getters.get_username + '&id=' + id
   )
   rs.then((res) => {
     if (res.status) {
-      FinishLoadingBar()
-      SendSuccessDialog(res.message)
+      finishLoadingBar()
+      sendSuccessDialog(res.message)
       const rs = get('https://api.locyanfrp.cn/Prize/GetPrizes')
       rs.then((res) => {
         PrizesList.value = res
       })
     } else {
-      FinishLoadingBar()
-      SendWarningDialog(res.message)
+      finishLoadingBar()
+      sendWarningDialog(res.message)
     }
   })
 }

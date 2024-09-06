@@ -1,7 +1,7 @@
-import Account from "./Account"
-import App from "./App"
+import Account from './Account'
+import App from './App'
 
 export default {
-    App: App,
-    Account: Account
+  App: App,
+  Account: Account
 }

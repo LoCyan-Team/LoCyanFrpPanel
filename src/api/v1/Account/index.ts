@@ -1,7 +1,7 @@
-import EditEmail from "./EditEmail";
-import SendEditEmail from "./SendEditMail";
+import EditEmail from './EditEmail'
+import SendEditEmail from './SendEditMail'
 
 export default {
-    EditEmail: EditEmail,
-    SendEditEmail: SendEditEmail
+  EditEmail: EditEmail,
+  SendEditEmail: SendEditEmail
 }

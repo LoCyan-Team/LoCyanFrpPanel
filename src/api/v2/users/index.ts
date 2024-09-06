@@ -3,7 +3,7 @@ import login from './login'
 import reset from './reset'
 
 export default {
-    info: info,
-    login: login,
-    reset: reset
+  info: info,
+  login: login,
+  reset: reset
 }

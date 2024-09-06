@@ -246,7 +246,7 @@ import clipboard from '@/utils/clipboard'
 import store from '@/utils/stores/store'
 import { get, post } from '@/utils/request'
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
-import { SendErrorDialog, SendSuccessDialog, SendWarningDialog } from '@/utils/dialog'
+import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import downloadSoftPage from '../components/InstallCsApp.vue'
 
 const show = ref(true)
@@ -320,7 +320,7 @@ function LaunchProxyThroughApplication(id) {
 
 function EditProxy(proxyid) {
   if (EditCheck.value === false) {
-    SendWarningDialog('参数检查未通过，请检查信息格式是否正确！')
+    sendWarningDialog('参数检查未通过，请检查信息格式是否正确！')
   }
 
   const EditInfo = {
@@ -341,9 +341,9 @@ function EditProxy(proxyid) {
       initList()
       // 关闭模态框
       showEditModal.value = false
-      SendSuccessDialog('修改成功')
+      sendSuccessDialog('修改成功')
     } else {
-      SendErrorDialog(res.data.msg)
+      sendErrorDialog(res.data.msg)
     }
   })
 }

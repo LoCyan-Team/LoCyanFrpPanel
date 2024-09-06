@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { FinishLoadingBar, StartLoadingBar } from '@/utils/loadingbar'
+import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import store from '@/utils/stores/store'
 import { changeMainSideBarShow } from '../components/MainNav.vue'
 import { ChangeShowSideBar_Guest } from '../components/GuestNav.vue'
@@ -187,7 +187,7 @@ if (localStorage.getItem('token')) {
 }
 
 router.beforeEach((to, from, next) => {
-  StartLoadingBar()
+  startLoadingBar()
   if (to.name === 'Login') {
     if (store.getters.get_token) {
       next({ name: 'Dashboard' })
@@ -222,7 +222,7 @@ router.beforeEach((to, from, next) => {
 
 // from next
 router.afterEach((to) => {
-  FinishLoadingBar()
+  finishLoadingBar()
   if (to.meta.title) {
     //设置标题
     document.title = to.meta.title + ' | LoCyanFrp'

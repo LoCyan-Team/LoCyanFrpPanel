@@ -129,7 +129,7 @@
 import { ref } from 'vue'
 import { get, getUrlKey, post } from '@/utils/request'
 import store from '@/utils/stores/store'
-import { SendSuccessDialog, SendWarningDialog } from '@/utils/dialog'
+import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 
 // 页面元素初始化
 const amount = ref('0.01')
@@ -202,7 +202,7 @@ const timestampToTime = (timestamp) => {
 const submit = () => {
   loading_submit.value = true
   if (message.message === '') {
-    SendWarningDialog('内容不能为空！')
+    sendWarningDialog('内容不能为空！')
     loading_submit.value = false
     return
   }
@@ -220,11 +220,11 @@ const submit = () => {
   )
   rs.then((res) => {
     if (res.status === true) {
-      SendSuccessDialog(res.message)
+      sendSuccessDialog(res.message)
       GetDonateList()
       loading_submit.value = false
     } else {
-      SendWarningDialog(res.message)
+      sendWarningDialog(res.message)
       loading_submit.value = false
     }
   })
@@ -233,7 +233,7 @@ const submit = () => {
 const doDonate = () => {
   loading_donate.value = true
   if (pay_type.value === '' || pay_type.value === null) {
-    SendWarningDialog('请选择支付方式')
+    sendWarningDialog('请选择支付方式')
     loading_donate.value = false
     return
   }
@@ -249,7 +249,7 @@ const doDonate = () => {
       window.open(res.data.url)
       loading_donate.value = false
     } else {
-      SendWarningDialog(res.data.msf)
+      sendWarningDialog(res.data.msf)
       loading_donate.value = false
     }
   })

@@ -1,7 +1,11 @@
-import oauth from "./oauth"
-import users from "./users"
+import oauth from './oauth'
+import realname from './realname'
+import realperson from './realperson'
+import users from './users'
 
 export default {
-    users: users,
-    oauth: oauth
+  users: users,
+  oauth: oauth,
+  realname: realname,
+  realperson: realperson
 }

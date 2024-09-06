@@ -3,7 +3,7 @@ import GetBroadCast from './GetBroadCast'
 import GetCSApp from './GetCSApp'
 
 export default {
-    root: root,
-    GetBroadCast: GetBroadCast,
-    GetCSApp: GetCSApp
+  root: root,
+  GetBroadCast: GetBroadCast,
+  GetCSApp: GetCSApp
 }
