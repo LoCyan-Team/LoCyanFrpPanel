@@ -3,7 +3,7 @@ import base from '@/api/base'
 import { get } from '@/utils/request'
 
 const query = async (username: string, certify_id: string) => {
-  const rs = get(`${base.api_v2_url}/realperson/submit`, {
+  const rs = get(`${base.api_v2_url}/realperson/query`, {
     username: username,
     certify_id: certify_id
   })
