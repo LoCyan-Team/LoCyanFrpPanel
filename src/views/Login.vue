@@ -81,7 +81,7 @@ const model = ref([
 // 检查是否存在redirect值
 const redirect = getUrlKey('redirect')
 if (redirect !== null) {
-  logger.info('登录后返回' + redirect)
+  logger.info('Redirect after login: ' + redirect)
 }
 
 // 检查是否存在第三方登录返回值

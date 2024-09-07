@@ -325,7 +325,8 @@ async function realPersonPay() {
   try {
     rs = await api.v2.realperson.pay(
       store.getters.get_username,
-      'https://api-v2.locyanfrp.cn/api/v2/realperson/notify&redirect_url=https://dashboard.locyanfrp.cn/realname'
+      'https://api-v2.locyanfrp.cn/api/v2/realperson/notify',
+      'https://dashboard.locyanfrp.cn/realname'
     )
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)

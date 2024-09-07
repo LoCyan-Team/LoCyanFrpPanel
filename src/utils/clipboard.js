@@ -11,7 +11,7 @@ function clipboardError(msg) {
 }
 
 export default function handleClipboard(text, event, msg) {
-  logger.info('Writing clipboard: ' + text)
+  logger.info(`Writing clipboard [${event.target}]: ${text}`)
   const clipboard = new Clipboard(event.target, {
     text: () => text
   })

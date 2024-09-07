@@ -37,10 +37,10 @@ import hljs from 'highlight.js/lib/core'
 import ini from 'highlight.js/lib/languages/ini'
 import nginx from 'highlight.js/lib/languages/nginx'
 import api from '@/api'
-import { sendWarningMessage, sendErrorMessage } from '@/utils/message'
+import { sendWarningMessage } from '@/utils/message'
 import { logout } from '@/utils/profile'
 // import { init_ws, SetOnMessageFunction } from "@/utils/websocket.js";
-import { sendInfoNotification } from '@/utils/notification'
+// import { sendInfoNotification } from '@/utils/notification'
 
 const osThemeRef = useOsTheme()
 const theme = computed(() => (osThemeRef.value === 'dark' ? darkTheme : null))
@@ -49,13 +49,13 @@ let inited = false
 hljs.registerLanguage('ini', ini)
 hljs.registerLanguage('nginx', nginx)
 
-function getMessage(e) {
-  const rs = JSON.parse(e.data)
-  // 通知
-  if (rs.type === 'notice') {
-    sendInfoNotification(rs.message)
-  }
-}
+// function getMessage(e) {
+//   const rs = JSON.parse(e.data)
+//   // 通知
+//   if (rs.type === 'notice') {
+//     sendInfoNotification(rs.message)
+//   }
+// }
 
 // 初始化websocket
 if (inited === false) {

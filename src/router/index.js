@@ -5,6 +5,7 @@ import { changeMainSideBarShow } from '../components/MainNav.vue'
 import { changeShowGuestSideBar } from '../components/GuestNav.vue'
 import { setSideBarActiveKey } from '../components/MainSideBar.vue'
 import { setGuestSideBarActiveKey } from '../components/GuestSideBar.vue'
+import logger from '@/utils/logger'
 
 const routes = [
   {
@@ -155,32 +156,21 @@ const router = createRouter({
   routes
 })
 
-// 检查本地存储是否存在token，若存在则直接使用
-if (localStorage.getItem('token')) {
-  store.commit('set_token', localStorage.getItem('token'))
-}
+// // 检查本地存储是否存在token，若存在则直接使用
+// if (localStorage.getItem('token')) {
+//   store.commit('set_token', localStorage.getItem('token'))
+// }
+
+// 检测到已登录之后自动跳转 /dashboard 的界面
+const _autoRedirectLogined = ['Login', 'Register', 'ResetPassword']
 
 router.beforeEach((to, from, next) => {
   startLoadingBar()
-  if (to.name === 'Login') {
-    if (store.getters.get_token) {
-      next({ name: 'Dashboard' })
-    }
-    next()
-    return
-  }
-  if (to.name === 'Register') {
-    if (store.getters.get_token) {
-      next({ name: 'Dashboard' })
-    }
-    next()
-    return
-  }
-  if (to.name === 'ResetPassword') {
-    if (store.getters.get_token) {
-      next({ name: 'Dashboard' })
-    }
-    next()
+  if (_autoRedirectLogined.includes(to.name)) {
+    const hasToken = store.getters.get_token != ''
+    logger.info(`Has token: ${hasToken}${hasToken ? ` ${store.getters.get_token}` : ''}`)
+    if (hasToken) next({ name: 'Dashboard' })
+    else next()
     return
   }
   if (to.name === 'MainPage') {
