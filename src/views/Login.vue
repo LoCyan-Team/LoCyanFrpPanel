@@ -157,23 +157,23 @@ async function login() {
   }
   let res
   try {
-    res = await api.v2.users.login(model.value.username, model.value.password)
+    rs = await api.v2.users.login(model.value.username, model.value.password)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
-  if (!res) {
+  if (!rs) {
     ldb.error()
     return
   }
-  if (res.status === 200) {
-    message.success(res.data.username + '，欢迎回来！')
-    store.commit('set_token', res.data.token)
+  if (rs.status === 200) {
+    message.success(rs.data.username + '，欢迎回来！')
+    store.commit('set_token', rs.data.token)
     // console.log(res.data)
-    store.commit('set_user_info', res.data)
+    store.commit('set_user_info', rs.data)
     router.push(redirect || '/dashboard')
     ldb.finish()
   } else {
-    message.warning(res.data.msg)
+    message.warning(rs.message)
     ldb.error()
   }
 }
