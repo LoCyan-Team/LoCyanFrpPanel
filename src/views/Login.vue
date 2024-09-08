@@ -155,7 +155,7 @@ async function login() {
     ldb.error()
     return
   }
-  let res
+  let rs
   try {
     rs = await api.v2.users.login(model.value.username, model.value.password)
   } catch (e) {
