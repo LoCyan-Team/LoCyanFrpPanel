@@ -283,7 +283,7 @@ async function addProxy() {
   }
   if (!rs) return
   if (rs.status === 200) {
-    if (rs.data.status === 200) {
+    if (rs.statusApi === 200) {
       sendSuccessDialog('添加成功')
     } else {
       sendErrorMessage(rs.message)
