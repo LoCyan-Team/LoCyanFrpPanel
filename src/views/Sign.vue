@@ -138,10 +138,10 @@ async function doSign() {
   }
   if (!rs) return
   if (rs.status === 200) {
-    sendErrorMessage(rs.message)
+    sendSuccessDialog('签到成功，本次获得 ' + rs.data.signTraffic + ' GiB 流量')
     checkSign()
   } else {
-    sendSuccessDialog(rs.message)
+    sendErrorMessage(rs.message)
     checkSign()
   }
 }
