@@ -2,7 +2,7 @@
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
-# bun.lockb
+bun.lockb
 
 ### VisualStudioCode template
 .vscode/*
