@@ -43,7 +43,6 @@ import {
   CompassSharp
 } from '@vicons/ionicons5'
 import { AttachMoneyFilled } from '@vicons/material'
-import { MdPaperPlane } from '@vicons/ionicons4'
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)

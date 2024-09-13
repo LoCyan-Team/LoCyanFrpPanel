@@ -75,7 +75,7 @@
         <n-space>
           <n-h5 style="margin: 3px"> 其他操作：</n-h5>
           <n-button type="error" :loading="resetFrpTokenLoading" @click="resetFrpToken">
-            重置 FrpToken
+            重置访问密钥
           </n-button>
           <n-button type="error" :loading="exitAllDevicesLoading" @click="exitAllDevices">
             吊销全部登录设备
@@ -336,7 +336,7 @@ async function resetFrpToken() {
 
   dialog.warning({
     title: '警告',
-    content: '你确定要重置 FrpToken 吗? 重置后, 所有 Frp 隧道需更新原本信息, 否则将无法启动',
+    content: '你确定要重置访问密钥吗? 该操作不可逆',
     positiveText: '确定',
     negativeText: '取消',
     maskClosable: false,
