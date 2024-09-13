@@ -10,6 +10,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from '@/utils/stores/store'
 import { printTitle } from '@/utils/title'
+import Clipboard from 'v-clipboard'
 
 const app = createApp(App)
 app.use(store)
@@ -26,6 +27,7 @@ const meta = document.createElement('meta')
 meta.name = 'naive-ui-style'
 document.head.appendChild(meta)
 
+app.use(Clipboard)
 app.use(VueAxios, axios)
 app.component('message', message)
 app.component('loadingbar', loadingbar)

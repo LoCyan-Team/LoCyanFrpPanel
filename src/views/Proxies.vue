@@ -110,11 +110,20 @@
     简易启动命令：
     <n-tooltip placement="bottom" trigger="click">
       <template #trigger>
-        <n-button @click="buildQuickstartCommand"> 点击显示/隐藏 </n-button>
+        <n-button> 点击显示/隐藏 </n-button>
       </template>
       <p>
-        {{ quickstartCommand }}
-        <n-button type="tertiary" @click="copy(quickstartCommand, $event)"> 复制 </n-button>
+        <span style="margin-right: 15px">
+          {{ getQuickStartText() }}
+        </span>
+        <n-button
+          type="primary"
+          v-clipboard="() => getQuickStartText()"
+          v-clipboard:success="() => sendSuccessMessage('复制成功')"
+          v-clipboard:error="() => sendErrorMessage('复制失败')"
+        >
+          复制
+        </n-button>
       </p>
     </n-tooltip>
     <!-- <template #footer>
@@ -135,17 +144,20 @@
         <n-space style="display: block">
           <n-card style="min-height: 350px">
             <div style="overflow-y: auto; height: 75px" class="node-title">
-              <h2 style="font-weight: 400">{{ item.proxy_name }}</h2>
-              <n-tag :bordered="false" type="success">ID: {{ item.id }}</n-tag>
+              <h2 style="font-weight: 400">
+                {{ item.proxy_name }}
+                <n-tag :bordered="false" type="success" style="transform: translateY(-2px)">
+                  ID: {{ item.id }}
+                </n-tag>
+              </h2>
             </div>
-            <br />
             <n-tag :bordered="false" type="success">
-              {{ item.proxy_type }}
+              {{ item.proxy_type.toUpperCase() }}
             </n-tag>
             <n-tag :bordered="false" type="info" v-if="serverList[item.node]">
               {{ serverList[item.node].name || '未知节点' }}
             </n-tag>
-            <n-tag :bordered="false" type="error" v-else> 未知节点</n-tag>
+            <n-tag :bordered="false" type="error" v-else> 未知节点 </n-tag>
             <template #footer>
               <div v-if="serverList[item.node]">
                 连接地址： <br />
@@ -158,7 +170,7 @@
             </template>
             <template #action>
               <n-space>
-                <p style="margin-top: 9px">操作：</p>
+                <!-- <p style="margin-top: 9px">操作：</p> -->
                 <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
                 <n-button
                   style="margin: 1px"
@@ -218,6 +230,9 @@
                   @click="launchProxyThroughApplication(item.id)"
                   >一键启动
                 </n-button>
+                <n-button style="margin: 1px" strong type="error" @click="forceDownProxy(item.id)"
+                  >强制下线
+                </n-button>
               </n-space>
             </template>
           </n-card>
@@ -228,14 +243,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useDialog } from 'naive-ui'
-import clipboard from '@/utils/clipboard'
+// import clipboard from '@/utils/clipboard'
 import store from '@/utils/stores/store'
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import downloadSoftPage from '../components/InstallCsApp.vue'
 import api from '@/api'
+import logger from '@/utils/logger'
+// import logger from '@/utils/logger'
 
 const show = ref(true)
 const showEditModal = ref(false)
@@ -244,7 +261,6 @@ const selectProxyID = ref(0)
 const indexOfProxies = ref(0)
 const dialog = useDialog()
 const linkAddr = ref('')
-const quickstartCommand = ref('')
 const editServerList = ref([])
 const bodyStyle = {
   width: '600px'
@@ -255,6 +271,10 @@ const segmented = {
 }
 const editCheck = ref(true)
 const showDownloadPage = ref(false)
+
+function getQuickStartText() {
+  return `./frpc -u ${store.getters.get_frp_token} -p ${selectProxyID.value}`
+}
 
 // 隧道类型翻译
 function transtype(type) {
@@ -291,7 +311,7 @@ function makeLinkAddr(id) {
   }
 }
 
-function launchProxyThroughApplication(id) {
+async function launchProxyThroughApplication(id) {
   dialog.success({
     title: '通知',
     content:
@@ -304,6 +324,31 @@ function launchProxyThroughApplication(id) {
     },
     onNegativeClick: () => {
       showDownloadPage.value = true
+    },
+    onMaskClick: () => {
+      sendSuccessMessage('你取消了操作！')
+    }
+  })
+}
+
+async function forceDownProxy(proxyId) {
+  dialog.warning({
+    title: '警告',
+    content: '确认要强制下线隧道吗？这将会使该隧道下线',
+    positiveText: '确认',
+    negativeText: '还是算了吧~',
+    onPositiveClick: async () => {
+      let rs
+      try {
+        rs = await api.v2.proxies.down(store.getters.get_username, proxyId)
+      } catch (e) {
+        logger.error(e)
+        sendErrorMessage(`请求强制下线隧道失败: ${e}`)
+      }
+      if (!rs) return
+      if (rs.status === 200) {
+        sendSuccessMessage('隧道已下线')
+      }
     },
     onMaskClick: () => {
       sendSuccessMessage('你取消了操作！')
@@ -547,14 +592,6 @@ function deleteProxy(id) {
       sendSuccessMessage('你取消了操作！')
     }
   })
-}
-
-function buildQuickstartCommand() {
-  quickstartCommand.value = `./frpc -u ${store.getters.get_frp_token} -p ${selectProxyID.value}`
-}
-
-function copy(data, event) {
-  clipboard(data, event)
 }
 </script>
 

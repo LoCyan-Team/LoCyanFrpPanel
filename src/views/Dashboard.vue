@@ -53,22 +53,31 @@
         访问密钥：
         <br />
         <div>
-          <div v-if="notShowFrpToken">
-            <n-tag type="info" @click="changeShowFrptoken($event)">
+          <div v-if="notShowFrpToken" style="display: inline">
+            <n-tag type="info" @click="changeShowFrptoken" style="padding: 16px">
               <template #icon>
                 <n-icon :component="Key" />
               </template>
               点击显示
             </n-tag>
           </div>
-          <template v-else>
-            <n-tag type="info">
+          <template v-else style="display: inline">
+            <n-tag type="info" style="padding: 16px">
               <template #icon>
                 <n-icon :component="AngleRight" />
               </template>
-              {{ frptoken }}
+              {{ frpToken }}
             </n-tag>
           </template>
+          <n-button
+            style="margin-left: 10px; transform: translateY(-5px)"
+            type="info"
+            v-clipboard="() => frpToken"
+            v-clipboard:success="() => sendSuccessMessage('复制成功')"
+            v-clipboard:error="() => sendErrorMessage('复制失败')"
+          >
+            复制
+          </n-button>
         </div>
         请妥善保管访问密钥，一旦该密钥泄露，他人可通过此密钥访问账户部分信息！
         <br />
@@ -168,14 +177,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import clipboard from '@/utils/clipboard'
+// import clipboard from '@/utils/clipboard'
 import { get } from '@/utils/request'
 import { AngleRight, Key } from '@vicons/fa'
 import store from '@/utils/stores/store'
 import { marked } from 'marked'
 import { useDialog, useMessage } from 'naive-ui'
 import { startLoadingBar } from '@/utils/loadingbar'
-import { sendErrorMessage } from '@/utils/message'
+import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 import api from '@/api'
 import logger from '@/utils/logger'
 
@@ -184,7 +193,7 @@ const username = store.getters.get_username
 const email = store.getters.get_email
 const inbound = ref(store.getters.get_in_bound + 'Mbps 下行')
 const outbound = ref(store.getters.get_out_bound + 'Mbps 上行')
-const frptoken = ref(store.getters.get_frp_token)
+const frpToken = ref(store.getters.get_frp_token)
 const notice = ref('')
 const proxiesRef = ref(null)
 const notShowFrpToken = ref(true)
@@ -199,6 +208,11 @@ function showAds() {
 
 // 通知 or AD
 onMounted(async () => {
+  const time = new Date()
+  const year = time.getFullYear()
+  const month = time.getMonth()
+  const day = time.getDate()
+  const current = `${year}-${month}-${day}`
   // console.log('Rquest ads')
   let res
   try {
@@ -220,7 +234,8 @@ onMounted(async () => {
       '  padding: 2px;' +
       '}' +
       '</style>'
-    showAds()
+    if (localStorage.getItem('dashboard_last_show_ads_date') != current) showAds()
+    localStorage.setItem('dashboard_last_show_ads_date', current)
   }
 })
 
@@ -251,9 +266,8 @@ onMounted(async () => {
   }
 })
 
-async function changeShowFrptoken(event) {
+async function changeShowFrptoken() {
   notShowFrpToken.value = !notShowFrpToken.value
-  clipboard(frptoken.value, event)
   setTimeout(() => {
     notShowFrpToken.value = !notShowFrpToken.value
   }, 3000)
@@ -333,6 +347,6 @@ setInterval(() => {
   traffic.value = Number(localStorage.getItem('traffic')) / 1024 + 'GB'
   inbound.value = store.getters.get_in_bound + 'Mbps 下行'
   outbound.value = store.getters.get_out_bound + 'Mbps 上行'
-  frptoken.value = store.getters.get_frp_token
+  frpToken.value = store.getters.get_frp_token
 }, 10000)
 </script>

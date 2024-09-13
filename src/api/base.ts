@@ -9,7 +9,7 @@ const base = {
       res.data?.msg ??
       '未指定或请求失败'
     const data = (useDataPath ? res.data?.data : res.data) ?? {}
-    const statusApi = (useDataPath ? res.data?.status : res.status)
+    const statusApi = useDataPath ? res.data?.status : res.status
     return {
       status: res.status as number,
       message: message,

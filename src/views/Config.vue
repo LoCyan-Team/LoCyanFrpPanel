@@ -7,8 +7,16 @@
     <n-grid-item span="1">
       <n-card title="节点">
         <n-select v-model:value="node" :options="ServerList" @update:value="updateValue" />
-        <n-button strong secondary type="info" style="margin-top: 30px" @click="copy(code, $event)"
-          >复制
+        <n-button
+          strong
+          secondary
+          type="info"
+          style="margin-top: 30px"
+          v-clipboard="() => code"
+          v-clipboard:success="() => sendSuccessMessage('复制成功')"
+          v-clipboard:error="() => sendErrorMessage('复制失败')"
+        >
+          复制
         </n-button>
         <n-code
           :code="code"
@@ -55,7 +63,7 @@ set_real_ip_from 127.0.0.1;"
 import { ref } from 'vue'
 import store from '@/utils/stores/store'
 import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
-import clipboard from '@/utils/clipboard'
+// import clipboard from '@/utils/clipboard'
 import api from '@/api'
 import logger from '@/utils/logger'
 
@@ -102,10 +110,6 @@ onMounted(async () => {
     i = i + 1
   })
 })
-
-function copy(data, event) {
-  clipboard(data, event)
-}
 
 async function updateValue(value) {
   let rs
