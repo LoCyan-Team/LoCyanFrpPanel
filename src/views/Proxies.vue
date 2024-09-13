@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <downloadSoftPage v-model:show="showDownloadPage"></downloadSoftPage>
   <!-- 编辑隧道的模态框 -->
   <n-modal
@@ -117,10 +117,11 @@
           {{ getQuickStartText() }}
         </span>
         <!-- 2024-09-14 2:36 Muska-Ami: 这里不知道为啥复制不了 -->
+        <!-- 2024-9-14 4:17 ltzXiaoYanMo: 大概v-clipboard的bug，这死吗玩意就死活不传入-->
         <n-button
           secondary
           type="primary"
-          v-clipboard="() => getQuickStartText()"
+          v-clipboard:copy="() => getQuickStartText()"
           v-clipboard:success="() => sendSuccessMessage('复制成功')"
           v-clipboard:error="() => sendErrorMessage('复制失败')"
         >
@@ -254,7 +255,6 @@ import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/d
 import downloadSoftPage from '../components/InstallCsApp.vue'
 import api from '@/api'
 import logger from '@/utils/logger'
-// import logger from '@/utils/logger'
 
 const show = ref(true)
 const showEditModal = ref(false)
@@ -275,7 +275,9 @@ const editCheck = ref(true)
 const showDownloadPage = ref(false)
 
 function getQuickStartText() {
-  return `./frpc -u ${store.getters.get_frp_token} -p ${selectProxyID.value}`
+  const token = store.getters.get_frp_token
+  const proxyID = selectProxyID.value
+  return `./frpc -u ${token} -p ${proxyID}`;
 }
 
 // 隧道类型翻译
@@ -394,7 +396,7 @@ async function editProxy(proxyid) {
   if (!rs) return
   if (rs.status === 200) {
     // 重新刷新列表
-    initList()
+    await initList()
     // 关闭模态框
     showEditModal.value = false
     sendSuccessDialog('修改成功')
