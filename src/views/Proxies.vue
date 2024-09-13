@@ -116,7 +116,9 @@
         <span style="margin-right: 15px">
           {{ getQuickStartText() }}
         </span>
+        <!-- 2024-09-14 2:36 Muska-Ami: 这里不知道为啥复制不了 -->
         <n-button
+          secondary
           type="primary"
           v-clipboard="() => getQuickStartText()"
           v-clipboard:success="() => sendSuccessMessage('复制成功')"
