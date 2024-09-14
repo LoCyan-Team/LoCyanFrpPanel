@@ -13,6 +13,8 @@ import { printTitle } from '@/utils/title'
 import Clipboard from 'v-clipboard'
 import loadFromLocal from './utils/stores/loadFromLocal'
 
+printTitle()
+
 const app = createApp(App)
 app.use(userData)
 app.use(router)
@@ -36,4 +38,3 @@ app.component('ndialog', ndialog)
 
 loadFromLocal()
 app.mount('#app')
-printTitle()
