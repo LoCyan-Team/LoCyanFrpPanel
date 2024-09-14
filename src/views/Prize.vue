@@ -49,7 +49,7 @@ import { ref } from 'vue'
 import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import { get } from '@/utils/request'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import { marked } from 'marked'
 
 const PrizesList = ref([

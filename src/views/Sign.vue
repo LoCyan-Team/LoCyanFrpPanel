@@ -108,7 +108,7 @@ import { ref } from 'vue'
 import { NButton, NCard, NGrid, NGridItem, NH1, NSkeleton, NSpace, NText } from 'naive-ui'
 import { sendErrorMessage } from '@/utils/message'
 import { sendSuccessDialog } from '@/utils/dialog'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import api from '@/api'
 
 const loading = ref(true)

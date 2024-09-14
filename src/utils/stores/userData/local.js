@@ -1,16 +1,5 @@
-import userData from './userData'
-
-const defStateData = {
-  token: '',
-  username: '',
-  email: '',
-  frptoken: '',
-  inbound: 0,
-  outbound: 0,
-  avatar: '',
-  traffic: '',
-  proxies_num: 0
-}
+import userData from './store'
+import defStateData from './def'
 
 const loadFromLocal = () => {
   userData.commit('set_token', localStorage.getItem('token') ?? defStateData.token)

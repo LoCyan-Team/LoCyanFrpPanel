@@ -1,4 +1,5 @@
 import vuex from 'vuex'
+import defStateData from './def'
 
 const stateData = {
   token: '',
@@ -11,20 +12,9 @@ const stateData = {
   traffic: '',
   proxies_num: 0
 }
-const defStateData = {
-  token: '',
-  username: '',
-  email: '',
-  frptoken: '',
-  inbound: 0,
-  outbound: 0,
-  avatar: '',
-  traffic: '',
-  proxies_num: 0
-}
 
 // 用Vuex.Store对象用来记录token
-const userData = new vuex.Store({
+export default new vuex.Store({
   state: stateData,
   getters: {
     get_token(state) {
@@ -183,5 +173,3 @@ const userData = new vuex.Store({
     //    }
   }
 })
-
-export default userData

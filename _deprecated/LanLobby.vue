@@ -203,7 +203,7 @@
 <script setup>
 import { ref } from 'vue'
 import { get, post, deleteReq } from '@/utils/request'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/index'
 import { sendSuccessDialog } from '@/utils/dialog'
 
 const bodyStyle = {

@@ -41,7 +41,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import { get, deleteReq } from '@/utils/request'
 import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'

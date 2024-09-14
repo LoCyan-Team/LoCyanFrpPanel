@@ -8,10 +8,10 @@ import ndialog from './components/Dialog.vue'
 import router from './router/index'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
+import userDataLocal from '@/utils/stores/userData/local'
 import { printTitle } from '@/utils/title'
 import Clipboard from 'v-clipboard'
-import loadFromLocal from './utils/stores/loadFromLocal'
 
 printTitle()
 
@@ -36,5 +36,5 @@ app.component('message', message)
 app.component('loadingbar', loadingbar)
 app.component('ndialog', ndialog)
 
-loadFromLocal()
+userDataLocal()
 app.mount('#app')

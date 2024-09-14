@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ref } from 'vue'
-import userData from './stores/userData'
+import userData from './stores/userData/store'
 import router from '@/router/index'
 import { get } from './request'
 import { sendWarningMessage } from './message'

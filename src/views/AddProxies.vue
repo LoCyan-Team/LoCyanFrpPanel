@@ -88,7 +88,7 @@ n-input {
 </style>
 <script setup>
 import { onMounted, ref } from 'vue'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import { sendErrorMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
 import api from '@/api'

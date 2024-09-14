@@ -129,7 +129,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { getUrlKey } from '@/utils/request'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import { sendErrorMessage } from '@/utils/message'
 import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import api from '@/api'

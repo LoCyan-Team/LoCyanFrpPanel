@@ -260,7 +260,7 @@
 import { computed, ref } from 'vue'
 import { useDialog } from 'naive-ui'
 // import clipboard from '@/utils/clipboard'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import downloadSoftPage from '../components/InstallCsApp.vue'

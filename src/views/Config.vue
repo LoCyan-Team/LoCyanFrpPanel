@@ -61,7 +61,7 @@ set_real_ip_from 127.0.0.1;"
 
 <script setup>
 import { ref } from 'vue'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 // import clipboard from '@/utils/clipboard'
 import api from '@/api'

@@ -37,7 +37,7 @@ import { ref } from 'vue'
 import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import { get } from '@/utils/request'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 
 const CommentList = ref([])
 const formRef = ref(null)

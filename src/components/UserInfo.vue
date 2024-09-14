@@ -91,7 +91,7 @@
 
 <script setup>
 import { logout } from '@/utils/profile'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import { sendSuccessMessage } from '@/utils/message'
 import { onMounted, ref } from 'vue'
 import { useDialog } from 'naive-ui'

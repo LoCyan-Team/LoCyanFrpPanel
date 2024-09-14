@@ -106,7 +106,7 @@
 import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
 import SideBar from './MainSideBar.vue'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import router from '@/router/index'
 import UserInfo, { changeUserInfoShow } from './UserInfo.vue'
 import { get } from '@/utils/request'

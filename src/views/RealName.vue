@@ -163,7 +163,7 @@ import { ref } from 'vue'
 import { sendErrorMessage } from '@/utils/message'
 import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import { finishLoadingBar, startLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import api from '@/api'
 import logger from '@/utils/logger'
 

@@ -3,7 +3,7 @@ import axios from 'axios'
 // 序列化
 import QS from 'qs'
 // vuex
-import userData from './stores/userData'
+import userData from './stores/userData/store'
 import router from '@/router/index'
 import Base64 from 'qs/lib/utils'
 import { sendErrorMessage } from './message'
