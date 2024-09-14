@@ -39,6 +39,7 @@ import nginx from 'highlight.js/lib/languages/nginx'
 import api from '@/api'
 import { sendWarningMessage } from '@/utils/message'
 import { logout } from '@/utils/profile'
+import router from '@/router/index'
 // import { init_ws, SetOnMessageFunction } from "@/utils/websocket.js";
 // import { sendInfoNotification } from '@/utils/notification'
 
@@ -91,6 +92,7 @@ setInterval(async () => {
     if (rs.status === 401) {
       sendWarningMessage('登录过期或未登录，请重新登录后台！')
       logout()
+      router.push('/login')
     }
   }
 }, 10000)
