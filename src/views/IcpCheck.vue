@@ -41,7 +41,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { get, deleteReq } from '@/utils/request'
 import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
@@ -80,8 +80,8 @@ async function submit() {
   let rs
   try {
     rs = await api.v2.icp.check(
-      store.getters.get_username,
-      store.getters.get_token,
+      userData.getters.get_username,
+      userData.getters.get_token,
       domainInput.value.domain
     )
   } catch (e) {
@@ -108,7 +108,7 @@ async function removeICP(id) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.icp.remove(store.getters.get_username, store.getters.get_token, id)
+        rs = await api.v2.icp.remove(userData.getters.get_username, userData.getters.get_token, id)
       } catch (e) {
         sendErrorMessage('请求移除域名失败: ' + e)
       }
@@ -132,7 +132,7 @@ async function removeICP(id) {
 async function getList() {
   let rs
   try {
-    rs = await api.v2.icp.list(store.getters.get_username, store.getters.get_token)
+    rs = await api.v2.icp.list(userData.getters.get_username, userData.getters.get_token)
   } catch (e) {
     sendErrorMessage('请求移除域名失败: ' + e)
   }

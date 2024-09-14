@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { changeMainSideBarShow } from '../components/MainNav.vue'
 import { changeShowGuestSideBar } from '../components/GuestNav.vue'
 import { setSideBarActiveKey } from '../components/MainSideBar.vue'
@@ -158,26 +158,23 @@ const router = createRouter({
 
 // // 检查本地存储是否存在token，若存在则直接使用
 // if (localStorage.getItem('token')) {
-//   store.commit('set_token', localStorage.getItem('token'))
+//   userData.commit('set_token', localStorage.getItem('token'))
 // }
 
 // 检测到已登录之后自动跳转 /dashboard 的界面
 const _autoRedirectLogined = ['Login', 'Register', 'ResetPassword']
 
 router.beforeEach((to, from, next) => {
+  logger.info(`Routing from ${from.name} to ${to.name}`)
   startLoadingBar()
   if (_autoRedirectLogined.includes(to.name)) {
-    const hasToken = store.getters.get_token != ''
-    logger.info(`Has token: ${hasToken}${hasToken ? ` ${store.getters.get_token}` : ''}`)
+    const hasToken = userData.getters.get_token != ''
+    logger.info(`Has token: ${hasToken}${hasToken ? ` ${userData.getters.get_token}` : ''}`)
     if (hasToken) next({ name: 'Dashboard' })
     else next()
-    return
-  }
-  if (to.name === 'MainPage') {
+  } else if (to.name === 'MainPage') {
     next()
-    return
-  }
-  if (!store.getters.get_token) {
+  } else if (userData.getters.get_token == '') {
     next({ name: 'Login', query: { redirect: location.pathname } })
   } else {
     next()
@@ -214,7 +211,7 @@ router.afterEach((to) => {
       changeShowGuestSideBar(false)
   }
 
-  if (store.getters.get_token) {
+  if (userData.getters.get_token) {
     setSideBarActiveKey(to.name)
   } else {
     setGuestSideBarActiveKey(to.name)

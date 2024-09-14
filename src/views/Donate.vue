@@ -12,8 +12,8 @@
       role="dialog"
       aria-modal="true"
     >
-      <n-p>用户名：{{ store.getters.get_username }}</n-p>
-      <n-p>邮箱：{{ store.getters.get_email }}</n-p>
+      <n-p>用户名：{{ userData.getters.get_username }}</n-p>
+      <n-p>邮箱：{{ userData.getters.get_email }}</n-p>
       <n-p>商品名：{{ trade_info.trade_name }}</n-p>
       <n-p>捐赠订单号：{{ trade_no }}</n-p>
       <n-p>捐赠方式：{{ trade_info.type }}</n-p>
@@ -129,7 +129,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { getUrlKey } from '@/utils/request'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { sendErrorMessage } from '@/utils/message'
 import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import api from '@/api'
@@ -232,8 +232,8 @@ async function submitMessage() {
   let rs
   try {
     rs = await api.v1.Donate.SetMessage(
-      store.getters.get_username,
-      store.getters.get_token,
+      userData.getters.get_username,
+      userData.getters.get_token,
       trade_no,
       message.value.message
     )
@@ -266,7 +266,7 @@ async function doDonate() {
   let rs
   try {
     rs = await api.v2.donate.create(
-      store.getters.get_username,
+      userData.getters.get_username,
       'LoCyanFrpDonate',
       amount.value,
       'https://dashboard.locyanfrp.cn/donate',

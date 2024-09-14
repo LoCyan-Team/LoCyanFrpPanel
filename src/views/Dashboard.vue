@@ -97,7 +97,7 @@
       <n-card title="数据报表" size="large">
         <n-space>
           <n-statistic label="剩余流量" tabular-nums>
-            <n-number-animation ref="TrafficRef" :from="0" :to="store.getters.get_traffic" />
+            <n-number-animation ref="TrafficRef" :from="0" :to="userData.getters.get_traffic" />
             <template #suffix> GiB</template>
           </n-statistic>
           <n-statistic label="隧道数" tabular-nums>
@@ -180,7 +180,7 @@ import { ref, onMounted } from 'vue'
 // import clipboard from '@/utils/clipboard'
 import { get } from '@/utils/request'
 import { AngleRight, Key } from '@vicons/fa'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { marked } from 'marked'
 import { useDialog, useMessage } from 'naive-ui'
 import { startLoadingBar } from '@/utils/loadingbar'
@@ -189,11 +189,11 @@ import api from '@/api'
 import logger from '@/utils/logger'
 
 localStorage.setItem('ViewPage', 'personality')
-const username = store.getters.get_username
-const email = store.getters.get_email
-const inbound = ref(store.getters.get_in_bound + 'Mbps 下行')
-const outbound = ref(store.getters.get_out_bound + 'Mbps 上行')
-const frpToken = ref(store.getters.get_frp_token)
+const username = userData.getters.get_username
+const email = userData.getters.get_email
+const inbound = ref(userData.getters.get_user_inbound + 'Mbps 下行')
+const outbound = ref(userData.getters.get_user_outbound + 'Mbps 上行')
+const frpToken = ref(userData.getters.get_frp_token)
 const notice = ref('')
 const proxiesRef = ref(null)
 const notShowFrpToken = ref(true)
@@ -275,7 +275,7 @@ async function changeShowFrptoken() {
 
 const traffic = ref(Number(localStorage.getItem('traffic')) / 1024 + 'GB')
 const Proxiesanimation = ref(
-  Number(store.getters.get_proxies_num || localStorage.getItem('proxies_num'))
+  Number(userData.getters.get_proxies_num || localStorage.getItem('proxies_num'))
 )
 const TrafficRef = ref(null)
 const boardcast_html = ref('')
@@ -329,7 +329,7 @@ async function resetTraffic() {
     onPositiveClick: async () => {
       startLoadingBar()
       const data = {
-        username: store.getters.get_username
+        username: userData.getters.get_username
       }
       const rs = await get('https://api-v2.locyanfrp.cn/api/v2/users/reset/traffic', data)
       if (rs.status === 200) {
@@ -343,10 +343,10 @@ async function resetTraffic() {
 }
 
 setInterval(() => {
-  Proxiesanimation.value = Number(store.getters.get_proxies_num)
+  Proxiesanimation.value = Number(userData.getters.get_proxies_num)
   traffic.value = Number(localStorage.getItem('traffic')) / 1024 + 'GB'
-  inbound.value = store.getters.get_in_bound + 'Mbps 下行'
-  outbound.value = store.getters.get_out_bound + 'Mbps 上行'
-  frpToken.value = store.getters.get_frp_token
+  inbound.value = userData.getters.get_user_inbound + 'Mbps 下行'
+  outbound.value = userData.getters.get_user_outbound + 'Mbps 上行'
+  frpToken.value = userData.getters.get_frp_token
 }, 10000)
 </script>

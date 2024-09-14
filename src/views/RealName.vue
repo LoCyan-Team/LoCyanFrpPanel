@@ -163,7 +163,7 @@ import { ref } from 'vue'
 import { sendErrorMessage } from '@/utils/message'
 import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import { finishLoadingBar, startLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import api from '@/api'
 import logger from '@/utils/logger'
 
@@ -194,7 +194,7 @@ const segmented = {
 async function submitRealName() {
   startLoadingBar()
   const submitForm = {
-    username: store.getters.get_username,
+    username: userData.getters.get_username,
     name: userProfile.value.name,
     id_card: userProfile.value.idcard
   }
@@ -221,7 +221,7 @@ async function submitRealName() {
 async function submitRealPerson() {
   startLoadingBar()
   const submitForm = {
-    username: store.getters.get_username,
+    username: userData.getters.get_username,
     name: userProfile.value.name,
     id_card: userProfile.value.idcard
   }
@@ -255,7 +255,7 @@ async function submitRealPerson() {
 async function queryRealPersonStatus() {
   let rs
   try {
-    rs = await api.v2.realperson.query(store.getters.get_username, ci.value)
+    rs = await api.v2.realperson.query(userData.getters.get_username, ci.value)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
@@ -271,7 +271,7 @@ async function queryRealPersonStatus() {
 async function checkRealNameStatus() {
   let rs
   try {
-    rs = await api.v2.realperson.get_status(store.getters.get_username)
+    rs = await api.v2.realperson.get_status(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
@@ -324,7 +324,7 @@ async function realPersonPay() {
   let rs
   try {
     rs = await api.v2.realperson.pay(
-      store.getters.get_username,
+      userData.getters.get_username,
       'https://api-v2.locyanfrp.cn/api/v2/realperson/notify',
       'https://dashboard.locyanfrp.cn/realname'
     )

@@ -3,7 +3,7 @@ import axios from 'axios'
 // 序列化
 import QS from 'qs'
 // vuex
-import store from './stores/store'
+import userData from './stores/userData'
 import router from '@/router/index'
 import Base64 from 'qs/lib/utils'
 import { sendErrorMessage } from './message'
@@ -33,7 +33,7 @@ instance.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
     // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
-    const token = store.getters.get_token
+    const token = userData.getters.get_token
     // 2024-09-07 Muska_Ami: 修复 Token 泄露问题 只有在指定域名请求时才应该添加 Token
     const url = new URL(config.url)
     logger.info(url.hostname + ', ' + url.pathname + ', ' + tokenDomains.includes(url.hostname))

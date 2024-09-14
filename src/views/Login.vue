@@ -59,7 +59,7 @@ import { ref, onMounted } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
 import { getUrlKey } from '@/utils/request'
 import router from '@/router/index'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { sendErrorMessage } from '@/utils/message'
 import logger from '@/utils/logger'
 import api from '@/api'
@@ -101,9 +101,9 @@ if (code !== null) {
     if (!rs) return
     if (rs.status === 200) {
       message.success(rs.data.username + '，欢迎回来！')
-      store.commit('set_token', rs.data.token)
+      userData.commit('set_token', rs.data.token)
       // console.log(rs.data)
-      store.commit('set_user_info', rs.data)
+      userData.commit('set_user_info', rs.data)
       router.push(redirect || '/dashboard')
     }
   })
@@ -122,8 +122,8 @@ if (token !== null) {
     if (!rs) return
     if (rs.status === 200) {
       message.success(rs.data.username + '，欢迎回来！')
-      store.commit('set_token', rs.data.token)
-      store.commit('set_user_info', rs.data)
+      userData.commit('set_token', rs.data.token)
+      userData.commit('set_user_info', rs.data)
       router.push(redirect || '/dashboard')
     }
   })
@@ -167,9 +167,9 @@ async function login() {
   }
   if (rs.status === 200) {
     message.success(rs.data.username + '，欢迎回来！')
-    store.commit('set_token', rs.data.token)
+    userData.commit('set_token', rs.data.token)
     // console.log(res.data)
-    store.commit('set_user_info', rs.data)
+    userData.commit('set_user_info', rs.data)
     router.push(redirect || '/dashboard')
     ldb.finish()
   } else {

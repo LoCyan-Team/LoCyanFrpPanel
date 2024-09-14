@@ -49,7 +49,7 @@ import { ref } from 'vue'
 import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import { get } from '@/utils/request'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { marked } from 'marked'
 
 const PrizesList = ref([
@@ -82,7 +82,10 @@ function timestampToTime(timestamp) {
 function submitjoin(id) {
   startLoadingBar()
   const rs = get(
-    'https://api.locyanfrp.cn/Prize/JoinPrize?username=' + store.getters.get_username + '&id=' + id
+    'https://api.locyanfrp.cn/Prize/JoinPrize?username=' +
+      userData.getters.get_username +
+      '&id=' +
+      id
   )
   rs.then((res) => {
     if (res.status) {

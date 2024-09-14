@@ -61,7 +61,7 @@ set_real_ip_from 127.0.0.1;"
 
 <script setup>
 import { ref } from 'vue'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 // import clipboard from '@/utils/clipboard'
 import api from '@/api'
@@ -115,8 +115,8 @@ async function updateValue(value) {
   let rs
   try {
     rs = await api.v1.Proxies.GetConfigFile(
-      store.getters.get_username,
-      store.getters.get_token,
+      userData.getters.get_username,
+      userData.getters.get_token,
       value
     )
   } catch (e) {

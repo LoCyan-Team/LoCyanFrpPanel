@@ -8,7 +8,7 @@
             <loadingbar />
             <ndialog />
             <Notification />
-            <MainNav v-if="store.getters.get_token" />
+            <MainNav v-if="userData.getters.get_token" />
             <GuestNav v-else />
           </n-notification-provider>
         </n-dialog-provider>
@@ -32,7 +32,7 @@ import MainNav from './components/MainNav.vue'
 import GuestNav from './components/GuestNav.vue'
 import Notification from './components/Notification.vue'
 import { computed } from 'vue'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import hljs from 'highlight.js/lib/core'
 import ini from 'highlight.js/lib/languages/ini'
 import nginx from 'highlight.js/lib/languages/nginx'
@@ -65,10 +65,10 @@ if (inited === false) {
 }
 
 setInterval(async () => {
-  if (store.getters.get_token) {
+  if (userData.getters.get_token) {
     let rs
     try {
-      rs = await api.v2.users.info(store.getters.get_username)
+      rs = await api.v2.users.info(userData.getters.get_username)
     } catch (e) {
       sendWarningMessage('查询用户信息失败: ' + e + '，请重新登录后台！')
       logout()
@@ -76,14 +76,14 @@ setInterval(async () => {
     if (!rs) return
     if (rs.status === 200) {
       // console.log(rs)
-      store.commit('set_user_email', rs.data.email)
-      store.commit('set_user_inbound', rs.data.inbound)
-      store.commit('set_user_outbound', rs.data.inbound)
-      store.commit('set_user_traffic', rs.data.traffic)
+      userData.commit('set_user_email', rs.data.email)
+      userData.commit('set_user_inbound', rs.data.inbound)
+      userData.commit('set_user_outbound', rs.data.inbound)
+      userData.commit('set_user_traffic', rs.data.traffic)
       // localStorage.setItem('proxies', res.proxies_num)
       // localStorage.setItem('traffic', res.traffic)
       // localStorage.setItem('set_limit', res)
-      // store.set_limit({
+      // userData.set_limit({
       //   inbound: res.inbound,
       //   outbound: res.outbound,
       // })

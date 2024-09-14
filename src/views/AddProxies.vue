@@ -88,7 +88,7 @@ n-input {
 </style>
 <script setup>
 import { onMounted, ref } from 'vue'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { sendErrorMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
 import api from '@/api'
@@ -245,9 +245,9 @@ async function addProxy() {
     return
   }
   const tunnelCreateInfo = {
-    username: store.getters.get_username,
+    username: userData.getters.get_username,
     name: proxyInfo.value.proxy_name,
-    key: store.getters.get_frp_token,
+    key: userData.getters.get_frp_token,
     ip: proxyInfo.value.local_ip,
     type: proxyInfo.value.proxy_type,
     lp: proxyInfo.value.local_port,
@@ -255,7 +255,7 @@ async function addProxy() {
     ue: '0',
     uz: '0',
     id: proxyInfo.value.node,
-    token: store.getters.get_token,
+    token: userData.getters.get_token,
     url: proxyInfo.value.domain,
     sk: proxyInfo.value.sk
   }

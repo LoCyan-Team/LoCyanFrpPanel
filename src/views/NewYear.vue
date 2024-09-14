@@ -37,7 +37,7 @@ import { ref } from 'vue'
 import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import { get } from '@/utils/request'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 
 const CommentList = ref([])
 const formRef = ref(null)
@@ -65,7 +65,7 @@ function submitcomment() {
   }
   const rs = get(
     'https://api.locyanfrp.cn/App/SubmitComment?username=' +
-      store.getters.get_username +
+      userData.getters.get_username +
       '&comment=' +
       NewYear.value.comment,
     []

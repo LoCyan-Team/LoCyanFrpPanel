@@ -8,12 +8,13 @@ import ndialog from './components/Dialog.vue'
 import router from './router/index'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { printTitle } from '@/utils/title'
 import Clipboard from 'v-clipboard'
+import loadFromLocal from './utils/stores/loadFromLocal'
 
 const app = createApp(App)
-app.use(store)
+app.use(userData)
 app.use(router)
 // app.use(websocket, '', {
 //     connectManually: true,
@@ -32,5 +33,7 @@ app.use(VueAxios, axios)
 app.component('message', message)
 app.component('loadingbar', loadingbar)
 app.component('ndialog', ndialog)
+
+loadFromLocal()
 app.mount('#app')
 printTitle()

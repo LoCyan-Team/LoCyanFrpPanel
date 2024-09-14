@@ -1,9 +1,9 @@
 <template>
   <n-drawer v-model:show="show" :width="dialogWidth">
     <n-drawer-content title="个人信息" closable>
-      <n-avatar round :size="80" :src="store.getters.get_avatar" />
+      <n-avatar round :size="80" :src="userData.getters.get_avatar" />
       <br />
-      <n-text style="font-size: 20px">{{ store.getters.get_username }} </n-text>
+      <n-text style="font-size: 20px">{{ userData.getters.get_username }} </n-text>
       <br />
       <n-text style="color: gray"
         >本站使用 Cravatar 公用头像库 API ，可以前往
@@ -91,7 +91,7 @@
 
 <script setup>
 import { logout } from '@/utils/profile'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { sendSuccessMessage } from '@/utils/message'
 import { onMounted, ref } from 'vue'
 import { useDialog } from 'naive-ui'
@@ -117,7 +117,7 @@ const bindQQ = ref({
 })
 
 const tEmail = ref({
-  email: store.getters.get_email,
+  email: userData.getters.get_email,
   msg: '修改',
   isEditDisable1: 'display:none',
   isEditDisable: true,
@@ -141,7 +141,7 @@ const tPassword = ref({
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.oauth.qq.check(store.getters.get_username)
+    rs = await api.v2.oauth.qq.check(userData.getters.get_username)
   } catch (e) {
     logger.error(e)
     bindQQ.value.isDisable = true
@@ -173,8 +173,8 @@ async function changeEmail() {
     ldb.start()
     try {
       rs = await api.v1.Account.EditEmail(
-        store.getters.get_username,
-        store.getters.get_token,
+        userData.getters.get_username,
+        userData.getters.get_token,
         tEmail.value.email,
         tEmail.value.verify.code
       )
@@ -214,8 +214,8 @@ async function sendChangeEmailCode() {
   let rs
   try {
     rs = await api.v1.Account.SendEditMail(
-      store.getters.get_username,
-      store.getters.get_token,
+      userData.getters.get_username,
+      userData.getters.get_token,
       tEmail.value.email
     )
   } catch (e) {
@@ -243,7 +243,7 @@ async function doBindQQ() {
   binding.value = true
   let rs
   try {
-    rs = await api.v2.oauth.qq.bind(store.getters.get_username)
+    rs = await api.v2.oauth.qq.bind(userData.getters.get_username)
   } catch (e) {
     logger.error(e)
     message.error('请求失败: ' + e)
@@ -259,7 +259,7 @@ async function unBindQQ() {
   binding.value = true
   let rs
   try {
-    rs = await api.v2.oauth.qq.unbind(store.getters.get_username)
+    rs = await api.v2.oauth.qq.unbind(userData.getters.get_username)
   } catch (e) {
     logger.error(e)
     binding.value = false
@@ -304,7 +304,7 @@ async function changePassword() {
     return
   }
   const data = {
-    username: store.getters.get_username,
+    username: userData.getters.get_username,
     old_password: tPassword.value.oldPaxsword,
     new_password: tPassword.value.newPassword
   }
@@ -331,7 +331,7 @@ async function resetFrpToken() {
   resetFrpTokenLoading.value = true
 
   const data = {
-    username: store.getters.get_username
+    username: userData.getters.get_username
   }
 
   dialog.warning({
@@ -352,7 +352,7 @@ async function resetFrpToken() {
       if (!rs) return
       if (rs.status === 200) {
         resetFrpTokenLoading.value = false
-        store.commit('set_frp_token', rs.data.token)
+        userData.commit('set_frp_token', rs.data.token)
         sendSuccessMessage('重置成功')
       } else {
         resetFrpTokenLoading.value = false
@@ -369,7 +369,7 @@ async function exitAllDevices() {
   exitAllDevicesLoading.value = true
 
   const data = {
-    username: store.getters.get_username
+    username: userData.getters.get_username
   }
 
   dialog.warning({

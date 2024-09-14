@@ -108,7 +108,7 @@ import { ref } from 'vue'
 import { NButton, NCard, NGrid, NGridItem, NH1, NSkeleton, NSpace, NText } from 'naive-ui'
 import { sendErrorMessage } from '@/utils/message'
 import { sendSuccessDialog } from '@/utils/dialog'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import api from '@/api'
 
 const loading = ref(true)
@@ -117,7 +117,7 @@ const status = ref(false)
 async function checkSign() {
   let rs
   try {
-    rs = await api.v2.sign.check(store.getters.get_username)
+    rs = await api.v2.sign.check(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('获取签到状态失败: ' + e)
     loading.value = false
@@ -132,7 +132,7 @@ async function checkSign() {
 async function doSign() {
   let rs
   try {
-    rs = await api.v2.sign.sign(store.getters.get_username)
+    rs = await api.v2.sign.sign(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('签到失败: ' + e)
   }

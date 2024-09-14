@@ -114,7 +114,7 @@
       </template>
       <p>
         <span style="margin-right: 15px">
-          {{ getQuickStartText() }}
+          {{ quickStartCommand }}
         </span>
         <!-- 2024-09-14 2:36 Muska-Ami: 这里不知道为啥复制不了 -->
         <!-- 2024-9-14 4:17 ltzXiaoYanMo: 大概v-clipboard的bug，这死吗玩意就死活不传入-->
@@ -122,7 +122,7 @@
         <n-button
           secondary
           type="primary"
-          v-clipboard:copy="getQuickStartText()"
+          v-clipboard="quickStartCommand"
           v-clipboard:success="() => sendSuccessMessage('复制成功')"
           v-clipboard:error="() => sendErrorMessage('复制失败')"
         >
@@ -260,7 +260,7 @@
 import { computed, ref } from 'vue'
 import { useDialog } from 'naive-ui'
 // import clipboard from '@/utils/clipboard'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
 import downloadSoftPage from '../components/InstallCsApp.vue'
@@ -285,11 +285,9 @@ const segmented = {
 const editCheck = ref(true)
 const showDownloadPage = ref(false)
 
-function getQuickStartText() {
-  const token = store.getters.get_frp_token
-  const proxyID = selectProxyID.value
-  return `./frpc -u ${token} -p ${proxyID}`
-}
+const quickStartCommand = computed(
+  () => `./frpc -u ${userData.getters.get_frp_token} -p ${selectProxyID.value}`
+)
 
 // 隧道类型翻译
 function transtype(type) {
@@ -334,7 +332,7 @@ async function launchProxyThroughApplication(id) {
     positiveText: '已经安装好了',
     negativeText: '没安装...',
     onPositiveClick: () => {
-      const url = 'locyanfrp://' + store.getters.get_frp_token + '/' + id
+      const url = 'locyanfrp://' + userData.getters.get_frp_token + '/' + id
       window.open(url)
     },
     onNegativeClick: () => {
@@ -355,7 +353,7 @@ async function forceDownProxy(proxyId) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.proxies.down(store.getters.get_username, proxyId)
+        rs = await api.v2.proxies.down(userData.getters.get_username, proxyId)
       } catch (e) {
         logger.error(e)
         sendErrorMessage(`请求强制下线隧道失败: ${e}`)
@@ -381,7 +379,7 @@ async function editProxy(proxyid) {
     proxyName: proxyEditInfo.value.proxy_name,
     proxyType: proxyEditInfo.value.proxy_type,
     remotePort: proxyEditInfo.value.remote_port,
-    username: store.getters.get_username,
+    username: userData.getters.get_username,
     localIp: proxyEditInfo.value.local_ip,
     localPort: proxyEditInfo.value.local_port,
     domain: proxyEditInfo.value.domain,
@@ -546,7 +544,7 @@ async function initList() {
 
   let rs2
   try {
-    rs2 = await api.v2.proxies.getlist(store.getters.get_username)
+    rs2 = await api.v2.proxies.getlist(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('请求节点列表失败: ' + e)
   }
@@ -585,9 +583,9 @@ function deleteProxy(id) {
       let rs
       try {
         rs = await api.v2.proxies.delete(
-          store.getters.get_username,
+          userData.getters.get_username,
           proxiesList.value[id].id,
-          store.getters.get_token
+          userData.getters.get_token
         )
       } catch (e) {
         sendErrorMessage('请求删除隧道失败: ' + e)

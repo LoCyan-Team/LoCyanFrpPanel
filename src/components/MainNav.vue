@@ -106,7 +106,7 @@
 import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
 import SideBar from './MainSideBar.vue'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import router from '@/router/index'
 import UserInfo, { changeUserInfoShow } from './UserInfo.vue'
 import { get } from '@/utils/request'
@@ -124,7 +124,7 @@ const hitokoto_content = ref('Loading')
 if (document.body.clientWidth >= 1000) {
   collapsed.value = false
 }
-avatar.value = store.getters.get_avatar
+avatar.value = userData.getters.get_avatar
 
 // 刚进入面板不展示用户信息框
 changeUserInfoShow(false)
@@ -138,7 +138,7 @@ function renderIcon(icon) {
 }
 
 function getStyle() {
-  if (!store.getters.get_token) {
+  if (!userData.getters.get_token) {
     return 'display: none;'
   }
 }

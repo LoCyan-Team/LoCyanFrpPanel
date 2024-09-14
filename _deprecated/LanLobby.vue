@@ -203,7 +203,7 @@
 <script setup>
 import { ref } from 'vue'
 import { get, post, deleteReq } from '@/utils/request'
-import store from '@/utils/stores/store'
+import userData from '@/utils/stores/userData'
 import { sendSuccessDialog } from '@/utils/dialog'
 
 const bodyStyle = {
@@ -286,7 +286,7 @@ const lobbyValue = ref({
   client_download_url: '',
   client_download_type: '',
   client_download_password: '',
-  username: store.getters.get_username
+  username: userData.getters.get_username
 })
 
 const Proxies_Select = ref([])
@@ -315,7 +315,7 @@ function getGameList() {
 function getLobbys(game_name) {
   const rs = get(
     'https://api-v2.locyanfrp.cn/api/v2/lan/public/getListByGameName?username=' +
-      store.getters.get_username +
+      userData.getters.get_username +
       '&game_name=' +
       game_name
   )
@@ -328,7 +328,7 @@ function getLobbys(game_name) {
 
 function getPrivateLobby() {
   const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/lan/private/list?username=' + store.getters.get_username
+    'https://api-v2.locyanfrp.cn/api/v2/lan/private/list?username=' + userData.getters.get_username
   )
   rs.then((res) => {
     if (res.status === 200) {
@@ -374,7 +374,7 @@ function createLobby() {
 function deleteLobby(id) {
   const rs = deleteReq(
     'https://api-v2.locyanfrp.cn/api/v2/lan/private/deleteReq?username=' +
-      store.getters.get_username +
+      userData.getters.get_username +
       '&id=' +
       String(id)
   )
@@ -389,7 +389,7 @@ function deleteLobby(id) {
 function getAddress(proxyId, nodeId) {
   const rs = get(
     'https://api-v2.locyanfrp.cn/api/v2/lan/public/address?username=' +
-      store.getters.get_username +
+      userData.getters.get_username +
       '&proxy_id=' +
       proxyId +
       '&node_id=' +

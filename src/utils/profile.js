@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ref } from 'vue'
-import store from './stores/store'
+import userData from './stores/userData'
 import router from '@/router/index'
 import { get } from './request'
 import { sendWarningMessage } from './message'
@@ -50,7 +50,6 @@ export function getProxies(username, token) {
 }
 
 export function logout() {
-  store.commit('delete_token')
-  store.commit('delete_user_info')
+  userData.commit('delete_user_info')
   router.push('/login')
 }
