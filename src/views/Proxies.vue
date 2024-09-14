@@ -118,10 +118,11 @@
         </span>
         <!-- 2024-09-14 2:36 Muska-Ami: 这里不知道为啥复制不了 -->
         <!-- 2024-9-14 4:17 ltzXiaoYanMo: 大概v-clipboard的bug，这死吗玩意就死活不传入-->
+        <!-- 2024-09-14 9:35 Muska-Ami: 我觉得是 NaiveUI 实现的问题 -->
         <n-button
           secondary
           type="primary"
-          v-clipboard:copy="() => getQuickStartText()"
+          v-clipboard:copy="getQuickStartText()"
           v-clipboard:success="() => sendSuccessMessage('复制成功')"
           v-clipboard:error="() => sendErrorMessage('复制失败')"
         >
@@ -200,14 +201,6 @@
                   "
                   >编辑
                 </n-button>
-                <n-button
-                  style="margin: 1px"
-                  strong
-                  secondary
-                  type="error"
-                  @click="deleteProxy(proxiesList.indexOf(item))"
-                  >删除
-                </n-button>
                 <!-- 这个click被我利用到极致了 -->
                 <!-- JS大蛇你妈的也不套 () => {} 帮你套了下次别乱写了 -->
                 <n-button
@@ -215,6 +208,7 @@
                   strong
                   secondary
                   type="info"
+                  v-if="serverList[item.node]"
                   @click="
                     () => {
                       indexOfProxies = proxiesList.indexOf(item)
@@ -223,18 +217,35 @@
                       selectProxyID = item.id
                     }
                   "
-                  >详细信息
+                >
+                  详细信息
                 </n-button>
                 <n-button
                   style="margin: 1px"
                   strong
                   secondary
                   type="warning"
+                  v-if="serverList[item.node]"
                   @click="launchProxyThroughApplication(item.id)"
-                  >一键启动
+                >
+                  一键启动
                 </n-button>
-                <n-button style="margin: 1px" strong type="error" @click="forceDownProxy(item.id)"
-                  >强制下线
+                <n-button
+                  style="margin: 1px"
+                  strong
+                  tertiary
+                  type="warning"
+                  @click="forceDownProxy(item.id)"
+                >
+                  强制下线
+                </n-button>
+                <n-button
+                  style="margin: 1px"
+                  strong
+                  secondary
+                  type="error"
+                  @click="deleteProxy(proxiesList.indexOf(item))"
+                  >删除
                 </n-button>
               </n-space>
             </template>
@@ -277,7 +288,7 @@ const showDownloadPage = ref(false)
 function getQuickStartText() {
   const token = store.getters.get_frp_token
   const proxyID = selectProxyID.value
-  return `./frpc -u ${token} -p ${proxyID}`;
+  return `./frpc -u ${token} -p ${proxyID}`
 }
 
 // 隧道类型翻译
@@ -351,7 +362,7 @@ async function forceDownProxy(proxyId) {
       }
       if (!rs) return
       if (rs.status === 200) {
-        sendSuccessMessage('隧道已下线')
+        sendSuccessMessage('已发送隧道下线指令')
       }
     },
     onMaskClick: () => {
