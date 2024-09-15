@@ -165,7 +165,7 @@ async function login() {
     ldb.error()
     return
   }
-  if (rs.status === 200) {
+  if (rs.status === 200 && rs.data.status === 200) {
     message.success(rs.data.username + '，欢迎回来！')
     userData.commit('set_token', rs.data.token)
     // console.log(res.data)
