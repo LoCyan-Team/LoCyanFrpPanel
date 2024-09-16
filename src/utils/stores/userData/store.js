@@ -85,7 +85,7 @@ export default new vuex.Store({
     },
     // outbound
     set_user_outbound(state, outbound) {
-      state.outbound = stateData.outbound
+      state.outbound = outbound
       localStorage.setItem('outbound', outbound)
     },
     remove_user_outbound(state) {

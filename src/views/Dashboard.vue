@@ -183,7 +183,7 @@ import { AngleRight, Key } from '@vicons/fa'
 import userData from '@/utils/stores/userData/store'
 import { marked } from 'marked'
 import { useDialog, useMessage } from 'naive-ui'
-import { startLoadingBar } from '@/utils/loadingbar'
+import { startLoadingBar, finishLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
 import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 import api from '@/api'
 import logger from '@/utils/logger'
@@ -331,11 +331,21 @@ async function resetTraffic() {
       const data = {
         username: userData.getters.get_username
       }
-      const rs = await get('https://api-v2.locyanfrp.cn/api/v2/users/reset/traffic', data)
+      let rs
+      try {
+        rs = await api.v2.users.reset.traffic(data.username)
+      } catch (e) {
+        logger.error(e)
+        sendErrorMessage('请求重置流量失败: ' + e)
+      }
+      if (!rs) {
+        errorLoadingBar()
+        return
+      }
       if (rs.status === 200) {
         message.success('重置成功!')
       } else {
-        message.success('重置失败, API 返回: ' + rs.message)
+        message.error('重置失败, API 返回: ' + rs.message)
       }
       finishLoadingBar()
     }

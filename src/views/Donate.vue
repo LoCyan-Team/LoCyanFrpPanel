@@ -24,7 +24,7 @@
         >您可以在该页面放置你的留言，同时你可以保存以下链接便于您修改你的留言（赞助数额小于 3
         元留言不公开）：
       </n-p>
-      <n-p>https://preview.locyanfrp.cn/donate?out_trade_no={{ trade_no }}</n-p>
+      <n-p>https://dashboard.locyanfrp.cn/donate?out_trade_no={{ trade_no }}</n-p>
       <template #footer>
         <n-button @click="showModal = false"> 关闭</n-button>
       </template>
