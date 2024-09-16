@@ -20,17 +20,17 @@ git clone https://github.com/LoCyan-Team/LoCyanFrpPanel.git
 
 <!-- 2. 安装 [Node.js](https://nodejs.org) 18+ -->
 
-3. 安装 Bun
+2. 安装 Bun
 
 请参阅: <https://bun.sh>
 
-4. 安装依赖
+3. 安装依赖
 
 ```shell
 bun i
 ```
 
-5. 运行项目
+4. 运行项目
 
 ```shell
 bun dev
