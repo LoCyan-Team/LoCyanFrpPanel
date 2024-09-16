@@ -41,6 +41,7 @@ bun dev
 - [Vue3](https://vuejs.org/)
 - [Axios](https://axios-http.com/)
 - [Naive UI](https://www.naiveui.com/)
+- [v-clipboard](https://github.com/euvl/v-clipboard)
 - [TaliwindCSS](https://tailwindcss.com/)
 - [Emoji.json (UNPKG)](https://unpkg.com/emoji.json@14.0.0/emoji.json)
 - [twemoji](https://github.com/twitter/twemoji)
