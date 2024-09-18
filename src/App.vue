@@ -28,9 +28,9 @@ import {
   NNotificationProvider,
   useOsTheme
 } from 'naive-ui'
-import MainNav from './components/MainNav.vue'
-import GuestNav from './components/GuestNav.vue'
-import Notification from './components/Notification.vue'
+import MainNav from '@components/MainNav.vue'
+import GuestNav from '@components/GuestNav.vue'
+import Notification from '@components/Notification.vue'
 import { computed } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import hljs from 'highlight.js/lib/core'
@@ -39,7 +39,7 @@ import nginx from 'highlight.js/lib/languages/nginx'
 import api from '@/api'
 import { sendWarningMessage } from '@/utils/message'
 import { logout } from '@/utils/profile'
-import router from '@/router/index'
+import router from '@router'
 // import { init_ws, SetOnMessageFunction } from "@/utils/websocket.js";
 // import { sendInfoNotification } from '@/utils/notification'
 

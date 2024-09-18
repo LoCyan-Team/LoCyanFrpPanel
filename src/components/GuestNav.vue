@@ -41,7 +41,7 @@
 import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
 import GuestSideBar from './GuestSideBar.vue'
-import router from '@/router/index'
+import router from '@router'
 import { get } from '@/utils/request'
 
 // 手机状态下收缩菜单栏

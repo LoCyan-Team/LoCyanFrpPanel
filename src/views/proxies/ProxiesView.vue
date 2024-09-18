@@ -263,7 +263,7 @@ import { useDialog } from 'naive-ui'
 import userData from '@/utils/stores/userData/store'
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
-import downloadSoftPage from '../components/InstallCsApp.vue'
+import downloadSoftPage from '@components/InstallCsApp.vue'
 import api from '@/api'
 import logger from '@/utils/logger'
 

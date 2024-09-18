@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import userData from '@/utils/stores/userData/store'
-import { changeMainSideBarShow } from '../components/MainNav.vue'
-import { changeShowGuestSideBar } from '../components/GuestNav.vue'
-import { setSideBarActiveKey } from '../components/MainSideBar.vue'
-import { setGuestSideBarActiveKey } from '../components/GuestSideBar.vue'
+import { changeMainSideBarShow } from '@/components/MainNav.vue'
+import { changeShowGuestSideBar } from '@/components/GuestNav.vue'
+import { setSideBarActiveKey } from '@/components/MainSideBar.vue'
+import { setGuestSideBarActiveKey } from '@/components/GuestSideBar.vue'
 import logger from '@/utils/logger'
 
 const routes = [
@@ -15,127 +15,147 @@ const routes = [
         path: '/',
         name: 'MainPage',
         meta: {
-          keepAlive: true,
           title: '首页'
         },
-        component: () => import('../views/Main.vue')
+        component: () => import('@views/MainView.vue')
       },
       {
         path: '/dashboard',
         name: 'Dashboard',
         meta: {
+          title: '仪表盘',
           keepAlive: true,
-          title: '仪表盘'
+          needLogin: true
         },
-        component: () => import('../views/Dashboard.vue')
+        component: () => import('@views/DashboardView.vue')
       },
       {
         path: '/sign',
         name: 'Sign',
         meta: {
+          title: '签到',
           keepAlive: true,
-          title: '签到'
+          needLogin: true
         },
-        component: () => import('../views/Sign.vue')
+        component: () => import('@views/SignView.vue')
       },
       {
         path: '/login',
         name: 'Login',
         meta: {
+          title: '登录',
           keepAlive: true,
-          title: '登录'
+          autoRedirectLogined: true
         },
-        component: () => import('../views/Login.vue')
+        component: () => import('@views/auth/LoginView.vue')
       },
       {
         path: '/register',
         name: 'Register',
         meta: {
+          title: '注册',
           keepAlive: true,
-          title: '注册'
+          autoRedirectLogined: true
         },
-        component: () => import('../views/Register.vue')
+        component: () => import('@views/auth/RegisterView.vue')
       },
       {
         path: '/reset_password',
         name: 'ResetPassword',
         meta: {
+          title: '重置密码',
           keepAlive: true,
-          title: '重置密码'
+          autoRedirectLogined: true
         },
-        component: () => import('../views/ResetPassword.vue')
+        component: () => import('@views/auth/ResetPasswordView.vue')
       },
       {
         path: '/proxies',
         name: 'Proxies',
         meta: {
+          title: '隧道列表',
           keepAlive: true,
-          title: '隧道列表'
+          needLogin: true
         },
-        component: () => import('../views/Proxies.vue')
+        component: () => import('@views/proxies/ProxiesView.vue')
       },
       {
         path: '/proxies/add',
         name: 'AddProxies',
         meta: {
+          title: '添加隧道',
           keepAlive: true,
-          title: '添加隧道'
+          needLogin: true
         },
-        component: () => import('../views/AddProxies.vue')
+        component: () => import('@views/proxies/AddView.vue')
       },
       {
         path: '/realname',
         name: 'RealName',
         meta: {
+          title: '实名认证',
           keepAlive: true,
-          title: '实名认证'
+          needLogin: true
         },
-        component: () => import('../views/RealName.vue')
+        component: () => import('@views/RealNameView.vue')
       },
       {
         path: '/hello2024',
         name: 'NewYear',
         meta: {
+          title: '留言',
           keepAlive: true,
-          title: '留言'
+          needLogin: true
         },
-        component: () => import('../views/NewYear.vue')
+        component: () => import('@views/activities/NewYearView.vue')
       },
       {
         path: '/prize',
         name: 'Prize',
         meta: {
+          title: '抽奖',
           keepAlive: true,
-          title: '抽奖'
+          needLogin: true
         },
-        component: () => import('../views/Prize.vue')
+        component: () => import('@views/activities/PrizeView.vue')
       },
       {
-        path: '/config',
+        path: '/proxies/config',
         name: 'Config',
         meta: {
+          title: '配置文件',
           keepAlive: true,
-          title: '配置文件'
+          needLogin: true
         },
-        component: () => import('../views/Config.vue')
+        component: () => import('@views/proxies/ConfigView.vue')
       },
       {
         path: '/donate',
         name: 'Donate',
         meta: {
+          title: '赞助',
           keepAlive: true,
-          title: '赞助'
+          needLogin: true
         },
-        component: () => import('../views/Donate.vue')
+        component: () => import('@views/DonateView.vue')
       },
       {
         path: '/icp',
         name: 'Icp',
         meta: {
+          title: '域名白名单',
           keepAlive: true,
-          title: '域名白名单'
+          needLogin: true
         },
-        component: () => import('../views/IcpCheck.vue')
+        component: () => import('@views/IcpCheckView.vue')
+      },
+      {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        meta: {
+          title: '页面未找到'
+        },
+        component: () => import('@views/NotFoundView.vue')
       }
       // 没做完的
       // {
@@ -145,7 +165,7 @@ const routes = [
       //     keepAlive: true,
       //     title: '多人游戏大厅'
       //   },
-      //   component: () => import('../views/LanLobby.vue')
+      //   component: () => import('@views/LanLobby.vue')
       // }
     ]
   }
@@ -161,54 +181,41 @@ const router = createRouter({
 //   userData.commit('set_token', localStorage.getItem('token'))
 // }
 
-// 检测到已登录之后自动跳转 /dashboard 的界面
-const _autoRedirectLogined = ['Login', 'Register', 'ResetPassword']
-
 router.beforeEach((to, from, next) => {
   logger.info(`Routing from ${from.name} to ${to.name}`)
   startLoadingBar()
-  if (_autoRedirectLogined.includes(to.name)) {
-    const hasToken = userData.getters.get_token != ''
-    logger.info(`Has token: ${hasToken}${hasToken ? ` ${userData.getters.get_token}` : ''}`)
-    if (hasToken) next({ name: 'Dashboard' })
-    else next()
-  } else if (to.name === 'MainPage') {
-    next()
-  } else if (userData.getters.get_token == '') {
-    next({ name: 'Login', query: { redirect: location.pathname } })
-  } else {
-    next()
+
+  if (to.name === 'NotFound') {
+    next() // 直接放行 404 路由
+    return
   }
+
+  const hasToken = userData.getters.get_token !== ''
+
+  if (to.meta.needLogin && !hasToken) {
+    next({ name: 'Login', query: { redirect: location.pathname } })
+  }
+  if (to.meta.autoRedirectLogined && hasToken) {
+    next({ name: 'Dashboard' })
+  }
+  next()
 })
 
 // from next
 router.afterEach((to) => {
   finishLoadingBar()
   if (to.meta.title) {
-    //设置标题
+    // 设置标题
     document.title = to.meta.title + ' | LoCyanFrp'
   }
 
-  switch (to.name) {
-    case 'MainPage':
-      changeMainSideBarShow(false)
-      changeShowGuestSideBar(false)
-      break
-    case 'Login':
-      changeMainSideBarShow(false)
-      changeShowGuestSideBar(true)
-      break
-    case 'Register':
-      changeMainSideBarShow(false)
-      changeShowGuestSideBar(true)
-      break
-    case 'ResetPassword':
-      changeMainSideBarShow(false)
-      changeShowGuestSideBar(true)
-      break
-    default:
-      changeMainSideBarShow(true)
-      changeShowGuestSideBar(false)
+  // 需要登录则展示主 sidebar
+  if (to.meta.needLogin) {
+    changeMainSideBarShow(true)
+    changeShowGuestSideBar(false)
+  } else {
+    changeMainSideBarShow(false)
+    changeShowGuestSideBar(false)
   }
 
   if (userData.getters.get_token) {

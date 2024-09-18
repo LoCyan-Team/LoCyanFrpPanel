@@ -113,7 +113,7 @@ const menuOptions = [
         icon: renderIcon(List)
       },
       {
-        path: '/config',
+        path: '/proxies/config',
         label: '配置文件',
         key: 'Config',
         icon: renderIcon(FileTrayFull)
@@ -204,7 +204,7 @@ const inverted = false
 </script>
 <script>
 import { ref } from 'vue'
-import router from '@/router/index'
+import router from '@router'
 
 const active = ref('')
 const menuInstRef = ref(null)

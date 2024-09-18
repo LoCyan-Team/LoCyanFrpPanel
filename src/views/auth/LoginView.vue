@@ -58,7 +58,7 @@
 import { ref, onMounted } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
 import { getUrlKey } from '@/utils/request'
-import router from '@/router/index'
+import router from '@router'
 import userData from '@/utils/stores/userData/store'
 import { sendErrorMessage } from '@/utils/message'
 import logger from '@/utils/logger'

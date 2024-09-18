@@ -4,7 +4,7 @@ import axios from 'axios'
 import QS from 'qs'
 // vuex
 import userData from './stores/userData/store'
-import router from '@/router/index'
+import router from '@router'
 import Base64 from 'qs/lib/utils'
 import { sendErrorMessage } from './message'
 import logger from '@/utils/logger'

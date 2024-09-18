@@ -11,6 +11,7 @@
       <n-space vertical>
         <n-spin :show="show">
           <div style="text-align: center">
+            <n-alert title="已废弃" type="warning"> 请改用软件下载 </n-alert>
             文件名: {{ file_name }}
             <br />
             <br />

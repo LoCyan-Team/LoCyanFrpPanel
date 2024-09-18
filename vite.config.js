@@ -39,7 +39,10 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve('./src') // @代替src
+      '@': path.resolve('./src'), // @代替src
+      '@views': path.resolve('./src/views'),
+      '@components': path.resolve('./src/components'),
+      '@router': path.resolve('./src/router/index.js')
     }
   },
   build: {

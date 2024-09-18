@@ -50,7 +50,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import router from '@/router/index'
+import router from '@router'
 import api from '@/api'
 // import logger from '@/utils/logger'
 

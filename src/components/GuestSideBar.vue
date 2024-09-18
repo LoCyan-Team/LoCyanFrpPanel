@@ -68,7 +68,7 @@ const menuOptions = [
 </script>
 <script>
 import { ref } from 'vue'
-import router from '@/router/index'
+import router from '@router'
 
 const active = ref('')
 
