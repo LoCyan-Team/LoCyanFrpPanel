@@ -17,6 +17,6 @@ a:hover {
   color: #63e2b7;
 }
 
-ul {
+ul, ol {
   margin-left: 1rem;
 }

@@ -225,8 +225,8 @@ onMounted(async () => {
     ads_content.value =
       marked(notice.value.ads) +
       '<style>' +
-      '[href^="https"], [href^="http"]{' +
-      '  color: #63E2B7;' +
+      // '[href^="https"], [href^="http"]{' +
+      // '  color: #63E2B7;' +
       'p {' +
       '  padding: 2px;' +
       '}' +
@@ -249,15 +249,14 @@ onMounted(async () => {
   if (res.data.status === true) {
     boardcast_html.value =
       marked(res.data.broadcast) +
-      '<style>\n' +
+      '<style>' +
       // '[href^="https"], [href^="http"]{\n' +
       // '  color: #63E2B7;\n' +
       // '}\n' +
       // '\n' +
-      'p {\n' +
-      '  padding: 2px;\n' +
-      '}\n' +
-      '\n' +
+      'p {' +
+      '  padding: 2px;' +
+      '}' +
       '</style>'
     boardcast_show.value = false
   }
