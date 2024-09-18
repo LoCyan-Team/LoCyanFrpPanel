@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
-import './style.css'
-import './twemoji-amazing.css'
+import '@/assets/style.css'
+import '@/assets/twemoji-amazing.css'
 import App from './App.vue'
 import message from '@components/Message.vue'
 import loadingbar from '@components/LoadingBar.vue'

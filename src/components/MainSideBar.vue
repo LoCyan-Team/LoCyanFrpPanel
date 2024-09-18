@@ -101,16 +101,16 @@ const menuOptions = [
     icon: renderIcon(PaperPlane),
     children: [
       {
-        path: '/proxies/add',
-        label: '添加隧道',
-        key: 'AddProxies',
-        icon: renderIcon(Add)
-      },
-      {
         path: '/proxies',
         label: '隧道列表',
         key: 'Proxies',
         icon: renderIcon(List)
+      },
+      {
+        path: '/proxies/add',
+        label: '添加隧道',
+        key: 'AddProxies',
+        icon: renderIcon(Add)
       },
       {
         path: '/proxies/config',
@@ -171,16 +171,9 @@ const menuOptions = [
       //   icon: renderIcon(CloudDownloadOutline),
       // },
       {
-        label: () =>
-          h(
-            'a',
-            {
-              href: 'https://nyalcf.1l1.icu',
-              target: '_blank'
-            },
-            '软件下载'
-          ),
-        key: 'software_download_backup',
+        path: '/other/software',
+        label: '软件下载',
+        key: 'SoftwareDownload',
         icon: renderIcon(CloudDownloadOutline)
       },
       {

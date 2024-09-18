@@ -122,7 +122,7 @@
         <n-button
           secondary
           type="primary"
-          v-clipboard="quickStartCommand"
+          v-clipboard="() => quickStartCommand"
           v-clipboard:success="() => sendSuccessMessage('复制成功')"
           v-clipboard:error="() => sendErrorMessage('复制失败')"
         >

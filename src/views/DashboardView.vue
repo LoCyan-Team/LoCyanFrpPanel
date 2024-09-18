@@ -44,11 +44,9 @@
     </n-grid-item>-->
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
-        <span
-          >您好，尊敬的 <a id="username">{{ username }}</a></span
-        >
+        <span>您好，尊敬的 {{ username }}</span>
         <br />
-        <a>您的邮箱为：{{ email }}</a>
+        <span>您的邮箱为：{{ email }}</span>
         <br />
         访问密钥：
         <br />
@@ -105,21 +103,21 @@
             <template #suffix> 条</template>
           </n-statistic>
           <n-statistic label="速度限制" tabular-nums>
-            <a>{{ outbound }}<br />{{ inbound }}</a>
+            <span>{{ outbound }}<br />{{ inbound }}</span>
           </n-statistic>
         </n-space>
         <!-- API: https://api-v2.locyanfrp.cn/api/v2/users/reset/traffic -->
         <!-- 需要传入Params: username -->
-        <a>流量太多, 用不完?</a
-        ><n-button @click="resetTraffic" style="margin-left: 20px; margin-top: 10px"
-          >重置流量</n-button
-        >
+        <span>流量太多, 用不完?</span>
+        <n-button @click="resetTraffic" style="margin-left: 20px; margin-top: 10px">
+          重置流量
+        </n-button>
       </n-card>
       <br />
       <n-alert title="关于高级功能" type="info">
         若需要 Frp 的高级功能, 你可以配置隧道后前往此处下载纯净版 Frp ：
-        <a href="https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases" target="_blank"
-          >点击前往</a
+        <a href="https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases" target="_blank">
+          点击前往 </a
         >，<br />
         下载适合自己系统架构的软件，随后即可自行配置。<br />
         注意：萌新使用此方法导致不会用的后果自行承担！<br />
@@ -140,8 +138,8 @@
         发卡网等有违中国法律的站点或服务。一经发现，
         我们有不在事先通知用户的情况下删除隧道、封停账户、将信息上报公安的权力，
         请不要试图挑战我们的底线；<br />
-        6. 我们允许建设图床、网盘等服务，但其必须建设在美国千兆服务器上，
-        违规的隧道将会被强制迁移，这是为了保障大部分用户的体验，谢谢配合！
+        6. 我们允许建设图床、网盘等服务，但其必须建设在允许大流量业务的节点上，
+        违规的隧道将会被封禁，这是为了保障大部分用户的体验，谢谢配合！
         若您违规使用，可能需要支付相应的流量费用！<br />
       </n-alert>
     </n-grid-item>
@@ -178,7 +176,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 // import clipboard from '@/utils/clipboard'
-import { get } from '@/utils/request'
 import { AngleRight, Key } from '@vicons/fa'
 import userData from '@/utils/stores/userData/store'
 import { marked } from 'marked'
@@ -253,10 +250,10 @@ onMounted(async () => {
     boardcast_html.value =
       marked(res.data.broadcast) +
       '<style>\n' +
-      '[href^="https"], [href^="http"]{\n' +
-      '  color: #63E2B7;\n' +
-      '}\n' +
-      '\n' +
+      // '[href^="https"], [href^="http"]{\n' +
+      // '  color: #63E2B7;\n' +
+      // '}\n' +
+      // '\n' +
       'p {\n' +
       '  padding: 2px;\n' +
       '}\n' +

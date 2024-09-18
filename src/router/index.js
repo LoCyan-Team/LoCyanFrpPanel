@@ -159,6 +159,16 @@ const routes = [
         component: () => import('@views/IcpCheckView.vue')
       },
       {
+        path: '/other/software',
+        name: 'Software',
+        meta: {
+          title: '软件下载',
+          keepAlive: true,
+          needLogin: true
+        },
+        component: () => import('@views/other/SoftwareView.vue')
+      },
+      {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         meta: {
