@@ -9,7 +9,7 @@
         <n-card title="签到" size="medium">
           <n-space justify="space-between">
             <p>通过签到你可以获得更多流量</p>
-            <n-button v-if="status" round @click="doSign" dashed> 已签到 </n-button>
+            <n-button v-if="status" round dashed disabled> 已签到 </n-button>
             <n-button
               v-if="!status"
               v-bind:disabled="loading"
