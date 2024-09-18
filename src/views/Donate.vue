@@ -20,8 +20,8 @@
       <n-p>捐赠金额：{{ trade_info.amount }}</n-p>
       <n-p>捐赠时间：{{ timestampToTime(trade_info.time) }}</n-p>
       <br />
-      <n-p
-        >您可以在该页面放置你的留言，同时你可以保存以下链接便于您修改你的留言（赞助数额小于 3
+      <n-p>
+        您可以在该页面放置你的留言，同时你可以保存以下链接便于您修改你的留言（赞助数额小于 3
         元留言不公开）：
       </n-p>
       <n-p>https://dashboard.locyanfrp.cn/donate?out_trade_no={{ trade_no }}</n-p>
@@ -51,9 +51,9 @@
       <n-input type="text" v-model:value="amount" placeholder="金额" />
       <br />
       <br />
-      <n-text
-        >赞助数额达到 <b> {{ amount_filter_threshold }} 元 </b> 的留言会被公开展示</n-text
-      >
+      <n-text>
+        赞助数额达到 <b> {{ amount_filter_threshold }} 元 </b> 的留言会被公开展示
+      </n-text>
       <br />
       <br />
       <n-button @click="doDonate" :loading="loading_donate"> 赞助</n-button>
