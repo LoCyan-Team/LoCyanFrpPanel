@@ -91,7 +91,7 @@ if (code !== null) {
 }
 
 function goLogin() {
-  router.push('/login')
+  router.push('/auth/login')
 }
 
 async function doResetRequest() {

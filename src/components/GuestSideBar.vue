@@ -47,19 +47,19 @@ const menuOptions = [
     icon: renderIcon(LogInOutline)
   },
   {
-    path: '/login',
+    path: '/auth/login',
     label: '登录',
     key: 'Login',
     icon: renderIcon(LogInOutline)
   },
   {
-    path: '/register',
+    path: '/auth/register',
     label: '注册',
     key: 'Register',
     icon: renderIcon(MailOpenOutline)
   },
   {
-    path: '/reset_password',
+    path: '/auth/resetPassword',
     label: '重置密码',
     key: 'ResetPassword',
     icon: renderIcon(PlanetOutline)

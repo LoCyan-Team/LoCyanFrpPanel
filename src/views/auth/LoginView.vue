@@ -96,7 +96,7 @@ if (code !== null) {
       rs = await api.v2.oauth.qq.loginByCode(code)
     } catch (e) {
       sendErrorMessage('登录失败: ' + e)
-      router.push('/login')
+      router.push('/auth/login')
     }
     if (!rs) return
     if (rs.status === 200) {
@@ -117,7 +117,7 @@ if (token !== null) {
       rs = await api.v2.oauth.loginByToken(token)
     } catch (e) {
       sendErrorMessage('登录失败: ' + e)
-      router.push('/login')
+      router.push('/auth/login')
     }
     if (!rs) return
     if (rs.status === 200) {
@@ -130,7 +130,7 @@ if (token !== null) {
 }
 
 function goRegister() {
-  router.push('/register')
+  router.push('/auth/register')
 }
 
 // LoCyan OAuth 2.0
@@ -139,7 +139,7 @@ function oauthLogin() {
   window.location.href =
     'https://api-v2.locyanfrp.cn/api/v2/oauth/authorize?redirectUrl=http://' +
     window.location.host +
-    '/login'
+    '/auth/login'
 }
 
 // 登录

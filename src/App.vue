@@ -92,7 +92,7 @@ setInterval(async () => {
     if (rs.status === 401) {
       sendWarningMessage('登录过期或未登录，请重新登录后台！')
       logout()
-      router.push('/login')
+      router.push('/auth/login')
     }
   }
 }, 10000)

@@ -76,7 +76,7 @@ const verify = ref({
 })
 
 function goLogin() {
-  router.push('/login')
+  router.push('/auth/login')
 }
 
 async function sendCode() {
@@ -121,7 +121,7 @@ async function register() {
   // const rs = post('https://api.locyanfrp.cn/User/DoReg', model.value)
   if (rs.status === 200) {
     message.success(rs.message)
-    router.push('/login')
+    router.push('/auth/login')
   } else {
     message.error(rs.message)
   }

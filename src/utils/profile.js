@@ -51,5 +51,5 @@ export function getProxies(username, token) {
 
 export function logout() {
   userData.commit('delete_user_info')
-  router.push('/login')
+  router.push('/auth/login')
 }

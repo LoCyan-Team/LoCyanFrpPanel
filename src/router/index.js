@@ -40,32 +40,41 @@ const routes = [
         component: () => import('@views/SignView.vue')
       },
       {
-        path: '/login',
+        path: '/auth/login',
         name: 'Login',
         meta: {
           title: '登录',
           keepAlive: true,
-          autoRedirectLogined: true
+          autoRedirectLogined: true,
+          sidebar: {
+            guest: true
+          }
         },
         component: () => import('@views/auth/LoginView.vue')
       },
       {
-        path: '/register',
+        path: '/auth/register',
         name: 'Register',
         meta: {
           title: '注册',
           keepAlive: true,
-          autoRedirectLogined: true
+          autoRedirectLogined: true,
+          sidebar: {
+            guest: true
+          }
         },
         component: () => import('@views/auth/RegisterView.vue')
       },
       {
-        path: '/reset_password',
+        path: '/auth/resetPassword',
         name: 'ResetPassword',
         meta: {
           title: '重置密码',
           keepAlive: true,
-          autoRedirectLogined: true
+          autoRedirectLogined: true,
+          sidebar: {
+            guest: true
+          }
         },
         component: () => import('@views/auth/ResetPasswordView.vue')
       },
@@ -214,8 +223,16 @@ router.afterEach((to) => {
     changeMainSideBarShow(true)
     changeShowGuestSideBar(false)
   } else {
-    changeMainSideBarShow(false)
-    changeShowGuestSideBar(false)
+    if (to.meta.sidebar?.guest) {
+      changeShowGuestSideBar(true)
+      changeMainSideBarShow(false)
+    } else if (to.meta.sidebar?.main) {
+      changeShowGuestSideBar(false)
+      changeMainSideBarShow(true)
+    } else {
+      changeShowGuestSideBar(false)
+      changeMainSideBarShow(false)
+    }
   }
 
   if (userData.getters.get_token) {
