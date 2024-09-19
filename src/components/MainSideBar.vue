@@ -181,7 +181,7 @@ const menuOptions = [
           h(
             'a',
             {
-              href: 'https://doc.locyan.cn',
+              href: 'https://docs.locyanfrp.cn',
               target: '_blank'
             },
             '帮助文档'

@@ -41,7 +41,7 @@
 import router from '@router'
 
 const GoToDocs = () => {
-  window.open('https://doc.locyan.cn')
+  window.open('https://docs.locyanfrp.cn')
 }
 </script>
 
