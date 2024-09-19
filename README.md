@@ -43,6 +43,6 @@ bun dev
 - [Naive UI](https://www.naiveui.com/)
 - [v-clipboard](https://github.com/euvl/v-clipboard)
 - [TaliwindCSS](https://tailwindcss.com/)
-- [Emoji.json (UNPKG)](https://unpkg.com/emoji.json@14.0.0/emoji.json)
 - [twemoji](https://github.com/twitter/twemoji)
 - [twemoji-amazing](https://github.com/SebastianAigner/twemoji-amazing)
+- [xicons](https://www.xicons.org/)

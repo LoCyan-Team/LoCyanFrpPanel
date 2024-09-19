@@ -27,7 +27,8 @@
 import { NIcon, NLayoutSider, NMenu } from 'naive-ui'
 import { h, ref } from 'vue'
 
-import { LogInOutline, MailOpenOutline, PlanetOutline } from '@vicons/ionicons5'
+import { CompassOutline, LogInOutline, MailOpenOutline } from '@vicons/ionicons5'
+import { KeyReset20Regular } from '@vicons/fluent'
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)
@@ -44,7 +45,7 @@ const menuOptions = [
     path: '/',
     label: '首页',
     key: 'MainPage',
-    icon: renderIcon(LogInOutline)
+    icon: renderIcon(CompassOutline)
   },
   {
     path: '/auth/login',
@@ -62,7 +63,7 @@ const menuOptions = [
     path: '/auth/resetPassword',
     label: '重置密码',
     key: 'ResetPassword',
-    icon: renderIcon(PlanetOutline)
+    icon: renderIcon(KeyReset20Regular)
   }
 ]
 </script>
