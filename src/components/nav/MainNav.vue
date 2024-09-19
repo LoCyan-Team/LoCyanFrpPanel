@@ -105,10 +105,10 @@
 <script setup>
 import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
-import SideBar from './MainSideBar.vue'
+import SideBar from '@components/sidebar/MainSidebar.vue'
 import userData from '@/utils/stores/userData/store'
 import router from '@router'
-import UserInfo, { changeUserInfoShow } from './UserInfo.vue'
+import UserInfo, { changeUserInfoShow } from '@components/UserInfo.vue'
 import { get } from '@/utils/request'
 import { GitAlt } from '@vicons/fa'
 import logger from '@/utils/logger'
@@ -169,7 +169,7 @@ import { ref } from 'vue'
 
 export const showSideBar = ref(false)
 
-export function changeMainSideBarShow(is_show) {
+export function changeMainSidebarShow(is_show) {
   showSideBar.value = is_show
 }
 </script>

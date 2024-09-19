@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import userData from '@/utils/stores/userData/store'
-import { changeMainSideBarShow } from '@/components/MainNav.vue'
-import { changeShowGuestSideBar } from '@/components/GuestNav.vue'
-import { setSideBarActiveKey } from '@/components/MainSideBar.vue'
-import { setGuestSideBarActiveKey } from '@/components/GuestSideBar.vue'
+import { changeMainSidebarShow } from '@/components/nav/MainNav.vue'
+import { changeShowGuestSidebar } from '@/components/nav/GuestNav.vue'
+import { setSideBarActiveKey } from '@/components/sidebar/MainSidebar.vue'
+import { setGuestSidebarActiveKey } from '@/components/sidebar/GuestSidebar.vue'
 import logger from '@/utils/logger'
 
 const routes = [
@@ -230,25 +230,25 @@ router.afterEach((to) => {
 
   // 需要登录则展示主 sidebar
   if (to.meta.needLogin) {
-    changeMainSideBarShow(true)
-    changeShowGuestSideBar(false)
+    changeMainSidebarShow(true)
+    changeShowGuestSidebar(false)
   } else {
     if (to.meta.sidebar?.guest) {
-      changeShowGuestSideBar(true)
-      changeMainSideBarShow(false)
+      changeShowGuestSidebar(true)
+      changeMainSidebarShow(false)
     } else if (to.meta.sidebar?.main) {
-      changeShowGuestSideBar(false)
-      changeMainSideBarShow(true)
+      changeShowGuestSidebar(false)
+      changeMainSidebarShow(true)
     } else {
-      changeShowGuestSideBar(false)
-      changeMainSideBarShow(false)
+      changeShowGuestSidebar(false)
+      changeMainSidebarShow(false)
     }
   }
 
   if (userData.getters.get_token) {
     setSideBarActiveKey(to.name)
   } else {
-    setGuestSideBarActiveKey(to.name)
+    setGuestSidebarActiveKey(to.name)
   }
 })
 

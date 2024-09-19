@@ -20,7 +20,6 @@
 <script setup>
 import {
   darkTheme,
-  lightTheme,
   NConfigProvider,
   NDialogProvider,
   NLoadingBarProvider,
@@ -28,9 +27,9 @@ import {
   NNotificationProvider,
   useOsTheme
 } from 'naive-ui'
-import MainNav from '@components/MainNav.vue'
-import GuestNav from '@components/GuestNav.vue'
-import Notification from '@components/Notification.vue'
+import MainNav from '@components/nav/MainNav.vue'
+import GuestNav from '@components/nav/GuestNav.vue'
+import Notification from '@components/TheNotification.vue'
 import { computed } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import hljs from 'highlight.js/lib/core'

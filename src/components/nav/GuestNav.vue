@@ -13,7 +13,7 @@
         </n-space>
       </n-layout-header>
       <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
-        <GuestSideBar v-if="showSideBar" />
+        <GuestSidebar v-if="showSideBar" />
         <n-layout :native-scrollbar="false">
           <!-- <div style="text-align: center">
             <n-gradient-text :size="32" type="info"> 祝各位高三学子 </n-gradient-text>
@@ -40,7 +40,7 @@
 <script setup>
 import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
-import GuestSideBar from './GuestSideBar.vue'
+import GuestSidebar from '@components/sidebar/GuestSidebar.vue'
 import router from '@router'
 import { get } from '@/utils/request'
 
@@ -80,7 +80,7 @@ import { ref } from 'vue'
 
 export const showSideBar = ref(false)
 
-export function changeShowGuestSideBar(is_show) {
+export function changeShowGuestSidebar(is_show) {
   showSideBar.value = is_show
 }
 </script>
