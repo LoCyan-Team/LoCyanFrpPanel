@@ -112,7 +112,8 @@ async function register() {
       model.value.password,
       model.value.confirmpwd,
       model.value.email,
-      model.value.verify
+      model.value.verify,
+      model.value.qq
     )
   } catch (e) {
     message.error('请求注册失败: ' + e)
