@@ -91,7 +91,7 @@ async function sendCode() {
     message.error('请求邮件验证代码失败: ' + e)
   }
   if (!rs) return
-  if (rs.status) {
+  if (rs.status === 200) {
     message.success('已发送，若未收到请检查收件箱')
     verify.value.msg = ref(`已发送`)
   } else {
