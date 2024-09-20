@@ -1,7 +1,7 @@
-import loginByToken from './loginByToken'
+import login from './login'
 import qq from './qq'
 
 export default {
   qq: qq,
-  loginByToken: loginByToken
+  login: login
 }

@@ -544,7 +544,7 @@ async function initList() {
 
   let rs2
   try {
-    rs2 = await api.v2.proxies.getlist(userData.getters.get_username)
+    rs2 = await api.v2.proxies.list(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('请求节点列表失败: ' + e)
   }

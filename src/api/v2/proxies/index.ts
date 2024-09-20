@@ -1,13 +1,13 @@
 import add from './add'
 import deleteX from './delete'
 import down from './down'
-import getlist from './getlist'
+import list from './list'
 import update from './update'
 
 export default {
   add: add,
   update: update,
-  getlist: getlist,
+  list: list,
   delete: deleteX,
   down: down
 }

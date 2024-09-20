@@ -340,7 +340,7 @@ function getPrivateLobby() {
 
 function getProxyList() {
   const rs = get(
-    'https://api-v2.locyanfrp.cn/api/v2/proxies/getlist?username=' +
+    'https://api-v2.locyanfrp.cn/api/v2/proxies/list?username=' +
       localStorage.getItem('username')
   )
   rs.then((res) => {

@@ -114,7 +114,7 @@ if (token !== null) {
     other_login.value = true
     let rs
     try {
-      rs = await api.v2.oauth.loginByToken(token)
+      rs = await api.v2.oauth.login.token(token)
     } catch (e) {
       sendErrorMessage('登录失败: ' + e)
       router.push('/auth/login')
