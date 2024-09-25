@@ -1,5 +1,5 @@
-import create from './create'
-import list from './list'
+import create from './create.api'
+import list from './list.api'
 
 export default {
   list: list,

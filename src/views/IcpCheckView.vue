@@ -79,7 +79,7 @@ async function submit() {
   }
   let rs
   try {
-    rs = await api.v2.icp.check(
+    rs = await api.v2.icp.add(
       userData.getters.get_username,
       userData.getters.get_token,
       domainInput.value.domain
@@ -132,7 +132,7 @@ async function removeICP(id) {
 async function getList() {
   let rs
   try {
-    rs = await api.v2.icp.list(userData.getters.get_username, userData.getters.get_token)
+    rs = await api.v2.icp.getAll(userData.getters.get_username, userData.getters.get_token)
   } catch (e) {
     sendErrorMessage('请求移除域名失败: ' + e)
   }
