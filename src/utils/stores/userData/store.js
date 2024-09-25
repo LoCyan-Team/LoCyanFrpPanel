@@ -147,7 +147,7 @@ export default new vuex.Store({
     },
     delete_user_info(state) {
       state.token = defStateData.token
-      state.usermame = defStateData.username
+      state.username = defStateData.username
       state.email = defStateData.email
       state.frptoken = defStateData.frptoken
       state.inbound = defStateData.inbound

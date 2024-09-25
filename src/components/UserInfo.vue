@@ -141,7 +141,7 @@ const tPassword = ref({
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.oauth.qq.check(userData.getters.get_username)
+    rs = await api.v2.auth.oauth.qq.check(userData.getters.get_username)
   } catch (e) {
     logger.error(e)
     bindQQ.value.isDisable = true
@@ -243,7 +243,7 @@ async function doBindQQ() {
   binding.value = true
   let rs
   try {
-    rs = await api.v2.oauth.qq.bind(userData.getters.get_username)
+    rs = await api.v2.auth.oauth.qq.bind(userData.getters.get_username)
   } catch (e) {
     logger.error(e)
     message.error('请求失败: ' + e)
@@ -259,7 +259,7 @@ async function unBindQQ() {
   binding.value = true
   let rs
   try {
-    rs = await api.v2.oauth.qq.unbind(userData.getters.get_username)
+    rs = await api.v2.auth.oauth.qq.unbind(userData.getters.get_username)
   } catch (e) {
     logger.error(e)
     binding.value = false
@@ -310,7 +310,7 @@ async function changePassword() {
   }
   let rs
   try {
-    rs = await api.v2.users.reset.password(data.username, data.old_password, data.new_password)
+    rs = await api.v2.user.password(data.username, data.old_password, data.new_password)
   } catch (e) {
     logger.error(e)
     tPassword.value.isLoading = false
@@ -343,7 +343,7 @@ async function resetFrpToken() {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.users.reset.frp_token(data.username)
+        rs = await api.v2.user.frp.token(data.username)
       } catch (e) {
         logger.error(e)
         resetFrpTokenLoading.value = false
@@ -381,7 +381,7 @@ async function exitAllDevices() {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.users.reset.token.all(data.username)
+        rs = await api.v2.user.token.all(data.username)
       } catch (e) {
         logger.error(e)
         exitAllDevicesLoading.value = false

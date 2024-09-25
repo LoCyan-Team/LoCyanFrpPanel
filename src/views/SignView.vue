@@ -117,7 +117,7 @@ const status = ref(false)
 async function checkSign() {
   let rs
   try {
-    rs = await api.v2.sign.check(userData.getters.get_username)
+    rs = await api.v2.sign.get(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('获取签到状态失败: ' + e)
     loading.value = false
@@ -132,13 +132,13 @@ async function checkSign() {
 async function doSign() {
   let rs
   try {
-    rs = await api.v2.sign.sign(userData.getters.get_username)
+    rs = await api.v2.sign.post(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('签到失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
-    sendSuccessDialog('签到成功，本次获得 ' + rs.data.signTraffic + ' GiB 流量')
+    sendSuccessDialog('签到成功，本次获得 ' + rs.data.get_traffic + ' GiB 流量')
     checkSign()
   } else {
     sendErrorMessage(rs.message)
