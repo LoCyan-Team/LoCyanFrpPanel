@@ -5,7 +5,6 @@ import base from '@/api/base'
 const register = async (
   username: string,
   password: string,
-  confirm_password: string,
   email: string,
   verify: number,
   qq: number
@@ -13,7 +12,6 @@ const register = async (
   const rs = post(`${base.api_v2_url}/auth/register`, {
     username: username,
     password: password,
-    confirm_password: confirm_password,
     email: email,
     verify: verify,
     qq: qq
