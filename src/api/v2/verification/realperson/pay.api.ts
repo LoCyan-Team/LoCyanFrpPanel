@@ -3,7 +3,7 @@ import base from '@/api/base'
 import { get } from '@/utils/request'
 
 const pay = async (username: string, notify_url: string, redirect_url: string) => {
-  const rs = get(`${base.api_v2_url}/realperson/pay`, {
+  const rs = get(`${base.api_v2_url}/verification/realperson/pay`, {
     username: username,
     notify_url: notify_url,
     redirect_url: redirect_url

@@ -29,12 +29,12 @@
             v-model:value="proxyInfo.proxy_type"
             @update:value="proxyTypeSelectChangeHandle"
           >
-            <n-radio-button value="1"> TCP</n-radio-button>
-            <n-radio-button value="2"> UDP</n-radio-button>
-            <n-radio-button value="3"> HTTP</n-radio-button>
-            <n-radio-button value="4"> HTTPS</n-radio-button>
-            <n-radio-button value="5"> XTCP</n-radio-button>
-            <n-radio-button value="6"> STCP</n-radio-button>
+            <n-radio-button value="tcp"> TCP</n-radio-button>
+            <n-radio-button value="udp"> UDP</n-radio-button>
+            <n-radio-button value="http"> HTTP</n-radio-button>
+            <n-radio-button value="https"> HTTPS</n-radio-button>
+            <n-radio-button value="xtcp"> XTCP</n-radio-button>
+            <n-radio-button value="stcp"> STCP</n-radio-button>
           </n-radio-group>
         </n-form-item>
       </n-grid-item>
@@ -114,7 +114,7 @@ const formRef = ref(null)
 const proxyInfo = ref({
   node: 0,
   proxy_name: '',
-  proxy_type: '1',
+  proxy_type: 'tcp',
   local_ip: '127.0.0.1',
   local_port: null,
   remote_port: null,
@@ -217,8 +217,8 @@ const showDomainInput = ref(false)
 const showSecretKeyInput = ref(false)
 
 function proxyTypeSelectChangeHandle(value) {
-  showDomainInput.value = value === '3' || value === '4'
-  showSecretKeyInput.value = value === '5' || value === '6'
+  showDomainInput.value = value === 'http' || value === 'https'
+  showSecretKeyInput.value = value === 'xtcp' || value === 'stcp'
 }
 
 async function randomPort() {

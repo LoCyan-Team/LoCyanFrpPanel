@@ -99,14 +99,14 @@ const routes = [
         component: () => import('@views/proxies/AddView.vue')
       },
       {
-        path: '/realname',
-        name: 'RealName',
+        path: '/verification',
+        name: 'Verification',
         meta: {
-          title: '实名认证',
+          title: '身份认证',
           keepAlive: true,
           needLogin: true
         },
-        component: () => import('@views/RealNameView.vue')
+        component: () => import('@views/VerificationView.vue')
       },
       {
         path: '/hello2024',

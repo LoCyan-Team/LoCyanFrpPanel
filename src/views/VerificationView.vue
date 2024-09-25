@@ -123,7 +123,7 @@
               <div style="text-align: center">
                 <n-space justify="vertical">
                   <n-button type="primary" @click="realPersonPay()"> 点此付款 </n-button>
-                  <n-button type="primary" @click="checkRealNameStatus()"> 刷新付款状态 </n-button>
+                  <n-button type="primary" @click="checkVerificationStatus()"> 刷新付款状态 </n-button>
                 </n-space>
               </div>
             </n-card>
@@ -200,7 +200,7 @@ async function submitRealName() {
   }
   let rs
   try {
-    rs = await api.v2.realname.submit(submitForm.username, submitForm.name, submitForm.id_card)
+    rs = await api.v2.verification.realname(submitForm.username, submitForm.name, submitForm.id_card)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
@@ -209,7 +209,7 @@ async function submitRealName() {
     return
   }
   if (rs.status === 200) {
-    checkRealNameStatus()
+    checkVerificationStatus()
     finishLoadingBar()
     sendSuccessDialog('恭喜, 实名认证成功!')
   } else {
@@ -227,7 +227,7 @@ async function submitRealPerson() {
   }
   let rs
   try {
-    rs = await api.v2.realperson.submit(submitForm.username, submitForm.name, submitForm.id_card)
+    rs = await api.v2.verification.realperson.root.post(submitForm.username, submitForm.name, submitForm.id_card)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
@@ -255,7 +255,7 @@ async function submitRealPerson() {
 async function queryRealPersonStatus() {
   let rs
   try {
-    rs = await api.v2.realperson.query(userData.getters.get_username, ci.value)
+    rs = await api.v2.verification.realperson.query(userData.getters.get_username, ci.value)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
@@ -264,14 +264,14 @@ async function queryRealPersonStatus() {
     // 后端会处理所有审核通过的事宜，前端处理消息显示
     sendSuccessDialog('实人成功')
     showScanCodeModal.value = false
-    checkRealNameStatus()
+    checkVerificationStatus()
   }
 }
 
-async function checkRealNameStatus() {
+async function checkVerificationStatus() {
   let rs
   try {
-    rs = await api.v2.realperson.get_status(userData.getters.get_username)
+    rs = await api.v2.verification.root.get(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
@@ -323,9 +323,9 @@ async function checkRealNameStatus() {
 async function realPersonPay() {
   let rs
   try {
-    rs = await api.v2.realperson.pay(
+    rs = await api.v2.verification.realperson.pay(
       userData.getters.get_username,
-      'https://api-v2.locyanfrp.cn/api/v2/realperson/notify',
+      'https://api-v2.locyanfrp.cn/api/v2/webhook/realperson',
       'https://dashboard.locyanfrp.cn/realname'
     )
   } catch (e) {
@@ -337,5 +337,5 @@ async function realPersonPay() {
   }
 }
 
-checkRealNameStatus()
+checkVerificationStatus()
 </script>

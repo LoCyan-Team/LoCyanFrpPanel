@@ -84,9 +84,9 @@ const menuOptions = [
     ]
   },
   {
-    path: '/realname',
-    label: '实名认证',
-    key: 'RealName',
+    path: '/verification',
+    label: '身份认证',
+    key: 'Verification',
     icon: renderIcon(Person)
   },
   {

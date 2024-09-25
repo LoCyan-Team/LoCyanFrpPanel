@@ -33,12 +33,12 @@
               v-model:value="proxyEditInfo.proxy_type"
               @update:value="proxyTypeSelectChangeHandle"
             >
-              <n-radio-button value="1"> TCP</n-radio-button>
-              <n-radio-button value="2"> UDP</n-radio-button>
-              <n-radio-button value="3"> HTTP</n-radio-button>
-              <n-radio-button value="4"> HTTPS</n-radio-button>
-              <n-radio-button value="5"> XTCP</n-radio-button>
-              <n-radio-button value="6"> STCP</n-radio-button>
+              <n-radio-button value="tcp"> TCP</n-radio-button>
+              <n-radio-button value="udp"> UDP</n-radio-button>
+              <n-radio-button value="http"> HTTP</n-radio-button>
+              <n-radio-button value="https"> HTTPS</n-radio-button>
+              <n-radio-button value="xtcp"> XTCP</n-radio-button>
+              <n-radio-button value="stcp"> STCP</n-radio-button>
             </n-radio-group>
           </n-form-item>
         </n-grid-item>
@@ -190,7 +190,7 @@
                         node: item.node_id,
                         id: selectProxyID,
                         proxy_name: item.proxy_name,
-                        proxy_type: transtype(item.proxy_type),
+                        proxy_type: item.proxy_type,
                         local_ip: item.local_ip,
                         local_port: item.local_port.toString(),
                         remote_port: item.remote_port,
@@ -379,7 +379,6 @@ async function editProxy(proxyid) {
     proxyName: proxyEditInfo.value.proxy_name,
     proxyType: proxyEditInfo.value.proxy_type,
     remotePort: proxyEditInfo.value.remote_port,
-    username: userData.getters.get_username,
     localIp: proxyEditInfo.value.local_ip,
     localPort: proxyEditInfo.value.local_port,
     domain: proxyEditInfo.value.domain,
@@ -387,16 +386,19 @@ async function editProxy(proxyid) {
   }
   let rs
   try {
-    rs = await api.v2.proxies.update(
+    rs = await api.v2.proxy.update(
+      userData.getters.get_username,
       editInfo.id,
       editInfo.proxyName,
       editInfo.proxyType,
-      editInfo.username,
       editInfo.localIp,
       editInfo.localPort,
       editInfo.remotePort,
+      false,
+      false,
+      editInfo.node,
       editInfo.domain,
-      editInfo.node
+      null
     )
   } catch (e) {
     sendErrorMessage('请求修改隧道信息失败: ' + e)
@@ -509,7 +511,7 @@ const rules = {
 const showDomainInput = ref(false)
 
 function proxyTypeSelectChangeHandle(value) {
-  showDomainInput.value = value === '3' || value === '4'
+  showDomainInput.value = value === 'http' || value === 'https'
 }
 
 const proxiesList = ref([])

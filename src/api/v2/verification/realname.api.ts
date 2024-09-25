@@ -3,7 +3,7 @@ import base from '@/api/base'
 import { post } from '@/utils/request'
 
 const realname = async (username: string, name: string, id_card: string) => {
-  const rs = post(`${base.api_v2_url}/realname`, {
+  const rs = post(`${base.api_v2_url}/verification/realname`, {
     username: username,
     name: name,
     id_card: id_card

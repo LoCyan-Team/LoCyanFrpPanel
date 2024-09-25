@@ -34,7 +34,7 @@ const postProxy = async (
 const deleteProxy = async (username: string, proxy_id: number) => {
   const rs = deleteReq(`${base.api_v2_url}/proxy`, {
     username: username,
-    id: proxy_id
+    proxy_id: proxy_id
   })
   return base.buildResponse(await rs)
 }
