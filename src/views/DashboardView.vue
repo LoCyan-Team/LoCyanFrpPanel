@@ -15,14 +15,14 @@
   >
     <n-p v-html="ads_content"></n-p>
   </n-modal>
-  <template v-if="notice.contents">
+  <template v-if="ads_content">
     <n-alert :title="username + '，' + howtosayhi()" type="info" closable class="right">
       <template #icon>
         <i class="twa twa-hibiscus"></i>
       </template>
       指挥官，您好!
       <br />
-      <i class="twa twa-bell"></i> 通知：{{ notice.contents }}
+      <i class="twa twa-bell"></i> 通知：<!-- TODO: 通知 -->
       <br />
       <n-button @click="showAds"> 查看全部 </n-button>
     </n-alert>
@@ -193,7 +193,6 @@ const email = userData.getters.get_email
 const inbound = ref(userData.getters.get_user_inbound + 'Mbps 下行')
 const outbound = ref(userData.getters.get_user_outbound + 'Mbps 上行')
 const frpToken = ref(userData.getters.get_frp_token)
-const notice = ref('')
 const proxiesRef = ref(null)
 const notShowFrpToken = ref(true)
 const showads = ref(false)
@@ -215,52 +214,23 @@ onMounted(async () => {
   // console.log('Rquest ads')
   let res
   try {
-    res = await api.v1.App.root()
+    res = await api.v2.notice.root.get()
   } catch (e) {
     logger.error(e)
     sendErrorMessage('获取 Ads 失败: ' + e)
   }
   // console.log(res)
   if (!res) return
-  notice.value = res.data
-  if (notice.value.ads !== '') {
-    ads_content.value =
-      marked(notice.value.ads) +
-      '<style>' +
-      // '[href^="https"], [href^="http"]{' +
-      // '  color: #63E2B7;' +
-      'p {' +
-      '  padding: 2px;' +
-      '}' +
-      '</style>'
+  if (res.status === 200) {
+    ads_content.value = marked(res.data.announcement)
     if (localStorage.getItem('dashboard_last_show_ads_date') != current) showAds()
     localStorage.setItem('dashboard_last_show_ads_date', current)
-  }
-})
-
-// 公告
-onMounted(async () => {
-  let res
-  try {
-    res = await api.v1.App.GetBroadCast()
-  } catch (e) {
-    logger.error(e)
-    sendErrorMessage('获取 Broadcast 信息失败: ' + e)
-  }
-  if (!res) return
-  if (res.data.status === true) {
-    boardcast_html.value =
-      marked(res.data.broadcast) +
-      '<style>' +
-      // '[href^="https"], [href^="http"]{\n' +
-      // '  color: #63E2B7;\n' +
-      // '}\n' +
-      // '\n' +
-      'p {' +
-      '  padding: 2px;' +
-      '}' +
-      '</style>'
+    // 公告
+    boardcast_html.value = marked(res.data.broadcast)
     boardcast_show.value = false
+  } else {
+    notice.value = '获取通知失败'
+    boardcast_html.value = '获取公告失败'
   }
 })
 
@@ -331,7 +301,7 @@ async function resetTraffic() {
       }
       let rs
       try {
-        rs = await api.v2.users.reset.traffic(data.username)
+        rs = await api.v2.user.traffic(data.username)
       } catch (e) {
         logger.error(e)
         sendErrorMessage('请求重置流量失败: ' + e)

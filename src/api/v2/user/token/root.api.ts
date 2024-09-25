@@ -10,15 +10,15 @@ const getToken = async (username: string) => {
 }
 
 const deleteToken = async (username: string) => {
-    const rs = deleteReq(`${base.api_v2_url}/user/token`, {
-        username: username
-    })
-    return base.buildResponse(await rs)
+  const rs = deleteReq(`${base.api_v2_url}/user/token`, {
+    username: username
+  })
+  return base.buildResponse(await rs)
 }
 
 const token = {
-    get: getToken,
-    delete: deleteToken
+  get: getToken,
+  delete: deleteToken
 }
 
 export default token

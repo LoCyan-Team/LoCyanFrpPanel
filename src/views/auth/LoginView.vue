@@ -93,7 +93,7 @@ if (code !== null) {
     other_login.value = true
     let rs
     try {
-      rs = await api.v2.oauth.qq.loginByCode(code)
+      rs = await api.v2.auth.oauth.qq.loginByCode(code)
     } catch (e) {
       sendErrorMessage('登录失败: ' + e)
       router.push('/auth/login')
@@ -114,7 +114,7 @@ if (token !== null) {
     other_login.value = true
     let rs
     try {
-      rs = await api.v2.oauth.login.token(token)
+      rs = await api.v2.auth.oauth.login.token(token)
     } catch (e) {
       sendErrorMessage('登录失败: ' + e)
       router.push('/auth/login')
@@ -157,7 +157,7 @@ async function login() {
   }
   let rs
   try {
-    rs = await api.v2.users.login(model.value.username, model.value.password)
+    rs = await api.v2.auth.login(model.value.username, model.value.password)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }

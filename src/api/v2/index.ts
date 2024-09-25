@@ -7,6 +7,7 @@ import verfication from './verfication'
 import sign from './sign.api'
 import user from './user'
 import email from './email'
+import notice from './notice'
 
 export default {
   user: user,
@@ -17,5 +18,6 @@ export default {
   node: node,
   donate: donate,
   sign: sign,
-  icp: icp
+  icp: icp,
+  notice: notice
 }

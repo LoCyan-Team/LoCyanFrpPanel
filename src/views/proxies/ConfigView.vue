@@ -91,14 +91,14 @@ const code = ref('')
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.nodes.list()
+    rs = await api.v2.node.list()
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs) return
   var i = 0
-  rs.data.forEach((s) => {
+  rs.data.list.forEach((s) => {
     if (i === 0) {
       node.value = s.id
       updateValue(s.id)

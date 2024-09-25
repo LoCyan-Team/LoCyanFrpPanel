@@ -247,34 +247,30 @@ async function addProxy() {
   const tunnelCreateInfo = {
     username: userData.getters.get_username,
     name: proxyInfo.value.proxy_name,
-    key: userData.getters.get_frp_token,
     ip: proxyInfo.value.local_ip,
     type: proxyInfo.value.proxy_type,
     lp: proxyInfo.value.local_port,
     rp: proxyInfo.value.remote_port,
-    ue: '0',
-    uz: '0',
+    ue: false,
+    uz: false,
     id: proxyInfo.value.node,
-    token: userData.getters.get_token,
     url: proxyInfo.value.domain,
     sk: proxyInfo.value.sk
   }
   let rs
   try {
-    rs = await api.v2.proxies.add(
+    rs = await api.v2.proxy.root.post(
       tunnelCreateInfo.username,
       tunnelCreateInfo.name,
-      tunnelCreateInfo.key,
       tunnelCreateInfo.ip,
       tunnelCreateInfo.type,
       tunnelCreateInfo.lp,
       tunnelCreateInfo.rp,
+      tunnelCreateInfo.id,
       tunnelCreateInfo.ue,
       tunnelCreateInfo.uz,
-      tunnelCreateInfo.id,
-      tunnelCreateInfo.token,
-      tunnelCreateInfo.url,
-      tunnelCreateInfo.sk
+      tunnelCreateInfo.sk,
+      tunnelCreateInfo.url
     )
   } catch (e) {
     logger.error(e)
@@ -292,14 +288,14 @@ async function addProxy() {
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.nodes.list()
+    rs = await api.v2.node.all()
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs) return
   var i = 0
-  rs.data.forEach((s) => {
+  rs.data.list.forEach((s) => {
     // 默认选择第一个节点
     if (i === 0) {
       proxyInfo.value.node = s.id

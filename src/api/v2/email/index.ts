@@ -1,5 +1,5 @@
-import register from "./register.api";
+import register from './register.api'
 
 export default {
-    register: register
+  register: register
 }

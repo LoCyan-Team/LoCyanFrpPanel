@@ -4,7 +4,7 @@ import { get } from '@/utils/request'
 
 const all = async () => {
   const rs = get(`${base.api_v2_url}/node/all`, {})
-  return base.buildResponse(await rs, false)
+  return base.buildResponse(await rs)
 }
 
 export default all

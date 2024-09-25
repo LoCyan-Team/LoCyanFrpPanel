@@ -86,7 +86,7 @@ async function sendCode() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.users.send(model.value.email)
+    rs = await api.v2.email.register(model.value.email)
   } catch (e) {
     message.error('请求邮件验证代码失败: ' + e)
   }
@@ -107,7 +107,7 @@ async function register() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.users.register(
+    rs = await api.v2.auth.register(
       model.value.username,
       model.value.password,
       model.value.confirmpwd,

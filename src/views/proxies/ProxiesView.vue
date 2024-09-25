@@ -97,10 +97,10 @@
   >
     <template #header-extra> 点此关闭 -></template>
     <p>连接地址：{{ linkAddr }}</p>
-    <p>服务器ID：{{ serverList[proxiesList[indexOfProxies].node].id }}</p>
-    <p>服务器：{{ serverList[proxiesList[indexOfProxies].node].name }}</p>
-    <p>服务器IP：{{ serverList[proxiesList[indexOfProxies].node].ip }}</p>
-    <p>服务器域名：{{ serverList[proxiesList[indexOfProxies].node].hostname }}</p>
+    <p>服务器ID：{{ serverList[proxiesList[indexOfProxies].node_id].id }}</p>
+    <p>服务器：{{ serverList[proxiesList[indexOfProxies].node_id].name }}</p>
+    <p>服务器IP：{{ serverList[proxiesList[indexOfProxies].node_id].ip }}</p>
+    <p>服务器域名：{{ serverList[proxiesList[indexOfProxies].node_id].hostname }}</p>
     <p>本地地址：{{ proxiesList[indexOfProxies].local_ip }}</p>
     <p>穿透协议：{{ proxiesList[indexOfProxies].proxy_type }}</p>
     <p>本地端口：{{ proxiesList[indexOfProxies].local_port }}</p>
@@ -158,12 +158,12 @@
             <n-tag :bordered="false" type="success">
               {{ item.proxy_type.toUpperCase() }}
             </n-tag>
-            <n-tag :bordered="false" type="info" v-if="serverList[item.node]">
-              {{ serverList[item.node].name || '未知节点' }}
+            <n-tag :bordered="false" type="info" v-if="serverList[item.node_id]">
+              {{ serverList[item.node_id].name || '未知节点' }}
             </n-tag>
             <n-tag :bordered="false" type="error" v-else> 未知节点 </n-tag>
             <template #footer>
-              <div v-if="serverList[item.node]">
+              <div v-if="serverList[item.node_id]">
                 连接地址： <br />
                 {{ makeLinkAddr(proxiesList.indexOf(item)) }}
               </div>
@@ -187,7 +187,7 @@
                       showEditModal = true
                       selectProxyID = item.id
                       proxyEditInfo = {
-                        node: item.node,
+                        node: item.node_id,
                         id: selectProxyID,
                         proxy_name: item.proxy_name,
                         proxy_type: transtype(item.proxy_type),
@@ -208,7 +208,7 @@
                   strong
                   secondary
                   type="info"
-                  v-if="serverList[item.node]"
+                  v-if="serverList[item.node_id]"
                   @click="
                     () => {
                       indexOfProxies = proxiesList.indexOf(item)
@@ -225,7 +225,7 @@
                   strong
                   secondary
                   type="warning"
-                  v-if="serverList[item.node]"
+                  v-if="serverList[item.node_id]"
                   @click="launchProxyThroughApplication(item.id)"
                 >
                   一键启动
@@ -317,7 +317,7 @@ function makeLinkAddr(id) {
     return proxiesList.value[id].domain
   } else {
     return (
-      serverList.value[proxiesList.value[id].node].hostname +
+      serverList.value[proxiesList.value[id].node_id].hostname +
       ':' +
       proxiesList.value[id].remote_port
     )
@@ -353,7 +353,7 @@ async function forceDownProxy(proxyId) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.proxies.down(userData.getters.get_username, proxyId)
+        rs = await api.v2.proxy.down(userData.getters.get_username, proxyId)
       } catch (e) {
         logger.error(e)
         sendErrorMessage(`请求强制下线隧道失败: ${e}`)
@@ -527,13 +527,13 @@ const serverList = ref([
 async function initList() {
   let rs1
   try {
-    rs1 = await api.v2.nodes.list()
+    rs1 = await api.v2.node.all()
   } catch (e) {
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs1) return
   let i = 0
-  rs1.data.forEach((s) => {
+  rs1.data.list.forEach((s) => {
     editServerList.value[i] = {
       label: s.name,
       value: s.id
@@ -544,13 +544,13 @@ async function initList() {
 
   let rs2
   try {
-    rs2 = await api.v2.proxies.list(userData.getters.get_username)
+    rs2 = await api.v2.proxy.all(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs2) return
   if (rs2.status === 200) {
-    proxiesList.value = rs2.data.proxies
+    proxiesList.value = rs2.data.list
     show.value = false
   } else {
     return rs2.data
@@ -582,11 +582,7 @@ function deleteProxy(id) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.proxies.delete(
-          userData.getters.get_username,
-          proxiesList.value[id].id,
-          userData.getters.get_token
-        )
+        rs = await api.v2.proxy.root.delete(userData.getters.get_username, proxiesList.value[id].id)
       } catch (e) {
         sendErrorMessage('请求删除隧道失败: ' + e)
       }

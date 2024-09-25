@@ -27,7 +27,7 @@
           <n-list-item v-for="item in icpList">
             <n-thing
               :title="item.domain"
-              :description="item.unitName + ' (' + item.natureName + ') - ' + item.icp"
+              :description="item.unit_name + ' (' + item.nature_name + ') - ' + item.icp"
             >
             </n-thing>
             <template #suffix>
@@ -42,7 +42,6 @@
 <script setup>
 import { ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
-import { get, deleteReq } from '@/utils/request'
 import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
 import { useDialog } from 'naive-ui'
@@ -79,11 +78,7 @@ async function submit() {
   }
   let rs
   try {
-    rs = await api.v2.icp.add(
-      userData.getters.get_username,
-      userData.getters.get_token,
-      domainInput.value.domain
-    )
+    rs = await api.v2.icp.post(userData.getters.get_username, domainInput.value.domain)
   } catch (e) {
     sendErrorMessage('请求审核失败: ' + e)
   }
@@ -108,7 +103,7 @@ async function removeICP(id) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.icp.remove(userData.getters.get_username, userData.getters.get_token, id)
+        rs = await api.v2.icp.delete(userData.getters.get_username, id)
       } catch (e) {
         sendErrorMessage('请求移除域名失败: ' + e)
       }
@@ -132,7 +127,7 @@ async function removeICP(id) {
 async function getList() {
   let rs
   try {
-    rs = await api.v2.icp.getAll(userData.getters.get_username, userData.getters.get_token)
+    rs = await api.v2.icp.get(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('请求移除域名失败: ' + e)
   }

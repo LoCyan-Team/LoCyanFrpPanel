@@ -270,7 +270,7 @@ async function doDonate() {
       'LoCyanFrpDonate',
       amount.value,
       'https://dashboard.locyanfrp.cn/donate',
-      'https://api-v2.locyanfrp.cn/api/v2/donate/notify'
+      'https://api-v2.locyanfrp.cn/api/v2/webhook/donate'
     )
   } catch (e) {
     sendErrorMessage('请求列表失败: ' + e)

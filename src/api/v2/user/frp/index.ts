@@ -1,5 +1,5 @@
-import token from "./token.api";
+import token from './token.api'
 
 export default {
-    token: token
+  token: token
 }

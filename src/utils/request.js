@@ -23,7 +23,7 @@ const instance = axios.create({
   timeout: 80000
 })
 
-const tokenDomains = ['api.locyanfrp.cn', 'api-v2.locyanfrp.cn']
+const tokenDomains = ['api.locyanfrp.cn', 'api-v2.locyanfrp.cn', 'localhost']
 
 // post请求的时候，我们需要加上一个请求头，所以可以在这里进行一个默认的设置，即设置post的请求头为
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
