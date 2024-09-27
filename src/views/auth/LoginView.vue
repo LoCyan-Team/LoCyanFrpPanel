@@ -31,9 +31,9 @@
           <n-space justify="space-between">
             <n-space>
               <n-button type="info" @click="qqLogin" :loading="qqLogin_loading"> QQ 登录 </n-button>
-              <n-button type="info" @click="oauthLogin" :loading="oauthLogin_loading">
+              <!--<n-button type="info" @click="oauthLogin" :loading="oauthLogin_loading">
                 OAuth 登录
-              </n-button>
+              </n-button>-->
             </n-space>
             <n-space justify="end">
               <n-button type="primary" @click="login"> 登录</n-button>
@@ -87,7 +87,7 @@ if (redirect !== null) {
 // 检查是否存在第三方登录返回值
 // 针对QQ登录的处理
 const code = getUrlKey('code')
-const token = getUrlKey('token')
+// const token = getUrlKey('token')
 if (code !== null) {
   onMounted(async () => {
     other_login.value = true
@@ -109,38 +109,39 @@ if (code !== null) {
   })
 }
 
-if (token !== null) {
-  onMounted(async () => {
-    other_login.value = true
-    let rs
-    try {
-      rs = await api.v2.auth.oauth.login.token(token)
-    } catch (e) {
-      sendErrorMessage('登录失败: ' + e)
-      router.push('/auth/login')
-    }
-    if (!rs) return
-    if (rs.status === 200) {
-      message.success(rs.data.username + '，欢迎回来！')
-      userData.commit('set_token', rs.data.token)
-      userData.commit('set_user_info', rs.data)
-      router.push(redirect || '/dashboard')
-    }
-  })
-}
+// if (token !== null) {
+//   onMounted(async () => {
+//     other_login.value = true
+//     let rs
+//     try {
+//       rs = await api.v2.auth.oauth.login.token(token)
+//     } catch (e) {
+//       sendErrorMessage('登录失败: ' + e)
+//       router.push('/auth/login')
+//     }
+//     if (!rs) return
+//     if (rs.status === 200) {
+//       message.success(rs.data.username + '，欢迎回来！')
+//       userData.commit('set_token', rs.data.token)
+//       userData.commit('set_user_info', rs.data)
+//       router.push(redirect || '/dashboard')
+//     }
+//   })
+// }
 
 function goRegister() {
   router.push('/auth/register')
 }
 
 // LoCyan OAuth 2.0
-function oauthLogin() {
-  oauthLogin_loading.value = true
-  window.location.href =
-    'https://api-v2.locyanfrp.cn/api/v2/oauth/authorize?redirectUrl=http://' +
-    window.location.host +
-    '/auth/login'
-}
+// There is no need
+// function oauthLogin() {
+//   oauthLogin_loading.value = true
+//   window.location.href =
+//     'https://api-v2.locyanfrp.cn/api/v2/oauth/authorize?redirectUrl=http://' +
+//     window.location.host +
+//     '/auth/login'
+// }
 
 // 登录
 async function login() {

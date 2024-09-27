@@ -211,7 +211,7 @@ async function submitRealName() {
   if (rs.status === 200) {
     checkVerificationStatus()
     finishLoadingBar()
-    sendSuccessDialog('恭喜, 实名认证成功!')
+    sendSuccessDialog('恭喜, 二级认证成功!')
   } else {
     finishLoadingBar()
     sendWarningDialog(rs.message)
@@ -262,7 +262,7 @@ async function queryRealPersonStatus() {
   if (!rs) return
   if (res.status === 200) {
     // 后端会处理所有审核通过的事宜，前端处理消息显示
-    sendSuccessDialog('实人成功')
+    sendSuccessDialog('一级认证成功')
     showScanCodeModal.value = false
     checkVerificationStatus()
   }
@@ -324,9 +324,7 @@ async function realPersonPay() {
   let rs
   try {
     rs = await api.v2.verification.realperson.pay(
-      userData.getters.get_username,
-      'https://api-v2.locyanfrp.cn/api/v2/webhook/realperson',
-      'https://dashboard.locyanfrp.cn/realname'
+      userData.getters.get_username
     )
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)

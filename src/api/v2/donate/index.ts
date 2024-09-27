@@ -1,7 +1,7 @@
-import create from './create.api'
+import root from './root.api'
 import list from './list.api'
 
 export default {
-  list: list,
-  create: create
+  root: root,
+  list: list
 }

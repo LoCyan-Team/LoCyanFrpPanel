@@ -265,12 +265,9 @@ async function doDonate() {
   }
   let rs
   try {
-    rs = await api.v2.donate.create(
+    rs = await api.v2.donate.root.post(
       userData.getters.get_username,
-      'LoCyanFrpDonate',
-      amount.value,
-      'https://dashboard.locyanfrp.cn/donate',
-      'https://api-v2.locyanfrp.cn/api/v2/webhook/donate'
+      amount.value
     )
   } catch (e) {
     sendErrorMessage('请求列表失败: ' + e)
