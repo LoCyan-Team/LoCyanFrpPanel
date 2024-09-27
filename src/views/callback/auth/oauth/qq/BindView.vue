@@ -14,7 +14,7 @@
 
 <script setup>
 import { sendErrorMessage } from '@/utils/message'
-import { getUrlKey } from '@/utils/request
+import { getUrlKey } from '@/utils/request'
 import api from '@/api'
 import userData from '@/utils/stores/userData/store'
 
