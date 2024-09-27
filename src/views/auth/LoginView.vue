@@ -184,7 +184,7 @@ async function qqLogin() {
   qqLogin_loading.value = true
   let rs
   try {
-    rs = await api.v2.oauth.qq.login(window.location.toString())
+    rs = await api.v2.oauth.qq.login()
   } catch (e) {
     sendErrorMessage('请求 QQ 登录失败: ' + e)
   }
