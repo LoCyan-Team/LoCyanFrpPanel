@@ -10,7 +10,7 @@ const getBind = async (username: string) => {
 }
 
 const postBind = async (username: string) => {
-  const rs = await get(`${base.api_v2_url}/auth/oauth/qq/bind`, {
+  const rs = await post(`${base.api_v2_url}/auth/oauth/qq/bind`, {
     username: username
   })
   return base.buildResponse(rs)
