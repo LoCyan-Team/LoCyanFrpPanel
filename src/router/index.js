@@ -40,43 +40,48 @@ const routes = [
         component: () => import('@views/SignView.vue')
       },
       {
-        path: '/auth/login',
-        name: 'Login',
-        meta: {
-          title: '登录',
-          keepAlive: true,
-          autoRedirectLogined: true,
-          sidebar: {
-            guest: true
-          }
-        },
-        component: () => import('@views/auth/LoginView.vue')
-      },
-      {
-        path: '/auth/register',
-        name: 'Register',
-        meta: {
-          title: '注册',
-          keepAlive: true,
-          autoRedirectLogined: true,
-          sidebar: {
-            guest: true
-          }
-        },
-        component: () => import('@views/auth/RegisterView.vue')
-      },
-      {
-        path: '/auth/resetPassword',
-        name: 'ResetPassword',
-        meta: {
-          title: '重置密码',
-          keepAlive: true,
-          autoRedirectLogined: true,
-          sidebar: {
-            guest: true
-          }
-        },
-        component: () => import('@views/auth/ResetPasswordView.vue')
+        path: '/auth',
+        children: [
+          {
+            path: 'login',
+            name: 'Login',
+            meta: {
+              title: '登录',
+              keepAlive: true,
+              autoRedirectLogined: true,
+              sidebar: {
+                guest: true
+              }
+            },
+            component: () => import('@views/auth/LoginView.vue')
+          },
+          {
+            path: 'register',
+            name: 'Register',
+            meta: {
+              title: '注册',
+              keepAlive: true,
+              autoRedirectLogined: true,
+              sidebar: {
+                guest: true
+              }
+            },
+            component: () => import('@views/auth/RegisterView.vue')
+          },
+          {
+            path: 'resetPassword',
+            name: 'ResetPassword',
+            meta: {
+              title: '重置密码',
+              keepAlive: true,
+              autoRedirectLogined: true,
+              sidebar: {
+                guest: true
+              }
+            },
+            component: () => import('@views/auth/ResetPasswordView.vue')
+          },
+        ]
       },
       {
         path: '/proxies',
@@ -164,14 +169,19 @@ const routes = [
         component: () => import('@views/IcpCheckView.vue')
       },
       {
-        path: '/other/software',
-        name: 'Software',
-        meta: {
-          title: '软件下载',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/other/SoftwareView.vue')
+        path: '/other',
+        children: [
+          {
+            path: 'software',
+            name: 'Software',
+            meta: {
+              title: '软件下载',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/other/SoftwareView.vue')
+          }
+        ]
       },
       {
         path: '/callback',
@@ -183,10 +193,38 @@ const routes = [
                 path: 'login',
                 name: 'LoginAuthCallback',
                 meta: {
-                  title: '回调页面',
+                  title: 'QQ 登录回调页面',
                   needLogin: false
                 },
                 component: () => import('@views/callback/auth/LoginView.vue')
+              }
+            ]
+          },
+          {
+            path: 'verification',
+            children: [
+              {
+                path: 'realperson',
+                children: [
+                  {
+                    path: 'pay',
+                    name: 'PayRealPersonVerificationCallback',
+                    meta: {
+                      title: '实人认证支付回调页面',
+                      needLogin: false
+                    },
+                    component: () => import('@views/callback/verification/realperson/PayView.vue')
+                  },
+                  {
+                    path: 'done',
+                    name: 'DoneRealPersonVerificationCallback',
+                    meta: {
+                      title: '实人认证成功回调页面',
+                      needLogin: false
+                    },
+                    component: () => import('@views/callback/verification/realperson/DoneView.vue')
+                  }
+                ]
               }
             ]
           }
