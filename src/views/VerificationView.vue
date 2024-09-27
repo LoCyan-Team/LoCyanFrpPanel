@@ -123,7 +123,9 @@
               <div style="text-align: center">
                 <n-space justify="vertical">
                   <n-button type="primary" @click="realPersonPay()"> 点此付款 </n-button>
-                  <n-button type="primary" @click="checkVerificationStatus()"> 刷新付款状态 </n-button>
+                  <n-button type="primary" @click="checkVerificationStatus()">
+                    刷新付款状态
+                  </n-button>
                 </n-space>
               </div>
             </n-card>
@@ -200,7 +202,11 @@ async function submitRealName() {
   }
   let rs
   try {
-    rs = await api.v2.verification.realname(submitForm.username, submitForm.name, submitForm.id_card)
+    rs = await api.v2.verification.realname(
+      submitForm.username,
+      submitForm.name,
+      submitForm.id_card
+    )
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
@@ -227,7 +233,11 @@ async function submitRealPerson() {
   }
   let rs
   try {
-    rs = await api.v2.verification.realperson.root.post(submitForm.username, submitForm.name, submitForm.id_card)
+    rs = await api.v2.verification.realperson.root.post(
+      submitForm.username,
+      submitForm.name,
+      submitForm.id_card
+    )
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
@@ -323,9 +333,7 @@ async function checkVerificationStatus() {
 async function realPersonPay() {
   let rs
   try {
-    rs = await api.v2.verification.realperson.pay(
-      userData.getters.get_username
-    )
+    rs = await api.v2.verification.realperson.pay(userData.getters.get_username)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }

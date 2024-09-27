@@ -3,14 +3,14 @@ import base from '@/api/base'
 import { get } from '@/utils/request'
 
 const getVerification = async (username: string) => {
-    const rs = get(`${base.api_v2_url}/verification`, {
-        username: username
-    })
-    return base.buildResponse(await rs)
+  const rs = get(`${base.api_v2_url}/verification`, {
+    username: username
+  })
+  return base.buildResponse(await rs)
 }
 
 const verification = {
-    get: getVerification,
+  get: getVerification
 }
 
 export default verification

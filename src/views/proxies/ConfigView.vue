@@ -114,11 +114,7 @@ onMounted(async () => {
 async function updateValue(value) {
   let rs
   try {
-    rs = await api.v2.proxy.config(
-      userData.getters.get_username,
-      null,
-      value
-    )
+    rs = await api.v2.proxy.config(userData.getters.get_username, null, value)
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求获取隧道配置文件失败: ' + e)

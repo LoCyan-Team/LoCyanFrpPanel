@@ -80,7 +80,7 @@ const routes = [
               }
             },
             component: () => import('@views/auth/ResetPasswordView.vue')
-          },
+          }
         ]
       },
       {

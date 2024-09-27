@@ -5,10 +5,7 @@ import { post } from '@/utils/request'
 /**
  * 创建赞助订单
  */
-const postDonate = async (
-  username: string,
-  money: string
-) => {
+const postDonate = async (username: string, money: string) => {
   const rs = post(`${base.api_v2_url}/donate`, {
     username: username,
     money: money

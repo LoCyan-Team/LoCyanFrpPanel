@@ -265,10 +265,7 @@ async function doDonate() {
   }
   let rs
   try {
-    rs = await api.v2.donate.root.post(
-      userData.getters.get_username,
-      amount.value
-    )
+    rs = await api.v2.donate.root.post(userData.getters.get_username, amount.value)
   } catch (e) {
     sendErrorMessage('请求列表失败: ' + e)
   }
