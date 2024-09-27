@@ -13,9 +13,9 @@
 </template>
 
 <script setup>
-import { sendErrorMessage } from '@/utils/message.js'
-import { getUrlKey } from '@/utils/request.js'
-import api from '@/api/index.js'
+import { sendErrorMessage } from '@/utils/message'
+import { getUrlKey } from '@/utils/request
+import api from '@/api'
 import userData from '@/utils/stores/userData/store'
 
 let error = ref(false)
