@@ -48,7 +48,7 @@ const routes = [
             meta: {
               title: '登录',
               keepAlive: true,
-              autoRedirectLogined: true,
+              autoRedirectAfterLogin: true,
               sidebar: {
                 guest: true
               }
@@ -61,7 +61,7 @@ const routes = [
             meta: {
               title: '注册',
               keepAlive: true,
-              autoRedirectLogined: true,
+              autoRedirectAfterLogin: true,
               sidebar: {
                 guest: true
               }
@@ -74,7 +74,7 @@ const routes = [
             meta: {
               title: '重置密码',
               keepAlive: true,
-              autoRedirectLogined: true,
+              autoRedirectAfterLogin: true,
               sidebar: {
                 guest: true
               }
@@ -190,13 +190,32 @@ const routes = [
             path: 'auth',
             children: [
               {
-                path: 'login',
-                name: 'LoginAuthCallback',
-                meta: {
-                  title: 'QQ 登录回调页面',
-                  needLogin: false
-                },
-                component: () => import('@views/callback/auth/LoginView.vue')
+                path: 'oauth',
+                children: [
+                  {
+                    path: 'qq',
+                    children: [
+                      {
+                        path: 'login',
+                        name: 'LoginAuthCallback',
+                        meta: {
+                          title: 'QQ 登录回调页面',
+                          needLogin: false
+                        },
+                        component: () => import('@/views/callback/auth/oauth/qq/LoginView.vue')
+                      },
+                      {
+                        path: 'bind',
+                        name: 'BindQQOAuthAuthCallback',
+                        meta: {
+                          title: 'QQ 绑定回调页面',
+                          needLogin: false
+                        },
+                        component: () => import('@views/callback/auth/oauth/qq/BindView.vue')
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -276,7 +295,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.needLogin && !hasToken) {
     next({ name: 'Login', query: { redirect: location.pathname } })
   }
-  if (to.meta.autoRedirectLogined && hasToken) {
+  if (to.meta.autoRedirectAfterLogin && hasToken) {
     next({ name: 'Dashboard' })
   }
   next()

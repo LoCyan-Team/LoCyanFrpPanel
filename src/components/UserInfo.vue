@@ -141,7 +141,7 @@ const tPassword = ref({
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.auth.oauth.qq.check(userData.getters.get_username)
+    rs = await api.v2.user.info.qq(userData.getters.get_username)
   } catch (e) {
     logger.error(e)
     bindQQ.value.isDisable = true
@@ -243,7 +243,7 @@ async function doBindQQ() {
   binding.value = true
   let rs
   try {
-    rs = await api.v2.auth.oauth.qq.bind(userData.getters.get_username)
+    rs = await api.v2.auth.oauth.qq.bind.get(userData.getters.get_username)
   } catch (e) {
     logger.error(e)
     message.error('请求失败: ' + e)
@@ -259,7 +259,7 @@ async function unBindQQ() {
   binding.value = true
   let rs
   try {
-    rs = await api.v2.auth.oauth.qq.unbind(userData.getters.get_username)
+    rs = await api.v2.auth.oauth.qq.bind.delete(userData.getters.get_username)
   } catch (e) {
     logger.error(e)
     binding.value = false
@@ -352,7 +352,7 @@ async function resetFrpToken() {
       if (!rs) return
       if (rs.status === 200) {
         resetFrpTokenLoading.value = false
-        userData.commit('set_frp_token', rs.data.token)
+        userData.commit('set_frp_token', rs.data.frp_token)
         sendSuccessMessage('重置成功')
       } else {
         resetFrpTokenLoading.value = false

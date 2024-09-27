@@ -1,6 +1,7 @@
 <template>
   <div class="flex-center outbox" v-if="!error">
-    <n-spin description="正在进行第三方登录处理"></n-spin>
+    <n-spin description="正在进行第三方登录处理"></n-spin>>
+    <p>请不要关闭此界面</p>
   </div>
   <div class="flex-center outbox" v-else>
     <n-h2>发生错误</n-h2>
@@ -12,10 +13,10 @@
 </template>
 
 <script setup>
-import { sendErrorMessage } from '@/utils/message'
-import { getUrlKey } from '@/utils/request'
-import router from '@router'
-import api from '@/api'
+import { sendErrorMessage } from '@/utils/message.js'
+import { getUrlKey } from '@/utils/request.js'
+import router from '@/router/index.js'
+import api from '@/api/index.js'
 
 let error = ref(false)
 let error_message = ref('')

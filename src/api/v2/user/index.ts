@@ -1,5 +1,5 @@
 import frp from './frp'
-import info from './info.api'
+import info from './info'
 import password from './password.api'
 import token from './token'
 import traffic from './traffic.api'
