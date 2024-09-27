@@ -9,7 +9,6 @@
         require-mark-placement="right-hanging"
         size="medium"
         id="item"
-        v-show="!other_login"
       >
         <n-form-item label="用户名 / 邮箱" path="username">
           <n-input
@@ -44,12 +43,6 @@
           </n-space>
         </div>
       </n-form>
-      <div v-show="other_login">
-        <n-spin
-          description="正在进行第三方登录处理"
-          style="display: flex; justify-content: center; margin-top: 30vh"
-        ></n-spin>
-      </div>
     </n-grid-item>
   </n-grid>
 </template>
@@ -57,19 +50,18 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { getUrlKey } from '@/utils/request'
 import router from '@router'
 import userData from '@/utils/stores/userData/store'
 import { sendErrorMessage } from '@/utils/message'
 import logger from '@/utils/logger'
 import api from '@/api'
+import { getUrlKey } from '@/utils/request'
 
 const formRef = ref(null)
 const message = useMessage()
 const ldb = useLoadingBar()
-const other_login = ref(false)
 const qqLogin_loading = ref(false)
-const oauthLogin_loading = ref(false)
+// const oauthLogin_loading = ref(false)
 
 const model = ref([
   {
@@ -82,31 +74,6 @@ const model = ref([
 const redirect = getUrlKey('redirect')
 if (redirect !== null) {
   logger.info('Redirect after login: ' + redirect)
-}
-
-// 检查是否存在第三方登录返回值
-// 针对QQ登录的处理
-const code = getUrlKey('code')
-// const token = getUrlKey('token')
-if (code !== null) {
-  onMounted(async () => {
-    other_login.value = true
-    let rs
-    try {
-      rs = await api.v2.auth.oauth.qq.loginByCode(code)
-    } catch (e) {
-      sendErrorMessage('登录失败: ' + e)
-      router.push('/auth/login')
-    }
-    if (!rs) return
-    if (rs.status === 200) {
-      message.success(rs.data.username + '，欢迎回来！')
-      userData.commit('set_token', rs.data.token)
-      // console.log(rs.data)
-      userData.commit('set_user_info', rs.data)
-      router.push(redirect || '/dashboard')
-    }
-  })
 }
 
 // if (token !== null) {
@@ -184,7 +151,7 @@ async function qqLogin() {
   qqLogin_loading.value = true
   let rs
   try {
-    rs = await api.v2.oauth.qq.login()
+    rs = await api.v2.auth.oauth.qq.login.get()
   } catch (e) {
     sendErrorMessage('请求 QQ 登录失败: ' + e)
   }

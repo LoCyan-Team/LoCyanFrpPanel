@@ -80,23 +80,38 @@ const routes = [
       },
       {
         path: '/proxies',
-        name: 'Proxies',
-        meta: {
-          title: '隧道列表',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/proxies/ProxiesView.vue')
-      },
-      {
-        path: '/proxies/add',
-        name: 'AddProxies',
-        meta: {
-          title: '添加隧道',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/proxies/AddView.vue')
+        children: [
+          {
+            path: '',
+            name: 'Proxies',
+            meta: {
+              title: '隧道列表',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/proxies/ProxiesView.vue')
+          },
+          {
+            path: 'add',
+            name: 'AddProxies',
+            meta: {
+              title: '添加隧道',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/proxies/AddView.vue')
+          },
+          {
+            path: 'config',
+            name: 'Config',
+            meta: {
+              title: '配置文件',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/proxies/ConfigView.vue')
+          }
+        ]
       },
       {
         path: '/verification',
@@ -129,16 +144,6 @@ const routes = [
         component: () => import('@views/activities/PrizeView.vue')
       },
       {
-        path: '/proxies/config',
-        name: 'Config',
-        meta: {
-          title: '配置文件',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/proxies/ConfigView.vue')
-      },
-      {
         path: '/donate',
         name: 'Donate',
         meta: {
@@ -167,6 +172,25 @@ const routes = [
           needLogin: true
         },
         component: () => import('@views/other/SoftwareView.vue')
+      },
+      {
+        path: '/callback',
+        children: [
+          {
+            path: 'auth',
+            children: [
+              {
+                path: 'login',
+                name: 'LoginAuthCallback',
+                meta: {
+                  title: '回调页面',
+                  needLogin: false
+                },
+                component: () => import('@views/callback/auth/LoginView.vue')
+              }
+            ]
+          }
+        ]
       },
       {
         path: '/:pathMatch(.*)*',

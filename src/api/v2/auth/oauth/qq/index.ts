@@ -1,13 +1,7 @@
-import bind from './bind'
-import check from './check'
-import login from './login'
-import loginByCode from './loginByCode'
-import unbind from './unbind'
+import bind from './bind.api'
+import login from './login.api'
 
 export default {
-  check: check,
   login: login,
-  loginByCode: loginByCode,
-  bind: bind,
-  unbind: unbind
+  bind: bind
 }
