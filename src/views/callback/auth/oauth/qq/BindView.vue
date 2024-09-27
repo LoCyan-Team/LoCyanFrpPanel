@@ -15,7 +15,6 @@
 <script setup>
 import { sendErrorMessage } from '@/utils/message.js'
 import { getUrlKey } from '@/utils/request.js'
-import router from '@/router/index.js'
 import api from '@/api/index.js'
 import userData from '@/utils/stores/userData/store'
 
