@@ -136,7 +136,7 @@
     <n-grid cols="1" item-responsive>
       <n-gi span="1" v-show="showFinishModal">
         <n-card title="认证完成">
-          <n-h1> 恭喜完成全部认证流程 </n-h1>
+          <p>恭喜完成全部认证流程</p>
         </n-card>
       </n-gi>
     </n-grid>
