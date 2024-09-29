@@ -14,7 +14,7 @@
   <n-form :ref="formRef" :model="domainInput" label-width="auto" size="large">
     <n-grid y-gap="12" cols="1" item-responsive>
       <n-grid-item span="1">
-        <n-card>
+        <n-card title="提交域名">
           <n-form-item label="域名" path="domain">
             <n-input v-model:value="domainInput.domain" placeholder="example.com" />
           </n-form-item>
