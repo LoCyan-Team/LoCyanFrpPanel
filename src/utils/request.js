@@ -8,8 +8,6 @@ import router from '@router'
 import Base64 from 'qs/lib/utils'
 import { sendErrorMessage } from './message'
 import logger from '@/utils/logger'
-// import { logout } from './profile'
-// import { sendErrorMessage } from './message'
 
 //这一步的目的是判断出当前是开发环境还是生成环境，方法不止一种，达到目的就行
 // if(process.env.NODE_ENV=="development"){
@@ -23,7 +21,12 @@ const instance = axios.create({
   timeout: 80000
 })
 
-const tokenDomains = ['api.locyanfrp.cn', 'api-v2.locyanfrp.cn', 'localhost']
+const tokenDomains = [
+  'api.locyanfrp.cn',
+  'api-v2.locyanfrp.cn',
+  'api-v2-next.locyanfrp.cn',
+  'localhost'
+]
 
 // post请求的时候，我们需要加上一个请求头，所以可以在这里进行一个默认的设置，即设置post的请求头为
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -105,7 +108,7 @@ instance.interceptors.response.use(
 
 /**
  * get方法，对应get请求
- * @param {String} url [请求的url地址]
+ * @param url
  * @param params
  */
 export async function get(url, params) {
@@ -116,8 +119,8 @@ export async function get(url, params) {
 
 /**
  * post方法，对应post请求
- * @param {String} url [请求的url地址]
- * @param {Object} params [请求时携带的参数]
+ * @param url
+ * @param params
  * @param headers
  */
 export async function post(url, params, headers = {}) {
@@ -128,8 +131,8 @@ export async function post(url, params, headers = {}) {
 
 /**
  * delete方法，对应delete请求
- * @param {String} url [请求的url地址]
- * @param {Object} params [请求时携带的参数]
+ * @param url
+ * @param params
  */
 export async function deleteReq(url, params) {
   return await instance.delete(url, {
