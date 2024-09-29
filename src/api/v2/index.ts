@@ -8,6 +8,7 @@ import sign from './sign.api'
 import user from './user'
 import email from './email'
 import notice from './notice'
+import minecraft from './minecraft'
 
 export default {
   user: user,
@@ -19,5 +20,6 @@ export default {
   donate: donate,
   sign: sign,
   icp: icp,
-  notice: notice
+  notice: notice,
+  minecraft: minecraft
 }

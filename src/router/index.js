@@ -169,6 +169,21 @@ const routes = [
         component: () => import('@views/IcpCheckView.vue')
       },
       {
+        path: '/games',
+        children: [
+          {
+            path: 'minecraft',
+            name: 'MinecraftGames',
+            meta: {
+              name: 'Minecraft 联机',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/games/MinecraftView.vue')
+          }
+        ]
+      },
+      {
         path: '/other',
         children: [
           {

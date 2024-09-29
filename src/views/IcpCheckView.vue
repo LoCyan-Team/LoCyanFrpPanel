@@ -14,12 +14,14 @@
   <n-form :ref="formRef" :model="domainInput" label-width="auto" size="large">
     <n-grid y-gap="12" cols="1" item-responsive>
       <n-grid-item span="1">
-        <n-form-item label="域名" path="domain">
-          <n-input v-model:value="domainInput.domain" placeholder="example.com" />
-        </n-form-item>
-        <div style="display: flex; justify-content: flex-start">
-          <n-button type="primary" @click="submit"> 创建</n-button>
-        </div>
+        <n-card>
+          <n-form-item label="域名" path="domain">
+            <n-input v-model:value="domainInput.domain" placeholder="example.com" />
+          </n-form-item>
+          <div style="display: flex; justify-content: flex-start">
+            <n-button type="primary" @click="submit"> 创建</n-button>
+          </div>
+        </n-card>
       </n-grid-item>
       <n-grid-item span="1">
         <n-list bordered v-show="showList">

@@ -5,11 +5,9 @@ const base = {
   buildResponse: (res: any, useDataPath: boolean = true) => {
     const message =
       res.data?.message ??
-      res.data?.data?.message ??
       res.response?.data?.message ??
-      res.response?.data?.data?.message ??
-      res.response?.data?.msg ??
       res.data?.msg ??
+      res.response?.data?.msg ??
       '未指定或请求失败'
     const data = (useDataPath ? res.data?.data : res.data) ?? {}
     const statusApi = useDataPath ? res.data?.status : res.status

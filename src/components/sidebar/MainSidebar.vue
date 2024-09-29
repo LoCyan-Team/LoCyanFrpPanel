@@ -39,10 +39,11 @@ import {
   PencilSharp,
   Person,
   PlanetOutline,
-  KeyOutline,
-  CompassSharp
+  Key,
+  CompassSharp,
+  GameController
 } from '@vicons/ionicons5'
-import { AttachMoneyFilled } from '@vicons/material'
+import { AttachMoneyFilled, AccountTreeOutlined } from '@vicons/material'
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)
@@ -58,7 +59,7 @@ const menuOptions = [
   {
     path: '/dashboard',
     label: '仪表盘',
-    key: 'Dashboard',
+    key: 'dashboard',
     icon: renderIcon(CompassSharp)
   },
   {
@@ -71,14 +72,14 @@ const menuOptions = [
         path: '/hello2024',
         label: '评价和祝福',
         show: true,
-        key: 'NewYear',
+        key: 'new-year',
         icon: renderIcon(PlanetOutline)
       },
       {
         path: '/prize',
         label: '抽奖',
         show: true,
-        key: 'Prize',
+        key: 'prize',
         icon: renderIcon(PlanetOutline)
       }
     ]
@@ -86,13 +87,13 @@ const menuOptions = [
   {
     path: '/verification',
     label: '身份认证',
-    key: 'Verification',
+    key: 'verification',
     icon: renderIcon(Person)
   },
   {
     path: '/sign',
     label: '签到',
-    key: 'Sign',
+    key: 'sign',
     icon: renderIcon(PencilSharp)
   },
   {
@@ -103,19 +104,19 @@ const menuOptions = [
       {
         path: '/proxies',
         label: '隧道列表',
-        key: 'Proxies',
+        key: 'proxies-list',
         icon: renderIcon(List)
       },
       {
         path: '/proxies/add',
         label: '添加隧道',
-        key: 'AddProxies',
+        key: 'proxies-add',
         icon: renderIcon(Add)
       },
       {
         path: '/proxies/config',
         label: '配置文件',
-        key: 'Config',
+        key: 'proxies-config',
         icon: renderIcon(FileTrayFull)
       }
     ]
@@ -130,16 +131,44 @@ const menuOptions = [
   {
     path: '/donate',
     label: '赞助',
-    key: 'Donate',
+    key: 'donate',
     icon: renderIcon(AttachMoneyFilled)
   },
   {
     path: '/icp',
     label: '域名白名单',
     key: 'Icp',
-    icon: renderIcon(KeyOutline)
+    icon: renderIcon(Key)
   },
   {
+    label: '游戏联机',
+    key: 'games',
+    icon: renderIcon(GameController),
+    children: [
+      // {
+      //   label: () =>
+      //       h(
+      //           "a",
+      //           {
+      //             href: "https://download.locyan.cn",
+      //             target: "_blank",
+      //           },
+      //           "软件下载"
+      //       ),
+      //   key: "software_download",
+      //   icon: renderIcon(CloudDownloadOutline),
+      // },
+      {
+        path: '/games/minecraft',
+        label: 'Minecraft',
+        key: 'games-minecraft',
+        icon: renderIcon(AccountTreeOutlined)
+      }
+    ]
+  },
+  {
+    key: 'status',
+    icon: renderIcon(List),
     label: () =>
       h(
         'a',
@@ -148,9 +177,7 @@ const menuOptions = [
           target: '_blank'
         },
         '服务状态'
-      ),
-    key: 'status',
-    icon: renderIcon(List)
+      )
   },
   {
     label: '其他功能',
@@ -200,7 +227,7 @@ import { ref } from 'vue'
 import router from '@router'
 
 const active = ref('')
-const menuInstRef = ref(null)
+// const menuInstRef = ref(null)
 
 export const handleUpdateValue = (key, item) => {
   active.value = key

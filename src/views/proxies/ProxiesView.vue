@@ -1,5 +1,4 @@
-<template xmlns="http://www.w3.org/1999/html">
-  <downloadSoftPage v-model:show="showDownloadPage"></downloadSoftPage>
+<template>
   <!-- 编辑隧道的模态框 -->
   <n-modal
     v-model:show="showEditModal"
@@ -12,7 +11,6 @@
     :segmented="segmented"
     :mask-closable="false"
   >
-    <template #header-extra> 点此关闭 -></template>
     <n-form :ref="formRef" :model="proxyEditInfo" :rules="rules" label-width="auto" size="large">
       <n-grid cols="2" item-responsive>
         <n-grid-item span="0:2 1000:1">
@@ -95,7 +93,6 @@
     :bordered="false"
     :segmented="segmented"
   >
-    <template #header-extra> 点此关闭 -></template>
     <p>连接地址：{{ linkAddr }}</p>
     <p>服务器ID：{{ serverList[proxiesList[indexOfProxies].node_id].id }}</p>
     <p>服务器：{{ serverList[proxiesList[indexOfProxies].node_id].name }}</p>
@@ -137,7 +134,7 @@
     <i class="twa twa-books"></i>
     <n-text type="primary"> 隧道列表</n-text>
   </n-h1>
-  <n-spin :show="show">
+  <n-spin :show="loading">
     <n-grid cols="4" item-responsive>
       <n-gi
         v-for="item in proxiesList"
@@ -178,7 +175,6 @@
                 <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
                 <n-button
                   style="margin: 1px"
-                  strong
                   secondary
                   type="primary"
                   @click="
@@ -259,15 +255,14 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useDialog } from 'naive-ui'
-// import clipboard from '@/utils/clipboard'
 import userData from '@/utils/stores/userData/store'
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
-import downloadSoftPage from '@components/InstallCsApp.vue'
 import api from '@/api'
 import logger from '@/utils/logger'
+import router from '@router'
 
-const show = ref(true)
+const loading = ref(true)
 const showEditModal = ref(false)
 const showDetailModal = ref(false)
 const selectProxyID = ref(0)
@@ -283,14 +278,13 @@ const segmented = {
   footer: 'soft'
 }
 const editCheck = ref(true)
-const showDownloadPage = ref(false)
 
 const quickStartCommand = computed(
   () => `./frpc -u ${userData.getters.get_frp_token} -p ${selectProxyID.value}`
 )
 
 // 隧道类型翻译
-function transtype(type) {
+function transType(type) {
   let pt
   if (type === 'tcp') {
     pt = '1'
@@ -327,8 +321,7 @@ function makeLinkAddr(id) {
 async function launchProxyThroughApplication(id) {
   dialog.success({
     title: '通知',
-    content:
-      '该功能需要配合 C# 客户端或 NyaLCF 使用! \n 使用过程中千万不要直接关掉窗口, 请按组合键 Ctrl + C',
+    content: '该功能需要配合 C# 客户端或 NyaLCF 使用!',
     positiveText: '已经安装好了',
     negativeText: '没安装...',
     onPositiveClick: () => {
@@ -336,7 +329,7 @@ async function launchProxyThroughApplication(id) {
       window.open(url)
     },
     onNegativeClick: () => {
-      showDownloadPage.value = true
+      router.push('/other/software')
     },
     onMaskClick: () => {
       sendSuccessMessage('你取消了操作！')
@@ -548,12 +541,12 @@ async function initList() {
   try {
     rs2 = await api.v2.proxy.all(userData.getters.get_username)
   } catch (e) {
-    sendErrorMessage('请求节点列表失败: ' + e)
+    sendErrorMessage('请求隧道列表失败: ' + e)
   }
   if (!rs2) return
   if (rs2.status === 200) {
     proxiesList.value = rs2.data.list
-    show.value = false
+    loading.value = false
   } else {
     return rs2.data
   }

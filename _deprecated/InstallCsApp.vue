@@ -28,9 +28,9 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue'
-import { sendErrorMessage } from '@/utils/message'
-import api from '@/api'
-import logger from '@/utils/logger'
+import { sendErrorMessage } from '@/utils/message.js'
+import api from '@/api/index.js'
+import logger from '@/utils/logger.js'
 
 const show = ref(true)
 const file_name = ref('')
