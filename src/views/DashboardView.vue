@@ -3,39 +3,6 @@
     <i class="twa twa-compass"></i>
     <n-text type="primary"> 仪表盘</n-text>
   </n-h1>
-  <n-modal
-    v-model:show="showads"
-    class="custom-card"
-    preset="card"
-    style="width: 600px"
-    title="通知"
-    size="huge"
-    :bordered="false"
-    :segmented="{ content: 'soft', footer: 'soft' }"
-  >
-    <n-p v-html="ads_content"></n-p>
-  </n-modal>
-  <template v-if="ads_content">
-    <n-alert :title="username + '，' + howtosayhi()" type="info" closable class="right">
-      <template #icon>
-        <i class="twa twa-hibiscus"></i>
-      </template>
-      指挥官，您好!
-      <br />
-      <i class="twa twa-bell"></i> 通知：<!-- TODO: 通知 -->
-      <br />
-      <n-button @click="showAds"> 查看全部 </n-button>
-    </n-alert>
-  </template>
-  <template v-else>
-    <n-alert title="" type="info" closable>
-      <template #icon>
-        <i class="twa twa-hibiscus"></i>
-      </template>
-      <n-skeleton text :repeat="2" style="width: 50%" />
-    </n-alert>
-  </template>
-  <br />
   <n-grid :y-gap="3" :x-gap="20" cols="3" item-responsive>
     <!--<n-grid-item span="3">
       <n-card title="赞助商广告">
@@ -44,7 +11,7 @@
     </n-grid-item>-->
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
-        <span>您好，尊敬的 {{ username }}</span>
+        <span>{{ username }}，{{ howtosayhi() }}</span>
         <br />
         <span>您的邮箱为：{{ email }}</span>
         <br />
@@ -52,7 +19,7 @@
         <br />
         <div>
           <div v-if="notShowFrpToken" style="display: inline">
-            <n-tag type="info" @click="changeShowFrptoken" style="padding: 16px">
+            <n-tag type="info" @click="changeShowFrpToken" style="padding: 16px">
               <template #icon>
                 <n-icon :component="Key" />
               </template>
@@ -147,8 +114,8 @@
     </n-grid-item>
     <n-grid-item span="0:3 600:2">
       <n-card title="公告" size="large">
-        <n-spin :show="boardcast_show">
-          <n-text v-html="boardcast_html" id="boardrcast"></n-text>
+        <n-spin :show="broadcastLoading">
+          <n-text v-html="broadcastHtml" id="boardrcast"></n-text>
         </n-spin>
         <br />
       </n-card>
@@ -180,12 +147,12 @@ import { ref, onMounted } from 'vue'
 // import clipboard from '@/utils/clipboard'
 import { AngleRight, Key } from '@vicons/fa'
 import userData from '@/utils/stores/userData/store'
-import { marked } from 'marked'
 import { useDialog, useMessage } from 'naive-ui'
 import { startLoadingBar, finishLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
 import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 import api from '@/api'
 import logger from '@/utils/logger'
+import notice from '@/utils/notice'
 
 localStorage.setItem('ViewPage', 'personality')
 const username = userData.getters.get_username
@@ -195,46 +162,19 @@ const outbound = ref(userData.getters.get_user_outbound + 'Mbps 上行')
 const frpToken = ref(userData.getters.get_frp_token)
 const proxiesRef = ref(null)
 const notShowFrpToken = ref(true)
-const showads = ref(false)
-const ads_content = ref('')
 const dialog = useDialog()
 const message = useMessage()
 
-function showAds() {
-  showads.value = true
-}
+const broadcastHtml = ref('')
+const broadcastLoading = ref(true)
 
-// 通知 or AD
 onMounted(async () => {
-  const time = new Date()
-  const year = time.getFullYear()
-  const month = time.getMonth()
-  const day = time.getDate()
-  const current = `${year}-${month}-${day}`
-  // console.log('Rquest ads')
-  let res
-  try {
-    res = await api.v2.notice.root.get()
-  } catch (e) {
-    logger.error(e)
-    sendErrorMessage('获取 Ads 失败: ' + e)
-  }
-  // console.log(res)
-  if (!res) return
-  if (res.status === 200) {
-    ads_content.value = marked(res.data.announcement)
-    if (localStorage.getItem('dashboard_last_show_ads_date') != current) showAds()
-    localStorage.setItem('dashboard_last_show_ads_date', current)
-    // 公告
-    boardcast_html.value = marked(res.data.broadcast)
-    boardcast_show.value = false
-  } else {
-    notice.value = '获取通知失败'
-    boardcast_html.value = '获取公告失败'
-  }
+  let result = await notice.getNotice()
+  broadcastHtml.value = result.broadcast
+  broadcastLoading.value = false
 })
 
-async function changeShowFrptoken() {
+async function changeShowFrpToken() {
   notShowFrpToken.value = !notShowFrpToken.value
   setTimeout(() => {
     notShowFrpToken.value = !notShowFrpToken.value
@@ -246,8 +186,6 @@ const Proxiesanimation = ref(
   Number(userData.getters.get_proxies_num || localStorage.getItem('proxies_num'))
 )
 const TrafficRef = ref(null)
-const boardcast_html = ref('')
-const boardcast_show = ref(true)
 
 function howtosayhi() {
   const currentHour = new Date().getHours()
