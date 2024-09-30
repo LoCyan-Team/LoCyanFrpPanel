@@ -43,6 +43,7 @@ import {
   CompassSharp,
   GameController
 } from '@vicons/ionicons5'
+import { MoreCircle20Filled } from '@vicons/fluent'
 import { AttachMoneyFilled, AccountTreeOutlined } from '@vicons/material'
 
 // 手机状态下收缩菜单栏
@@ -182,7 +183,7 @@ const menuOptions = [
   {
     label: '其他功能',
     key: 'other_options',
-    icon: renderIcon(BookIcon),
+    icon: renderIcon(MoreCircle20Filled),
     children: [
       // {
       //   label: () =>
