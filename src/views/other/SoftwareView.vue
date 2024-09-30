@@ -9,6 +9,8 @@
   <n-space vertical>
     <n-grid cols="1" item-responsive>
       <n-grid-item class="item" span="1">
+        <h2>启动器</h2>
+        <br />
         <n-card title="Nya LoCyanFrp! 乐青映射启动器" size="medium">
           <h3>系统及架构支持</h3>
           <p>
@@ -62,6 +64,34 @@
         </n-card>
       </n-grid-item>
       <n-grid-item class="item" span="1">
+        <h2>游戏联机客户端</h2>
+        <br />
+        <n-card title="Eda" size="medium">
+          <h3>系统及架构支持</h3>
+          <p>
+            <span>Windows (至少需要 Windows 10), Linux</span>
+            <br />
+            <span>架构支持</span>
+          </p>
+          <ul>
+            <li>x86_84</li>
+          </ul>
+          <h3>下载</h3>
+          <p>
+            <a
+              href="https://mirrors.locyan.cn/github-release/LoCyan-Team/Eda/LatestRelease/"
+              target="_blank"
+            >
+              LoCyan Mirrors 镜像站
+            </a>
+            <br />
+            <a href="https://github.com/LoCyan-Team/Eda/releases" target="_blank"> GitHub </a>
+          </p>
+        </n-card>
+      </n-grid-item>
+      <n-grid-item class="item" span="1">
+        <h2>其他</h2>
+        <br />
         <n-card title="纯净版客户端 (Frpc)" size="medium">
           <a
             href="https://mirrors.locyan.cn/github-release/LoCyan-Team/LoCyanFrpPureApp/LatestRelease/"
@@ -84,3 +114,4 @@
   margin-top: 20px;
 }
 </style>
+<script setup lang="ts"></script>
