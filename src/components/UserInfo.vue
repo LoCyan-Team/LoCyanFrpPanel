@@ -92,7 +92,7 @@
 <script setup>
 import { logout } from '@/utils/profile'
 import userData from '@/utils/stores/userData/store'
-import { sendSuccessMessage } from '@/utils/message'
+import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
 import { onMounted, ref } from 'vue'
 import { useDialog } from 'naive-ui'
 import api from '@/api'
@@ -148,16 +148,18 @@ onMounted(async () => {
     bindQQ.value.msg = ref('未知')
   }
   if (!rs) return
-  if (!rs.status === 200) {
+  if (rs.status === 200) {
+    bindQQ.value.isDisable = true
+    bindQQ.value.msg = ref('已绑定')
+    bindQQ.value.unBindDisable = false
+    bindQQ.value.unBindmsg = ref('解除绑定')
+  } else if (rs.status === 404) {
     bindQQ.value.isDisable = false
     bindQQ.value.msg = ref('点击绑定')
     bindQQ.value.unBindDisable = true
     bindQQ.value.unBindmsg = ref('尚未绑定')
   } else {
-    bindQQ.value.isDisable = true
-    bindQQ.value.msg = ref('已绑定')
-    bindQQ.value.unBindDisable = false
-    bindQQ.value.unBindmsg = ref('解除绑定')
+    sendErrorMessage("获取 QQ 绑定状态失败: " + rs.message)
   }
 })
 
