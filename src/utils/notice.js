@@ -9,12 +9,6 @@ let notice = {
 
 // 通知 or AD
 async function getNotice() {
-  const time = new Date()
-  const year = time.getFullYear()
-  const month = time.getMonth()
-  const day = time.getDate()
-  const current = `${year}-${month}-${day}`
-  // console.log('Rquest ads')
   let res
   try {
     res = await api.v2.notice.root.get()
