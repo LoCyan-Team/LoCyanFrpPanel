@@ -1,23 +1,25 @@
-import config from './config'
+import auth from './auth'
 import donate from './donate'
-import icp from './icp'
-import nodes from './nodes'
-import oauth from './oauth'
-import proxies from './proxies'
-import realname from './realname'
-import realperson from './realperson'
-import sign from './sign'
-import users from './users'
+import icp from './icp.api'
+import node from './node'
+import proxy from './proxy'
+import verification from './verification'
+import sign from './sign.api'
+import user from './user'
+import email from './email'
+import notice from './notice'
+import minecraft from './minecraft'
 
 export default {
-  users: users,
-  oauth: oauth,
-  realname: realname,
-  realperson: realperson,
-  sign: sign,
-  proxies: proxies,
-  nodes: nodes,
-  config: config,
+  user: user,
+  auth: auth,
+  email: email,
+  verification: verification,
+  proxy: proxy,
+  node: node,
   donate: donate,
-  icp: icp
+  sign: sign,
+  icp: icp,
+  notice: notice,
+  minecraft: minecraft
 }

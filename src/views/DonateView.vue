@@ -30,59 +30,61 @@
       </template>
     </n-card>
   </n-modal>
-  <n-grid cols="1" :y-gap="3">
-    <n-grid-item span="1" v-if="!showMessageLabel">
-      <n-text>选择支付方式</n-text>
-      <br />
-      <br />
-      <n-radio-group v-model:value="pay_type" name="支付方式" :default-value="default_pay_type">
-        <n-space>
-          <n-radio
-            v-for="pay_type_info in payments"
-            :key="pay_type_info.value"
-            :value="pay_type_info.value"
-          >
-            {{ pay_type_info.label }}
-          </n-radio>
-        </n-space>
-      </n-radio-group>
-      <br />
-      <br />
-      <n-input type="text" v-model:value="amount" placeholder="金额" />
-      <br />
-      <br />
-      <n-text>
-        赞助数额达到 <b> {{ amount_filter_threshold }} 元 </b> 的留言会被公开展示
-      </n-text>
-      <br />
-      <br />
-      <n-button @click="doDonate" :loading="loading_donate"> 赞助</n-button>
-    </n-grid-item>
-    <n-grid-item span="1" v-if="showMessageLabel">
-      <n-form
-        ref="formRef"
-        :model="message"
-        label-width="auto"
-        require-mark-placement="right-hanging"
-        size="medium"
-      >
-        <n-form-item label="留言" path="message">
-          <n-input type="text" v-model:value="message.message" placeholder="赞助的留言" />
-        </n-form-item>
-        <n-space>
-          <n-button
-            type="primary"
-            style="margin-right: 10px"
-            @click="submitMessage"
-            :loading="loading_submit"
-          >
-            提交
-          </n-button>
-        </n-space>
-      </n-form>
-    </n-grid-item>
-  </n-grid>
-  <br />
+  <n-card title="赞助">
+    <n-grid cols="1" :y-gap="3">
+      <n-grid-item span="1" v-if="!showMessageLabel">
+        <n-text>选择支付方式</n-text>
+        <br />
+        <br />
+        <n-radio-group v-model:value="pay_type" name="支付方式" :default-value="default_pay_type">
+          <n-space>
+            <n-radio
+              v-for="pay_type_info in payments"
+              :key="pay_type_info.value"
+              :value="pay_type_info.value"
+            >
+              {{ pay_type_info.label }}
+            </n-radio>
+          </n-space>
+        </n-radio-group>
+        <br />
+        <br />
+        <n-input type="text" v-model:value="amount" placeholder="金额" />
+        <br />
+        <br />
+        <n-text>
+          赞助数额达到 <b> {{ amount_filter_threshold }} 元 </b> 的留言会被公开展示
+        </n-text>
+        <br />
+        <br />
+        <n-button type="primary" @click="doDonate" :loading="loading_donate"> 赞助</n-button>
+      </n-grid-item>
+      <n-grid-item span="1" v-if="showMessageLabel">
+        <n-form
+          ref="formRef"
+          :model="message"
+          label-width="auto"
+          require-mark-placement="right-hanging"
+          size="medium"
+        >
+          <n-form-item label="留言" path="message">
+            <n-input type="text" v-model:value="message.message" placeholder="赞助的留言" />
+          </n-form-item>
+          <n-space>
+            <n-button
+              type="primary"
+              style="margin-right: 10px"
+              @click="submitMessage"
+              :loading="loading_submit"
+            >
+              提交
+            </n-button>
+          </n-space>
+        </n-form>
+      </n-grid-item>
+    </n-grid>
+  </n-card>
+  <n-h3>留言</n-h3>
   <n-spin :show="loadingDonateList">
     <n-grid cols="3" item-responsive :x-gap="12" :y-gap="12">
       <n-grid-item
@@ -265,13 +267,7 @@ async function doDonate() {
   }
   let rs
   try {
-    rs = await api.v2.donate.create(
-      userData.getters.get_username,
-      'LoCyanFrpDonate',
-      amount.value,
-      'https://dashboard.locyanfrp.cn/donate',
-      'https://api-v2.locyanfrp.cn/api/v2/donate/notify'
-    )
+    rs = await api.v2.donate.root.post(userData.getters.get_username, amount.value)
   } catch (e) {
     sendErrorMessage('请求列表失败: ' + e)
   }

@@ -1,5 +1,4 @@
-<template xmlns="http://www.w3.org/1999/html">
-  <downloadSoftPage v-model:show="showDownloadPage"></downloadSoftPage>
+<template>
   <!-- 编辑隧道的模态框 -->
   <n-modal
     v-model:show="showEditModal"
@@ -12,7 +11,6 @@
     :segmented="segmented"
     :mask-closable="false"
   >
-    <template #header-extra> 点此关闭 -></template>
     <n-form :ref="formRef" :model="proxyEditInfo" :rules="rules" label-width="auto" size="large">
       <n-grid cols="2" item-responsive>
         <n-grid-item span="0:2 1000:1">
@@ -33,12 +31,12 @@
               v-model:value="proxyEditInfo.proxy_type"
               @update:value="proxyTypeSelectChangeHandle"
             >
-              <n-radio-button value="1"> TCP</n-radio-button>
-              <n-radio-button value="2"> UDP</n-radio-button>
-              <n-radio-button value="3"> HTTP</n-radio-button>
-              <n-radio-button value="4"> HTTPS</n-radio-button>
-              <n-radio-button value="5"> XTCP</n-radio-button>
-              <n-radio-button value="6"> STCP</n-radio-button>
+              <n-radio-button value="tcp"> TCP</n-radio-button>
+              <n-radio-button value="udp"> UDP</n-radio-button>
+              <n-radio-button value="http"> HTTP</n-radio-button>
+              <n-radio-button value="https"> HTTPS</n-radio-button>
+              <n-radio-button value="xtcp"> XTCP</n-radio-button>
+              <n-radio-button value="stcp"> STCP</n-radio-button>
             </n-radio-group>
           </n-form-item>
         </n-grid-item>
@@ -95,12 +93,11 @@
     :bordered="false"
     :segmented="segmented"
   >
-    <template #header-extra> 点此关闭 -></template>
     <p>连接地址：{{ linkAddr }}</p>
-    <p>服务器ID：{{ serverList[proxiesList[indexOfProxies].node].id }}</p>
-    <p>服务器：{{ serverList[proxiesList[indexOfProxies].node].name }}</p>
-    <p>服务器IP：{{ serverList[proxiesList[indexOfProxies].node].ip }}</p>
-    <p>服务器域名：{{ serverList[proxiesList[indexOfProxies].node].hostname }}</p>
+    <p>服务器ID：{{ serverList[proxiesList[indexOfProxies].node_id].id }}</p>
+    <p>服务器：{{ serverList[proxiesList[indexOfProxies].node_id].name }}</p>
+    <p>服务器IP：{{ serverList[proxiesList[indexOfProxies].node_id].ip }}</p>
+    <p>服务器域名：{{ serverList[proxiesList[indexOfProxies].node_id].hostname }}</p>
     <p>本地地址：{{ proxiesList[indexOfProxies].local_ip }}</p>
     <p>穿透协议：{{ proxiesList[indexOfProxies].proxy_type }}</p>
     <p>本地端口：{{ proxiesList[indexOfProxies].local_port }}</p>
@@ -137,7 +134,7 @@
     <i class="twa twa-books"></i>
     <n-text type="primary"> 隧道列表</n-text>
   </n-h1>
-  <n-spin :show="show">
+  <n-spin :show="loading">
     <n-grid cols="4" item-responsive>
       <n-gi
         v-for="item in proxiesList"
@@ -158,12 +155,12 @@
             <n-tag :bordered="false" type="success">
               {{ item.proxy_type.toUpperCase() }}
             </n-tag>
-            <n-tag :bordered="false" type="info" v-if="serverList[item.node]">
-              {{ serverList[item.node].name || '未知节点' }}
+            <n-tag :bordered="false" type="info" v-if="serverList[item.node_id]">
+              {{ serverList[item.node_id].name || '未知节点' }}
             </n-tag>
             <n-tag :bordered="false" type="error" v-else> 未知节点 </n-tag>
             <template #footer>
-              <div v-if="serverList[item.node]">
+              <div v-if="serverList[item.node_id]">
                 连接地址： <br />
                 {{ makeLinkAddr(proxiesList.indexOf(item)) }}
               </div>
@@ -178,7 +175,6 @@
                 <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
                 <n-button
                   style="margin: 1px"
-                  strong
                   secondary
                   type="primary"
                   @click="
@@ -187,10 +183,10 @@
                       showEditModal = true
                       selectProxyID = item.id
                       proxyEditInfo = {
-                        node: item.node,
+                        node: item.node_id,
                         id: selectProxyID,
                         proxy_name: item.proxy_name,
-                        proxy_type: transtype(item.proxy_type),
+                        proxy_type: item.proxy_type,
                         local_ip: item.local_ip,
                         local_port: item.local_port.toString(),
                         remote_port: item.remote_port,
@@ -208,7 +204,7 @@
                   strong
                   secondary
                   type="info"
-                  v-if="serverList[item.node]"
+                  v-if="serverList[item.node_id]"
                   @click="
                     () => {
                       indexOfProxies = proxiesList.indexOf(item)
@@ -225,7 +221,7 @@
                   strong
                   secondary
                   type="warning"
-                  v-if="serverList[item.node]"
+                  v-if="serverList[item.node_id]"
                   @click="launchProxyThroughApplication(item.id)"
                 >
                   一键启动
@@ -259,15 +255,14 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useDialog } from 'naive-ui'
-// import clipboard from '@/utils/clipboard'
 import userData from '@/utils/stores/userData/store'
 import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
-import downloadSoftPage from '@components/InstallCsApp.vue'
 import api from '@/api'
 import logger from '@/utils/logger'
+import router from '@router'
 
-const show = ref(true)
+const loading = ref(true)
 const showEditModal = ref(false)
 const showDetailModal = ref(false)
 const selectProxyID = ref(0)
@@ -283,14 +278,13 @@ const segmented = {
   footer: 'soft'
 }
 const editCheck = ref(true)
-const showDownloadPage = ref(false)
 
 const quickStartCommand = computed(
   () => `./frpc -u ${userData.getters.get_frp_token} -p ${selectProxyID.value}`
 )
 
 // 隧道类型翻译
-function transtype(type) {
+function transType(type) {
   let pt
   if (type === 'tcp') {
     pt = '1'
@@ -317,7 +311,7 @@ function makeLinkAddr(id) {
     return proxiesList.value[id].domain
   } else {
     return (
-      serverList.value[proxiesList.value[id].node].hostname +
+      serverList.value[proxiesList.value[id].node_id].hostname +
       ':' +
       proxiesList.value[id].remote_port
     )
@@ -327,8 +321,7 @@ function makeLinkAddr(id) {
 async function launchProxyThroughApplication(id) {
   dialog.success({
     title: '通知',
-    content:
-      '该功能需要配合 C# 客户端或 NyaLCF 使用! \n 使用过程中千万不要直接关掉窗口, 请按组合键 Ctrl + C',
+    content: '该功能需要配合 C# 客户端或 NyaLCF 使用!',
     positiveText: '已经安装好了',
     negativeText: '没安装...',
     onPositiveClick: () => {
@@ -336,7 +329,7 @@ async function launchProxyThroughApplication(id) {
       window.open(url)
     },
     onNegativeClick: () => {
-      showDownloadPage.value = true
+      router.push('/other/software')
     },
     onMaskClick: () => {
       sendSuccessMessage('你取消了操作！')
@@ -353,7 +346,7 @@ async function forceDownProxy(proxyId) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.proxies.down(userData.getters.get_username, proxyId)
+        rs = await api.v2.proxy.down(userData.getters.get_username, proxyId)
       } catch (e) {
         logger.error(e)
         sendErrorMessage(`请求强制下线隧道失败: ${e}`)
@@ -379,7 +372,6 @@ async function editProxy(proxyid) {
     proxyName: proxyEditInfo.value.proxy_name,
     proxyType: proxyEditInfo.value.proxy_type,
     remotePort: proxyEditInfo.value.remote_port,
-    username: userData.getters.get_username,
     localIp: proxyEditInfo.value.local_ip,
     localPort: proxyEditInfo.value.local_port,
     domain: proxyEditInfo.value.domain,
@@ -387,16 +379,19 @@ async function editProxy(proxyid) {
   }
   let rs
   try {
-    rs = await api.v2.proxies.update(
+    rs = await api.v2.proxy.update(
+      userData.getters.get_username,
       editInfo.id,
       editInfo.proxyName,
       editInfo.proxyType,
-      editInfo.username,
       editInfo.localIp,
       editInfo.localPort,
       editInfo.remotePort,
+      false,
+      false,
+      editInfo.node,
       editInfo.domain,
-      editInfo.node
+      null
     )
   } catch (e) {
     sendErrorMessage('请求修改隧道信息失败: ' + e)
@@ -509,7 +504,7 @@ const rules = {
 const showDomainInput = ref(false)
 
 function proxyTypeSelectChangeHandle(value) {
-  showDomainInput.value = value === '3' || value === '4'
+  showDomainInput.value = value === 'http' || value === 'https'
 }
 
 const proxiesList = ref([])
@@ -527,13 +522,13 @@ const serverList = ref([
 async function initList() {
   let rs1
   try {
-    rs1 = await api.v2.nodes.list()
+    rs1 = await api.v2.node.all()
   } catch (e) {
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs1) return
   let i = 0
-  rs1.data.forEach((s) => {
+  rs1.data.list.forEach((s) => {
     editServerList.value[i] = {
       label: s.name,
       value: s.id
@@ -544,14 +539,14 @@ async function initList() {
 
   let rs2
   try {
-    rs2 = await api.v2.proxies.getlist(userData.getters.get_username)
+    rs2 = await api.v2.proxy.all(userData.getters.get_username)
   } catch (e) {
-    sendErrorMessage('请求节点列表失败: ' + e)
+    sendErrorMessage('请求隧道列表失败: ' + e)
   }
   if (!rs2) return
   if (rs2.status === 200) {
-    proxiesList.value = rs2.data.proxies
-    show.value = false
+    proxiesList.value = rs2.data.list
+    loading.value = false
   } else {
     return rs2.data
   }
@@ -582,11 +577,7 @@ function deleteProxy(id) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.proxies.delete(
-          userData.getters.get_username,
-          proxiesList.value[id].id,
-          userData.getters.get_token
-        )
+        rs = await api.v2.proxy.root.delete(userData.getters.get_username, proxiesList.value[id].id)
       } catch (e) {
         sendErrorMessage('请求删除隧道失败: ' + e)
       }

@@ -68,7 +68,7 @@ setInterval(async () => {
   if (userData.getters.get_token) {
     let rs
     try {
-      rs = await api.v2.users.info(userData.getters.get_username)
+      rs = await api.v2.user.info.root.get(userData.getters.get_username)
     } catch (e) {
       sendWarningMessage('查询用户信息失败: ' + e + '，请重新登录后台！')
       logout()

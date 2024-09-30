@@ -91,14 +91,14 @@ const code = ref('')
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.nodes.list()
+    rs = await api.v2.node.all()
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs) return
   var i = 0
-  rs.data.forEach((s) => {
+  rs.data.list.forEach((s) => {
     if (i === 0) {
       node.value = s.id
       updateValue(s.id)
@@ -114,17 +114,13 @@ onMounted(async () => {
 async function updateValue(value) {
   let rs
   try {
-    rs = await api.v1.Proxies.GetConfigFile(
-      userData.getters.get_username,
-      userData.getters.get_token,
-      value
-    )
+    rs = await api.v2.proxy.config(userData.getters.get_username, null, value)
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求获取隧道配置文件失败: ' + e)
   }
   if (!rs) return
-  if (rs.data.status) {
+  if (rs.status === 200) {
     sendSuccessMessage(rs.message)
     code.value = rs.data.config
   } else {

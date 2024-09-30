@@ -14,17 +14,44 @@
           <!-- 2023-04-30 23：04 by XiaMoHuaHuo_CN: 哪个大聪明在这放一言 -->
           <!--<n-p style="margin-top: 4%"><n-text style="font-size: 20px"> {{ hitokoto_content }} </n-text></n-p>-->
           <!-- 2024-1-27 10:43 by ltzXiaoYanMo 你问我我问谁啊，你去看commits记录啊（-->
-          <n-avatar
-            round
-            size="medium"
-            :style="getStyle()"
-            style="margin-top: 20px; margin-right: 23px"
-            :src="avatar"
-            @click="DoShowUserInfo()"
-          />
+          <n-space>
+            <n-button
+              circle
+              style="margin-top: 15px; margin-right: 10px"
+              @click="
+                () => {
+                  announcementShow = true
+                }
+              "
+            >
+              <template #icon>
+                <n-icon><MdNotifications /></n-icon>
+              </template>
+            </n-button>
+            <n-avatar
+              round
+              size="medium"
+              :style="getStyle()"
+              style="margin-top: 15px; margin-right: 23px"
+              :src="avatar"
+              @click="DoShowUserInfo()"
+            />
+          </n-space>
         </n-space>
       </n-layout-header>
       <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
+        <n-modal
+          v-model:show="announcementShow"
+          class="custom-card"
+          preset="card"
+          style="width: 600px"
+          title="通知"
+          size="huge"
+          :bordered="false"
+          :segmented="{ content: 'soft', footer: 'soft' }"
+        >
+          <n-p v-html="announcementHtml"></n-p>
+        </n-modal>
         <SideBar v-if="showSideBar" />
         <n-layout :native-scrollbar="false">
           <!-- <div style="text-align: center">
@@ -103,7 +130,7 @@
 </template>
 
 <script setup>
-import { h, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
 import SideBar from '@components/sidebar/MainSidebar.vue'
 import userData from '@/utils/stores/userData/store'
@@ -111,7 +138,9 @@ import router from '@router'
 import UserInfo, { changeUserInfoShow } from '@components/UserInfo.vue'
 import { get } from '@/utils/request'
 import { GitAlt } from '@vicons/fa'
+import { MdNotifications } from '@vicons/ionicons4'
 import logger from '@/utils/logger'
+import notice from '@/utils/notice'
 
 const gitHash = GIT_COMMITHASH
 
@@ -124,6 +153,24 @@ const hitokoto_content = ref('Loading')
 if (document.body.clientWidth >= 1000) {
   collapsed.value = false
 }
+
+const announcementHtml = ref('')
+const announcementShow = ref(false)
+
+onMounted(async () => {
+  const time = new Date()
+  const year = time.getFullYear()
+  const month = time.getMonth()
+  const day = time.getDate()
+  const current = `${year}-${month}-${day}`
+
+  let result = await notice.getNotice()
+  announcementHtml.value = result.announcement
+  if (localStorage.getItem('dashboard_last_show_ads_date') !== current)
+    announcementShow.value = true
+  localStorage.setItem('dashboard_last_show_ads_date', current)
+})
+
 avatar.value = userData.getters.get_avatar
 
 // 刚进入面板不展示用户信息框
@@ -133,9 +180,9 @@ function DoShowUserInfo() {
   changeUserInfoShow(true)
 }
 
-function renderIcon(icon) {
-  return () => h(NIcon, null, { default: () => h(icon) })
-}
+// function renderIcon(icon) {
+//   return () => h(NIcon, null, { default: () => h(icon) })
+// }
 
 function getStyle() {
   if (!userData.getters.get_token) {

@@ -29,12 +29,12 @@
             v-model:value="proxyInfo.proxy_type"
             @update:value="proxyTypeSelectChangeHandle"
           >
-            <n-radio-button value="1"> TCP</n-radio-button>
-            <n-radio-button value="2"> UDP</n-radio-button>
-            <n-radio-button value="3"> HTTP</n-radio-button>
-            <n-radio-button value="4"> HTTPS</n-radio-button>
-            <n-radio-button value="5"> XTCP</n-radio-button>
-            <n-radio-button value="6"> STCP</n-radio-button>
+            <n-radio-button value="tcp"> TCP</n-radio-button>
+            <n-radio-button value="udp"> UDP</n-radio-button>
+            <n-radio-button value="http"> HTTP</n-radio-button>
+            <n-radio-button value="https"> HTTPS</n-radio-button>
+            <n-radio-button value="xtcp"> XTCP</n-radio-button>
+            <n-radio-button value="stcp"> STCP</n-radio-button>
           </n-radio-group>
         </n-form-item>
       </n-grid-item>
@@ -114,7 +114,7 @@ const formRef = ref(null)
 const proxyInfo = ref({
   node: 0,
   proxy_name: '',
-  proxy_type: '1',
+  proxy_type: 'tcp',
   local_ip: '127.0.0.1',
   local_port: null,
   remote_port: null,
@@ -217,8 +217,8 @@ const showDomainInput = ref(false)
 const showSecretKeyInput = ref(false)
 
 function proxyTypeSelectChangeHandle(value) {
-  showDomainInput.value = value === '3' || value === '4'
-  showSecretKeyInput.value = value === '5' || value === '6'
+  showDomainInput.value = value === 'http' || value === 'https'
+  showSecretKeyInput.value = value === 'xtcp' || value === 'stcp'
 }
 
 async function randomPort() {
@@ -247,34 +247,30 @@ async function addProxy() {
   const tunnelCreateInfo = {
     username: userData.getters.get_username,
     name: proxyInfo.value.proxy_name,
-    key: userData.getters.get_frp_token,
     ip: proxyInfo.value.local_ip,
     type: proxyInfo.value.proxy_type,
     lp: proxyInfo.value.local_port,
     rp: proxyInfo.value.remote_port,
-    ue: '0',
-    uz: '0',
+    ue: false,
+    uz: false,
     id: proxyInfo.value.node,
-    token: userData.getters.get_token,
     url: proxyInfo.value.domain,
     sk: proxyInfo.value.sk
   }
   let rs
   try {
-    rs = await api.v2.proxies.add(
+    rs = await api.v2.proxy.root.post(
       tunnelCreateInfo.username,
       tunnelCreateInfo.name,
-      tunnelCreateInfo.key,
       tunnelCreateInfo.ip,
       tunnelCreateInfo.type,
       tunnelCreateInfo.lp,
       tunnelCreateInfo.rp,
+      tunnelCreateInfo.id,
       tunnelCreateInfo.ue,
       tunnelCreateInfo.uz,
-      tunnelCreateInfo.id,
-      tunnelCreateInfo.token,
-      tunnelCreateInfo.url,
-      tunnelCreateInfo.sk
+      tunnelCreateInfo.sk,
+      tunnelCreateInfo.url
     )
   } catch (e) {
     logger.error(e)
@@ -283,11 +279,7 @@ async function addProxy() {
   }
   if (!rs) return
   if (rs.status === 200) {
-    if (rs.statusApi === 200) {
-      sendSuccessDialog('添加成功')
-    } else {
-      sendErrorMessage(rs.message)
-    }
+    sendSuccessDialog('添加成功')
   } else {
     sendErrorMessage(rs.message)
   }
@@ -296,14 +288,14 @@ async function addProxy() {
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.nodes.list()
+    rs = await api.v2.node.all()
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs) return
   var i = 0
-  rs.data.forEach((s) => {
+  rs.data.list.forEach((s) => {
     // 默认选择第一个节点
     if (i === 0) {
       proxyInfo.value.node = s.id

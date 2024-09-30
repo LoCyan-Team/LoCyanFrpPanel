@@ -40,73 +40,93 @@ const routes = [
         component: () => import('@views/SignView.vue')
       },
       {
-        path: '/auth/login',
-        name: 'Login',
-        meta: {
-          title: '登录',
-          keepAlive: true,
-          autoRedirectLogined: true,
-          sidebar: {
-            guest: true
+        path: '/auth',
+        children: [
+          {
+            path: 'login',
+            name: 'Login',
+            meta: {
+              title: '登录',
+              keepAlive: true,
+              autoRedirectAfterLogin: true,
+              sidebar: {
+                guest: true
+              }
+            },
+            component: () => import('@views/auth/LoginView.vue')
+          },
+          {
+            path: 'register',
+            name: 'Register',
+            meta: {
+              title: '注册',
+              keepAlive: true,
+              autoRedirectAfterLogin: true,
+              sidebar: {
+                guest: true
+              }
+            },
+            component: () => import('@views/auth/RegisterView.vue')
+          },
+          {
+            path: 'resetPassword',
+            name: 'ResetPassword',
+            meta: {
+              title: '重置密码',
+              keepAlive: true,
+              autoRedirectAfterLogin: true,
+              sidebar: {
+                guest: true
+              }
+            },
+            component: () => import('@views/auth/ResetPasswordView.vue')
           }
-        },
-        component: () => import('@views/auth/LoginView.vue')
-      },
-      {
-        path: '/auth/register',
-        name: 'Register',
-        meta: {
-          title: '注册',
-          keepAlive: true,
-          autoRedirectLogined: true,
-          sidebar: {
-            guest: true
-          }
-        },
-        component: () => import('@views/auth/RegisterView.vue')
-      },
-      {
-        path: '/auth/resetPassword',
-        name: 'ResetPassword',
-        meta: {
-          title: '重置密码',
-          keepAlive: true,
-          autoRedirectLogined: true,
-          sidebar: {
-            guest: true
-          }
-        },
-        component: () => import('@views/auth/ResetPasswordView.vue')
+        ]
       },
       {
         path: '/proxies',
-        name: 'Proxies',
-        meta: {
-          title: '隧道列表',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/proxies/ProxiesView.vue')
+        children: [
+          {
+            path: '',
+            name: 'Proxies',
+            meta: {
+              title: '隧道列表',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/proxies/ProxiesView.vue')
+          },
+          {
+            path: 'add',
+            name: 'AddProxies',
+            meta: {
+              title: '添加隧道',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/proxies/AddView.vue')
+          },
+          {
+            path: 'config',
+            name: 'Config',
+            meta: {
+              title: '配置文件',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/proxies/ConfigView.vue')
+          }
+        ]
       },
       {
-        path: '/proxies/add',
-        name: 'AddProxies',
+        path: '/verification',
+        name: 'Verification',
         meta: {
-          title: '添加隧道',
+          title: '身份认证',
           keepAlive: true,
           needLogin: true
         },
-        component: () => import('@views/proxies/AddView.vue')
-      },
-      {
-        path: '/realname',
-        name: 'RealName',
-        meta: {
-          title: '实名认证',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/RealNameView.vue')
+        component: () => import('@views/VerificationView.vue')
       },
       {
         path: '/hello2024',
@@ -129,16 +149,6 @@ const routes = [
         component: () => import('@views/activities/PrizeView.vue')
       },
       {
-        path: '/proxies/config',
-        name: 'Config',
-        meta: {
-          title: '配置文件',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/proxies/ConfigView.vue')
-      },
-      {
         path: '/donate',
         name: 'Donate',
         meta: {
@@ -159,14 +169,100 @@ const routes = [
         component: () => import('@views/IcpCheckView.vue')
       },
       {
-        path: '/other/software',
-        name: 'Software',
-        meta: {
-          title: '软件下载',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/other/SoftwareView.vue')
+        path: '/games',
+        children: [
+          {
+            path: 'minecraft',
+            name: 'MinecraftGames',
+            meta: {
+              name: 'Minecraft 联机',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/games/MinecraftView.vue')
+          }
+        ]
+      },
+      {
+        path: '/other',
+        children: [
+          {
+            path: 'software',
+            name: 'Software',
+            meta: {
+              title: '软件下载',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/other/SoftwareView.vue')
+          }
+        ]
+      },
+      {
+        path: '/callback',
+        children: [
+          {
+            path: 'auth',
+            children: [
+              {
+                path: 'oauth',
+                children: [
+                  {
+                    path: 'qq',
+                    children: [
+                      {
+                        path: 'login',
+                        name: 'LoginAuthCallback',
+                        meta: {
+                          title: 'QQ 登录回调页面',
+                          needLogin: false
+                        },
+                        component: () => import('@/views/callback/auth/oauth/qq/LoginView.vue')
+                      },
+                      {
+                        path: 'bind',
+                        name: 'BindQQOAuthAuthCallback',
+                        meta: {
+                          title: 'QQ 绑定回调页面',
+                          needLogin: false
+                        },
+                        component: () => import('@views/callback/auth/oauth/qq/BindView.vue')
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            path: 'verification',
+            children: [
+              {
+                path: 'realperson',
+                children: [
+                  {
+                    path: 'pay',
+                    name: 'PayRealPersonVerificationCallback',
+                    meta: {
+                      title: '实人认证支付回调页面',
+                      needLogin: false
+                    },
+                    component: () => import('@views/callback/verification/realperson/PayView.vue')
+                  },
+                  {
+                    path: 'done',
+                    name: 'DoneRealPersonVerificationCallback',
+                    meta: {
+                      title: '实人认证成功回调页面',
+                      needLogin: false
+                    },
+                    component: () => import('@views/callback/verification/realperson/DoneView.vue')
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         path: '/:pathMatch(.*)*',
@@ -214,7 +310,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.needLogin && !hasToken) {
     next({ name: 'Login', query: { redirect: location.pathname } })
   }
-  if (to.meta.autoRedirectLogined && hasToken) {
+  if (to.meta.autoRedirectAfterLogin && hasToken) {
     next({ name: 'Dashboard' })
   }
   next()
