@@ -2,7 +2,7 @@
   <template v-if="loading">
     <n-h1 prefix="bar" style="margin-top: 30px">
       <i class="twa twa-card-file-box"></i>
-      <n-text type="primary"> 实名认证</n-text>
+      <n-text type="primary"> 身份认证</n-text>
     </n-h1>
     <n-grid cols="1" item-responsive>
       <n-grid-item span="1">
