@@ -65,10 +65,6 @@
             <n-number-animation ref="TrafficRef" :from="0" :to="userData.getters.get_traffic" />
             <template #suffix> GiB</template>
           </n-statistic>
-          <n-statistic label="隧道数" tabular-nums>
-            <n-number-animation ref="proxiesRef" :from="0" :to="Proxiesanimation" />
-            <template #suffix> 条</template>
-          </n-statistic>
           <n-statistic label="速度限制" tabular-nums>
             <span>{{ outbound }}<br />{{ inbound }}</span>
           </n-statistic>
@@ -182,9 +178,6 @@ async function changeShowFrpToken() {
 }
 
 const traffic = ref(Number(localStorage.getItem('traffic')) / 1024 + 'GB')
-const Proxiesanimation = ref(
-  Number(userData.getters.get_proxies_num || localStorage.getItem('proxies_num'))
-)
 const TrafficRef = ref(null)
 
 function howtosayhi() {

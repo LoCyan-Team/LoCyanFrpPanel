@@ -15,7 +15,7 @@
   <template v-else>
     <n-h1 prefix="bar" style="margin-top: 30px">
       <i class="twa twa-card-file-box"></i>
-      <n-text type="primary"> 实名认证</n-text>
+      <n-text type="primary"> 身份认证</n-text>
     </n-h1>
     <n-collapse default-expanded-names="1" accordion v-show="!showFinishModal">
       <n-collapse-item title="实名认证 （二级认证，可使用海外节点）" name="1">
@@ -292,7 +292,7 @@ async function checkVerificationStatus() {
   realPerson.value = rs.data.real_person
 
   // 实名和实人都完成则展示最终窗口
-  if (realName.value === true && realPerson.value == true) {
+  if (realName.value === true && realPerson.value === true) {
     showFinishModal.value = true
     showRealnameModal.value = false
     showRealpersonMoal.value = false
@@ -300,7 +300,7 @@ async function checkVerificationStatus() {
   }
 
   // 实名完成但是实人没有完成，展示实人窗口关闭实名窗口
-  if (realName.value === true && realPerson.value == false) {
+  if (realName.value === true && realPerson.value === false) {
     showFinishModal.value = false
     showRealnameModal.value = false
     // 实人次数足够展示实人，不够展示支付
@@ -315,7 +315,7 @@ async function checkVerificationStatus() {
   }
 
   // 两个都没完成则全部展示
-  if (realName.value === false && realPerson.value == false) {
+  if (realName.value === false && realPerson.value === false) {
     showFinishModal.value = false
     showRealnameModal.value = true
     // 实人次数足够展示实人，不够展示支付
