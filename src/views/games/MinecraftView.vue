@@ -14,7 +14,14 @@
         <br />
         <n-select v-model:value="selected" :options="options"></n-select>
         <br />
-        <n-button type="primary" @click="createMinecraftGame">创建</n-button>
+        <n-button
+          type="primary"
+          @click="createMinecraftGame"
+          :loading="createLoading"
+          :disabled="createLoading"
+        >
+          创建
+        </n-button>
       </n-card>
     </n-grid-item>
     <n-grid-item span="1">
@@ -66,6 +73,7 @@ import userData from '@/utils/stores/userData/store'
 import { ref } from 'vue'
 
 const loading = ref(true)
+const createLoading = ref(false)
 
 let selected = ref('')
 let options = ref([])
@@ -116,6 +124,7 @@ async function initCreatedGames() {
 }
 
 async function createMinecraftGame() {
+  createLoading.value = true
   let selectedId = selected.value
   let rs
   try {
@@ -131,6 +140,7 @@ async function createMinecraftGame() {
   } else {
     sendErrorMessage(rs.message)
   }
+  createLoading.value = false
 }
 
 async function deleteMinecraftGame(code) {

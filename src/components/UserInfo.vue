@@ -159,7 +159,7 @@ onMounted(async () => {
     bindQQ.value.unBindDisable = true
     bindQQ.value.unBindmsg = ref('尚未绑定')
   } else {
-    sendErrorMessage("获取 QQ 绑定状态失败: " + rs.message)
+    sendErrorMessage('获取 QQ 绑定状态失败: ' + rs.message)
   }
 })
 
