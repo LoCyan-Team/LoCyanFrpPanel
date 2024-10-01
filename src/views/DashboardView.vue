@@ -61,12 +61,17 @@
       <br />
       <n-card title="数据报表" size="large">
         <n-space>
-          <n-statistic label="剩余流量" tabular-nums>
-            <n-number-animation ref="TrafficRef" :from="0" :to="userData.getters.get_traffic" />
-            <template #suffix> GiB</template>
+          <n-statistic label="上行限速" tabular-nums>
+            <n-number-animation ref="outboundRef" show-separator :from="0" :to="userData.getters.get_user_inbound" />
+            <template #suffix>Mbit/s</template>
           </n-statistic>
-          <n-statistic label="速度限制" tabular-nums>
-            <span>{{ outbound }}<br />{{ inbound }}</span>
+          <n-statistic label="下行限速" tabular-nums>
+            <n-number-animation ref="inboundRef" show-separator :from="0" :to="userData.getters.get_user_outbound" />
+            <template #suffix>Mbit/s</template>
+          </n-statistic>
+          <n-statistic label="剩余流量" tabular-nums>
+            <n-number-animation ref="trafficRef" show-separator :from="0" :to="userData.getters.get_traffic" />
+            <template #suffix>GiB</template>
           </n-statistic>
         </n-space>
         <!-- API: https://api-v2.locyanfrp.cn/api/v2/users/reset/traffic -->
@@ -154,9 +159,10 @@ localStorage.setItem('ViewPage', 'personality')
 const username = userData.getters.get_username
 const email = userData.getters.get_email
 const inbound = ref(userData.getters.get_user_inbound + 'Mbps 下行')
+const inboundRef = ref(null)
 const outbound = ref(userData.getters.get_user_outbound + 'Mbps 上行')
+const outboundRef = ref(null)
 const frpToken = ref(userData.getters.get_frp_token)
-const proxiesRef = ref(null)
 const notShowFrpToken = ref(true)
 const dialog = useDialog()
 const message = useMessage()
@@ -178,7 +184,7 @@ async function changeShowFrpToken() {
 }
 
 const traffic = ref(Number(localStorage.getItem('traffic')) / 1024 + 'GB')
-const TrafficRef = ref(null)
+const trafficRef = ref(null)
 
 function howtosayhi() {
   const currentHour = new Date().getHours()
