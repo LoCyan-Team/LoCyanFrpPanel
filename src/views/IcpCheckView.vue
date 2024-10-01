@@ -24,19 +24,21 @@
         </n-card>
       </n-grid-item>
       <n-grid-item span="1">
-        <n-list bordered v-show="showList">
-          <template #header> 已登记的域名 </template>
-          <n-list-item v-for="item in icpList">
-            <n-thing
-              :title="item.domain"
-              :description="item.unit_name + ' (' + item.nature_name + ') - ' + item.icp"
-            >
-            </n-thing>
-            <template #suffix>
-              <n-button type="error" @click="removeICP(item.id)">删除</n-button>
-            </template>
-          </n-list-item>
-        </n-list>
+        <n-spin :show="icpListLoading">
+          <n-list bordered v-show="showList">
+            <template #header> 已登记的域名 </template>
+            <n-list-item v-for="item in icpList">
+              <n-thing
+                :title="item.domain"
+                :description="item.unit_name + ' (' + item.nature_name + ') - ' + item.icp"
+              >
+              </n-thing>
+              <template #suffix>
+                <n-button type="error" @click="removeICP(item.id)">删除</n-button>
+              </template>
+            </n-list-item>
+          </n-list>
+        </n-spin>
       </n-grid-item>
     </n-grid>
   </n-form>
@@ -53,6 +55,7 @@ const showList = ref(false)
 const formRef = ref(null)
 const dialog = useDialog()
 const loading = ref(false)
+const icpListLoading = ref(true)
 const domainInput = ref({
   domain: ''
 })
@@ -69,7 +72,7 @@ const icpList = ref([
 ])
 
 async function submit() {
-  if (loading.value == true) {
+  if (loading.value === true) {
     return
   }
   loading.value = true
@@ -86,7 +89,7 @@ async function submit() {
   }
   loading.value = false
   if (!rs) return
-  if (rs.status != 200) {
+  if (rs.status !== 200) {
     loading.value = false
     sendErrorDialog('审核失败，可能是域名没有备案或格式错误！')
   } else {
@@ -112,7 +115,7 @@ async function removeICP(id) {
       if (!rs) return
       if (rs.status === 200) {
         sendSuccessDialog('删除成功！')
-        getList()
+        await getList()
       } else {
         sendErrorDialog('删除失败，请联系管理员处理！')
       }
@@ -127,6 +130,7 @@ async function removeICP(id) {
 }
 
 async function getList() {
+  icpListLoading.value = true
   let rs
   try {
     rs = await api.v2.icp.get(userData.getters.get_username)
@@ -140,6 +144,7 @@ async function getList() {
   } else {
     showList.value = false
   }
+  icpListLoading.value = false
 }
 
 getList()

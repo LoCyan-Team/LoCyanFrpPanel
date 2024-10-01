@@ -85,7 +85,7 @@
     </n-grid>
   </n-card>
   <n-h3>留言</n-h3>
-  <n-spin :show="loadingDonateList">
+  <n-spin :show="donateListLoading">
     <n-grid cols="3" item-responsive :x-gap="12" :y-gap="12">
       <n-grid-item
         v-for="item in donateList
@@ -142,7 +142,7 @@ const amount_filter_threshold = ref(3.0)
 const trade_no = getUrlKey('out_trade_no')
 const showMessageLabel = ref(false)
 const showModal = ref(false)
-const loadingDonateList = ref(true)
+const donateListLoading = ref(true)
 const display_messages_default = ref(5)
 const display_all_messages = ref(false)
 const trade_info = ref({
@@ -204,7 +204,7 @@ async function getDonateList() {
   if (!rs) return
   if (rs.status === 200) {
     donateList.value = rs.data
-    loadingDonateList.value = false
+    donateListLoading.value = false
   } else {
     sendErrorMessage(rs.message)
   }
