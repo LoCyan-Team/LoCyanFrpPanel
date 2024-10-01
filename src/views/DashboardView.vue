@@ -252,7 +252,6 @@ async function resetTraffic() {
 }
 
 setInterval(() => {
-  Proxiesanimation.value = Number(userData.getters.get_proxies_num)
   traffic.value = Number(localStorage.getItem('traffic')) / 1024 + 'GB'
   inbound.value = userData.getters.get_user_inbound + 'Mbps 下行'
   outbound.value = userData.getters.get_user_outbound + 'Mbps 上行'

@@ -46,6 +46,9 @@ import {
 import { MoreCircle20Filled } from '@vicons/fluent'
 import { AttachMoneyFilled, AccountTreeOutlined } from '@vicons/material'
 
+import router from '@router'
+import { useRoute } from 'vue-router'
+
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)
 if (document.body.clientWidth >= 1000) {
@@ -99,7 +102,7 @@ const menuOptions = [
   },
   {
     label: '隧道操作',
-    key: 'control-proxy',
+    key: 'proxy-actions',
     icon: renderIcon(PaperPlane),
     children: [
       {
@@ -138,7 +141,7 @@ const menuOptions = [
   {
     path: '/icp',
     label: '域名白名单',
-    key: 'Icp',
+    key: 'icp',
     icon: renderIcon(Key)
   },
   {
@@ -146,19 +149,6 @@ const menuOptions = [
     key: 'games',
     icon: renderIcon(GameController),
     children: [
-      // {
-      //   label: () =>
-      //       h(
-      //           "a",
-      //           {
-      //             href: "https://download.locyan.cn",
-      //             target: "_blank",
-      //           },
-      //           "软件下载"
-      //       ),
-      //   key: "software_download",
-      //   icon: renderIcon(CloudDownloadOutline),
-      // },
       {
         path: '/games/minecraft',
         label: 'Minecraft',
@@ -182,26 +172,13 @@ const menuOptions = [
   },
   {
     label: '其他功能',
-    key: 'other_options',
+    key: 'other',
     icon: renderIcon(MoreCircle20Filled),
     children: [
-      // {
-      //   label: () =>
-      //       h(
-      //           "a",
-      //           {
-      //             href: "https://download.locyan.cn",
-      //             target: "_blank",
-      //           },
-      //           "软件下载"
-      //       ),
-      //   key: "software_download",
-      //   icon: renderIcon(CloudDownloadOutline),
-      // },
       {
         path: '/other/software',
         label: '软件下载',
-        key: 'SoftwareDownload',
+        key: 'other-software',
         icon: renderIcon(CloudDownloadOutline)
       },
       {
@@ -214,7 +191,7 @@ const menuOptions = [
             },
             '帮助文档'
           ),
-        key: 'help_docs',
+        key: 'help-document',
         icon: renderIcon(BookIcon)
       }
     ]
@@ -222,20 +199,29 @@ const menuOptions = [
 ]
 
 const inverted = false
-</script>
-<script>
-import { ref } from 'vue'
-import router from '@router'
 
 const active = ref('')
 // const menuInstRef = ref(null)
 
-export const handleUpdateValue = (key, item) => {
-  active.value = key
-  router.push({ path: item.path })
-}
+router.beforeEach((to, from, next) => {
+  computeActiveKey(menuOptions, to.path)
+  next()
+})
 
-export function setSideBarActiveKey(name) {
-  active.value = name
+const computeActiveKey = (menuOptions, path) => {
+  for (const option of menuOptions) {
+    if (option.children instanceof Array) {
+      computeActiveKey(option.children, path)
+    }
+    if (option.path === path) {
+      active.value = option.key
+    }
+  }
+}
+const route = useRoute()
+computeActiveKey(menuOptions, route.path)
+
+const handleUpdateValue = (key, item) => {
+  router.push({ path: item.path })
 }
 </script>

@@ -30,6 +30,9 @@ import { h, ref } from 'vue'
 import { CompassOutline, LogInOutline, MailOpenOutline } from '@vicons/ionicons5'
 import { KeyReset20Regular } from '@vicons/fluent'
 
+import router from '@router'
+import { useRoute } from 'vue-router'
+
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)
 if (document.body.clientWidth >= 1000) {
@@ -44,41 +47,50 @@ const menuOptions = [
   {
     path: '/',
     label: '首页',
-    key: 'MainPage',
+    key: 'root',
     icon: renderIcon(CompassOutline)
   },
   {
     path: '/auth/login',
     label: '登录',
-    key: 'Login',
+    key: 'login',
     icon: renderIcon(LogInOutline)
   },
   {
     path: '/auth/register',
     label: '注册',
-    key: 'Register',
+    key: 'register',
     icon: renderIcon(MailOpenOutline)
   },
   {
     path: '/auth/resetPassword',
     label: '重置密码',
-    key: 'ResetPassword',
+    key: 'password-reset',
     icon: renderIcon(KeyReset20Regular)
   }
 ]
-</script>
-<script>
-import { ref } from 'vue'
-import router from '@router'
 
 const active = ref('')
 
-export const handleUpdateValue = (key, item) => {
-  active.value = key
-  router.push({ path: item.path })
-}
+router.beforeEach((to, from, next) => {
+  computeActiveKey(menuOptions, to.path)
+  next()
+})
 
-export function setGuestSidebarActiveKey(name) {
-  active.value = name
+const computeActiveKey = (menuOptions, path) => {
+  for (const option of menuOptions) {
+    if (option.children instanceof Array) {
+      computeActiveKey(option.children, path)
+    }
+    if (option.path === path) {
+      active.value = option.key
+    }
+  }
+}
+const route = useRoute()
+computeActiveKey(menuOptions, route.path)
+
+const handleUpdateValue = (key, item) => {
+  router.push({ path: item.path })
 }
 </script>

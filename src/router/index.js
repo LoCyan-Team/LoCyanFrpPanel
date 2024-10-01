@@ -3,8 +3,6 @@ import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import userData from '@/utils/stores/userData/store'
 import { changeMainSidebarShow } from '@/components/nav/MainNav.vue'
 import { changeShowGuestSidebar } from '@/components/nav/GuestNav.vue'
-import { setSideBarActiveKey } from '@/components/sidebar/MainSidebar.vue'
-import { setGuestSidebarActiveKey } from '@/components/sidebar/GuestSidebar.vue'
 import logger from '@/utils/logger'
 
 const routes = [
@@ -339,12 +337,6 @@ router.afterEach((to) => {
       changeShowGuestSidebar(false)
       changeMainSidebarShow(false)
     }
-  }
-
-  if (userData.getters.get_token) {
-    setSideBarActiveKey(to.name)
-  } else {
-    setGuestSidebarActiveKey(to.name)
   }
 })
 
