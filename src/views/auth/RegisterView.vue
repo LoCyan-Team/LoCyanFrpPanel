@@ -110,7 +110,6 @@ async function register() {
     rs = await api.v2.auth.register(
       model.value.username,
       model.value.password,
-      model.value.confirmpwd,
       model.value.email,
       model.value.verify,
       model.value.qq
