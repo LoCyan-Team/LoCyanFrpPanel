@@ -547,8 +547,10 @@ async function initList() {
   if (rs2.status === 200) {
     proxiesList.value = rs2.data.list
     loading.value = false
+  } else if (rs2.status === 404) {
+    sendErrorMessage('你还没有隧道，先创建一个吧？')
   } else {
-    return rs2.data
+    sendErrorMessage(rs2.message)
   }
 }
 
