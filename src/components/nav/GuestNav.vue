@@ -20,7 +20,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp;
             <n-gradient-text :size="46" type="danger"> 高考加油！ </n-gradient-text>
           </div> -->
-          <div style="margin-right: 15px; margin-left: 15px; min-height: calc(100vh - 66px)">
+          <div style="margin-right: 15px; margin-left: 15px; min-height: calc(100vh - 115px)">
             <router-view v-slot="{ Component }">
               <KeepAlive :max="10">
                 <Transition name="fade" mode="out-in" :duration="400">
