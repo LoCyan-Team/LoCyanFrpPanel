@@ -1,50 +1,59 @@
 <template>
-  <n-form
-    ref="formRef"
-    :model="model"
-    style="margin-top: 20px"
-    :rules="rules"
-    label-width="auto"
-    require-mark-placement="right-hanging"
-    size="medium"
-    id="item"
-  >
-    <n-form-item label="用户名" path="username">
-      <n-input type="text" v-model:value="model.username" placeholder="用户名" />
-    </n-form-item>
-    <n-form-item label="邮箱" path="email">
-      <n-input type="text" v-model:value="model.email" placeholder="邮箱" />
-    </n-form-item>
-    <n-form-item label="密码" path="password">
-      <n-input type="password" v-model:value="model.password" placeholder="密码" />
-    </n-form-item>
-    <n-form-item label="确认密码" path="confirmpwd">
-      <n-input type="password" v-model:value="model.confirmpwd" placeholder="再次输入密码" />
-    </n-form-item>
-    <n-form-item label="QQ & 邮件验证码" path="qq">
-      <n-grid cols="6" :x-gap="8" :y-gap="8" item-responsive>
-        <n-grid-item span="0:6 600:3">
-          <n-input type="text" v-model:value="model.qq" placeholder="QQ号" />
-        </n-grid-item>
-        <n-grid-item span="0:6 600:2">
-          <n-input type="text" v-model:value="model.verify" placeholder="验证码" />
-        </n-grid-item>
-        <n-grid-item span="0:6 600:1">
-          <n-button ghost round type="primary" @click="sendCode" v-bind:disabled="verify.isClick">
-            {{ verify.msg }}
-          </n-button>
-        </n-grid-item>
-      </n-grid>
-    </n-form-item>
-    <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
-      <n-space>
-        <n-button type="primary" @click="register" style="margin-right: 10px"> 注册 </n-button>
-        <n-button ghost type="primary" style="--n-border: none" @click="goLogin">
-          已有账户？去登录
-        </n-button>
-      </n-space>
-    </div>
-  </n-form>
+  <n-grid cols="1" item-responsive>
+    <n-grid-item span="1">
+      <n-form
+        ref="formRef"
+        :model="model"
+        :rules="rules"
+        label-width="auto"
+        require-mark-placement="right-hanging"
+        size="medium"
+        id="item"
+      >
+        <n-form-item label="用户名" path="username">
+          <n-input type="text" v-model:value="model.username" placeholder="用户名" />
+        </n-form-item>
+        <n-form-item label="邮箱" path="email">
+          <n-input type="text" v-model:value="model.email" placeholder="邮箱" />
+        </n-form-item>
+        <n-form-item label="密码" path="password">
+          <n-input type="password" v-model:value="model.password" placeholder="密码" />
+        </n-form-item>
+        <n-form-item label="确认密码" path="confirmpwd">
+          <n-input type="password" v-model:value="model.confirmpwd" placeholder="再次输入密码" />
+        </n-form-item>
+        <n-form-item label="QQ & 邮件验证码" path="qq">
+          <n-grid cols="6" :x-gap="8" :y-gap="8" item-responsive>
+            <n-grid-item span="0:6 600:3">
+              <n-input type="text" v-model:value="model.qq" placeholder="QQ号" />
+            </n-grid-item>
+            <n-grid-item span="0:6 600:2">
+              <n-input type="text" v-model:value="model.verify" placeholder="验证码" />
+            </n-grid-item>
+            <n-grid-item span="0:6 600:1">
+              <n-button
+                ghost
+                round
+                type="primary"
+                @click="sendCode"
+                v-bind:disabled="verify.isClick"
+              >
+                {{ verify.msg }}
+              </n-button>
+            </n-grid-item>
+          </n-grid>
+        </n-form-item>
+        <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
+          <n-space>
+            <n-button type="primary" @click="register" style="margin-right: 10px"> 注册 </n-button>
+            <n-button ghost type="primary" style="--n-border: none" @click="goLogin">
+              已有账户？去登录
+            </n-button>
+          </n-space>
+        </div>
+      </n-form>
+    </n-grid-item>
+  </n-grid>
 </template>
 
 <script setup>
@@ -180,7 +189,6 @@ const rules = {
 
 @media (max-width: 1300px) {
   #item {
-    margin-top: calc(50vh - 320px);
     margin-left: 20px;
     margin-right: 20px;
   }

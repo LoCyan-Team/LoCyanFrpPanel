@@ -59,7 +59,8 @@
             &nbsp;&nbsp;&nbsp;&nbsp;
             <n-gradient-text :size="46" type="danger"> 高考加油！ </n-gradient-text>
           </div> -->
-          <div style="margin-right: 15px; margin-left: 15px">
+          <div style="margin-right: 15px; margin-left: 15px; min-height: calc(100vh - 66px)">
+            >
             <router-view v-slot="{ Component }">
               <KeepAlive :max="10">
                 <Transition name="fade" mode="out-in" :duration="400">
@@ -70,7 +71,7 @@
               </KeepAlive>
             </router-view>
           </div>
-          <br />
+          <n-divider></n-divider>
           <div style="margin: 15px">
             <div style="text-align: center">
               <n-alert type="default" style="font-size: 20px; display: inline-block">
@@ -83,20 +84,14 @@
               <br />
               <span style="text-align: center">
                 <a target="_blank" href="https://内网穿透.中国/">
-                  <n-button text> 内网穿透联盟[CFU] </n-button>
+                  <n-button text>内网穿透联盟[CFU]</n-button>
                 </a>
                 识别码:
                 <b>JRXHB5D4</b>
               </span>
               <br />
-              <span style="text-align: center"
-                >Daiyangcheng 策划 / 运营 | DXCFTDE, Zhiyuan 协助</span
-              >
-              <br />
-              <span style="text-align: center">特别鸣谢: 夏沫花火zzz🌙, 天宇网络, LiteCat</span>
-              <br />
-              <span style="text-align: center"
-                >LoCyanTeam 所有 |
+              <span style="text-align: center">
+                © {{ nowYear }} LoCyanTeam。保留所有权利。 |
                 <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel">
                   <n-button text style="transform: translateY(4.5px)">
                     <template #icon>
@@ -109,13 +104,17 @@
                 </a>
               </span>
               <br />
-              <!--
-              <template>
-                <n-alert type="default" style="font-size: 20px; display:inline-block;">
-                <a href="https://spcraft.ml">风雨阁Storm Pavilion</a>
-              </n-alert>
-              </template>
-              -->
+              <span style="text-align: center">
+                <a target="_blank" href="https://www.locyan.cn/doc/yhfw.html"> 服务条款 </a>
+                |
+                <a target="_blank" href="https://www.locyan.cn/doc/yszc.html"> 隐私政策 </a>
+              </span>
+              <br />
+              <br />
+              <span style="text-align: center"
+                >"Minecraft" 为美国微软公司的商标，本站与其没有任何从属关系</span
+              >
+              <br />
             </div>
           </div>
         </n-layout>
@@ -143,6 +142,7 @@ import logger from '@/utils/logger'
 import notice from '@/utils/notice'
 
 const gitHash = GIT_COMMITHASH
+const nowYear = new Date().getFullYear()
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)

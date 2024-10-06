@@ -62,15 +62,30 @@
       <n-card title="数据报表" size="large">
         <n-space>
           <n-statistic label="上行限速" tabular-nums>
-            <n-number-animation ref="outboundRef" show-separator :from="0" :to="userData.getters.get_user_inbound" />
+            <n-number-animation
+              ref="outboundRef"
+              show-separator
+              :from="0"
+              :to="userData.getters.get_user_inbound"
+            />
             <template #suffix>Mbit/s</template>
           </n-statistic>
           <n-statistic label="下行限速" tabular-nums>
-            <n-number-animation ref="inboundRef" show-separator :from="0" :to="userData.getters.get_user_outbound" />
+            <n-number-animation
+              ref="inboundRef"
+              show-separator
+              :from="0"
+              :to="userData.getters.get_user_outbound"
+            />
             <template #suffix>Mbit/s</template>
           </n-statistic>
           <n-statistic label="剩余流量" tabular-nums>
-            <n-number-animation ref="trafficRef" show-separator :from="0" :to="userData.getters.get_traffic" />
+            <n-number-animation
+              ref="trafficRef"
+              show-separator
+              :from="0"
+              :to="userData.getters.get_traffic"
+            />
             <template #suffix>GiB</template>
           </n-statistic>
         </n-space>

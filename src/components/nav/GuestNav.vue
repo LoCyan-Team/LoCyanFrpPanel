@@ -20,7 +20,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp;
             <n-gradient-text :size="46" type="danger"> 高考加油！ </n-gradient-text>
           </div> -->
-          <div style="margin-right: 15px; margin-left: 15px">
+          <div style="margin-right: 15px; margin-left: 15px; min-height: calc(100vh - 66px)">
             <router-view v-slot="{ Component }">
               <KeepAlive :max="10">
                 <Transition name="fade" mode="out-in" :duration="400">
@@ -31,6 +31,52 @@
               </KeepAlive>
             </router-view>
           </div>
+          <n-divider></n-divider>
+          <div style="margin: 15px">
+            <div style="text-align: center">
+              <n-alert type="default" style="font-size: 20px; display: inline-block">
+                <template #icon>
+                  <i class="twa-sm twa-speech-balloon"></i>
+                </template>
+                {{ hitokoto_content }}
+              </n-alert>
+              <br />
+              <br />
+              <span style="text-align: center">
+                <a target="_blank" href="https://内网穿透.中国/">
+                  <n-button text>内网穿透联盟[CFU]</n-button>
+                </a>
+                识别码:
+                <b>JRXHB5D4</b>
+              </span>
+              <br />
+              <span style="text-align: center">
+                © {{ nowYear }} LoCyanTeam。保留所有权利。 |
+                <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel">
+                  <n-button text style="transform: translateY(4.5px)">
+                    <template #icon>
+                      <n-icon>
+                        <git-alt />
+                      </n-icon>
+                    </template>
+                    {{ gitHash }}
+                  </n-button>
+                </a>
+              </span>
+              <br />
+              <span style="text-align: center">
+                <a target="_blank" href="https://www.locyan.cn/doc/yhfw.html"> 服务条款 </a>
+                |
+                <a target="_blank" href="https://www.locyan.cn/doc/yszc.html"> 隐私政策 </a>
+              </span>
+              <br />
+              <br />
+              <span style="text-align: center"
+                >"Minecraft" 为美国微软公司的商标，本站与其没有任何从属关系</span
+              >
+              <br />
+            </div>
+          </div>
         </n-layout>
       </n-layout>
     </n-layout>
@@ -40,9 +86,13 @@
 <script setup>
 import { h, ref, onMounted } from 'vue'
 import { NGradientText } from 'naive-ui'
+import { GitAlt } from '@vicons/fa'
 import GuestSidebar from '@components/sidebar/GuestSidebar.vue'
 import router from '@router'
 import { get } from '@/utils/request'
+
+const gitHash = GIT_COMMITHASH
+const nowYear = new Date().getFullYear()
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)

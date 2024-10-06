@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
 import router from '@router'
 import userData from '@/utils/stores/userData/store'
@@ -184,7 +184,6 @@ const rules = {
 
 @media (max-width: 1300px) {
   #item {
-    margin-top: calc(50vh - 160px);
     margin-left: 20px;
     margin-right: 20px;
   }
