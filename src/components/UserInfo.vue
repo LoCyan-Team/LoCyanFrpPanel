@@ -42,7 +42,7 @@
           <n-button @click="changeEmail" v-bind:disabled="tEmail.isBtnDisable" type="info"
             >{{ tEmail.msg }}
           </n-button>
-          <n-space v-bind:style="tEmail.isEditDisable ? '' : 'display: none;'">
+          <n-space v-bind:style="tEmail.isEditDisable ? 'display: none;' : ''">
             <n-input
               v-model:value="tEmail.verify.code"
               style="max-width: 200px"
