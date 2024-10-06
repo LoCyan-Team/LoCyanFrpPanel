@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import userData from '@/utils/stores/userData/store'
-import { changeMainSidebarShow } from '@/components/nav/MainNav.vue'
-import { changeShowGuestSidebar } from '@/components/nav/GuestNav.vue'
 import logger from '@/utils/logger'
 
 const routes = [
@@ -320,23 +318,6 @@ router.afterEach((to) => {
   if (to.meta.title) {
     // 设置标题
     document.title = to.meta.title + ' | LoCyanFrp'
-  }
-
-  // 需要登录则展示主 sidebar
-  if (to.meta.needLogin) {
-    changeMainSidebarShow(true)
-    changeShowGuestSidebar(false)
-  } else {
-    if (to.meta.sidebar?.guest) {
-      changeShowGuestSidebar(true)
-      changeMainSidebarShow(false)
-    } else if (to.meta.sidebar?.main) {
-      changeShowGuestSidebar(false)
-      changeMainSidebarShow(true)
-    } else {
-      changeShowGuestSidebar(false)
-      changeMainSidebarShow(false)
-    }
   }
 })
 

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { GitAlt } from '@vicons/fa'
 import { onMounted, ref } from 'vue'
 import { get } from '@/utils/request'
