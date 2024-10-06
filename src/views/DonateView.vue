@@ -197,13 +197,13 @@ const donateList = ref([])
 async function getDonateList() {
   let rs
   try {
-    rs = await api.v1.Donate.GetDonateList()
+    rs = await api.v2.donate.say.all()
   } catch (e) {
     sendErrorMessage('请求列表失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
-    donateList.value = rs.data
+    donateList.value = rs.data.list
     donateListLoading.value = false
   } else {
     sendErrorMessage(rs.message)
@@ -233,9 +233,8 @@ async function submitMessage() {
 
   let rs
   try {
-    rs = await api.v1.Donate.SetMessage(
+    rs = await api.v2.donate.say.root.post(
       userData.getters.get_username,
-      userData.getters.get_token,
       trade_no,
       message.value.message
     )
