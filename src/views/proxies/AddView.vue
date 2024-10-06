@@ -6,27 +6,27 @@
   <n-form :ref="formRef" :model="proxyInfo" :rules="rules" label-width="auto" size="large">
     <n-space vertical>
       <n-form-item label="选择服务器" path="node">
-        <n-select v-model:value="proxyInfo.node" :options="serverList" size="medium" />
+        <n-select v-model:value="proxyInfo.nodeId" :options="serverList" size="medium" />
       </n-form-item>
     </n-space>
     <div id="item">
       <p>服务器信息：</p>
-      <p>服务器名：{{ serverValue[proxyInfo.node].name }}</p>
-      <p>服务器介绍：{{ serverValue[proxyInfo.node].description }}</p>
-      <p>服务器IP：{{ serverValue[proxyInfo.node].ip }}</p>
-      <p>服务器域名：{{ serverValue[proxyInfo.node].hostname }}</p>
+      <p>服务器名：{{ serverValue[proxyInfo.nodeId].name }}</p>
+      <p>服务器介绍：{{ serverValue[proxyInfo.nodeId].description }}</p>
+      <p>服务器IP：{{ serverValue[proxyInfo.nodeId].ip }}</p>
+      <p>服务器域名：{{ serverValue[proxyInfo.nodeId].hostname }}</p>
     </div>
     <br />
     <n-grid x-gap="12" cols="2" item-responsive>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="隧道名" path="proxy_name">
-          <n-input v-model:value="proxyInfo.proxy_name" placeholder="隧道名" />
+          <n-input v-model:value="proxyInfo.proxyName" placeholder="隧道名" />
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="穿透协议" path="proxy_type">
           <n-radio-group
-            v-model:value="proxyInfo.proxy_type"
+            v-model:value="proxyInfo.proxyType"
             @update:value="proxyTypeSelectChangeHandle"
           >
             <n-radio-button value="tcp"> TCP</n-radio-button>
@@ -40,13 +40,13 @@
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="内网IP" path="local_ip">
-          <n-input v-model:value="proxyInfo.local_ip" placeholder="内网IP, 例如127.0.0.1" />
+          <n-input v-model:value="proxyInfo.localIp" placeholder="内网IP, 例如127.0.0.1" />
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="内网端口" path="local_port">
           <n-input
-            v-model:value="proxyInfo.local_port"
+            v-model:value="proxyInfo.localPort"
             placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19132 泰拉瑞亚:7777"
           />
         </n-form-item>
@@ -54,7 +54,7 @@
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="远程端口" path="remote_port">
           <n-input
-            v-model:value="proxyInfo.remote_port"
+            v-model:value="proxyInfo.remotePort"
             placeholder="映射到远程服务器上的端口"
             style="margin-right: 10px"
           />
@@ -70,7 +70,7 @@
         </n-form-item>
         <n-form-item label="访问密钥" path="sk" v-show="showSecretKeyInput">
           <n-input
-            v-model:value="proxyInfo.sk"
+            v-model:value="proxyInfo.secretKey"
             placeholder="XTCP / STCP 需要填写, 其他协议不需要填写"
           />
         </n-form-item>
@@ -112,14 +112,14 @@ const serverValue = ref([
 const formRef = ref(null)
 // 表单数据集合
 const proxyInfo = ref({
-  node: 0,
-  proxy_name: '',
-  proxy_type: 'tcp',
-  local_ip: '127.0.0.1',
-  local_port: null,
-  remote_port: null,
+  nodeId: 0,
+  proxyName: '',
+  proxyType: 'tcp',
+  localIp: '127.0.0.1',
+  localPort: null,
+  remotePort: null,
   domain: '',
-  sk: ''
+  secretKey: ''
 })
 const editCheck = ref(false)
 const rules = {
@@ -222,20 +222,20 @@ function proxyTypeSelectChangeHandle(value) {
 }
 
 async function randomPort() {
-  if (proxyInfo.value.node === 0) {
+  if (proxyInfo.value.nodeId === 0) {
     sendErrorDialog('请先选择你需要的节点')
     return
   }
   let rs
   try {
-    rs = await api.v1.Proxies.GetRandomPort(proxyInfo.value.node)
+    rs = await api.v1.Proxies.GetRandomPort(proxyInfo.value.nodeId)
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求隧道端口失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
-    proxyInfo.value.remote_port = rs.data.port
+    proxyInfo.value.remotePort = rs.data.port
   }
 }
 
@@ -246,31 +246,31 @@ async function addProxy() {
   }
   const tunnelCreateInfo = {
     username: userData.getters.get_username,
-    name: proxyInfo.value.proxy_name,
-    ip: proxyInfo.value.local_ip,
-    type: proxyInfo.value.proxy_type,
-    lp: proxyInfo.value.local_port,
-    rp: proxyInfo.value.remote_port,
-    ue: false,
-    uz: false,
-    id: proxyInfo.value.node,
-    url: proxyInfo.value.domain,
-    sk: proxyInfo.value.sk
+    name: proxyInfo.value.proxyName,
+    localIp: proxyInfo.value.localIp,
+    proxyType: proxyInfo.value.proxyType,
+    localPort: proxyInfo.value.localPort,
+    remotePort: proxyInfo.value.remotePort,
+    useEncryption: false,
+    useCompression: false,
+    nodeId: proxyInfo.value.nodeId,
+    domain: proxyInfo.value.domain,
+    secretKey: proxyInfo.value.secretKey
   }
   let rs
   try {
     rs = await api.v2.proxy.root.post(
       tunnelCreateInfo.username,
       tunnelCreateInfo.name,
-      tunnelCreateInfo.ip,
-      tunnelCreateInfo.type,
-      tunnelCreateInfo.lp,
-      tunnelCreateInfo.rp,
-      tunnelCreateInfo.id,
-      tunnelCreateInfo.ue,
-      tunnelCreateInfo.uz,
-      tunnelCreateInfo.sk,
-      tunnelCreateInfo.url
+      tunnelCreateInfo.localIp,
+      tunnelCreateInfo.proxyType,
+      tunnelCreateInfo.localPort,
+      tunnelCreateInfo.remotePort,
+      tunnelCreateInfo.nodeId,
+      tunnelCreateInfo.useEncryption,
+      tunnelCreateInfo.useCompression,
+      tunnelCreateInfo.secretKey,
+      tunnelCreateInfo.domain
     )
   } catch (e) {
     logger.error(e)
@@ -298,7 +298,7 @@ onMounted(async () => {
   rs.data.list.forEach((s) => {
     // 默认选择第一个节点
     if (i === 0) {
-      proxyInfo.value.node = s.id
+      proxyInfo.value.nodeId = s.id
     }
     const tmpdict = {
       label: s.name,

@@ -1,6 +1,6 @@
 <template>
   <n-modal
-    v-model:show="announcementShow"
+    v-model:show="showAnnouncement"
     class="custom-card"
     preset="card"
     style="width: 600px"
@@ -26,7 +26,7 @@
       <n-button
         circle
         style="margin-top: 15px; margin-right: 10px"
-        @click="() => (announcementShow = true)"
+        @click="() => (showAnnouncement = true)"
       >
         <template #icon>
           <n-icon><MdNotifications /></n-icon>
@@ -53,7 +53,7 @@ import { changeUserInfoShow } from '@components/UserInfo.vue'
 
 const avatar = ref('')
 const announcementHtml = ref('')
-const announcementShow = ref(false)
+const showAnnouncement = ref(false)
 avatar.value = userData.getters.get_avatar
 
 onMounted(async () => {
@@ -66,7 +66,7 @@ onMounted(async () => {
   let result = await notice.getNotice()
   announcementHtml.value = result.announcement
   if (localStorage.getItem('dashboard_last_show_ads_date') !== current)
-    announcementShow.value = true
+    showAnnouncement.value = true
   localStorage.setItem('dashboard_last_show_ads_date', current)
 })
 </script>

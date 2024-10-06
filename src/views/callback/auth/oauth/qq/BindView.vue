@@ -8,25 +8,25 @@
   </div>
   <div class="flex-center outbox" v-else>
     <n-h2>发生错误</n-h2>
-    <p>{{ error_message }}</p>
+    <p>{{ errorMessage }}</p>
   </div>
 </template>
 
 <script setup>
-import { sendErrorMessage } from '@/utils/message'
+import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
 import { getUrlKey } from '@/utils/request'
 import api from '@/api'
 import userData from '@/utils/stores/userData/store'
 
 let error = ref(false)
 let success = ref(false)
-let error_message = ref('')
+let errorMessage = ref('')
 
 const username = userData.getters.get_username
 
 if (username == null) {
   error.value = true
-  error_message.value = '需要登录才能继续操作'
+  errorMessage.value = '需要登录才能继续操作'
 }
 
 const code = getUrlKey('code')
@@ -39,20 +39,20 @@ if (!error.value && code !== null) {
     } catch (e) {
       sendErrorMessage('登录失败: ' + e)
       error.value = true
-      error_message.value = '请求服务器失败'
+      errorMessage.value = '请求服务器失败'
     }
     if (!rs) return
     if (rs.status === 200) {
-      message.success('绑定成功')
+      sendSuccessMessage('绑定成功')
       success.value = true
     } else {
       error.value = true
-      error_message.value = rs.message
+      errorMessage.value = rs.message
     }
   })
 } else {
   error.value = true
-  error_message.value = '缺少返回参数'
+  errorMessage.value = '缺少返回参数'
 }
 </script>
 

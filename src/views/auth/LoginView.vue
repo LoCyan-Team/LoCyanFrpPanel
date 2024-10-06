@@ -29,7 +29,7 @@
         <div>
           <n-space justify="space-between">
             <n-space>
-              <n-button type="info" @click="qqLogin" :loading="qqLogin_loading"> QQ 登录 </n-button>
+              <n-button type="info" @click="qqLogin" :loading="qqLoginLoading"> QQ 登录 </n-button>
               <!--<n-button type="info" @click="oauthLogin" :loading="oauthLogin_loading">
                 OAuth 登录
               </n-button>-->
@@ -60,7 +60,7 @@ import { getUrlKey } from '@/utils/request'
 const formRef = ref(null)
 const message = useMessage()
 const ldb = useLoadingBar()
-const qqLogin_loading = ref(false)
+const qqLoginLoading = ref(false)
 // const oauthLogin_loading = ref(false)
 
 const model = ref([
@@ -148,7 +148,7 @@ async function login() {
 
 // QQ 登录
 async function qqLogin() {
-  qqLogin_loading.value = true
+  qqLoginLoading.value = true
   let rs
   try {
     rs = await api.v2.auth.oauth.qq.login.get()

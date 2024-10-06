@@ -183,13 +183,13 @@
                       showEditModal = true
                       selectProxyID = item.id
                       proxyEditInfo = {
-                        node: item.node_id,
-                        id: selectProxyID,
-                        proxy_name: item.proxy_name,
-                        proxy_type: item.proxy_type,
-                        local_ip: item.local_ip,
-                        local_port: item.local_port.toString(),
-                        remote_port: item.remote_port,
+                        nodeId: item.node_id,
+                        nodeId: selectProxyID,
+                        proxyName: item.proxy_name,
+                        proxyType: item.proxy_type,
+                        localIp: item.local_ip,
+                        localPort: item.local_port.toString(),
+                        remotePort: item.remote_port,
                         domain: item.domain
                       }
                       showDomainInput = item.proxy_type === 'http' || item.proxy_type === 'https'
@@ -284,25 +284,25 @@ const quickStartCommand = computed(
 )
 
 // 隧道类型翻译
-function transType(type) {
-  let pt
-  if (type === 'tcp') {
-    pt = '1'
-  } else if (type === 'udp') {
-    pt = '2'
-  } else if (type === 'http') {
-    pt = '3'
-  } else if (type === 'https') {
-    pt = '4'
-  } else if (type === 'xtcp') {
-    pt = '5'
-  } else if (type === 'stcp') {
-    pt = '6'
-  } else {
-    pt = '1'
-  }
-  return pt
-}
+// function transType(type) {
+//   let pt
+//   if (type === 'tcp') {
+//     pt = '1'
+//   } else if (type === 'udp') {
+//     pt = '2'
+//   } else if (type === 'http') {
+//     pt = '3'
+//   } else if (type === 'https') {
+//     pt = '4'
+//   } else if (type === 'xtcp') {
+//     pt = '5'
+//   } else if (type === 'stcp') {
+//     pt = '6'
+//   } else {
+//     pt = '1'
+//   }
+//   return pt
+// }
 
 // 就是有弱智不知道隧道链接是什么，气死我了
 // 2024-01-23 By Muska_Ami: ↑然而加了依然有弱智不知道
@@ -362,26 +362,26 @@ async function forceDownProxy(proxyId) {
   })
 }
 
-async function editProxy(proxyid) {
+async function editProxy(proxyId) {
   if (editCheck.value === false) {
     sendWarningDialog('参数检查未通过，请检查信息格式是否正确！')
   }
 
   const editInfo = {
-    id: proxyid,
+    proxyId: proxyId,
     proxyName: proxyEditInfo.value.proxy_name,
     proxyType: proxyEditInfo.value.proxy_type,
     remotePort: proxyEditInfo.value.remote_port,
     localIp: proxyEditInfo.value.local_ip,
     localPort: proxyEditInfo.value.local_port,
     domain: proxyEditInfo.value.domain,
-    node: proxyEditInfo.value.node
+    nodeId: proxyEditInfo.value.node
   }
   let rs
   try {
     rs = await api.v2.proxy.update(
       userData.getters.get_username,
-      editInfo.id,
+      editInfo.proxyId,
       editInfo.proxyName,
       editInfo.proxyType,
       editInfo.localIp,
@@ -389,7 +389,7 @@ async function editProxy(proxyid) {
       editInfo.remotePort,
       false,
       false,
-      editInfo.node,
+      editInfo.nodeId,
       editInfo.domain,
       null
     )

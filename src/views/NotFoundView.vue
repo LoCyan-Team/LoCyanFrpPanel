@@ -11,7 +11,7 @@ import userData from '@/utils/stores/userData/store'
       style="margin-top: 10px"
       @click="
         () => {
-          if (userData.getters.get_token != '') router.push('/dashboard')
+          if (userData.getters.get_token !== '') router.push('/dashboard')
           else router.push('/')
         }
       "

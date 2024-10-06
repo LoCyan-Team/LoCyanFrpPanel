@@ -9,7 +9,7 @@
         require-mark-placement="right-hanging"
         size="medium"
         id="item"
-        v-show="send_resset_mail"
+        v-show="sendResetEmail"
       >
         <n-form-item label="用户名 / 邮箱" path="username">
           <n-input
@@ -36,7 +36,7 @@
         require-mark-placement="right-hanging"
         size="medium"
         id="item"
-        v-show="!send_resset_mail"
+        v-show="!sendResetEmail"
       >
         <n-form-item label="新密码" path="password">
           <n-input type="text" v-model:value="reset_password.password" placeholder="新密码" />
@@ -67,8 +67,8 @@ import logger from '@/utils/logger'
 const formRef = ref(null)
 const message = useMessage()
 const ldb = useLoadingBar()
-const status = ref('initing')
-const send_resset_mail = ref(true)
+const status = ref('init')
+const sendResetEmail = ref(true)
 
 const model = ref([
   {
@@ -87,7 +87,7 @@ const reset_password = ref([
 const code = getUrlKey('code')
 if (code !== null) {
   logger.info('重置密码标识符: ' + code)
-  send_resset_mail.value = false
+  sendResetEmail.value = false
 }
 
 function goLogin() {

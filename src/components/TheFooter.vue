@@ -5,23 +5,23 @@ import { get } from '@/utils/request'
 
 const gitHash = GIT_COMMITHASH
 const nowYear = new Date().getFullYear()
-const hitokoto_content = ref('Loading')
+const hitokotoContent = ref('Loading')
 
 onMounted(async () => {
   let rs
   try {
     rs = await get('https://v1.hitokoto.cn/', {})
   } catch (e) {
-    hitokoto_content.value = '加载失败'
+    hitokotoContent.value = '加载失败'
   }
   if (!rs) {
-    hitokoto_content.value = '加载失败'
+    hitokotoContent.value = '加载失败'
     return
   }
   // 一言
   let content = rs.data.hitokoto
   let from = rs.data.from
-  hitokoto_content.value = content + ' —— ' + from
+  hitokotoContent.value = content + ' —— ' + from
 })
 </script>
 
@@ -32,7 +32,7 @@ onMounted(async () => {
         <template #icon>
           <i class="twa-sm twa-speech-balloon"></i>
         </template>
-        {{ hitokoto_content }}
+        {{ hitokotoContent }}
       </n-alert>
       <br />
       <br />

@@ -5,7 +5,7 @@
   </div>
   <div class="flex-center outbox" v-else>
     <n-h2>发生错误</n-h2>
-    <p>{{ error_message }}</p>
+    <p>{{ errorMessage }}</p>
     <n-button style="margin-top: 10px" @click="() => router.push('/auth/login')">
       返回登录
     </n-button>
@@ -13,13 +13,14 @@
 </template>
 
 <script setup>
-import { sendErrorMessage } from '@/utils/message'
+import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
+import userData from '@/utils/stores/userData/store'
 import { getUrlKey } from '@/utils/request'
-import router from '@/router/index'
+import router from '@router'
 import api from '@/api'
 
 let error = ref(false)
-let error_message = ref('')
+let errorMessage = ref('')
 
 const code = getUrlKey('code')
 
@@ -31,23 +32,23 @@ if (code !== null) {
     } catch (e) {
       sendErrorMessage('登录失败: ' + e)
       error.value = true
-      error_message.value = '请求服务器失败'
+      errorMessage.value = '请求服务器失败'
     }
     if (!rs) return
     if (rs.status === 200) {
-      message.success(rs.data.username + '，欢迎回来！')
+      sendSuccessMessage(rs.data.username + '，欢迎回来！')
       userData.commit('set_token', rs.data.token)
       // console.log(rs.data)
       userData.commit('set_user_info', rs.data)
       router.push(redirect || '/dashboard')
     } else {
       error.value = true
-      error_message.value = rs.message
+      errorMessage.value = rs.message
     }
   })
 } else {
   error.value = true
-  error_message.value = '缺少返回参数'
+  errorMessage.value = '缺少返回参数'
 }
 </script>
 

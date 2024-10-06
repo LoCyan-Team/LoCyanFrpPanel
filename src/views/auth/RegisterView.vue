@@ -73,7 +73,7 @@ const model = ref([
     username: '',
     password: '',
     email: '',
-    confirmpwd: '',
+    confirmPassword: '',
     qq: '',
     verify: null
   }
@@ -91,7 +91,7 @@ function goLogin() {
 async function sendCode() {
   // logger.info('发送邮件验证代码')
   verify.value.isClick = true
-  verify.value.msg = ref(`正在处理`)
+  verify.value.msg = `正在处理`
   ldb.start()
   let rs
   try {
@@ -102,11 +102,11 @@ async function sendCode() {
   if (!rs) return
   if (rs.status === 200) {
     message.success('已发送，若未收到请检查收件箱')
-    verify.value.msg = ref(`已发送`)
+    verify.value.msg = `已发送`
   } else {
     message.error(rs.message)
-    verify.value.isClick = ref(false)
-    verify.value.msg = ref(`发送验证码`)
+    verify.value.isClick = false
+    verify.value.msg = `发送验证码`
   }
   ldb.finish()
   // logger.info('处理发送邮件验证代码事件完毕')

@@ -54,7 +54,7 @@
                   </n-grid-item>
                   <n-grid-item span="1">
                     <n-form-item label="身份证号" path="idcard">
-                      <n-input v-model:value="userProfile.idcard" placeholder="您的身份证号" />
+                      <n-input v-model:value="userProfile.idCard" placeholder="您的身份证号" />
                     </n-form-item>
                   </n-grid-item>
                 </n-grid>
@@ -110,7 +110,7 @@
                   </n-grid-item>
                   <n-grid-item span="1">
                     <n-form-item label="身份证号" path="idcard">
-                      <n-input v-model:value="userProfile.idcard" placeholder="您的身份证号" />
+                      <n-input v-model:value="userProfile.idCard" placeholder="您的身份证号" />
                     </n-form-item>
                   </n-grid-item>
                 </n-grid>
@@ -183,7 +183,7 @@ const realPersonUrl = ref('')
 const ci = ref('')
 const userProfile = ref({
   name: '',
-  idcard: ''
+  idCard: ''
 })
 const bodyStyle = {
   width: '600px'
@@ -198,7 +198,7 @@ async function submitRealName() {
   const submitForm = {
     username: userData.getters.get_username,
     name: userProfile.value.name,
-    id_card: userProfile.value.idcard
+    id_card: userProfile.value.idCard
   }
   let rs
   try {
@@ -229,7 +229,7 @@ async function submitRealPerson() {
   const submitForm = {
     username: userData.getters.get_username,
     name: userProfile.value.name,
-    id_card: userProfile.value.idcard
+    id_card: userProfile.value.idCard
   }
   let rs
   try {

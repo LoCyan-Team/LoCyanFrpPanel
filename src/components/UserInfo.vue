@@ -29,7 +29,7 @@
           @click="unBindQQ"
           :loading="binding"
         >
-          {{ bindQQ.unBindmsg }}
+          {{ bindQQ.unBindMsg }}
         </n-button>
       </n-space>
       <n-h2>修改信息</n-h2>
@@ -42,7 +42,7 @@
           <n-button @click="changeEmail" v-bind:disabled="tEmail.isBtnDisable" type="info"
             >{{ tEmail.msg }}
           </n-button>
-          <n-space v-bind:style="tEmail.isEditDisable1">
+          <n-space v-bind:style="tEmail.isEditDisable ? '' : 'display: none;'">
             <n-input
               v-model:value="tEmail.verify.code"
               style="max-width: 200px"
@@ -61,7 +61,7 @@
         <!-- 密码 -->
         <n-space vertical>
           <n-h5 style="margin: 3px"> 密码：</n-h5>
-          <n-input v-model:value="tPassword.oldPaxsword" placeholder="原密码" type="password" />
+          <n-input v-model:value="tPassword.oldPassword" placeholder="原密码" type="password" />
           <n-input v-model:value="tPassword.newPassword" placeholder="新密码" type="password" />
           <n-input
             v-model:value="tPassword.confirmPassword"
@@ -114,13 +114,12 @@ const bindQQ = ref({
   isDisable: true,
   msg: '正在获取',
   unBindDisable: true,
-  unBindmsg: '正在获取'
+  unBindMsg: '正在获取'
 })
 
 const tEmail = ref({
   email: userData.getters.get_email,
   msg: '修改',
-  isEditDisable1: 'display:none',
   isEditDisable: true,
   isBtnDisable: false,
   verify: {
@@ -132,7 +131,7 @@ const tEmail = ref({
 
 const tPassword = ref({
   msg: '重置',
-  oldPaxsword: '',
+  oldPassword: '',
   newPassword: '',
   confirmPassword: '',
   isLoading: false
@@ -147,19 +146,19 @@ onMounted(async () => {
     } catch (e) {
       logger.error(e)
       bindQQ.value.isDisable = true
-      bindQQ.value.msg = ref('未知')
+      bindQQ.value.msg = '未知'
     }
     if (!rs) return
     if (rs.status === 200) {
       bindQQ.value.isDisable = true
-      bindQQ.value.msg = ref('已绑定')
+      bindQQ.value.msg = '已绑定'
       bindQQ.value.unBindDisable = false
-      bindQQ.value.unBindmsg = ref('解除绑定')
+      bindQQ.value.unBindMsg = '解除绑定'
     } else if (rs.status === 404) {
       bindQQ.value.isDisable = false
-      bindQQ.value.msg = ref('点击绑定')
+      bindQQ.value.msg = '点击绑定'
       bindQQ.value.unBindDisable = true
-      bindQQ.value.unBindmsg = ref('尚未绑定')
+      bindQQ.value.unBindMsg = '尚未绑定'
     } else {
       sendErrorMessage('获取 QQ 绑定状态失败: ' + rs.message)
     }
@@ -188,7 +187,6 @@ async function changeEmail() {
       message.error('请求换绑失败: ' + e)
       tEmail.value.isEditDisable = true
       tEmail.value.isBtnDisable = false
-      tEmail.value.isEditDisable1 = ref('display:none')
       tEmail.value.msg = '修改'
     }
     if (!rs) {
@@ -199,13 +197,11 @@ async function changeEmail() {
       message.success(rs.message)
       tEmail.value.isEditDisable = true
       tEmail.value.isBtnDisable = false
-      tEmail.value.isEditDisable1 = ref('display:none')
       tEmail.value.msg = '修改'
     } else {
       message.error(rs.message)
       tEmail.value.isEditDisable = true
       tEmail.value.isBtnDisable = false
-      tEmail.value.isEditDisable1 = ref('display:none')
       tEmail.value.msg = '修改'
     }
     ldb.finish()
@@ -269,29 +265,29 @@ async function unBindQQ() {
     logger.error(e)
     binding.value = false
     bindQQ.value.unBindDisable = false
-    bindQQ.value.unBindmsg = ref('解绑失败')
+    bindQQ.value.unBindMsg = '解绑失败'
     message.error('请求失败: ' + e)
     setTimeout(() => {
-      bindQQ.value.unBindmsg = ref('解除绑定')
+      bindQQ.value.unBindMsg = '解除绑定'
     }, 1000)
   }
   if (!rs) return
   if (rs.status === 200) {
     binding.value = false
     bindQQ.value.unBindDisable = true
-    bindQQ.value.unBindmsg = ref('解绑成功')
+    bindQQ.value.unBindMsg = '解绑成功'
     bindQQ.value.isDisable = false
-    bindQQ.value.msg = ref('点击绑定')
+    bindQQ.value.msg = '点击绑定'
     setTimeout(() => {
-      bindQQ.value.unBindmsg = ref('尚未绑定')
+      bindQQ.value.unBindMsg = '尚未绑定'
     }, 1000)
   } else {
     binding.value = false
     bindQQ.value.unBindDisable = false
-    bindQQ.value.unBindmsg = ref('解绑失败')
+    bindQQ.value.unBindMsg = '解绑失败'
     message.error('解绑失败，服务器错误')
     setTimeout(() => {
-      bindQQ.value.unBindmsg = ref('解除绑定')
+      bindQQ.value.unBindMsg = '解除绑定'
     }, 1000)
   }
 }
@@ -312,12 +308,12 @@ async function changePassword() {
   }
   const data = {
     username: userData.getters.get_username,
-    old_password: tPassword.value.oldPaxsword,
-    new_password: tPassword.value.newPassword
+    oldPassword: tPassword.value.oldPassword,
+    newPassword: tPassword.value.newPassword
   }
   let rs
   try {
-    rs = await api.v2.user.password(data.username, data.old_password, data.new_password)
+    rs = await api.v2.user.password(data.username, data.oldPassword, data.newPassword)
   } catch (e) {
     logger.error(e)
     tPassword.value.isLoading = false

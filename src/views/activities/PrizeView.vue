@@ -4,16 +4,16 @@
     <n-text type="primary"> 抽奖</n-text>
   </n-h1>
   <n-grid cols="3" item-responsive>
-    <n-grid-item v-for="item in PrizesList" id="item" span="0:3 950:1">
+    <n-grid-item v-for="item in prizesList" id="item" span="0:3 950:1">
       <n-space style="display: block">
-        <n-card :title="'奖品： ' + item.prizename">
+        <n-card :title="'奖品： ' + item.name">
           <n-p>
             获奖人:
             <n-tag
               style="margin: 3px"
               type="success"
-              v-if="PrizeUsers.length"
-              v-for="prizeuser in PrizeUsers[item.id]"
+              v-if="prizeUsers.length"
+              v-for="prizeuser in prizeUsers[item.id]"
               >{{ prizeuser }}
             </n-tag>
             <n-tag style="margin: 3px" type="info" v-else> 暂未开奖 </n-tag>
@@ -31,11 +31,11 @@
           </n-p>
           <n-p>奖品描述：</n-p>
           <n-text v-html="marked(item.description)"></n-text>
-          <n-p>创建时间：{{ timestampToTime(item.createtime) }}</n-p>
+          <n-p>创建时间：{{ timestampToTime(item.createTime) }}</n-p>
           <template #footer>
             <n-space justify="space-between">
-              开奖时间：{{ timestampToTime(item.prizetime) }}
-              <n-button @click="submitjoin(item.id)" v-show="item.id"> 参与 </n-button>
+              开奖时间：{{ timestampToTime(item.prizeTime) }}
+              <n-button @click="submitJoin(item.id)" v-show="item.id"> 参与 </n-button>
             </n-space>
           </template>
         </n-card>
@@ -52,20 +52,20 @@ import { get } from '@/utils/request'
 import userData from '@/utils/stores/userData/store'
 import { marked } from 'marked'
 
-const PrizesList = ref([
+const prizesList = ref([
   {
     id: 0,
     username: '',
-    prizename: '',
-    createtime: '',
-    prizetime: '',
+    name: '',
+    createTime: '',
+    prizeTime: '',
     prize_user: '',
     description: ''
   }
 ])
 const formRef = ref(null)
 const users = ref([])
-const PrizeUsers = ref([])
+const prizeUsers = ref([])
 
 // 时间戳转换
 function timestampToTime(timestamp) {
@@ -79,7 +79,7 @@ function timestampToTime(timestamp) {
   return Y + M + D + h + m + s
 }
 
-function submitjoin(id) {
+function submitJoin(id) {
   startLoadingBar()
   const rs = get(
     'https://api.locyanfrp.cn/Prize/JoinPrize?username=' +
@@ -93,7 +93,7 @@ function submitjoin(id) {
       sendSuccessDialog(res.message)
       const rs = get('https://api.locyanfrp.cn/Prize/GetPrizes')
       rs.then((res) => {
-        PrizesList.value = res
+        prizesList.value = res
       })
     } else {
       finishLoadingBar()
@@ -102,14 +102,14 @@ function submitjoin(id) {
   })
 }
 
-function GetPrizeList() {
+function getPrizeList() {
   let i = 0
   const rs = get('https://api.locyanfrp.cn/Prize/GetPrizes', [])
   rs.then((res) => {
     // 用于展示用户
     // 用奖品ID排列
     res.forEach((e) => {
-      PrizesList.value[i] = e
+      prizesList.value[i] = e
       if (e.username != '') {
         if (e.username.indexOf('|') !== -1) {
           users.value[e.id] = e.username.split('|')
@@ -121,9 +121,9 @@ function GetPrizeList() {
       // 获奖用户部分
       if (e.prize_user != '') {
         if (e.prize_user.indexOf('|') !== -1) {
-          PrizeUsers.value[e.id] = e.prize_user.split('|')
+          prizeUsers.value[e.id] = e.prize_user.split('|')
         } else {
-          PrizeUsers.value[e.id] = [e.prize_user]
+          prizeUsers.value[e.id] = [e.prize_user]
         }
       }
 
@@ -132,7 +132,7 @@ function GetPrizeList() {
   })
 }
 
-GetPrizeList()
+getPrizeList()
 </script>
 <style scoped>
 #item {

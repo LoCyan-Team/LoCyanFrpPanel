@@ -8,7 +8,7 @@
     collapse-mode="width"
     :collapsed-width="64"
     :native-scrollbar="true"
-    :inverted="inverted"
+    :inverted="false"
     id="sider"
     style="height: 100%; bottom: 0"
   >
@@ -197,8 +197,6 @@ const menuOptions = [
     ]
   }
 ]
-
-const inverted = false
 
 const active = ref('')
 // const menuInstRef = ref(null)

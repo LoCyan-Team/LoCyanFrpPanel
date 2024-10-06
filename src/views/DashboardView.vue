@@ -11,7 +11,7 @@
     </n-grid-item>-->
     <n-grid-item span="0:3 600:1">
       <n-card title="个人信息" size="medium">
-        <span>{{ username }}，{{ howtosayhi() }}</span>
+        <span>{{ username }}，{{ helloMessage() }}</span>
         <br />
         <span>您的邮箱为：{{ email }}</span>
         <br />
@@ -201,7 +201,7 @@ async function changeShowFrpToken() {
 const traffic = ref(Number(localStorage.getItem('traffic')) / 1024 + 'GB')
 const trafficRef = ref(null)
 
-function howtosayhi() {
+function helloMessage() {
   const currentHour = new Date().getHours()
   switch (currentHour) {
     case 4:

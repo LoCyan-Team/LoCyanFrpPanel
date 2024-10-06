@@ -6,7 +6,7 @@
   <n-grid cols="1" y-gap="1" item-responsive>
     <n-grid-item span="1">
       <n-card title="节点">
-        <n-select v-model:value="node" :options="ServerList" @update:value="updateValue" />
+        <n-select v-model:value="node" :options="serverList" @update:value="updateValue" />
         <n-button
           strong
           secondary
@@ -69,7 +69,7 @@ import logger from '@/utils/logger'
 
 const node = ref('')
 // 选择框数据
-const ServerList = ref([])
+const serverList = ref([])
 const code = ref('')
 
 // const rs = get('https://api.locyanfrp.cn/Proxies/GetServerList')
@@ -103,7 +103,7 @@ onMounted(async () => {
       node.value = s.id
       updateValue(s.id)
     }
-    ServerList.value[i] = {
+    serverList.value[i] = {
       label: s.name,
       value: s.id
     }
