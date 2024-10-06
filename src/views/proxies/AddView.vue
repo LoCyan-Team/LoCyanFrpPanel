@@ -19,12 +19,12 @@
     <br />
     <n-grid x-gap="12" cols="2" item-responsive>
       <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="隧道名" path="proxy_name">
+        <n-form-item label="隧道名" path="proxyName">
           <n-input v-model:value="proxyInfo.proxyName" placeholder="隧道名" />
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="穿透协议" path="proxy_type">
+        <n-form-item label="穿透协议" path="proxyType">
           <n-radio-group
             v-model:value="proxyInfo.proxyType"
             @update:value="proxyTypeSelectChangeHandle"
@@ -39,12 +39,12 @@
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="内网IP" path="local_ip">
+        <n-form-item label="内网IP" path="localIp">
           <n-input v-model:value="proxyInfo.localIp" placeholder="内网IP, 例如127.0.0.1" />
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="内网端口" path="local_port">
+        <n-form-item label="内网端口" path="localPort">
           <n-input
             v-model:value="proxyInfo.localPort"
             placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19132 泰拉瑞亚:7777"
@@ -52,7 +52,7 @@
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="远程端口" path="remote_port">
+        <n-form-item label="远程端口" path="remotePort">
           <n-input
             v-model:value="proxyInfo.remotePort"
             placeholder="映射到远程服务器上的端口"
@@ -68,7 +68,7 @@
             placeholder="HTTPS/HTTP需要填写, 其他协议不需要填写"
           />
         </n-form-item>
-        <n-form-item label="访问密钥" path="sk" v-show="showSecretKeyInput">
+        <n-form-item label="访问密钥" path="secretKey" v-show="showSecretKeyInput">
           <n-input
             v-model:value="proxyInfo.secretKey"
             placeholder="XTCP / STCP 需要填写, 其他协议不需要填写"
@@ -123,7 +123,7 @@ const proxyInfo = ref({
 })
 const editCheck = ref(false)
 const rules = {
-  proxy_name: {
+  proxyName: {
     required: true,
     trigger: ['blur', 'input'],
     validator(rule, value) {
@@ -138,10 +138,10 @@ const rules = {
       return true
     }
   },
-  proxy_type: {
+  proxyType: {
     required: true
   },
-  local_ip: {
+  localIp: {
     required: true,
     trigger: ['blur', 'input'],
     validator(rule, value) {
@@ -160,7 +160,7 @@ const rules = {
       return true
     }
   },
-  local_port: {
+  localPort: {
     required: true,
     trigger: ['blur', 'input'],
     validator(rule, value) {
@@ -179,7 +179,7 @@ const rules = {
       return true
     }
   },
-  remote_port: {
+  remotePort: {
     required: true,
     trigger: ['blur', 'input'],
     validator(rule, value) {

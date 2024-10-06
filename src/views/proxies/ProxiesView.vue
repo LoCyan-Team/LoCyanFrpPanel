@@ -14,21 +14,21 @@
     <n-form :ref="formRef" :model="proxyEditInfo" :rules="rules" label-width="auto" size="large">
       <n-grid cols="2" item-responsive>
         <n-grid-item span="0:2 1000:1">
-          <n-form-item label="选择服务器" path="node">
-            <n-select v-model:value="proxyEditInfo.node" :options="editServerList" />
+          <n-form-item label="选择服务器" path="nodeId">
+            <n-select v-model:value="proxyEditInfo.nodeId" :options="editServerList" />
           </n-form-item>
-          <template v-if="!serverList[proxyEditInfo.node]">
+          <template v-if="!serverList[proxyEditInfo.nodeId]">
             <n-alert title="该隧道节点已下线" type="error"></n-alert>
             <br />
           </template>
-          <n-form-item label="隧道名" path="proxy_name">
-            <n-input v-model:value="proxyEditInfo.proxy_name" placeholder="隧道名" />
+          <n-form-item label="隧道名" path="proxyName">
+            <n-input v-model:value="proxyEditInfo.proxyName" placeholder="隧道名" />
           </n-form-item>
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
-          <n-form-item label="穿透协议" path="proxy_type">
+          <n-form-item label="穿透协议" path="proxyType">
             <n-radio-group
-              v-model:value="proxyEditInfo.proxy_type"
+              v-model:value="proxyEditInfo.proxyType"
               @update:value="proxyTypeSelectChangeHandle"
             >
               <n-radio-button value="tcp"> TCP</n-radio-button>
@@ -41,22 +41,22 @@
           </n-form-item>
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
-          <n-form-item label="内网IP" path="local_ip">
-            <n-input v-model:value="proxyEditInfo.local_ip" placeholder="内网IP，例如127.0.0.1" />
+          <n-form-item label="内网IP" path="localIp">
+            <n-input v-model:value="proxyEditInfo.localIp" placeholder="内网IP，例如127.0.0.1" />
           </n-form-item>
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
-          <n-form-item label="内网端口" path="local_port">
+          <n-form-item label="内网端口" path="localPort">
             <n-input
-              v-model:value="proxyEditInfo.local_port"
+              v-model:value="proxyEditInfo.localPort"
               placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19136 泰拉瑞亚:7777"
             />
           </n-form-item>
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
-          <n-form-item label="远程端口" path="remote_port">
+          <n-form-item label="远程端口" path="remotePort">
             <n-input
-              v-model:value="proxyEditInfo.remote_port"
+              v-model:value="proxyEditInfo.remotePort"
               placeholder="映射到远程服务器上的端口"
             />
           </n-form-item>
@@ -144,7 +144,7 @@
       >
         <n-space style="display: block">
           <n-card style="min-height: 350px">
-            <div style="overflow-y: auto; height: 75px" class="node-title">
+            <div style="overflow-y: auto; height: 75px" class="nodeId-title">
               <h2 style="font-weight: 400">
                 {{ item.proxy_name }}
                 <n-tag :bordered="false" type="success" style="transform: translateY(-2px)">
@@ -184,7 +184,7 @@
                       selectProxyID = item.id
                       proxyEditInfo = {
                         nodeId: item.node_id,
-                        nodeId: selectProxyID,
+                        proxyId: selectProxyID,
                         proxyName: item.proxy_name,
                         proxyType: item.proxy_type,
                         localIp: item.local_ip,
@@ -369,13 +369,13 @@ async function editProxy(proxyId) {
 
   const editInfo = {
     proxyId: proxyId,
-    proxyName: proxyEditInfo.value.proxy_name,
-    proxyType: proxyEditInfo.value.proxy_type,
-    remotePort: proxyEditInfo.value.remote_port,
-    localIp: proxyEditInfo.value.local_ip,
-    localPort: proxyEditInfo.value.local_port,
+    proxyName: proxyEditInfo.value.proxyName,
+    proxyType: proxyEditInfo.value.proxyType,
+    remotePort: proxyEditInfo.value.remotePort,
+    localIp: proxyEditInfo.value.localIp,
+    localPort: proxyEditInfo.value.localPort,
     domain: proxyEditInfo.value.domain,
-    nodeId: proxyEditInfo.value.node
+    nodeId: proxyEditInfo.value.nodeId
   }
   let rs
   try {
@@ -410,7 +410,7 @@ async function editProxy(proxyId) {
 }
 
 const rules = {
-  proxy_name: {
+  proxyName: {
     required: true,
     trigger: ['blur', 'input'],
     validator(rule, value) {
@@ -425,10 +425,10 @@ const rules = {
       return true
     }
   },
-  proxy_type: {
+  proxyType: {
     required: true
   },
-  local_ip: {
+  localIp: {
     required: true,
     trigger: ['blur', 'input'],
     validator(rule, value) {
@@ -447,7 +447,7 @@ const rules = {
       return true
     }
   },
-  local_port: {
+  localPort: {
     required: true,
     trigger: ['blur', 'input'],
     validator(rule, value) {
@@ -466,7 +466,7 @@ const rules = {
       return true
     }
   },
-  remote_port: {
+  remotePort: {
     required: true,
     trigger: ['blur', 'input'],
     validator(rule, value) {
@@ -560,13 +560,13 @@ initList()
 const formRef = ref(null)
 // 表单数据集合
 const proxyEditInfo = ref({
-  node: 0,
-  id: 0,
-  proxy_name: '',
-  proxy_type: '1',
-  local_ip: '',
-  local_port: '',
-  remote_port: '',
+  nodeId: 0,
+  proxyId: 0,
+  proxyName: '',
+  proxyType: '1',
+  localIp: '',
+  localPort: '',
+  remotePort: '',
   domain: ''
 })
 
@@ -602,7 +602,7 @@ function deleteProxy(id) {
 </script>
 
 <style scoped>
-.node-title::-webkit-scrollbar {
+.nodeId-title::-webkit-scrollbar {
   display: none;
 }
 </style>
