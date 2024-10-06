@@ -17,12 +17,10 @@
                 <the-header />
               </n-layout-header>
               <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
-                <transition name="fade" mode="out-in" :duration="400">
-                  <div :key="router.currentRoute.value.name">
-                    <guest-sidebar v-if="showGuestSidebar" />
-                    <main-sidebar v-if="showMainSidebar" />
-                  </div>
-                </transition>
+                <div>
+                  <guest-sidebar v-if="showGuestSidebar" />
+                  <main-sidebar v-if="showMainSidebar" />
+                </div>
                 <n-layout :native-scrollbar="false">
                   <div class="content">
                     <router-view v-slot="{ Component }">
