@@ -6,7 +6,7 @@ import { post } from '@/utils/request'
  * 列出赞助列表
  */
 const postSay = async (username: number, trade_no: string, message: string) => {
-  const rs = post(`${base.api_v2_url}/donate/list`, {
+  const rs = post(`${base.api_v2_url}/donate/say`, {
     username: username,
     trade_no: trade_no,
     message: message

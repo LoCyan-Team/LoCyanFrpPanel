@@ -141,7 +141,7 @@ function getStyle() {
   }
 }
 
-if (route.path === '/') router.push('/dashboard')
+if (location.pathname === '/') router.push('/dashboard')
 </script>
 
 <script>

@@ -243,13 +243,8 @@ async function submitMessage() {
   }
   if (!rs) return
   if (rs.status === 200) {
-    if (rs.data.status) {
-      sendSuccessDialog(rs.message)
-      getDonateList()
-    } else {
-      sendWarningDialog(rs.message)
-      loading_submit.value = false
-    }
+    sendSuccessDialog('提交成功，感谢您的赞助~')
+    getDonateList()
     loading_submit.value = false
   } else {
     sendWarningDialog(rs.message)
