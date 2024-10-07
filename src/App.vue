@@ -172,7 +172,7 @@ setInterval(async () => {
   if (userData.getters.get_token !== '') {
     const valid = await fetchUserInfo()
     if (!valid) {
-      router.push('/auth/login')
+      router.push({ name: 'Login' })
     }
   }
 }, 10000)

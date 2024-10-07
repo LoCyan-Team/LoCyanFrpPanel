@@ -6,7 +6,7 @@
   <div class="flex-center outbox" v-else>
     <n-h2>发生错误</n-h2>
     <p>{{ errorMessage }}</p>
-    <n-button style="margin-top: 10px" @click="() => router.push('/auth/login')">
+    <n-button style="margin-top: 10px" @click="() => router.push({ name: 'Login' })">
       返回登录
     </n-button>
   </div>

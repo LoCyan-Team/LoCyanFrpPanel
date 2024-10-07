@@ -38,7 +38,10 @@
 </template>
 
 <script setup>
+import userData from '@/utils/stores/userData'
 import router from '@router'
+
+if (userData.getters.get_token) router.push({ name: 'Dashboard' })
 
 const GoToDocs = () => {
   window.open('https://docs.locyanfrp.cn')

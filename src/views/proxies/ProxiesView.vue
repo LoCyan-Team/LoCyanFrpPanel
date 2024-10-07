@@ -329,7 +329,7 @@ async function launchProxyThroughApplication(id) {
       window.open(url)
     },
     onNegativeClick: () => {
-      router.push('/other/software')
+      router.push({ name: 'Software' })
     },
     onMaskClick: () => {
       sendSuccessMessage('你取消了操作！')

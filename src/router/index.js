@@ -11,7 +11,7 @@ const routes = [
         path: '/',
         name: 'MainPage',
         meta: {
-          title: '首页'
+          title: '首页',
         },
         component: () => import('@views/MainView.vue')
       },
@@ -288,7 +288,7 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     return {
       top: 0,
-      behavior: 'smooth',
+      behavior: 'smooth'
     }
   },
 })

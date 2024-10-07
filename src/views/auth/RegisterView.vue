@@ -46,7 +46,7 @@
         <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
           <n-space>
             <n-button type="primary" @click="register" style="margin-right: 10px"> 注册 </n-button>
-            <n-button ghost type="primary" style="--n-border: none" @click="goLogin">
+            <n-button ghost type="primary" style="--n-border: none" @click="() => router.push({ name: 'Login' })">
               已有账户？去登录
             </n-button>
           </n-space>
@@ -83,10 +83,6 @@ const verify = ref({
   isClick: false,
   msg: `发送验证码`
 })
-
-function goLogin() {
-  router.push('/auth/login')
-}
 
 async function sendCode() {
   // logger.info('发送邮件验证代码')
@@ -130,7 +126,7 @@ async function register() {
   // const rs = post('https://api.locyanfrp.cn/User/DoReg', model.value)
   if (rs.status === 200) {
     message.success(rs.message)
-    router.push('/auth/login')
+    router.push({ name: 'Login' })
   } else {
     message.error(rs.message)
   }

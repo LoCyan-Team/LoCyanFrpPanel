@@ -36,7 +36,7 @@
             </n-space>
             <n-space justify="end">
               <n-button type="primary" @click="login"> 登录</n-button>
-              <n-button ghost style="--n-border: none" type="primary" @click="goRegister">
+              <n-button ghost style="--n-border: none" type="primary" @click="() => router.push({ name: 'Register' })">
                 没有账户？去注册
               </n-button>
             </n-space>
@@ -95,10 +95,6 @@ if (redirect !== null) {
 //     }
 //   })
 // }
-
-function goRegister() {
-  router.push('/auth/register')
-}
 
 // LoCyan OAuth 2.0
 // There is no need

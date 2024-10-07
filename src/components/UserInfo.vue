@@ -296,7 +296,7 @@ function doLogOut() {
   changeUserInfoShow(false)
   logout()
   sendSuccessMessage('您已登出，感谢您的使用！')
-  router.push('/auth/login')
+  router.push({ name: 'Login' })
 }
 
 async function changePassword() {

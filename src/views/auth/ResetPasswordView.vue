@@ -24,7 +24,7 @@
             <n-button type="primary" @click="sendResetMail" style="margin-right: 10px">
               发送邮件
             </n-button>
-            <n-button ghost type="primary" @click="goLogin"> 登录</n-button>
+            <n-button ghost type="primary" @click="() => router.push({ name: 'Login' })"> 登录</n-button>
           </n-space>
         </div>
       </n-form>
@@ -88,10 +88,6 @@ const code = getUrlKey('code')
 if (code !== null) {
   logger.info('重置密码标识符: ' + code)
   sendResetEmail.value = false
-}
-
-function goLogin() {
-  router.push('/auth/login')
 }
 
 async function doResetRequest() {
