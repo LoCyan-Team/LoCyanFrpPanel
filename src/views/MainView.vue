@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import userData from '@/utils/stores/userData'
+import userData from '@/utils/stores/userData/store'
 import router from '@router'
 
 if (userData.getters.get_token) router.push({ name: 'Dashboard' })
