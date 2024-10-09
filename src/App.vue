@@ -172,6 +172,7 @@ setInterval(async () => {
   if (userData.getters.get_token !== '') {
     const valid = await fetchUserInfo()
     if (!valid) {
+      logout()
       router.push({ name: 'Login' })
     }
   }
