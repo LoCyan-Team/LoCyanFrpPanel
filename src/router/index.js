@@ -11,7 +11,7 @@ const routes = [
         path: '/',
         name: 'MainPage',
         meta: {
-          title: '首页',
+          title: '首页'
         },
         component: () => import('@views/MainView.vue')
       },
@@ -290,7 +290,7 @@ const router = createRouter({
       top: 0,
       behavior: 'smooth'
     }
-  },
+  }
 })
 
 // // 检查本地存储是否存在token，若存在则直接使用

@@ -24,7 +24,9 @@
             <n-button type="primary" @click="sendResetMail" style="margin-right: 10px">
               发送邮件
             </n-button>
-            <n-button ghost type="primary" @click="() => router.push({ name: 'Login' })"> 登录</n-button>
+            <n-button ghost type="primary" @click="() => router.push({ name: 'Login' })">
+              登录
+            </n-button>
           </n-space>
         </div>
       </n-form>

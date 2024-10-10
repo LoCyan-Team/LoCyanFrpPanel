@@ -46,7 +46,12 @@
         <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
           <n-space>
             <n-button type="primary" @click="register" style="margin-right: 10px"> 注册 </n-button>
-            <n-button ghost type="primary" style="--n-border: none" @click="() => router.push({ name: 'Login' })">
+            <n-button
+              ghost
+              type="primary"
+              style="--n-border: none"
+              @click="() => router.push({ name: 'Login' })"
+            >
               已有账户？去登录
             </n-button>
           </n-space>

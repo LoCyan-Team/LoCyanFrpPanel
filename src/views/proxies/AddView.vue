@@ -9,8 +9,58 @@
         <n-select v-model:value="proxyInfo.nodeId" :options="serverList" size="medium" />
       </n-form-item>
     </n-space>
+    <div>
+      <n-tag class="tip-tag" style="transform: translateY(-0.3rem)" type="info">
+        <span v-if="serverValue[proxyInfo.nodeId].attribute.verificationLevel === 0">
+          二级认证
+        </span>
+        <span v-else-if="serverValue[proxyInfo.nodeId].attribute.verificationLevel === 1">
+          一级认证
+        </span>
+        <span v-else>其他认证</span>
+      </n-tag>
+      <n-tag
+        class="tip-tag"
+        :type="serverValue[proxyInfo.nodeId].attribute.allowBigTraffic ? 'success' : 'error'"
+      >
+        <span>大流量</span>
+        <template #icon>
+          <n-icon
+            v-if="serverValue[proxyInfo.nodeId].attribute.allowBigTraffic"
+            :component="CheckmarkCircle"
+          />
+          <n-icon v-else :component="CloseCircle" />
+        </template>
+      </n-tag>
+      <n-tag
+        class="tip-tag"
+        :type="serverValue[proxyInfo.nodeId].attribute.allowUdp ? 'success' : 'error'"
+      >
+        <span>UDP</span>
+        <template #icon>
+          <n-icon
+            v-if="serverValue[proxyInfo.nodeId].attribute.allowUdp"
+            :component="CheckmarkCircle"
+          />
+          <n-icon v-else :component="CloseCircle" />
+        </template>
+      </n-tag>
+      <n-tag
+        class="tip-tag"
+        :type="serverValue[proxyInfo.nodeId].attribute.allowWebsite ? 'success' : 'error'"
+      >
+        <span>建站</span>
+        <template #icon>
+          <n-icon
+            v-if="serverValue[proxyInfo.nodeId].attribute.allowWebsite"
+            :component="CheckmarkCircle"
+          />
+          <n-icon v-else :component="CloseCircle" />
+        </template>
+      </n-tag>
+    </div>
     <div id="item">
-      <p>服务器信息：</p>
+      <p>服务器信息</p>
       <p>服务器名：{{ serverValue[proxyInfo.nodeId].name }}</p>
       <p>服务器介绍：{{ serverValue[proxyInfo.nodeId].description }}</p>
       <p>服务器IP：{{ serverValue[proxyInfo.nodeId].ip }}</p>
@@ -93,6 +143,7 @@ import { sendErrorMessage } from '@/utils/message'
 import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
 import api from '@/api'
 import logger from '@/utils/logger'
+import { CheckmarkCircle, CloseCircle } from '@vicons/ionicons5'
 
 localStorage.setItem('ViewPage', 'add_proxy')
 // 选择框数据
@@ -105,7 +156,14 @@ const serverValue = ref([
     description: '',
     ip: '',
     hostname: '',
-    status: 0
+    status: 0,
+    attribute: {
+      verificationLevel: -1,
+      china: false,
+      allowBigTraffic: false,
+      allowUdp: false,
+      allowWebsite: false
+    }
   }
 ])
 // 表格数据
@@ -294,7 +352,7 @@ onMounted(async () => {
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs) return
-  var i = 0
+  let i = 0
   rs.data.list.forEach((s) => {
     // 默认选择第一个节点
     if (i === 0) {
@@ -304,9 +362,29 @@ onMounted(async () => {
       label: s.name,
       value: s.id
     }
-    serverValue.value[s.id] = s
+    serverValue.value[s.id] = {
+      id: s.id,
+      name: s.name,
+      description: s.description,
+      ip: s.ip,
+      hostname: s.hostname,
+      status: s.status,
+      attribute: {
+        verificationLevel: s.attribute.verification_level,
+        china: s.attribute.china,
+        allowBigTraffic: s.attribute.allow_big_traffic,
+        allowUdp: s.attribute.allow_udp,
+        allowWebsite: s.attribute.allow_website
+      }
+    }
     serverList.value[i] = tmpdict
     i = i + 1
   })
 })
 </script>
+
+<style scoped>
+.tip-tag {
+  margin: 0 0.5rem 1rem 0;
+}
+</style>
