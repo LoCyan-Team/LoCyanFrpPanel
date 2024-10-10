@@ -353,7 +353,17 @@ onMounted(async () => {
   }
   if (!rs) return
   let i = 0
-  rs.data.list.forEach((s) => {
+  const list = rs.data.list
+  list.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1
+    }
+    if (a.name > b.name) {
+      return 1
+    }
+    return 0
+  })
+  list.forEach((s) => {
     // 默认选择第一个节点
     if (i === 0) {
       proxyInfo.value.nodeId = s.id
