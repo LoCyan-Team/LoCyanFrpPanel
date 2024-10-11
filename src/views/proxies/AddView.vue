@@ -75,17 +75,19 @@
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
         <n-form-item label="穿透协议" path="proxyType">
-          <n-radio-group
-            v-model:value="proxyInfo.proxyType"
-            @update:value="proxyTypeSelectChangeHandle"
-          >
-            <n-radio-button value="tcp"> TCP</n-radio-button>
-            <n-radio-button value="udp"> UDP</n-radio-button>
-            <n-radio-button value="http"> HTTP</n-radio-button>
-            <n-radio-button value="https"> HTTPS</n-radio-button>
-            <n-radio-button value="xtcp"> XTCP</n-radio-button>
-            <n-radio-button value="stcp"> STCP</n-radio-button>
-          </n-radio-group>
+          <n-scrollbar x-scrollable>
+            <n-radio-group
+              v-model:value="proxyInfo.proxyType"
+              @update:value="proxyTypeSelectChangeHandle"
+            >
+              <n-radio-button value="tcp">TCP</n-radio-button>
+              <n-radio-button value="udp">UDP</n-radio-button>
+              <n-radio-button value="http">HTTP</n-radio-button>
+              <n-radio-button value="https">HTTPS</n-radio-button>
+              <n-radio-button value="xtcp">XTCP</n-radio-button>
+              <n-radio-button value="stcp">STCP</n-radio-button>
+            </n-radio-group>
+          </n-scrollbar>
         </n-form-item>
       </n-grid-item>
       <n-grid-item span="0:2 1000:1" id="item">
@@ -368,7 +370,7 @@ onMounted(async () => {
     if (i === 0) {
       proxyInfo.value.nodeId = s.id
     }
-    const tmpdict = {
+    serverList.value[i] = {
       label: s.name,
       value: s.id
     }
@@ -387,7 +389,6 @@ onMounted(async () => {
         allowWebsite: s.attribute.allow_website
       }
     }
-    serverList.value[i] = tmpdict
     i = i + 1
   })
 })

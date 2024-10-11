@@ -27,17 +27,19 @@
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
           <n-form-item label="穿透协议" path="proxyType">
-            <n-radio-group
-              v-model:value="proxyEditInfo.proxyType"
-              @update:value="proxyTypeSelectChangeHandle"
-            >
-              <n-radio-button value="tcp"> TCP</n-radio-button>
-              <n-radio-button value="udp"> UDP</n-radio-button>
-              <n-radio-button value="http"> HTTP</n-radio-button>
-              <n-radio-button value="https"> HTTPS</n-radio-button>
-              <n-radio-button value="xtcp"> XTCP</n-radio-button>
-              <n-radio-button value="stcp"> STCP</n-radio-button>
-            </n-radio-group>
+            <n-scrollbar x-scrollable>
+              <n-radio-group
+                v-model:value="proxyEditInfo.proxyType"
+                @update:value="proxyTypeSelectChangeHandle"
+              >
+                <n-radio-button value="tcp">TCP</n-radio-button>
+                <n-radio-button value="udp">UDP</n-radio-button>
+                <n-radio-button value="http">HTTP</n-radio-button>
+                <n-radio-button value="https">HTTPS</n-radio-button>
+                <n-radio-button value="xtcp">XTCP</n-radio-button>
+                <n-radio-button value="stcp">STCP</n-radio-button>
+              </n-radio-group>
+            </n-scrollbar>
           </n-form-item>
         </n-grid-item>
         <n-grid-item span="0:2 1000:1">
@@ -528,12 +530,36 @@ async function initList() {
   }
   if (!rs1) return
   let i = 0
-  rs1.data.list.forEach((s) => {
+  const list = rs1.data.list
+  list.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1
+    }
+    if (a.name > b.name) {
+      return 1
+    }
+    return 0
+  })
+  list.forEach((s) => {
     editServerList.value[i] = {
       label: s.name,
       value: s.id
     }
-    serverList.value[s.id] = s
+    serverList.value[s.id] = {
+      id: s.id,
+      name: s.name,
+      description: s.description,
+      ip: s.ip,
+      hostname: s.hostname,
+      status: s.status,
+      attribute: {
+        verificationLevel: s.attribute.verification_level,
+        china: s.attribute.china,
+        allowBigTraffic: s.attribute.allow_big_traffic,
+        allowUdp: s.attribute.allow_udp,
+        allowWebsite: s.attribute.allow_website
+      }
+    }
     i = i + 1
   })
 
