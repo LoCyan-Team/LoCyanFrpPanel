@@ -11,13 +11,9 @@
     </n-space>
     <div>
       <n-tag class="tip-tag" style="transform: translateY(-0.3rem)" type="info">
-        <span v-if="serverValue[proxyInfo.nodeId].attribute.verificationLevel === 0">
-          二级认证
-        </span>
-        <span v-else-if="serverValue[proxyInfo.nodeId].attribute.verificationLevel === 1">
-          一级认证
-        </span>
-        <span v-else>其他认证</span>
+        <span v-if="serverValue[proxyInfo.nodeId].attribute.china">一级认证</span>
+        <span v-else>二级认证</span>
+<!--        <span v-else>其他认证</span>-->
       </n-tag>
       <n-tag
         class="tip-tag"
@@ -160,7 +156,6 @@ const serverValue = ref([
     hostname: '',
     status: 0,
     attribute: {
-      verificationLevel: -1,
       china: false,
       allowBigTraffic: false,
       allowUdp: false,
@@ -382,7 +377,6 @@ onMounted(async () => {
       hostname: s.hostname,
       status: s.status,
       attribute: {
-        verificationLevel: s.attribute.verification_level,
         china: s.attribute.china,
         allowBigTraffic: s.attribute.allow_big_traffic,
         allowUdp: s.attribute.allow_udp,

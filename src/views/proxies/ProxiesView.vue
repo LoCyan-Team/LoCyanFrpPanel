@@ -553,7 +553,6 @@ async function initList() {
       hostname: s.hostname,
       status: s.status,
       attribute: {
-        verificationLevel: s.attribute.verification_level,
         china: s.attribute.china,
         allowBigTraffic: s.attribute.allow_big_traffic,
         allowUdp: s.attribute.allow_udp,
