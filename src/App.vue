@@ -21,7 +21,7 @@
                   <guest-sidebar v-if="showGuestSidebar" />
                   <main-sidebar v-if="showMainSidebar" />
                 </div>
-                <n-layout :native-scrollbar="false">
+                <n-layout-content ref="contentRef" :native-scrollbar="false">
                   <div class="content">
                     <router-view v-slot="{ Component }">
                       <keep-alive :max="10">
@@ -35,7 +35,7 @@
                   </div>
                   <n-divider />
                   <the-footer />
-                </n-layout>
+                </n-layout-content>
               </n-layout>
             </n-layout>
           </n-notification-provider>
@@ -74,7 +74,7 @@ import api from '@/api'
 import { sendWarningMessage } from '@/utils/message'
 import { logout } from '@/utils/profile'
 import router from '@router'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)
@@ -84,6 +84,7 @@ if (document.body.clientWidth >= 1000) {
 
 const osThemeRef = useOsTheme()
 const route = useRoute()
+const vRouter = useRouter()
 const theme = computed(() => (osThemeRef.value === 'dark' ? darkTheme : null))
 // let initFinished = false
 
@@ -91,9 +92,14 @@ const loading = ref(true)
 const tokenValid = ref(false)
 const showGuestSidebar = ref(false)
 const showMainSidebar = ref(false)
+const contentRef = ref(null)
 
 hljs.registerLanguage('ini', ini)
 hljs.registerLanguage('nginx', nginx)
+
+vRouter.afterEach(() => {
+  contentRef.value?.scrollTo({ top: 0, behavior: 'smooth' })
+})
 
 // function getMessage(e) {
 //   const rs = JSON.parse(e.data)

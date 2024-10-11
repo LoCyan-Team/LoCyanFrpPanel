@@ -7,7 +7,7 @@
     @expand="collapsed = false"
     collapse-mode="width"
     :collapsed-width="64"
-    :native-scrollbar="true"
+    :native-scrollbar="false"
     id="sider"
     style="height: 100%; bottom: 0"
   >

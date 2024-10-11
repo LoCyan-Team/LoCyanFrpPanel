@@ -284,13 +284,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
-  scrollBehavior(to, from, savedPosition) {
-    return {
-      top: 0,
-      behavior: 'smooth'
-    }
-  }
+  routes
 })
 
 // // 检查本地存储是否存在token，若存在则直接使用
