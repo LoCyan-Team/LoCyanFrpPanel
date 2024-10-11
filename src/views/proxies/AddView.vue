@@ -3,131 +3,133 @@
     <i class="twa twa-writing-hand-light-skin-tone"></i>
     <n-text type="primary"> 添加隧道</n-text>
   </n-h1>
-  <n-form :ref="formRef" :model="proxyInfo" :rules="rules" label-width="auto" size="large">
-    <n-space vertical>
-      <n-form-item label="选择服务器" path="node">
-        <n-select v-model:value="proxyInfo.nodeId" :options="serverList" size="medium" />
-      </n-form-item>
-    </n-space>
-    <div>
-      <n-tag class="tip-tag" style="transform: translateY(-0.3rem)" type="info">
-        <span v-if="serverValue[proxyInfo.nodeId].attribute.china">一级认证</span>
-        <span v-else>二级认证</span>
-<!--        <span v-else>其他认证</span>-->
-      </n-tag>
-      <n-tag
-        class="tip-tag"
-        :type="serverValue[proxyInfo.nodeId].attribute.allowBigTraffic ? 'success' : 'error'"
-      >
-        <span>大流量</span>
-        <template #icon>
-          <n-icon
-            v-if="serverValue[proxyInfo.nodeId].attribute.allowBigTraffic"
-            :component="CheckmarkCircle"
-          />
-          <n-icon v-else :component="CloseCircle" />
-        </template>
-      </n-tag>
-      <n-tag
-        class="tip-tag"
-        :type="serverValue[proxyInfo.nodeId].attribute.allowUdp ? 'success' : 'error'"
-      >
-        <span>UDP</span>
-        <template #icon>
-          <n-icon
-            v-if="serverValue[proxyInfo.nodeId].attribute.allowUdp"
-            :component="CheckmarkCircle"
-          />
-          <n-icon v-else :component="CloseCircle" />
-        </template>
-      </n-tag>
-      <n-tag
-        class="tip-tag"
-        :type="serverValue[proxyInfo.nodeId].attribute.allowWebsite ? 'success' : 'error'"
-      >
-        <span>建站</span>
-        <template #icon>
-          <n-icon
-            v-if="serverValue[proxyInfo.nodeId].attribute.allowWebsite"
-            :component="CheckmarkCircle"
-          />
-          <n-icon v-else :component="CloseCircle" />
-        </template>
-      </n-tag>
-    </div>
-    <div id="item">
-      <p>服务器信息</p>
-      <p>服务器名：{{ serverValue[proxyInfo.nodeId].name }}</p>
-      <p>服务器介绍：{{ serverValue[proxyInfo.nodeId].description }}</p>
-      <p>服务器IP：{{ serverValue[proxyInfo.nodeId].ip }}</p>
-      <p>服务器域名：{{ serverValue[proxyInfo.nodeId].hostname }}</p>
-    </div>
-    <br />
-    <n-grid x-gap="12" cols="2" item-responsive>
-      <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="隧道名" path="proxyName">
-          <n-input v-model:value="proxyInfo.proxyName" placeholder="隧道名" />
+  <n-spin :show="loading">
+    <n-form :ref="formRef" :model="proxyInfo" :rules="rules" label-width="auto" size="large">
+      <n-space vertical>
+        <n-form-item label="选择服务器" path="node">
+          <n-select v-model:value="proxyInfo.nodeId" :options="serverList" size="medium" />
         </n-form-item>
-      </n-grid-item>
-      <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="穿透协议" path="proxyType">
-          <n-scrollbar x-scrollable>
-            <n-radio-group
-              v-model:value="proxyInfo.proxyType"
-              @update:value="proxyTypeSelectChangeHandle"
-            >
-              <n-radio-button value="tcp">TCP</n-radio-button>
-              <n-radio-button value="udp">UDP</n-radio-button>
-              <n-radio-button value="http">HTTP</n-radio-button>
-              <n-radio-button value="https">HTTPS</n-radio-button>
-              <n-radio-button value="xtcp">XTCP</n-radio-button>
-              <n-radio-button value="stcp">STCP</n-radio-button>
-            </n-radio-group>
-          </n-scrollbar>
-        </n-form-item>
-      </n-grid-item>
-      <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="内网IP" path="localIp">
-          <n-input v-model:value="proxyInfo.localIp" placeholder="内网IP, 例如127.0.0.1" />
-        </n-form-item>
-      </n-grid-item>
-      <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="内网端口" path="localPort">
-          <n-input
-            v-model:value="proxyInfo.localPort"
-            placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19132 泰拉瑞亚:7777"
-          />
-        </n-form-item>
-      </n-grid-item>
-      <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="远程端口" path="remotePort">
-          <n-input
-            v-model:value="proxyInfo.remotePort"
-            placeholder="映射到远程服务器上的端口"
-            style="margin-right: 10px"
-          />
-          <n-button @click="randomPort"> 随机端口 </n-button>
-        </n-form-item>
-      </n-grid-item>
-      <n-grid-item span="0:2 1000:1" id="item">
-        <n-form-item label="自定义域名" path="domain" v-show="showDomainInput">
-          <n-input
-            v-model:value="proxyInfo.domain"
-            placeholder="HTTPS/HTTP需要填写, 其他协议不需要填写"
-          />
-        </n-form-item>
-        <n-form-item label="访问密钥" path="secretKey" v-show="showSecretKeyInput">
-          <n-input
-            v-model:value="proxyInfo.secretKey"
-            placeholder="XTCP / STCP 需要填写, 其他协议不需要填写"
-          />
-        </n-form-item>
-      </n-grid-item>
-    </n-grid>
-    <div style="display: flex; justify-content: flex-end">
-      <n-button round type="primary" @click="addProxy"> 创建</n-button>
-    </div>
-  </n-form>
+      </n-space>
+      <div>
+        <n-tag class="tip-tag" style="transform: translateY(-0.3rem)" type="info">
+          <span v-if="serverValue[proxyInfo.nodeId].attribute.china">一级认证</span>
+          <span v-else>二级认证</span>
+          <!--        <span v-else>其他认证</span>-->
+        </n-tag>
+        <n-tag
+          class="tip-tag"
+          :type="serverValue[proxyInfo.nodeId].attribute.allowBigTraffic ? 'success' : 'error'"
+        >
+          <span>大流量</span>
+          <template #icon>
+            <n-icon
+              v-if="serverValue[proxyInfo.nodeId].attribute.allowBigTraffic"
+              :component="CheckmarkCircle"
+            />
+            <n-icon v-else :component="CloseCircle" />
+          </template>
+        </n-tag>
+        <n-tag
+          class="tip-tag"
+          :type="serverValue[proxyInfo.nodeId].attribute.allowUdp ? 'success' : 'error'"
+        >
+          <span>UDP</span>
+          <template #icon>
+            <n-icon
+              v-if="serverValue[proxyInfo.nodeId].attribute.allowUdp"
+              :component="CheckmarkCircle"
+            />
+            <n-icon v-else :component="CloseCircle" />
+          </template>
+        </n-tag>
+        <n-tag
+          class="tip-tag"
+          :type="serverValue[proxyInfo.nodeId].attribute.allowWebsite ? 'success' : 'error'"
+        >
+          <span>建站</span>
+          <template #icon>
+            <n-icon
+              v-if="serverValue[proxyInfo.nodeId].attribute.allowWebsite"
+              :component="CheckmarkCircle"
+            />
+            <n-icon v-else :component="CloseCircle" />
+          </template>
+        </n-tag>
+      </div>
+      <div id="item">
+        <p>服务器信息</p>
+        <p>服务器名：{{ serverValue[proxyInfo.nodeId].name }}</p>
+        <p>服务器介绍：{{ serverValue[proxyInfo.nodeId].description }}</p>
+        <p>服务器IP：{{ serverValue[proxyInfo.nodeId].ip }}</p>
+        <p>服务器域名：{{ serverValue[proxyInfo.nodeId].hostname }}</p>
+      </div>
+      <br />
+      <n-grid x-gap="12" cols="2" item-responsive>
+        <n-grid-item span="0:2 1000:1" id="item">
+          <n-form-item label="隧道名" path="proxyName">
+            <n-input v-model:value="proxyInfo.proxyName" placeholder="隧道名" />
+          </n-form-item>
+        </n-grid-item>
+        <n-grid-item span="0:2 1000:1" id="item">
+          <n-form-item label="穿透协议" path="proxyType">
+            <n-scrollbar x-scrollable>
+              <n-radio-group
+                v-model:value="proxyInfo.proxyType"
+                @update:value="proxyTypeSelectChangeHandle"
+              >
+                <n-radio-button value="tcp">TCP</n-radio-button>
+                <n-radio-button value="udp">UDP</n-radio-button>
+                <n-radio-button value="http">HTTP</n-radio-button>
+                <n-radio-button value="https">HTTPS</n-radio-button>
+                <n-radio-button value="xtcp">XTCP</n-radio-button>
+                <n-radio-button value="stcp">STCP</n-radio-button>
+              </n-radio-group>
+            </n-scrollbar>
+          </n-form-item>
+        </n-grid-item>
+        <n-grid-item span="0:2 1000:1" id="item">
+          <n-form-item label="内网IP" path="localIp">
+            <n-input v-model:value="proxyInfo.localIp" placeholder="内网IP, 例如127.0.0.1" />
+          </n-form-item>
+        </n-grid-item>
+        <n-grid-item span="0:2 1000:1" id="item">
+          <n-form-item label="内网端口" path="localPort">
+            <n-input
+              v-model:value="proxyInfo.localPort"
+              placeholder="内网端口, HTTP:80 HTTPS:443 MC:25565/19132 泰拉瑞亚:7777"
+            />
+          </n-form-item>
+        </n-grid-item>
+        <n-grid-item span="0:2 1000:1" id="item">
+          <n-form-item label="远程端口" path="remotePort">
+            <n-input
+              v-model:value="proxyInfo.remotePort"
+              placeholder="映射到远程服务器上的端口"
+              style="margin-right: 10px"
+            />
+            <n-button @click="randomPort"> 随机端口 </n-button>
+          </n-form-item>
+        </n-grid-item>
+        <n-grid-item span="0:2 1000:1" id="item">
+          <n-form-item label="自定义域名" path="domain" v-show="showDomainInput">
+            <n-input
+              v-model:value="proxyInfo.domain"
+              placeholder="HTTPS/HTTP需要填写, 其他协议不需要填写"
+            />
+          </n-form-item>
+          <n-form-item label="访问密钥" path="secretKey" v-show="showSecretKeyInput">
+            <n-input
+              v-model:value="proxyInfo.secretKey"
+              placeholder="XTCP / STCP 需要填写, 其他协议不需要填写"
+            />
+          </n-form-item>
+        </n-grid-item>
+      </n-grid>
+      <div style="display: flex; justify-content: flex-end">
+        <n-button round type="primary" @click="addProxy"> 创建</n-button>
+      </div>
+    </n-form>
+  </n-spin>
 </template>
 <style>
 n-input {
@@ -142,6 +144,8 @@ import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
 import api from '@/api'
 import logger from '@/utils/logger'
 import { CheckmarkCircle, CloseCircle } from '@vicons/ionicons5'
+
+const loading = ref(true)
 
 localStorage.setItem('ViewPage', 'add_proxy')
 // 选择框数据
@@ -312,6 +316,7 @@ async function addProxy() {
     domain: proxyInfo.value.domain,
     secretKey: proxyInfo.value.secretKey
   }
+  loading.value = false
   let rs
   try {
     rs = await api.v2.proxy.root.post(
@@ -331,6 +336,7 @@ async function addProxy() {
     logger.error(e)
     sendErrorMessage(e)
     sendErrorDialog('添加失败，再试一次吧~')
+    loading.value = false
   }
   if (!rs) return
   if (rs.status === 200) {
@@ -338,15 +344,18 @@ async function addProxy() {
   } else {
     sendErrorMessage(rs.message)
   }
+  loading.value = false
 }
 
 onMounted(async () => {
+  loading.value = true
   let rs
   try {
     rs = await api.v2.node.all()
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求节点列表失败: ' + e)
+    loading.value = false
   }
   if (!rs) return
   let i = 0
@@ -385,6 +394,7 @@ onMounted(async () => {
     }
     i = i + 1
   })
+  loading.value = false
 })
 </script>
 

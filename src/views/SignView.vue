@@ -28,9 +28,9 @@
           </p>
           <n-skeleton text :repeat="1" style="width: 10%" v-else />
           <br />
-          <n-gi v-if="status">
-            <img style="width: 100%" src="https://api.imlazy.ink/img" />
-          </n-gi>
+          <n-grid-item v-show="status">
+            <n-image width="100%" src="https://api.imlazy.ink/img" />
+          </n-grid-item>
         </n-card>
       </n-grid-item>
     </n-grid>

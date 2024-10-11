@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-bookmark-tabs"></i>
-    <n-text type="primary"> 配置文件 </n-text>
+    <n-text type="primary"> 配置文件</n-text>
   </n-h1>
   <n-grid cols="1" y-gap="1" item-responsive>
     <n-grid-item span="1">
@@ -18,24 +18,30 @@
         >
           复制
         </n-button>
-        <n-code
-          :code="code"
-          language="ini"
-          show-line-numbers
-          style="overflow: auto; margin-top: 30px; width: 100%"
-        ></n-code>
+        <n-spin :show="loading">
+          <n-scrollbar x-scrollable>
+            <n-code
+              :code="code"
+              language="ini"
+              show-line-numbers
+              style="margin-top: 30px; width: 100%"
+            />
+          </n-scrollbar>
+        </n-spin>
       </n-card>
       <br />
     </n-grid-item>
 
     <n-grid-item span="1">
-      <n-card title="建站必看">
-        <p>由于我们在新的配置文件生成机制中加入了：</p>
-        <n-code code="proxy_protocol_version = v2" language="ini"></n-code>
-        <p>导致网站如果不正确配置 Nginx 就无法正常访问（不需要请删去）</p>
+      <n-card title="获取用户真实 IP">
+        <p>您可以通过 HAProxy Protocol 来获取用户真实 IP</p>
+        <p>在配置文件中加入：</p>
+        <n-scrollbar x-scrollable>
+          <n-code code="proxy_protocol_version = v2" language="ini"></n-code>
+        </n-scrollbar>
+        <p>打开后端的 HAProxy Protocol 支持即可</p>
         <n-divider />
-        <p>请根据下面的教程正确配置：</p>
-        <p></p>
+        <n-h4>网站配置示例</n-h4>
         <p>
           1. 打开网站的配置文件（针对 Nginx 的网站，其他形式的网站请自行百度），在
           <n-code code="listen 80" language="nginx" word-wrap></n-code> 与
@@ -66,6 +72,8 @@ import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
 // import clipboard from '@/utils/clipboard'
 import api from '@/api'
 import logger from '@/utils/logger'
+
+const loading = ref(true)
 
 const node = ref('')
 // 选择框数据
@@ -112,12 +120,14 @@ onMounted(async () => {
 })
 
 async function updateValue(value) {
+  loading.value = true
   let rs
   try {
     rs = await api.v2.proxy.config(userData.getters.get_username, null, value)
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求获取隧道配置文件失败: ' + e)
+    loading.value = false
   }
   if (!rs) return
   if (rs.status === 200) {
@@ -127,5 +137,6 @@ async function updateValue(value) {
     sendErrorMessage(rs.message)
     code.value = '该节点下没有任何隧道捏~'
   }
+  loading.value = false
 }
 </script>

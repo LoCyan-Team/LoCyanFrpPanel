@@ -602,11 +602,13 @@ function deleteProxy(id) {
     positiveText: '确定',
     negativeText: '取消',
     onPositiveClick: async () => {
+      loading.value = true
       let rs
       try {
         rs = await api.v2.proxy.root.delete(userData.getters.get_username, proxiesList.value[id].id)
       } catch (e) {
         sendErrorMessage('请求删除隧道失败: ' + e)
+        loading.value = false
       }
       if (!rs) return
       if (rs.status === 200) {
@@ -615,6 +617,7 @@ function deleteProxy(id) {
       } else {
         sendErrorMessage(rs.message)
       }
+      loading.value = false
     },
     onNegativeClick: () => {
       sendSuccessMessage('你取消了操作！')
