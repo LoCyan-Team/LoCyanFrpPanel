@@ -28,9 +28,11 @@
           </p>
           <n-skeleton text :repeat="1" style="width: 10%" v-else />
           <br />
-          <n-grid-item v-show="status">
-            <n-image width="100%" src="https://api.imlazy.ink/img" />
-          </n-grid-item>
+          <n-image lazy v-if="status" width="100%" src="https://api.imlazy.ink/img">
+            <template #placeholder>
+              <n-spin />
+            </template>
+          </n-image>
         </n-card>
       </n-grid-item>
     </n-grid>
