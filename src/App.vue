@@ -8,10 +8,12 @@
             <loading-bar />
             <the-dialog />
             <notification />
-            <div v-if="loading" class="load-container">
-              <n-spin></n-spin>
-            </div>
-            <n-layout>
+            <n-layout v-show="loading">
+              <n-el class="load-container">
+                <n-spin></n-spin>
+              </n-el>
+            </n-layout>
+            <n-layout v-show="!loading">
               <user-info />
               <n-layout-header :inverted="false" bordered>
                 <the-header />
