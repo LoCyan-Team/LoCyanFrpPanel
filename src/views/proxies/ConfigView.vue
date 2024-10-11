@@ -105,8 +105,18 @@ onMounted(async () => {
     sendErrorMessage('请求节点列表失败: ' + e)
   }
   if (!rs) return
-  var i = 0
-  rs.data.list.forEach((s) => {
+  let i = 0
+  const list = rs.data.list
+  list.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1
+    }
+    if (a.name > b.name) {
+      return 1
+    }
+    return 0
+  })
+  list.forEach((s) => {
     if (i === 0) {
       node.value = s.id
       updateValue(s.id)
