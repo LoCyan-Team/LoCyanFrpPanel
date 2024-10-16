@@ -11,11 +11,11 @@
         id="item"
         v-show="sendResetEmail"
       >
-        <n-form-item label="用户名 / 邮箱" path="username">
+        <n-form-item label="注册邮箱" path="username">
           <n-input
             type="text"
-            v-model:value="model.username"
-            placeholder="用户名"
+            v-model:value="model.email"
+            placeholder="邮箱"
             @keyup.enter="sendResetMail"
           />
         </n-form-item>
@@ -32,7 +32,7 @@
       </n-form>
       <n-form
         ref="formRef"
-        :model="reset_password"
+        :model="resetPassword"
         :rules="rules"
         label-width="auto"
         require-mark-placement="right-hanging"
@@ -41,10 +41,10 @@
         v-show="!sendResetEmail"
       >
         <n-form-item label="新密码" path="password">
-          <n-input type="text" v-model:value="reset_password.password" placeholder="新密码" />
+          <n-input type="text" v-model:value="resetPassword.password" placeholder="新密码" />
         </n-form-item>
         <n-form-item label="重复密码" path="confirm">
-          <n-input type="text" v-model:value="reset_password.confirm" placeholder="重复密码" />
+          <n-input type="text" v-model:value="resetPassword.confirm" placeholder="重复密码" />
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
           <n-space>
@@ -74,14 +74,15 @@ const sendResetEmail = ref(true)
 
 const model = ref([
   {
-    username: ''
+    email: ''
   }
 ])
 
-const reset_password = ref([
+const resetPassword = ref([
   {
     password: '',
-    confirm: ''
+    confirmPassword: '',
+    verify_code: ''
   }
 ])
 
@@ -93,22 +94,27 @@ if (code !== null) {
 }
 
 async function doResetRequest() {
+  if (resetPassword.value.password !== resetPassword.value.confirmPassword) {
+    message.error('两次输入的密码不一致，请核对')
+    return
+  }
   if (code === '' || code === undefined) {
     message.error('非法请求！')
     return
   }
 
-  if (status.value === 'reseting') {
+  if (status.value === 'working') {
     message.warning('上一个请求正在处理！')
     return
   }
-  status.value = 'reseting'
+  status.value = 'working'
   ldb.start()
   let rs
   try {
-    rs = await api.v1.User.DoResetPassword(
-      reset_password.value.password,
-      reset_password.value.confirm,
+    rs = await api.v2.user.password(
+      model.value.email,
+      null,
+      resetPassword.value.password,
       code
     )
   } catch (e) {
@@ -140,9 +146,9 @@ async function sendResetMail() {
   ldb.start()
   let rs
   try {
-    rs = await api.v1.User.DoResetPasswordEmailSend(model.value.username)
+    rs = await api.v2.email.password(model.value.email)
   } catch (e) {
-    message.error('请求' + e)
+    message.error('请求失败: ' + e)
   }
   if (!rs) {
     ldb.error()
@@ -162,7 +168,7 @@ async function sendResetMail() {
 }
 
 const rules = {
-  username: {
+  email: {
     required: true,
     trigger: ['blur', 'input'],
     message: '请输入用户名'

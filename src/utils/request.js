@@ -24,7 +24,6 @@ const instance = axios.create({
 const tokenDomains = [
   'api.locyanfrp.cn',
   'api-v2.locyanfrp.cn',
-  'api-v2-next.locyanfrp.cn',
   'localhost'
 ]
 
