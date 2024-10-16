@@ -40,12 +40,14 @@
               >
                 {{ verify.msg }}
               </n-button>
+              <n-text style="margin-left: 0.5rem" v-show="verify.resendTimer !== 0"
+                >{{ verify.resendTimer }}s</n-text
+              >
             </n-grid-item>
           </n-grid>
         </n-form-item>
         <div style="display: flex; margin-bottom: 20px; justify-content: flex-end">
           <n-space>
-            <n-button type="primary" @click="register" style="margin-right: 10px"> 注册 </n-button>
             <n-button
               ghost
               type="primary"
@@ -54,6 +56,7 @@
             >
               已有账户？去登录
             </n-button>
+            <n-button type="primary" @click="register"> 注册 </n-button>
           </n-space>
         </div>
       </n-form>
@@ -86,7 +89,8 @@ const model = ref([
 
 const verify = ref({
   isClick: false,
-  msg: `发送验证码`
+  msg: `发送验证码`,
+  resendTimer: 0
 })
 
 async function sendCode() {
@@ -104,10 +108,23 @@ async function sendCode() {
   if (rs.status === 200) {
     message.success('已发送，若未收到请检查收件箱')
     verify.value.msg = `已发送`
+    verify.value.resendTimer = 60
+    let timer = () =>
+      setTimeout(() => {
+        if (verify.value.resendTimer !== 0) {
+          verify.value.resendTimer--
+          timer()
+        } else {
+          verify.value.msg = `发送验证码`
+          verify.value.isClick = false
+        }
+      }, 1000)
+    timer()
   } else {
     message.error(rs.message)
     verify.value.isClick = false
     verify.value.msg = `发送验证码`
+    verify.value.resendTimer = 0
   }
   ldb.finish()
   // logger.info('处理发送邮件验证代码事件完毕')

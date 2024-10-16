@@ -214,9 +214,8 @@ async function sendChangeEmailCode() {
   ldb.start()
   let rs
   try {
-    rs = await api.v1.Account.SendEditMail(
+    rs = await api.v2.email.email(
       userData.getters.get_username,
-      userData.getters.get_token,
       tEmail.value.email
     )
   } catch (e) {
@@ -229,7 +228,7 @@ async function sendChangeEmailCode() {
     ldb.error()
     return
   }
-  if (rs.status) {
+  if (rs.status === 200) {
     message.success(rs.message)
     tEmail.value.verify.msg = ref(`已发送`)
   } else {
@@ -313,7 +312,7 @@ async function changePassword() {
   }
   let rs
   try {
-    rs = await api.v2.user.password(data.username, data.oldPassword, data.newPassword)
+    rs = await api.v2.user.password(data.username, data.oldPassword, data.newPassword, null)
   } catch (e) {
     logger.error(e)
     tPassword.value.isLoading = false
