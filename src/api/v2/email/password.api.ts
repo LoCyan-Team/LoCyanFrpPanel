@@ -2,9 +2,9 @@
 import { get } from '@/utils/request'
 import base from '@/api/base'
 
-const password = async (email: string) => {
+const password = async (username: string) => {
   const rs = get(`${base.api_v2_url}/email/password`, {
-    email: email
+    username: username
   })
   return base.buildResponse(await rs)
 }
