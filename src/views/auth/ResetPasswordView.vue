@@ -53,20 +53,18 @@
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
           <n-space>
-            <n-button type="primary" @click="doResetRequest" style="margin-right: 10px">
-              提交
-            </n-button>
-            <!--            <n-button type="primary" @click="sendResetMail" style="margin-right: 10px">-->
-            <!--              发送邮件-->
-            <!--            </n-button>-->
             <n-button
               ghost
               type="primary"
               style="--n-border: none"
               @click="() => router.push({ name: 'Login' })"
             >
-              登录
+              我想起密码了，带我去登录
             </n-button>
+            <n-button type="primary" @click="doResetRequest">提交</n-button>
+            <!--            <n-button type="primary" @click="sendResetMail" style="margin-right: 10px">-->
+            <!--              发送邮件-->
+            <!--            </n-button>-->
           </n-space>
         </div>
       </n-form>
