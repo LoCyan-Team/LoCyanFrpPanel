@@ -312,7 +312,7 @@ async function changePassword() {
   }
   let rs
   try {
-    rs = await api.v2.user.password(data.username, data.oldPassword, data.newPassword, null)
+    rs = await api.v2.user.password(data.username, data.oldPassword, data.newPassword, undefined)
   } catch (e) {
     logger.error(e)
     tPassword.value.isLoading = false

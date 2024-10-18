@@ -4,9 +4,9 @@ import { post } from '@/utils/request'
 
 const password = async (
   username: string,
-  old_password: string | null,
+  old_password: string | undefined,
   new_password: string,
-  verify_code: string | null
+  verify_code: string | undefined
 ) => {
   const rs = await post(`${base.api_v2_url}/user/password`, {
     username: username,
