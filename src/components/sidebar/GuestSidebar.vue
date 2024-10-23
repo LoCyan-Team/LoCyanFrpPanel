@@ -27,7 +27,7 @@
 import { NIcon, NLayoutSider, NMenu } from 'naive-ui'
 import { h, ref } from 'vue'
 
-import { CompassOutline, LogInOutline, MailOpenOutline } from '@vicons/ionicons5'
+import { LogInOutline, MailOpenOutline } from '@vicons/ionicons5'
 import { KeyReset20Regular } from '@vicons/fluent'
 
 import router from '@router'

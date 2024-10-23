@@ -52,6 +52,7 @@
         <n-space>
           <a href="https://spcraft.cn" target="_blank">
             <img
+              alt="SPCraftMC"
               style="width: 100%"
               src="https://apac-cloudflare-r2-img.1l1.icu/2024/07/03/6685745b965eb.webp"
             />

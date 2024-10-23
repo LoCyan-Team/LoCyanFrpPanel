@@ -99,10 +99,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { getUrlKey } from '@/utils/request'
 import router from '@router'
 import api from '@/api'
-import logger from '@/utils/logger'
 
 const formRef = ref(null)
 const message = useMessage()
