@@ -45,12 +45,6 @@ function renderIcon(icon) {
 
 const menuOptions = [
   {
-    path: '/',
-    label: '首页',
-    key: 'root',
-    icon: renderIcon(CompassOutline)
-  },
-  {
     path: '/auth/login',
     label: '登录',
     key: 'login',

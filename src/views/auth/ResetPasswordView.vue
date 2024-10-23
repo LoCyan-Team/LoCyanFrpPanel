@@ -233,14 +233,14 @@ const rules = {
 </script>
 <style scoped>
 #item {
-  margin-top: calc(50vh - 160px);
+  margin-top: calc(50vh - 210px);
   margin-left: 240px;
   margin-right: 240px;
 }
 
 @media (max-width: 1300px) {
   #item {
-    margin-top: calc(50vh - 160px);
+    margin-top: calc(50vh - 210px);
     margin-left: 20px;
     margin-right: 20px;
   }

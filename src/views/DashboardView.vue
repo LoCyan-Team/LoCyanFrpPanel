@@ -108,7 +108,7 @@
       </n-alert>
       -->
       <n-divider />
-      <n-alert title="注意事项" type="warning">
+      <n-alert title="注意事项" type="warning" class="ext-margin-bottom">
         1. 若因为自己的迷幻操作导致的各种问题我们没有义务给予回答；<br />
         2.
         不要因为群里没有人回答你的问题而到处宣扬我们没素质，任何人的时间都是宝贵的，不要因为你的问题而去浪费他人的时间。
@@ -138,17 +138,13 @@
       <br />
       <n-card title="使用方法">
         <n-space vertical>
-          <n-steps vertical :current="8">
+          <n-steps vertical :current="4">
             <n-step
               title="创建隧道"
-              description="点击隧道操作中的创建隧道，填写自己隧道的相应信息"
+              description="点击隧道操作中的创建隧道，填写相应信息创建"
             />
-            <n-step title="软件下载" description="点击软件下载,下载最新版本" />
-            <n-step title="启动客户端" description="启动客户端，登录自己的账号" />
-            <n-step title="安装Frpc" description="前往 设置->FRPC->安装Frpc" />
-            <n-step title="前往隧道列表" description="返回首页，点击左上角导航按钮，前往隧道列表" />
-            <n-step title="启动隧道" description="找到要启动的隧道，点击启动即可" />
-            <n-step title="启动成功" description="点击左上角导航按钮，前往控制台，即可查看日志" />
+            <n-step title="软件下载" description="点击软件下载,下载软件" />
+            <n-step title="启动隧道" description="启动对应的隧道" />
             <n-step title="开始使用" description="好了，开始享受吧" />
           </n-steps>
         </n-space>
@@ -157,6 +153,14 @@
     </n-grid-item>
   </n-grid>
 </template>
+
+<style scoped>
+@media screen and (max-width: 700px) {
+  .ext-margin-bottom {
+    margin-bottom: 24px;
+  }
+}
+</style>
 
 <script setup>
 import { ref, onMounted } from 'vue'
