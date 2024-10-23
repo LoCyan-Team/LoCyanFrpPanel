@@ -99,10 +99,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import { getUrlKey } from '@/utils/request'
 import router from '@router'
 import api from '@/api'
-import logger from '@/utils/logger'
 
 const formRef = ref(null)
 const message = useMessage()
@@ -233,14 +231,14 @@ const rules = {
 </script>
 <style scoped>
 #item {
-  margin-top: calc(50vh - 160px);
+  margin-top: calc(50vh - 210px);
   margin-left: 240px;
   margin-right: 240px;
 }
 
 @media (max-width: 1300px) {
   #item {
-    margin-top: calc(50vh - 160px);
+    margin-top: calc(50vh - 210px);
     margin-left: 20px;
     margin-right: 20px;
   }

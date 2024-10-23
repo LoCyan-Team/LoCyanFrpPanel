@@ -9,11 +9,7 @@ const routes = [
     children: [
       {
         path: '/',
-        name: 'MainPage',
-        meta: {
-          title: '首页'
-        },
-        component: () => import('@views/MainView.vue')
+        redirect: '/auth/login'
       },
       {
         path: '/dashboard',
