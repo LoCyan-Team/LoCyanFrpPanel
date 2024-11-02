@@ -38,7 +38,7 @@
         </n-card>
       </n-grid-item>
       <n-grid-item class="item" span="1">
-        <n-card title="LoCyanFrpCSDesktop" size="medium">
+        <n-card title="Kairo" size="medium">
           <h3>系统及架构支持</h3>
           <p>
             <span>Windows (至少需要 Windows 10)</span>
@@ -51,13 +51,13 @@
           <h3>下载</h3>
           <p>
             <a
-              href="https://mirrors.locyan.cn/github-release/LoCyan-Team/LoCyanFrpCSDesktop/LatestRelease/"
+              href="https://mirrors.locyan.cn/github-release/Shiroiame-Kusu/Kairo/LatestRelease/"
               target="_blank"
             >
               LoCyan Mirrors 镜像站
             </a>
             <br />
-            <a href="https://github.com/LoCyan-Team/LoCyanFrpCSDesktop/releases" target="_blank">
+            <a href="https://github.com/Shiroiame-Kusu/Kairo/releases" target="_blank">
               GitHub
             </a>
           </p>
