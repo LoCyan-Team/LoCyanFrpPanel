@@ -19,8 +19,8 @@
             <span>架构支持</span>
           </p>
           <ul>
-            <li>GUI: x86_84</li>
-            <li>CLI: x86_84, arm64 (macOS)</li>
+            <li>GUI: x86_64</li>
+            <li>CLI: x86_64, arm64 (macOS)</li>
           </ul>
           <h3>下载</h3>
           <p>
@@ -46,7 +46,7 @@
             <span>架构支持</span>
           </p>
           <ul>
-            <li>x86_84</li>
+            <li>x86_64</li>
           </ul>
           <h3>下载</h3>
           <p>
@@ -74,7 +74,7 @@
             <span>架构支持</span>
           </p>
           <ul>
-            <li>x86_84</li>
+            <li>x86_64</li>
           </ul>
           <h3>下载</h3>
           <p>
