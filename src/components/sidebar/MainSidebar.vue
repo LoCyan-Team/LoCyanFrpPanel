@@ -163,7 +163,7 @@ const menuOptions = [
       h(
         'a',
         {
-          href: 'https://status.locyan.cn',
+          href: 'https://status.locyanfrp.cn',
           target: '_blank'
         },
         '服务状态'

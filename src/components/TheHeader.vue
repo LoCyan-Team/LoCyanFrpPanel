@@ -54,7 +54,14 @@ import { changeUserInfoShow } from '@components/UserInfo.vue'
 const avatar = ref('')
 const announcementHtml = ref('')
 const showAnnouncement = ref(false)
+
 avatar.value = userData.getters.get_avatar
+
+userData.subscribe((mutation, state) => {
+  if (mutation.type === 'set_avatar' || mutation.type === 'set_user_info') {
+    avatar.value = state.avatar
+  }
+})
 
 onMounted(async () => {
   const time = new Date()
