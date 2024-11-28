@@ -57,9 +57,7 @@
               LoCyan Mirrors 镜像站
             </a>
             <br />
-            <a href="https://github.com/Shiroiame-Kusu/Kairo/releases" target="_blank">
-              GitHub
-            </a>
+            <a href="https://github.com/Shiroiame-Kusu/Kairo/releases" target="_blank"> GitHub </a>
           </p>
         </n-card>
       </n-grid-item>

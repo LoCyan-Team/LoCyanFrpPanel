@@ -140,10 +140,7 @@
       <n-card title="使用方法">
         <n-space vertical>
           <n-steps vertical :current="4">
-            <n-step
-              title="创建隧道"
-              description="点击隧道操作中的创建隧道，填写相应信息创建"
-            />
+            <n-step title="创建隧道" description="点击隧道操作中的创建隧道，填写相应信息创建" />
             <n-step title="软件下载" description="点击软件下载,下载软件" />
             <n-step title="启动隧道" description="启动对应的隧道" />
             <n-step title="开始使用" description="好了，开始享受吧" />

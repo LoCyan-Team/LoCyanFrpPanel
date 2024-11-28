@@ -24,9 +24,10 @@
         </n-card>
       </n-grid-item>
       <n-grid-item span="1">
+        <n-h3> 已登记的域名 </n-h3>
         <n-spin :show="icpListLoading">
-          <n-list bordered v-show="showList">
-            <template #header> 已登记的域名 </template>
+          <n-empty v-if="!icpListLoading && icpList.length === 0"></n-empty>
+          <n-list v-else bordered v-show="showList">
             <n-list-item v-for="item in icpList">
               <n-thing
                 :title="item.domain"

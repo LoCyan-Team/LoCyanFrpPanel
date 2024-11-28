@@ -137,7 +137,11 @@
     <n-text type="primary"> 隧道列表</n-text>
   </n-h1>
   <n-spin :show="loading">
-    <n-grid cols="4" item-responsive>
+    <n-empty
+      v-if="!loading && proxiesList.length === 0"
+      description="一个隧道都没找到哦~"
+    ></n-empty>
+    <n-grid v-else cols="4" item-responsive>
       <n-gi
         v-for="item in proxiesList"
         style="margin: 10px"
@@ -573,7 +577,7 @@ async function initList() {
     proxiesList.value = rs2.data.list
     loading.value = false
   } else if (rs2.status === 404) {
-    sendErrorMessage('你还没有隧道，先创建一个吧？')
+    // sendErrorMessage('你还没有隧道，先创建一个吧？')
   } else {
     sendErrorMessage(rs2.message)
   }

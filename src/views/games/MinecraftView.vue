@@ -27,7 +27,8 @@
     <n-grid-item span="1">
       <n-h3>已创建的联机</n-h3>
       <n-spin :show="loading">
-        <n-grid cols="3" item-responsive :x-gap="12" :y-gap="12">
+        <n-empty v-if="!loading && created.length === 0" description="没有任何数据捏"></n-empty>
+        <n-grid v-else cols="3" item-responsive :x-gap="12" :y-gap="12">
           <n-grid-item v-for="item in created" span="0:3 950:1">
             <n-space style="display: block">
               <n-card>
@@ -100,7 +101,7 @@ async function initProxyList() {
         value: value.id
       })
     })
-    selected.value = proxies[0].id
+    if (proxies.length !== 0) selected.value = proxies[0].id
   } else {
     sendErrorMessage(rs.message)
   }

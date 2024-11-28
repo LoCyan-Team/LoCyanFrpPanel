@@ -214,10 +214,7 @@ async function sendChangeEmailCode() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.email.email(
-      userData.getters.get_username,
-      tEmail.value.email
-    )
+    rs = await api.v2.email.email(userData.getters.get_username, tEmail.value.email)
   } catch (e) {
     logger.error(e)
     message.error('请求邮件验证码失败: ' + e)

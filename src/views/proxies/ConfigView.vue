@@ -141,7 +141,6 @@ async function updateValue(value) {
   }
   if (!rs) return
   if (rs.status === 200) {
-    sendSuccessMessage(rs.message)
     code.value = rs.data.config
   } else {
     sendErrorMessage(rs.message)
