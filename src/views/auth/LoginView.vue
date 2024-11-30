@@ -49,11 +49,18 @@
                 v-model:show="showTurnstile"
                 :mask-closable="false"
                 preset="card"
-                :closable="false"
                 title="请完成人机验证"
                 style="min-width: 300px; width: min-content"
               >
-                <vue-turnstile site-key="0x4AAAAAAAEXAhvwOKerpBsb" v-model="token" />
+                <vue-turnstile
+                  site-key="0x4AAAAAAAEXAhvwOKerpBsb"
+                  v-model="token"
+                  @error="(code) => {
+                    showTurnstile = false
+                    sendErrorMessage(`验证码加载失败，错误代码: ${code}`)
+                  }"
+                  @unsupported="sendErrorMessage('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')"
+                />
               </n-modal>
             </n-space>
           </n-space>
