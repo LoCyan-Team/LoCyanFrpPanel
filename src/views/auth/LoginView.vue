@@ -55,11 +55,15 @@
                 <vue-turnstile
                   site-key="0x4AAAAAAAEXAhvwOKerpBsb"
                   v-model="token"
-                  @error="(code) => {
-                    showTurnstile = false
-                    sendErrorMessage(`验证码加载失败，错误代码: ${code}`)
-                  }"
-                  @unsupported="sendErrorMessage('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')"
+                  @error="
+                    (code) => {
+                      showTurnstile = false
+                      sendErrorMessage(`验证码加载失败，错误代码: ${code}`)
+                    }
+                  "
+                  @unsupported="
+                    sendErrorMessage('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')
+                  "
                 />
               </n-modal>
             </n-space>
@@ -79,7 +83,7 @@ import { sendErrorMessage } from '@/utils/message'
 import logger from '@/utils/logger'
 import api from '@/api'
 import { getUrlKey } from '@/utils/request'
-import VueTurnstile from 'vue-turnstile';
+import VueTurnstile from 'vue-turnstile'
 
 const formRef = ref(null)
 const message = useMessage()

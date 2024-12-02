@@ -176,10 +176,7 @@ async function changeEmail() {
     let rs
     ldb.start()
     try {
-      rs = await api.v2.user.email(
-        userData.getters.get_user_id,
-        tEmail.value.verify.code
-      )
+      rs = await api.v2.user.email(userData.getters.get_user_id, tEmail.value.verify.code)
     } catch (e) {
       logger.error(e)
       message.error('请求换绑失败: ' + e)

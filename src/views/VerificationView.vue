@@ -202,11 +202,7 @@ async function submitRealName() {
   }
   let rs
   try {
-    rs = await api.v2.verification.realname(
-      submitForm.user_id,
-      submitForm.name,
-      submitForm.id_card
-    )
+    rs = await api.v2.verification.realname(submitForm.user_id, submitForm.name, submitForm.id_card)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
