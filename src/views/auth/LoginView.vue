@@ -103,9 +103,8 @@ if (redirect !== null) {
   logger.info('Redirect after login: ' + redirect)
 }
 
-watch(token, (oldToken, newToken) => {
+watch(token, (newToken, _) => {
   showTurnstile.value = false
-  console.log(newToken)
   login(newToken)
 })
 
