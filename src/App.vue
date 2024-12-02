@@ -121,7 +121,7 @@ vRouter.afterEach(() => {
 async function fetchUserInfo() {
   let rs
   try {
-    rs = await api.v2.user.info.root.get(userData.getters.get_username)
+    rs = await api.v2.user.info.root.get(userData.getters.get_user_id)
   } catch (e) {
     sendWarningMessage('查询用户信息失败: ' + e + '，请重新登录后台！')
   }

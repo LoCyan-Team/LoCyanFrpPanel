@@ -352,7 +352,7 @@ async function forceDownProxy(proxyId) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.proxy.down(userData.getters.get_username, proxyId)
+        rs = await api.v2.proxy.down(userData.getters.get_user_id, proxyId)
       } catch (e) {
         logger.error(e)
         sendErrorMessage(`请求强制下线隧道失败: ${e}`)
@@ -386,7 +386,7 @@ async function editProxy(proxyId) {
   let rs
   try {
     rs = await api.v2.proxy.update(
-      userData.getters.get_username,
+      userData.getters.get_user_id,
       editInfo.proxyId,
       editInfo.proxyName,
       editInfo.proxyType,
@@ -568,7 +568,7 @@ async function initList() {
 
   let rs2
   try {
-    rs2 = await api.v2.proxy.all(userData.getters.get_username)
+    rs2 = await api.v2.proxy.all(userData.getters.get_user_id)
   } catch (e) {
     sendErrorMessage('请求隧道列表失败: ' + e)
   }
@@ -577,6 +577,7 @@ async function initList() {
     proxiesList.value = rs2.data.list
     loading.value = false
   } else if (rs2.status === 404) {
+    loading.value = false
     // sendErrorMessage('你还没有隧道，先创建一个吧？')
   } else {
     sendErrorMessage(rs2.message)
@@ -609,7 +610,7 @@ function deleteProxy(id) {
       loading.value = true
       let rs
       try {
-        rs = await api.v2.proxy.root.delete(userData.getters.get_username, proxiesList.value[id].id)
+        rs = await api.v2.proxy.root.delete(userData.getters.get_user_id, proxiesList.value[id].id)
       } catch (e) {
         sendErrorMessage('请求删除隧道失败: ' + e)
         loading.value = false

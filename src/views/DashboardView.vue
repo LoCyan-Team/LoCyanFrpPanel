@@ -251,11 +251,11 @@ async function resetTraffic() {
     onPositiveClick: async () => {
       startLoadingBar()
       const data = {
-        username: userData.getters.get_username
+        user_id: userData.getters.get_user_id
       }
       let rs
       try {
-        rs = await api.v2.user.traffic(data.username)
+        rs = await api.v2.user.traffic(data.user_id)
       } catch (e) {
         logger.error(e)
         sendErrorMessage('请求重置流量失败: ' + e)

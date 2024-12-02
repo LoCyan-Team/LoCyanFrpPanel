@@ -1,13 +1,7 @@
-import Account from './Account'
-import App from './App'
-import Donate from './Donate'
 import Proxies from './Proxies'
-import User from './User'
+import Donate from './Donate'
 
 export default {
-  App: App,
-  Account: Account,
   Proxies: Proxies,
-  Donate: Donate,
-  User: User
+  Donate: Donate
 }

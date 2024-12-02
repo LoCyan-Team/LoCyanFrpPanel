@@ -170,7 +170,7 @@ onMounted(async () => {
     showModal.value = true
     let rs
     try {
-      rs = await api.v1.Donate.GetDonateInfo(inputTradeNo)
+      rs = await api.v2.Donate.GetDonateInfo(inputTradeNo)
     } catch (e) {
       sendErrorMessage('请求列表失败: ' + e)
     }
@@ -233,7 +233,7 @@ async function submitMessage() {
   let rs
   try {
     rs = await api.v2.donate.say.root.post(
-      userData.getters.get_username,
+      userData.getters.get_user_id,
       inputTradeNo,
       message.value.message
     )
@@ -260,7 +260,7 @@ async function doDonate() {
   }
   let rs
   try {
-    rs = await api.v2.donate.root.post(userData.getters.get_username, amount.value)
+    rs = await api.v2.donate.root.post(userData.getters.get_user_id, amount.value)
   } catch (e) {
     sendErrorMessage('请求列表失败: ' + e)
   }

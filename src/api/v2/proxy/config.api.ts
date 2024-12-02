@@ -5,9 +5,9 @@ import { get } from '@/utils/request'
 /**
  * 获取单个隧道配置文件
  */
-const config = async (username: string, proxy_id: number, node_id: number) => {
+const config = async (user_id: number, proxy_id: number, node_id: number) => {
   const rs = get(`${base.api_v2_url}/proxy/config`, {
-    username: username,
+    user_id: user_id,
     proxy_id: proxy_id,
     node_id: node_id
   })

@@ -83,7 +83,7 @@ let created = ref([])
 async function initProxyList() {
   let rs
   try {
-    rs = await api.v2.proxy.all(userData.getters.get_username)
+    rs = await api.v2.proxy.all(userData.getters.get_user_id)
   } catch (e) {
     sendErrorMessage('请求隧道列表失败: ' + e)
   }
@@ -111,7 +111,7 @@ async function initCreatedGames() {
   created.value.length = 0
   let rs
   try {
-    rs = await api.v2.minecraft.game.all(userData.getters.get_username)
+    rs = await api.v2.minecraft.game.all(userData.getters.get_user_id)
   } catch (e) {
     sendErrorMessage('请求游戏列表失败: ' + e)
   }
@@ -129,7 +129,7 @@ async function createMinecraftGame() {
   let selectedId = selected.value
   let rs
   try {
-    rs = await api.v2.minecraft.game.root.post(userData.getters.get_username, selectedId)
+    rs = await api.v2.minecraft.game.root.post(userData.getters.get_user_id, selectedId)
   } catch (e) {
     sendErrorMessage('创建联机失败: ' + e)
   }
@@ -147,7 +147,7 @@ async function createMinecraftGame() {
 async function deleteMinecraftGame(code) {
   let rs
   try {
-    rs = await api.v2.minecraft.game.root.delete(userData.getters.get_username, code)
+    rs = await api.v2.minecraft.game.root.delete(userData.getters.get_user_id, code)
   } catch (e) {
     sendErrorMessage('删除联机失败: ' + e)
   }

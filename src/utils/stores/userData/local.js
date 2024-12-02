@@ -4,8 +4,9 @@ import defStateData from './def'
 const loadFromLocal = () => {
   userData.commit('set_token', localStorage.getItem('token') ?? defStateData.token)
   userData.commit('set_username', localStorage.getItem('username') ?? defStateData.username)
+  userData.commit('set_user_id', localStorage.getItem('user_id') ?? defStateData.user_id)
   userData.commit('set_user_email', localStorage.getItem('email') ?? defStateData.email)
-  userData.commit('set_frp_token', localStorage.getItem('frptoken') ?? defStateData.frptoken)
+  userData.commit('set_frp_token', localStorage.getItem('frp_token') ?? defStateData.frp_token)
   userData.commit(
     'set_user_inbound',
     Number(localStorage.getItem('inbound') ?? defStateData.inbound)

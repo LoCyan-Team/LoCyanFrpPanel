@@ -304,7 +304,7 @@ async function addProxy() {
     return
   }
   const tunnelCreateInfo = {
-    username: userData.getters.get_username,
+    user_id: userData.getters.get_user_id,
     name: proxyInfo.value.proxyName,
     localIp: proxyInfo.value.localIp,
     proxyType: proxyInfo.value.proxyType,
@@ -320,7 +320,7 @@ async function addProxy() {
   let rs
   try {
     rs = await api.v2.proxy.root.post(
-      tunnelCreateInfo.username,
+      tunnelCreateInfo.user_id,
       tunnelCreateInfo.name,
       tunnelCreateInfo.localIp,
       tunnelCreateInfo.proxyType,

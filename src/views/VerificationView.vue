@@ -196,14 +196,14 @@ const segmented = {
 async function submitRealName() {
   startLoadingBar()
   const submitForm = {
-    username: userData.getters.get_username,
+    user_id: userData.getters.get_user_id,
     name: userProfile.value.name,
     id_card: userProfile.value.idCard
   }
   let rs
   try {
     rs = await api.v2.verification.realname(
-      submitForm.username,
+      submitForm.user_id,
       submitForm.name,
       submitForm.id_card
     )
@@ -227,14 +227,14 @@ async function submitRealName() {
 async function submitRealPerson() {
   startLoadingBar()
   const submitForm = {
-    username: userData.getters.get_username,
+    user_id: userData.getters.get_user_id,
     name: userProfile.value.name,
     id_card: userProfile.value.idCard
   }
   let rs
   try {
     rs = await api.v2.verification.realperson.root.post(
-      submitForm.username,
+      submitForm.user_id,
       submitForm.name,
       submitForm.id_card
     )
@@ -265,7 +265,7 @@ async function submitRealPerson() {
 async function queryRealPersonStatus() {
   let rs
   try {
-    rs = await api.v2.verification.realperson.query(userData.getters.get_username, ci.value)
+    rs = await api.v2.verification.realperson.query(userData.getters.get_user_id, ci.value)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
@@ -281,7 +281,7 @@ async function queryRealPersonStatus() {
 async function checkVerificationStatus() {
   let rs
   try {
-    rs = await api.v2.verification.root.get(userData.getters.get_username)
+    rs = await api.v2.verification.root.get(userData.getters.get_user_id)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }
@@ -333,7 +333,7 @@ async function checkVerificationStatus() {
 async function realPersonPay() {
   let rs
   try {
-    rs = await api.v2.verification.realperson.pay(userData.getters.get_username)
+    rs = await api.v2.verification.realperson.pay(userData.getters.get_user_id)
   } catch (e) {
     sendErrorMessage('请求失败: ' + e)
   }

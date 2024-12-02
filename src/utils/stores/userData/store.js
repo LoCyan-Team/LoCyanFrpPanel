@@ -4,8 +4,9 @@ import defStateData from './def'
 const stateData = {
   token: '',
   username: '',
+  user_id: 0,
   email: '',
-  frptoken: '',
+  frp_token: '',
   inbound: 0,
   outbound: 0,
   avatar: '',
@@ -23,11 +24,14 @@ export default new vuex.Store({
     get_username(state) {
       return state.username
     },
+    get_user_id(state) {
+      return state.user_id
+    },
     get_email(state) {
       return state.email
     },
     get_frp_token(state) {
-      return state.frptoken
+      return state.frp_token
     },
     get_user_inbound(state) {
       // 限速方面必须返回整数
@@ -65,14 +69,24 @@ export default new vuex.Store({
       state.username = defStateData.username
       localStorage.removeItem('username')
     },
+    // user id
+    set_user_id(state, user_id) {
+      console.log(user_id)
+      state.user_id = user_id
+      localStorage.setItem('user_id', user_id)
+    },
+    remove_user_id(state) {
+      state.user_id = defStateData.user_id
+      localStorage.removeItem('user_id')
+    },
     // frp token
-    set_frp_token(state, frptoken) {
-      state.frptoken = frptoken
-      localStorage.setItem('frptoken', frptoken)
+    set_frp_token(state, frp_token) {
+      state.frp_token = frp_token
+      localStorage.setItem('frp_token', frp_token)
     },
     remove_frp_token(state) {
-      state.frptoken = defStateData.frptoken
-      localStorage.removeItem('frptoken')
+      state.frp_token = defStateData.frp_token
+      localStorage.removeItem('frp_token')
     },
     // inbound
     set_user_inbound(state, inbound) {
@@ -126,28 +140,31 @@ export default new vuex.Store({
       localStorage.setItem('outbound', limit_info.outbound)
     },
     // 可选
-    set_user_info(state, userdata) {
-      // console.log(userdata)
-      state.username = userdata.username
-      state.email = userdata.email
-      state.frptoken = userdata.frp_token
-      state.inbound = userdata.inbound
-      state.outbound = userdata.outbound
-      state.avatar = userdata.avatar
-      state.traffic = userdata.traffic
+    set_user_info(state, userData) {
+      // console.log(userData)
+      state.username = userData.username
+      state.user_id = userData.id
+      state.email = userData.email
+      state.frptoken = userData.frp_token
+      state.inbound = userData.inbound
+      state.outbound = userData.outbound
+      state.avatar = userData.avatar
+      state.traffic = userData.traffic
       // state.proxies_num = userdata.proxies_num
-      localStorage.setItem('username', userdata.username)
-      localStorage.setItem('email', userdata.email)
-      localStorage.setItem('traffic', userdata.traffic)
-      localStorage.setItem('frptoken', userdata.frp_token)
-      localStorage.setItem('inbound', userdata.inbound)
-      localStorage.setItem('outbound', userdata.outbound)
-      localStorage.setItem('avatar', userdata.avatar)
+      localStorage.setItem('username', userData.username)
+      localStorage.setItem('user_id', userData.id)
+      localStorage.setItem('email', userData.email)
+      localStorage.setItem('traffic', userData.traffic)
+      localStorage.setItem('frp_token', userData.frp_token)
+      localStorage.setItem('inbound', userData.inbound)
+      localStorage.setItem('outbound', userData.outbound)
+      localStorage.setItem('avatar', userData.avatar)
       // localStorage.setItem('proxies_num', userdata.proxies_num)
     },
     delete_user_info(state) {
       state.token = defStateData.token
       state.username = defStateData.username
+      state.user_id = defStateData.user_id
       state.email = defStateData.email
       state.frptoken = defStateData.frptoken
       state.inbound = defStateData.inbound
@@ -156,14 +173,15 @@ export default new vuex.Store({
       state.traffic = defStateData.traffic
       localStorage.removeItem('token')
       localStorage.removeItem('username')
+      localStorage.removeItem('user_id')
       localStorage.removeItem('email')
       localStorage.removeItem('avatar')
       localStorage.removeItem('traffic')
-      localStorage.removeItem('frptoken')
+      localStorage.removeItem('frp_token')
       localStorage.removeItem('inbound')
       localStorage.removeItem('outbound')
       localStorage.removeItem('proxies')
-      localStorage.removeItem('avator')
+      localStorage.removeItem('avatar')
     }
   },
 

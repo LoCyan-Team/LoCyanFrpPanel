@@ -84,7 +84,7 @@ async function submit() {
   }
   let rs
   try {
-    rs = await api.v2.icp.post(userData.getters.get_username, domainInput.value.domain)
+    rs = await api.v2.icp.post(userData.getters.get_user_id, domainInput.value.domain)
   } catch (e) {
     sendErrorMessage('请求审核失败: ' + e)
   }
@@ -109,7 +109,7 @@ async function removeICP(id) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.icp.delete(userData.getters.get_username, id)
+        rs = await api.v2.icp.delete(userData.getters.get_user_id, id)
       } catch (e) {
         sendErrorMessage('请求移除域名失败: ' + e)
       }
@@ -134,7 +134,7 @@ async function getList() {
   icpListLoading.value = true
   let rs
   try {
-    rs = await api.v2.icp.get(userData.getters.get_username)
+    rs = await api.v2.icp.get(userData.getters.get_user_id)
   } catch (e) {
     sendErrorMessage('请求移除域名失败: ' + e)
   }

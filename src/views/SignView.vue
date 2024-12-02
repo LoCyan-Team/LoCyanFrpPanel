@@ -119,7 +119,7 @@ const status = ref(false)
 async function checkSign() {
   let rs
   try {
-    rs = await api.v2.sign.get(userData.getters.get_username)
+    rs = await api.v2.sign.get(userData.getters.get_user_id)
   } catch (e) {
     sendErrorMessage('获取签到状态失败: ' + e)
     loading.value = false
@@ -134,7 +134,7 @@ async function checkSign() {
 async function doSign() {
   let rs
   try {
-    rs = await api.v2.sign.post(userData.getters.get_username)
+    rs = await api.v2.sign.post(userData.getters.get_user_id)
   } catch (e) {
     sendErrorMessage('签到失败: ' + e)
   }

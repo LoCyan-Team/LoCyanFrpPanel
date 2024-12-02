@@ -142,7 +142,7 @@ onMounted(async () => {
   if (userData.getters.get_token !== '') {
     let rs
     try {
-      rs = await api.v2.user.info.qq(userData.getters.get_username)
+      rs = await api.v2.user.info.qq(userData.getters.get_user_id)
     } catch (e) {
       logger.error(e)
       bindQQ.value.isDisable = true
@@ -176,10 +176,8 @@ async function changeEmail() {
     let rs
     ldb.start()
     try {
-      rs = await api.v1.Account.EditEmail(
-        userData.getters.get_username,
-        userData.getters.get_token,
-        tEmail.value.email,
+      rs = await api.v2.user.email(
+        userData.getters.get_user_id,
         tEmail.value.verify.code
       )
     } catch (e) {
@@ -214,7 +212,7 @@ async function sendChangeEmailCode() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.email.email(userData.getters.get_username, tEmail.value.email)
+    rs = await api.v2.email.email(userData.getters.get_user_id, tEmail.value.email)
   } catch (e) {
     logger.error(e)
     message.error('请求邮件验证码失败: ' + e)
@@ -240,7 +238,7 @@ async function doBindQQ() {
   binding.value = true
   let rs
   try {
-    rs = await api.v2.auth.oauth.qq.bind.get(userData.getters.get_username)
+    rs = await api.v2.auth.oauth.qq.bind.get(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
     message.error('请求失败: ' + e)
@@ -256,7 +254,7 @@ async function unBindQQ() {
   binding.value = true
   let rs
   try {
-    rs = await api.v2.auth.oauth.qq.bind.delete(userData.getters.get_username)
+    rs = await api.v2.auth.oauth.qq.bind.delete(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
     binding.value = false
@@ -303,13 +301,13 @@ async function changePassword() {
     return
   }
   const data = {
-    username: userData.getters.get_username,
+    user_id: userData.getters.get_user_id,
     oldPassword: tPassword.value.oldPassword,
     newPassword: tPassword.value.newPassword
   }
   let rs
   try {
-    rs = await api.v2.user.password(data.username, data.oldPassword, data.newPassword, undefined)
+    rs = await api.v2.user.password(data.user_id, data.oldPassword, data.newPassword, undefined)
   } catch (e) {
     logger.error(e)
     tPassword.value.isLoading = false
@@ -330,7 +328,7 @@ async function resetFrpToken() {
   resetFrpTokenLoading.value = true
 
   const data = {
-    username: userData.getters.get_username
+    user_id: userData.getters.get_user_id
   }
 
   dialog.warning({
@@ -342,7 +340,7 @@ async function resetFrpToken() {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.user.frp.token(data.username)
+        rs = await api.v2.user.frp.token(data.user_id)
       } catch (e) {
         logger.error(e)
         resetFrpTokenLoading.value = false
@@ -368,7 +366,7 @@ async function exitAllDevices() {
   exitAllDevicesLoading.value = true
 
   const data = {
-    username: userData.getters.get_username
+    user_id: userData.getters.get_user_id
   }
 
   dialog.warning({
@@ -380,7 +378,7 @@ async function exitAllDevices() {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.user.token.all(data.username)
+        rs = await api.v2.user.token.all(data.user_id)
       } catch (e) {
         logger.error(e)
         exitAllDevicesLoading.value = false
