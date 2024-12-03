@@ -29,24 +29,21 @@
               :disabled="acceptLoading"
               type="primary"
               @click="doAuthorize"
-            >同意</n-button>
-            <n-button
-              :loading="denyLoading"
-              :disabled="denyLoading"
-              @click="deny"
-            >拒绝</n-button>
+              >同意</n-button
+            >
+            <n-button :loading="denyLoading" :disabled="denyLoading" @click="deny">拒绝</n-button>
           </div>
           <n-divider></n-divider>
-          <div style="text-align: center;">
+          <div style="text-align: center">
             <n-text>
               授权后，您将被重定向到以下地址:
-              <br>
+              <br />
               {{ urlKeys.redirectUrl }}
             </n-text>
           </div>
         </div>
         <div v-else>
-          <n-text style="color: red;">无效请求，请检查 URL 参数</n-text>
+          <n-text style="color: red">无效请求，请检查 URL 参数</n-text>
         </div>
       </n-card>
     </n-spin>
@@ -111,33 +108,37 @@ const acceptLoading = ref(false)
 const denyLoading = ref(false)
 
 async function doAuthorize() {
-  acceptLoading.value = true;
+  acceptLoading.value = true
   let permissionIds: Array<number> = []
-  applicationPermissionRequested.value.forEach(permission => {
+  applicationPermissionRequested.value.forEach((permission) => {
     permissionIds.push(permission.id)
   })
   let rs
   try {
-    rs = await api.v2.auth.oauth.authorize(userData.getters.get_user_id, urlKeys.appId, permissionIds)
+    rs = await api.v2.auth.oauth.authorize(
+      userData.getters.get_user_id,
+      urlKeys.appId,
+      permissionIds
+    )
   } catch (e) {
     logger.error(e)
-    sendErrorMessage("授权失败: " + e)
+    sendErrorMessage('授权失败: ' + e)
     acceptLoading.value = false
     return
   }
   if (rs != null) {
     if (rs.status === 200) {
-      sendSuccessMessage("授权成功，正在重定向，请不要刷新浏览器")
+      sendSuccessMessage('授权成功，正在重定向，请不要刷新浏览器')
       window.location.href = `${urlKeys.redirectUrl}?refresh_token=${rs.data.refresh_token}`
     } else {
-      sendErrorMessage("授权失败: " + rs.message)
+      sendErrorMessage('授权失败: ' + rs.message)
     }
   }
   acceptLoading.value = false
 }
 function deny() {
-  denyLoading.value = true;
-  window.location.href = urlKeys.redirectUrl + "?error=User.Deny";
+  denyLoading.value = true
+  window.location.href = urlKeys.redirectUrl + '?error=User.Deny'
 }
 
 onMounted(async () => {
@@ -158,7 +159,7 @@ onMounted(async () => {
         applicationDescription.value = rs.data.description
         return true
       } else if (rs.status === 404) {
-        sendErrorMessage("未找到此应用程序")
+        sendErrorMessage('未找到此应用程序')
         valid.value = false
         return true
       } else {
@@ -191,8 +192,9 @@ onMounted(async () => {
 
   async function initAppPermissions(): Promise<boolean> {
     const permissions = urlKeys.scopes.split(',')
-    permissionList.forEach(permission => {
-      if (permissions.includes(permission.node)) applicationPermissionRequested.value.push(permission)
+    permissionList.forEach((permission) => {
+      if (permissions.includes(permission.node))
+        applicationPermissionRequested.value.push(permission)
     })
     return true
     // applicationPermissionRequested
