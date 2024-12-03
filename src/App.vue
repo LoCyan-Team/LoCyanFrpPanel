@@ -151,6 +151,11 @@ async function fetchUserInfo() {
 watch(
   () => route.meta,
   (value) => {
+    if (value.noSidebar) {
+      showMainSidebar.value = false
+      showGuestSidebar.value = false
+      return
+    }
     if (value.needLogin) {
       showMainSidebar.value = true
       showGuestSidebar.value = false

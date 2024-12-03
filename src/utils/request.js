@@ -23,8 +23,6 @@ const instance = axios.create({
 
 const tokenDomains = ['api.locyanfrp.cn', 'api-v2.locyanfrp.cn', 'localhost']
 
-// post请求的时候，我们需要加上一个请求头，所以可以在这里进行一个默认的设置，即设置post的请求头为
-axios.defaults.headers.post['Content-Type'] = 'multipart/form-data;charset=UTF-8'
 // 添加请求拦截器
 instance.interceptors.request.use(
   async (config) => {
@@ -119,7 +117,7 @@ export async function get(url, params) {
  * @param headers
  */
 export async function post(url, params, headers = {}) {
-  return await instance.post(url, QS.stringify(params), {
+  return await instance.post(url, QS.stringify(params, { arrayFormat: 'repeat' }), {
     headers: { ...headers, 'Content-Type': 'application/x-www-form-urlencoded' }
   })
 }

@@ -72,6 +72,21 @@ const routes = [
               }
             },
             component: () => import('@views/auth/ResetPasswordView.vue')
+          },
+          {
+            path: 'oauth',
+            children: [
+              {
+                path: 'authorize',
+                name: 'OAuthAuthorize',
+                meta: {
+                  title: 'OAuth 授权界面',
+                  needLogin: true,
+                  noSidebar: true
+                },
+                component: () => import('@views/auth/oauth/AppAuthView.vue')
+              }
+            ]
           }
         ]
       },
@@ -159,6 +174,16 @@ const routes = [
           needLogin: true
         },
         component: () => import('@views/IcpCheckView.vue')
+      },
+      {
+        path: '/app',
+        name: 'App',
+        meta: {
+          title: '应用',
+          keepAlive: true,
+          needLogin: true
+        },
+        component: () => import('@views/AppView.vue')
       },
       {
         path: '/games',
