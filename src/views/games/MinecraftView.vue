@@ -102,6 +102,8 @@ async function initProxyList() {
       })
     })
     if (proxies.length !== 0) selected.value = proxies[0].id
+  } else if (rs.status === 404) {
+    // Nothing to do here
   } else {
     sendErrorMessage(rs.message)
   }

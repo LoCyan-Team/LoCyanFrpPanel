@@ -147,7 +147,6 @@ const displayMessagesDefault = ref(5)
 const displayAllMessages = ref(false)
 const tradeInfo = ref({
   id: 1,
-  username: '',
   message: null,
   trade_name: '',
   trade_no: '',
@@ -170,14 +169,13 @@ onMounted(async () => {
     showModal.value = true
     let rs
     try {
-      rs = await api.v2.Donate.GetDonateInfo(inputTradeNo)
+      rs = await api.v2.donate.info(userData.getters.get_user_id, inputTradeNo)
     } catch (e) {
       sendErrorMessage('请求列表失败: ' + e)
     }
     if (!rs) return
     if (rs.status === 200) {
-      if (rs.data) tradeInfo.value = rs.data
-      else sendErrorMessage('返回数据无效')
+      tradeInfo.value = rs.data
     } else {
       sendErrorMessage(rs.message)
     }

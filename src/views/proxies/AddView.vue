@@ -287,7 +287,7 @@ async function randomPort() {
   }
   let rs
   try {
-    rs = await api.v1.Proxies.GetRandomPort(proxyInfo.value.nodeId)
+    rs = await api.v2.node.port.random(userData.getters.get_user_id, proxyInfo.value.nodeId)
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求隧道端口失败: ' + e)
@@ -295,6 +295,8 @@ async function randomPort() {
   if (!rs) return
   if (rs.status === 200) {
     proxyInfo.value.remotePort = rs.data.port
+  } else {
+    sendErrorMessage(rs.message)
   }
 }
 
@@ -351,7 +353,7 @@ onMounted(async () => {
   loading.value = true
   let rs
   try {
-    rs = await api.v2.node.all()
+    rs = await api.v2.node.all(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求节点列表失败: ' + e)

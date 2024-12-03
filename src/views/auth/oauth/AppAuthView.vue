@@ -126,13 +126,12 @@ async function doAuthorize() {
     acceptLoading.value = false
     return
   }
-  if (rs != null) {
-    if (rs.status === 200) {
-      sendSuccessMessage('授权成功，正在重定向，请不要刷新浏览器')
-      window.location.href = `${urlKeys.redirectUrl}?refresh_token=${rs.data.refresh_token}`
-    } else {
-      sendErrorMessage('授权失败: ' + rs.message)
-    }
+  if (!rs) return
+  if (rs.status === 200) {
+    sendSuccessMessage('授权成功，正在重定向，请不要刷新浏览器')
+    window.location.href = `${urlKeys.redirectUrl}?refresh_token=${rs.data.refresh_token}`
+  } else {
+    sendErrorMessage('授权失败: ' + rs.message)
   }
   acceptLoading.value = false
 }
@@ -153,18 +152,17 @@ onMounted(async () => {
       sendErrorMessage(e)
       return false
     }
-    if (rs != null) {
-      if (rs.status === 200) {
-        applicationName.value = rs.data.name
-        applicationDescription.value = rs.data.description
-        return true
-      } else if (rs.status === 404) {
-        sendErrorMessage('未找到此应用程序')
-        valid.value = false
-        return true
-      } else {
-        sendErrorMessage(rs.message)
-      }
+    if (rs) return false
+    if (rs.status === 200) {
+      applicationName.value = rs.data.name
+      applicationDescription.value = rs.data.description
+      return true
+    } else if (rs.status === 404) {
+      sendErrorMessage('未找到此应用程序')
+      valid.value = false
+      return true
+    } else {
+      sendErrorMessage(rs.message)
     }
     return false
   }
@@ -178,14 +176,13 @@ onMounted(async () => {
       sendErrorMessage(e)
       return false
     }
-    if (rs != null) {
-      if (rs.status === 200) {
-        // logger.info(rs.data)
-        permissionList = rs.data.list
-        return true
-      } else {
-        sendErrorMessage(rs.message)
-      }
+    if (!rs) return false
+    if (rs.status === 200) {
+      // logger.info(rs.data)
+      permissionList = rs.data.list
+      return true
+    } else {
+      sendErrorMessage(rs.message)
     }
     return false
   }

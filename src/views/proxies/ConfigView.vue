@@ -99,7 +99,7 @@ const code = ref('')
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.node.all()
+    rs = await api.v2.node.all(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
     sendErrorMessage('请求节点列表失败: ' + e)

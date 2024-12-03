@@ -528,7 +528,7 @@ const serverList = ref([
 async function initList() {
   let rs1
   try {
-    rs1 = await api.v2.node.all()
+    rs1 = await api.v2.node.all(userData.getters.get_user_id)
   } catch (e) {
     sendErrorMessage('请求节点列表失败: ' + e)
   }
