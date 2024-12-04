@@ -6,8 +6,10 @@ import QS from 'qs'
 import userData from './stores/userData/store'
 import router from '@router'
 import Base64 from 'qs/lib/utils'
-import { sendErrorMessage } from './message'
+import Message from './message'
 import logger from '@/utils/logger'
+
+const message = new Message()
 
 //这一步的目的是判断出当前是开发环境还是生成环境，方法不止一种，达到目的就行
 // if(process.env.NODE_ENV=="development"){
@@ -66,7 +68,7 @@ instance.interceptors.response.use(
           })
           break
         case 500:
-          sendErrorMessage('服务器响应时发生错误')
+          message.error('服务器响应时发生错误')
         // 403 token过期
         // 登录过期对用户进行提示
         // 清除本地token和清空vuex中token对象

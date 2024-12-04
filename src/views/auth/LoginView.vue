@@ -58,11 +58,11 @@
                   @error="
                     (code) => {
                       showTurnstile = false
-                      sendErrorMessage(`验证码加载失败，错误代码: ${code}`)
+                      message.error(`验证码加载失败，错误代码: ${code}`)
                     }
                   "
                   @unsupported="
-                    sendErrorMessage('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')
+                    message.error('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')
                   "
                 />
               </n-modal>
@@ -76,17 +76,20 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import { useLoadingBar, useMessage } from 'naive-ui'
+import { useLoadingBar } from 'naive-ui'
 import router from '@router'
 import userData from '@/utils/stores/userData/store'
-import { sendErrorMessage } from '@/utils/message'
+import Message from '@/utils/message'
+import Notification from '@/utils/notification'
 import logger from '@/utils/logger'
 import api from '@/api'
 import { getUrlKey } from '@/utils/request'
 import VueTurnstile from 'vue-turnstile'
 
+const message = new Message()
+const notification = new Notification()
+
 const formRef = ref(null)
-const message = useMessage()
 const ldb = useLoadingBar()
 const qqLoginLoading = ref(false)
 // const oauthLogin_loading = ref(false)
@@ -129,18 +132,18 @@ async function login(turnstileToken) {
   try {
     rs = await api.v2.auth.login(model.value.username, model.value.password, turnstileToken)
   } catch (e) {
-    sendErrorMessage('请求失败: ' + e)
+    message.error('请求失败: ' + e)
   }
   if (!rs) {
     ldb.error()
     return
   }
   if (rs.status === 200) {
-    message.success(rs.data.username + '，欢迎回来！')
+    notification.success('登录成功', rs.data.username + '，欢迎回来！')
     userData.commit('set_token', rs.data.token)
     // console.log(res.data)
     userData.commit('set_user_info', rs.data)
-    router.push(redirect || '/dashboard')
+    await router.push(redirect || '/dashboard')
     ldb.finish()
   } else {
     message.warning(rs.message)
@@ -155,7 +158,7 @@ async function qqLogin() {
   try {
     rs = await api.v2.auth.oauth.qq.login.get()
   } catch (e) {
-    sendErrorMessage('请求 QQ 登录失败: ' + e)
+    message.error('请求 QQ 登录失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {

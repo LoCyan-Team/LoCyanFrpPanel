@@ -45,8 +45,8 @@
                       style="margin: 1px"
                       type="info"
                       v-clipboard="() => item.code"
-                      v-clipboard:success="() => sendSuccessMessage('复制成功')"
-                      v-clipboard:error="() => sendErrorMessage('复制失败')"
+                      v-clipboard:success="() => message.success('复制成功')"
+                      v-clipboard:error="() => message.error('复制失败')"
                     >
                       复制联机代码
                     </n-button>
@@ -69,9 +69,11 @@
 
 <script setup>
 import api from '@/api'
-import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
+import Message from '@/utils/message'
 import userData from '@/utils/stores/userData/store'
 import { ref } from 'vue'
+
+const message = new Message()
 
 const loading = ref(true)
 const createLoading = ref(false)
@@ -85,7 +87,7 @@ async function initProxyList() {
   try {
     rs = await api.v2.proxy.all(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('请求隧道列表失败: ' + e)
+    message.error('请求隧道列表失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
@@ -105,7 +107,7 @@ async function initProxyList() {
   } else if (rs.status === 404) {
     // Nothing to do here
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
   }
 }
 
@@ -115,14 +117,14 @@ async function initCreatedGames() {
   try {
     rs = await api.v2.minecraft.game.all(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('请求游戏列表失败: ' + e)
+    message.error('请求游戏列表失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
     rs.data.list.forEach((value) => created.value.push(value))
     loading.value = false
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
   }
 }
 
@@ -133,7 +135,7 @@ async function createMinecraftGame() {
   try {
     rs = await api.v2.minecraft.game.root.post(userData.getters.get_user_id, selectedId)
   } catch (e) {
-    sendErrorMessage('创建联机失败: ' + e)
+    message.error('创建联机失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
@@ -141,7 +143,7 @@ async function createMinecraftGame() {
     await initCreatedGames()
     loading.value = false
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
   }
   createLoading.value = false
 }
@@ -151,16 +153,16 @@ async function deleteMinecraftGame(code) {
   try {
     rs = await api.v2.minecraft.game.root.delete(userData.getters.get_user_id, code)
   } catch (e) {
-    sendErrorMessage('删除联机失败: ' + e)
+    message.error('删除联机失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
     created.value = created.value.filter((item) => {
       return item.code !== code
     })
-    sendSuccessMessage('删除成功')
+    message.success('删除成功')
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
   }
 }
 

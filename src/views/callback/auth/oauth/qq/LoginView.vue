@@ -13,11 +13,15 @@
 </template>
 
 <script setup>
-import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
 import userData from '@/utils/stores/userData/store'
 import { getUrlKey } from '@/utils/request'
 import router from '@router'
 import api from '@/api'
+import Message from '@/utils/message'
+import Notification from '@/utils/notification'
+
+const message = new Message()
+const notification = new Notification()
 
 let error = ref(false)
 let errorMessage = ref('')
@@ -30,13 +34,13 @@ if (code !== null) {
     try {
       rs = await api.v2.auth.oauth.qq.login.post(code)
     } catch (e) {
-      sendErrorMessage('登录失败: ' + e)
+      message.error('登录失败: ' + e)
       error.value = true
       errorMessage.value = '请求服务器失败'
     }
     if (!rs) return
     if (rs.status === 200) {
-      sendSuccessMessage(rs.data.username + '，欢迎回来！')
+      notification.success('登录成功', rs.data.username + '，欢迎回来！')
       userData.commit('set_token', rs.data.token)
       // console.log(rs.data)
       userData.commit('set_user_info', rs.data)

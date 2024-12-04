@@ -70,9 +70,11 @@
 import userData from '@/utils/stores/userData/store'
 import { getUrlKey } from '@/utils/request'
 import { onMounted, ref } from 'vue'
-import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
+import Message from '@/utils/message'
 import api from '@/api'
 import logger from '@/utils/logger'
+
+const message = new Message()
 
 const loading = ref(true)
 const valid = ref(true)
@@ -122,16 +124,16 @@ async function doAuthorize() {
     )
   } catch (e) {
     logger.error(e)
-    sendErrorMessage('授权失败: ' + e)
+    message.error('授权失败: ' + e)
     acceptLoading.value = false
     return
   }
   if (!rs) return
   if (rs.status === 200) {
-    sendSuccessMessage('授权成功，正在重定向，请不要刷新浏览器')
+    message.success('授权成功，正在重定向，请不要刷新浏览器')
     window.location.href = `${urlKeys.redirectUrl}?refresh_token=${rs.data.refresh_token}`
   } else {
-    sendErrorMessage('授权失败: ' + rs.message)
+    message.error('授权失败: ' + rs.message)
   }
   acceptLoading.value = false
 }
@@ -149,7 +151,7 @@ onMounted(async () => {
       rs = await api.v2.app.info(userData.getters.get_user_id, urlKeys.appId)
     } catch (e) {
       logger.error(e)
-      sendErrorMessage(e)
+      message.error(e)
       return false
     }
     if (rs) return false
@@ -158,11 +160,11 @@ onMounted(async () => {
       applicationDescription.value = rs.data.description
       return true
     } else if (rs.status === 404) {
-      sendErrorMessage('未找到此应用程序')
+      message.error('未找到此应用程序')
       valid.value = false
       return true
     } else {
-      sendErrorMessage(rs.message)
+      message.error(rs.message)
     }
     return false
   }
@@ -173,7 +175,7 @@ onMounted(async () => {
       rs = await api.v2.auth.oauth.permission.all(userData.getters.get_user_id)
     } catch (e) {
       logger.error(e)
-      sendErrorMessage(e)
+      message.error(e)
       return false
     }
     if (!rs) return false
@@ -182,7 +184,7 @@ onMounted(async () => {
       permissionList = rs.data.list
       return true
     } else {
-      sendErrorMessage(rs.message)
+      message.error(rs.message)
     }
     return false
   }

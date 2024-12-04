@@ -74,7 +74,7 @@
       <n-collapse-item title="实人认证（一级认证，可使用全部节点）" name="2">
         <n-grid cols="1" item-responsive>
           <n-gi span="1">
-            <n-card v-show="showRealpersonMoal && !showPayModal" title="实人认证">
+            <n-card v-show="showRealpersonModal && !showPayModal" title="实人认证">
               <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
                 <n-grid cols="1" item-responsive :y-gap="5">
                   <n-grid-item>
@@ -162,16 +162,19 @@
 
 <script setup>
 import { ref } from 'vue'
-import { sendErrorMessage } from '@/utils/message'
-import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
+import Message from '@/utils/message'
+import Dialog from '@/utils/dialog'
 import { finishLoadingBar, startLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
 import userData from '@/utils/stores/userData/store'
 import api from '@/api'
 import logger from '@/utils/logger'
 
+const message = new Message()
+const dialog = new Dialog()
+
 const loading = ref(true)
 const showRealnameModal = ref(true)
-const showRealpersonMoal = ref(true)
+const showRealpersonModal = ref(true)
 const showPayModal = ref(false)
 const showFinishModal = ref(false)
 const showScanCodeModal = ref(false)
@@ -204,7 +207,8 @@ async function submitRealName() {
   try {
     rs = await api.v2.verification.realname(submitForm.user_id, submitForm.name, submitForm.id_card)
   } catch (e) {
-    sendErrorMessage('请求失败: ' + e)
+    logger.error(e)
+    message.error('请求失败: ' + e)
   }
   if (!rs) {
     errorLoadingBar()
@@ -213,10 +217,10 @@ async function submitRealName() {
   if (rs.status === 200) {
     checkVerificationStatus()
     finishLoadingBar()
-    sendSuccessDialog('恭喜, 二级认证成功!')
+    message.success('恭喜, 二级认证成功!')
   } else {
     finishLoadingBar()
-    sendWarningDialog(rs.message)
+    message.warning(rs.message)
   }
 }
 
@@ -235,7 +239,8 @@ async function submitRealPerson() {
       submitForm.id_card
     )
   } catch (e) {
-    sendErrorMessage('请求失败: ' + e)
+    logger.error(e)
+    message.error('请求失败: ' + e)
   }
   if (!rs) {
     errorLoadingBar()
@@ -253,7 +258,7 @@ async function submitRealPerson() {
       }
     }, 5000)
   } else {
-    sendErrorMessage('发生错误: ' + rs.message)
+    message.error('发生错误: ' + rs.message)
     finishLoadingBar()
   }
 }
@@ -263,12 +268,12 @@ async function queryRealPersonStatus() {
   try {
     rs = await api.v2.verification.realperson.query(userData.getters.get_user_id, ci.value)
   } catch (e) {
-    sendErrorMessage('请求失败: ' + e)
+    message.error('请求失败: ' + e)
   }
   if (!rs) return
-  if (res.status === 200) {
+  if (rs.status === 200) {
     // 后端会处理所有审核通过的事宜，前端处理消息显示
-    sendSuccessDialog('一级认证成功')
+    message.success('一级认证成功')
     showScanCodeModal.value = false
     checkVerificationStatus()
   }
@@ -279,7 +284,7 @@ async function checkVerificationStatus() {
   try {
     rs = await api.v2.verification.root.get(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('请求失败: ' + e)
+    message.error('请求失败: ' + e)
   }
   if (!rs) return
   // 如果已经完成实名，那么关闭实名的框，展示实人的框
@@ -291,7 +296,7 @@ async function checkVerificationStatus() {
   if (realName.value === true && realPerson.value === true) {
     showFinishModal.value = true
     showRealnameModal.value = false
-    showRealpersonMoal.value = false
+    showRealpersonModal.value = false
     showPayModal.value = false
   }
 
@@ -302,10 +307,10 @@ async function checkVerificationStatus() {
     // 实人次数足够展示实人，不够展示支付
     logger.info('剩余实人次数: ' + realPersonCount.value)
     if (realPersonCount.value < 1) {
-      showRealpersonMoal.value = false
+      showRealpersonModal.value = false
       showPayModal.value = true
     } else {
-      showRealpersonMoal.value = true
+      showRealpersonModal.value = true
       showPayModal.value = false
     }
   }
@@ -316,10 +321,10 @@ async function checkVerificationStatus() {
     showRealnameModal.value = true
     // 实人次数足够展示实人，不够展示支付
     if (realPersonCount.value < 1) {
-      showRealpersonMoal.value = false
+      showRealpersonModal.value = false
       showPayModal.value = true
     } else {
-      showRealpersonMoal.value = true
+      showRealpersonModal.value = true
       showPayModal.value = false
     }
   }
@@ -331,7 +336,8 @@ async function realPersonPay() {
   try {
     rs = await api.v2.verification.realperson.pay(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('请求失败: ' + e)
+    logger.error(e)
+    message.error('请求失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {

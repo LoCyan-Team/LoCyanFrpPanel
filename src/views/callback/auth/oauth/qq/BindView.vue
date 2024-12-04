@@ -13,10 +13,12 @@
 </template>
 
 <script setup>
-import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
+import Message from '@/utils/message'
 import { getUrlKey } from '@/utils/request'
 import api from '@/api'
 import userData from '@/utils/stores/userData/store'
+
+const message = new Message()
 
 let error = ref(false)
 let success = ref(false)
@@ -37,13 +39,13 @@ if (!error.value && code !== null) {
     try {
       rs = await api.v2.auth.oauth.qq.bind.post(get_user_id, code)
     } catch (e) {
-      sendErrorMessage('登录失败: ' + e)
+      message.error('登录失败: ' + e)
       error.value = true
       errorMessage.value = '请求服务器失败'
     }
     if (!rs) return
     if (rs.status === 200) {
-      sendSuccessMessage('绑定成功')
+      message.success('绑定成功')
       success.value = true
     } else {
       error.value = true

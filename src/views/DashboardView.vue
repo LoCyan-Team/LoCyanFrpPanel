@@ -38,8 +38,8 @@
             style="margin-left: 10px; transform: translateY(-5px)"
             type="info"
             v-clipboard="() => frpToken"
-            v-clipboard:success="() => sendSuccessMessage('复制成功')"
-            v-clipboard:error="() => sendErrorMessage('复制失败')"
+            v-clipboard:success="() => message.success('复制成功')"
+            v-clipboard:error="() => message.error('复制失败')"
           >
             复制
           </n-button>
@@ -165,12 +165,15 @@ import { ref, onMounted } from 'vue'
 // import clipboard from '@/utils/clipboard'
 import { AngleRight, Key } from '@vicons/fa'
 import userData from '@/utils/stores/userData/store'
-import { useDialog, useMessage } from 'naive-ui'
 import { startLoadingBar, finishLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
-import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
+import Message from '@/utils/message'
+import Dialog from '@/utils/dialog'
 import api from '@/api'
 import logger from '@/utils/logger'
 import notice from '@/utils/notice'
+
+const message = new Message()
+const dialog = new Dialog()
 
 localStorage.setItem('ViewPage', 'personality')
 const username = userData.getters.get_username
@@ -181,8 +184,6 @@ const outbound = ref(userData.getters.get_user_outbound + 'Mbps 上行')
 const outboundRef = ref(null)
 const frpToken = ref(userData.getters.get_frp_token)
 const notShowFrpToken = ref(true)
-const dialog = useDialog()
-const message = useMessage()
 
 const broadcastHtml = ref('')
 const broadcastLoading = ref(true)
@@ -243,11 +244,7 @@ function helloMessage() {
 }
 
 async function resetTraffic() {
-  dialog.warning({
-    title: '警告',
-    content: '确定要重置流量吗？这将将剩余流量设置为 10 GiB',
-    positiveText: '确定',
-    negativeText: '还是算了~',
+  dialog.warning('确定要重置流量吗？这将将剩余流量设置为 10 GiB', {
     onPositiveClick: async () => {
       startLoadingBar()
       const data = {
@@ -258,7 +255,7 @@ async function resetTraffic() {
         rs = await api.v2.user.traffic(data.user_id)
       } catch (e) {
         logger.error(e)
-        sendErrorMessage('请求重置流量失败: ' + e)
+        message.error('请求重置流量失败: ' + e)
       }
       if (!rs) {
         errorLoadingBar()

@@ -62,13 +62,13 @@
       <n-grid-item span="1" v-if="showMessageLabel">
         <n-form
           ref="formRef"
-          :model="message"
+          :model="donateMessage"
           label-width="auto"
           require-mark-placement="right-hanging"
           size="medium"
         >
           <n-form-item label="留言" path="message">
-            <n-input type="text" v-model:value="message.message" placeholder="赞助的留言" />
+            <n-input type="text" v-model:value="donateMessage.message" placeholder="赞助的留言" />
           </n-form-item>
           <n-space>
             <n-button
@@ -132,9 +132,13 @@
 import { onMounted, ref } from 'vue'
 import { getUrlKey } from '@/utils/request'
 import userData from '@/utils/stores/userData/store'
-import { sendErrorMessage } from '@/utils/message'
-import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
+import Message from '@/utils/message'
+import Dialog from '@/utils/dialog'
+import logger from '@/utils/logger'
 import api from '@/api'
+
+const message = new Message()
+const dialog = new Dialog()
 
 // 页面元素初始化
 const amount = ref('0.01')
@@ -171,20 +175,21 @@ onMounted(async () => {
     try {
       rs = await api.v2.donate.info(userData.getters.get_user_id, inputTradeNo)
     } catch (e) {
-      sendErrorMessage('请求列表失败: ' + e)
+      logger.error(e)
+      message.error('请求列表失败: ' + e)
     }
     if (!rs) return
     if (rs.status === 200) {
       tradeInfo.value = rs.data
     } else {
-      sendErrorMessage(rs.message)
+      message.error(rs.message)
     }
   }
 })
 const submitLoading = ref(false)
 const donateLoading = ref(false)
 const formRef = ref(null)
-const message = ref([
+const donateMessage = ref([
   {
     message: ''
   }
@@ -196,14 +201,14 @@ async function getDonateList() {
   try {
     rs = await api.v2.donate.say.all()
   } catch (e) {
-    sendErrorMessage('请求列表失败: ' + e)
+    message.error('请求列表失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
     donateList.value = rs.data.list
     donateListLoading.value = false
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
   }
 }
 
@@ -222,8 +227,8 @@ const timestampToTime = (timestamp) => {
 
 async function submitMessage() {
   submitLoading.value = true
-  if (message.message === '') {
-    sendWarningDialog('内容不能为空！')
+  if (donateMessage.message === '') {
+    message.warning('内容不能为空！')
     submitLoading.value = false
     return
   }
@@ -233,18 +238,19 @@ async function submitMessage() {
     rs = await api.v2.donate.say.root.post(
       userData.getters.get_user_id,
       inputTradeNo,
-      message.value.message
+      donateMessage.value.message
     )
   } catch (e) {
-    sendErrorMessage('请求列表失败: ' + e)
+    logger.error(e)
+    message.error('请求列表失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
-    sendSuccessDialog('提交成功，感谢您的赞助~')
+    message.success('提交成功，感谢您的赞助~')
     getDonateList()
     submitLoading.value = false
   } else {
-    sendWarningDialog(rs.message)
+    message.warning(rs.message)
     submitLoading.value = false
   }
 }
@@ -252,7 +258,7 @@ async function submitMessage() {
 async function doDonate() {
   donateLoading.value = true
   if (payType.value === '' || payType.value === null) {
-    sendWarningDialog('请选择支付方式')
+    message.error('请选择支付方式')
     donateLoading.value = false
     return
   }
@@ -260,14 +266,15 @@ async function doDonate() {
   try {
     rs = await api.v2.donate.root.post(userData.getters.get_user_id, amount.value)
   } catch (e) {
-    sendErrorMessage('请求列表失败: ' + e)
+    logger.error(e)
+    message.error('请求列表失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
     window.open(rs.data.url)
     donateLoading.value = false
   } else {
-    sendWarningDialog(rs.message)
+    message.error(rs.message)
     donateLoading.value = false
   }
 }

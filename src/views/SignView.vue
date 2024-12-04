@@ -108,10 +108,12 @@
 <script setup>
 import { ref } from 'vue'
 import { NButton, NCard, NGrid, NGridItem, NH1, NSkeleton, NSpace, NText } from 'naive-ui'
-import { sendErrorMessage } from '@/utils/message'
-import { sendSuccessDialog } from '@/utils/dialog'
+import Message from '@/utils/message'
 import userData from '@/utils/stores/userData/store'
+import logger from '@/utils/logger'
 import api from '@/api'
+
+const message = new Message()
 
 const loading = ref(true)
 const status = ref(false)
@@ -121,7 +123,8 @@ async function checkSign() {
   try {
     rs = await api.v2.sign.get(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('获取签到状态失败: ' + e)
+    logger.error(e)
+    message.error('获取签到状态失败: ' + e)
     loading.value = false
   }
   if (!rs) return
@@ -136,16 +139,16 @@ async function doSign() {
   try {
     rs = await api.v2.sign.post(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('签到失败: ' + e)
+    logger.error(e)
+    message.error('签到失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
-    sendSuccessDialog('签到成功，本次获得 ' + rs.data.get_traffic + ' GiB 流量')
-    checkSign()
+    message.success('签到成功，本次获得 ' + rs.data.get_traffic + ' GiB 流量')
   } else {
-    sendErrorMessage(rs.message)
-    checkSign()
+    message.warning(rs.message)
   }
+  await checkSign()
 }
 
 checkSign()

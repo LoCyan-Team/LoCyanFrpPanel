@@ -122,8 +122,8 @@
           secondary
           type="primary"
           v-clipboard="() => quickStartCommand"
-          v-clipboard:success="() => sendSuccessMessage('复制成功')"
-          v-clipboard:error="() => sendErrorMessage('复制失败')"
+          v-clipboard:success="() => message.success('复制成功')"
+          v-clipboard:error="() => message.error('复制失败')"
         >
           复制
         </n-button>
@@ -260,20 +260,21 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { useDialog } from 'naive-ui'
 import userData from '@/utils/stores/userData/store'
-import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
-import { sendErrorDialog, sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
+import Message from '@/utils/message'
+import Dialog from '@/utils/dialog'
 import api from '@/api'
 import logger from '@/utils/logger'
 import router from '@router'
+
+const message = new Message()
+const dialog = new Dialog()
 
 const loading = ref(true)
 const showEditModal = ref(false)
 const showDetailModal = ref(false)
 const selectProxyID = ref(0)
 const indexOfProxies = ref(0)
-const dialog = useDialog()
 const linkAddr = ref('')
 const editServerList = ref([])
 const bodyStyle = {
@@ -325,52 +326,38 @@ function makeLinkAddr(id) {
 }
 
 async function launchProxyThroughApplication(id) {
-  dialog.success({
-    title: '通知',
-    content: '该功能需要配合 C# 客户端或 NyaLCF 使用!',
-    positiveText: '已经安装好了',
-    negativeText: '没安装...',
+  dialog.success('该功能需要配合 C# 客户端或 NyaLCF 使用!', {
     onPositiveClick: () => {
       const url = 'locyanfrp://' + userData.getters.get_frp_token + '/' + id
       window.open(url)
     },
     onNegativeClick: () => {
       router.push({ name: 'Software' })
-    },
-    onMaskClick: () => {
-      sendSuccessMessage('你取消了操作！')
     }
   })
 }
 
 async function forceDownProxy(proxyId) {
-  dialog.warning({
-    title: '警告',
-    content: '确认要强制下线隧道吗？这将会使该隧道下线',
-    positiveText: '确认',
-    negativeText: '还是算了吧~',
+  dialog.warning('确认要强制下线隧道吗？这将会使该隧道下线', {
     onPositiveClick: async () => {
       let rs
       try {
         rs = await api.v2.proxy.down(userData.getters.get_user_id, proxyId)
       } catch (e) {
         logger.error(e)
-        sendErrorMessage(`请求强制下线隧道失败: ${e}`)
+        message.error(`请求强制下线隧道失败: ${e}`)
       }
       if (!rs) return
       if (rs.status === 200) {
-        sendSuccessMessage('已发送隧道下线指令')
+        message.success('已发送隧道下线指令')
       }
-    },
-    onMaskClick: () => {
-      sendSuccessMessage('你取消了操作！')
     }
   })
 }
 
 async function editProxy(proxyId) {
   if (editCheck.value === false) {
-    sendWarningDialog('参数检查未通过，请检查信息格式是否正确！')
+    message.warning('参数检查未通过，请检查信息格式是否正确！')
   }
 
   const editInfo = {
@@ -400,8 +387,8 @@ async function editProxy(proxyId) {
       null
     )
   } catch (e) {
-    sendErrorMessage('请求修改隧道信息失败: ' + e)
-    sendErrorDialog('修改隧道信息失败，再试一次吧~')
+    message.error('请求修改隧道信息失败: ' + e)
+    dialog.error('修改隧道信息失败，再试一次吧~')
   }
   if (!rs) return
   if (rs.status === 200) {
@@ -409,9 +396,9 @@ async function editProxy(proxyId) {
     await initList()
     // 关闭模态框
     showEditModal.value = false
-    sendSuccessDialog('修改成功')
+    message.success('修改成功')
   } else {
-    sendErrorDialog(rs.message)
+    message.error(rs.message)
   }
 }
 
@@ -530,7 +517,7 @@ async function initList() {
   try {
     rs1 = await api.v2.node.all(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('请求节点列表失败: ' + e)
+    message.error('请求节点列表失败: ' + e)
   }
   if (!rs1) return
   let i = 0
@@ -570,7 +557,7 @@ async function initList() {
   try {
     rs2 = await api.v2.proxy.all(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('请求隧道列表失败: ' + e)
+    message.error('请求隧道列表失败: ' + e)
   }
   if (!rs2) return
   if (rs2.status === 200) {
@@ -580,7 +567,7 @@ async function initList() {
     loading.value = false
     // sendErrorMessage('你还没有隧道，先创建一个吧？')
   } else {
-    sendErrorMessage(rs2.message)
+    message.error(rs2.message)
   }
 }
 
@@ -612,23 +599,17 @@ function deleteProxy(id) {
       try {
         rs = await api.v2.proxy.root.delete(userData.getters.get_user_id, proxiesList.value[id].id)
       } catch (e) {
-        sendErrorMessage('请求删除隧道失败: ' + e)
+        message.error('请求删除隧道失败: ' + e)
         loading.value = false
       }
       if (!rs) return
       if (rs.status === 200) {
-        sendSuccessMessage('删除成功！')
+        message.success('删除成功！')
         proxiesList.value.splice(id, 1)
       } else {
-        sendErrorMessage(rs.message)
+        message.error(rs.message)
       }
       loading.value = false
-    },
-    onNegativeClick: () => {
-      sendSuccessMessage('你取消了操作！')
-    },
-    onMaskClick: () => {
-      sendSuccessMessage('你取消了操作！')
     }
   })
 }
