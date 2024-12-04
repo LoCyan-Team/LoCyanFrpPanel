@@ -44,7 +44,7 @@ if (code !== null) {
       userData.commit('set_token', rs.data.token)
       // console.log(rs.data)
       userData.commit('set_user_info', rs.data)
-      await router.push('/dashboard')
+      router.push('/dashboard')
     } else {
       error.value = true
       errorMessage.value = rs.message

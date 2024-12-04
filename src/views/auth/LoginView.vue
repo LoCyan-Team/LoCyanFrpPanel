@@ -143,7 +143,7 @@ async function login(turnstileToken) {
     userData.commit('set_token', rs.data.token)
     // console.log(res.data)
     userData.commit('set_user_info', rs.data)
-    await router.push(redirect || '/dashboard')
+    router.push(redirect || '/dashboard')
     ldb.finish()
   } else {
     message.warning(rs.message)

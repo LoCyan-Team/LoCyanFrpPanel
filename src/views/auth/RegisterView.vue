@@ -152,7 +152,7 @@ async function register() {
   // const rs = post('https://api.locyanfrp.cn/User/DoReg', model.value)
   if (rs.status === 200) {
     message.success(rs.message)
-    await router.push({ name: 'Login' })
+    router.push({ name: 'Login' })
   } else {
     message.error(rs.message)
   }
