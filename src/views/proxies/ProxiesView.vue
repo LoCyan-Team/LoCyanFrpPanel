@@ -137,10 +137,7 @@
     <n-text type="primary"> 隧道列表</n-text>
   </n-h1>
   <n-spin :show="loading">
-    <n-empty
-      v-if="!loading && proxiesList.length === 0"
-      description="一个隧道都没找到哦~"
-    ></n-empty>
+    <n-empty v-if="proxiesList.length === 0" description="一个隧道都没找到哦~"></n-empty>
     <n-grid v-else cols="4" item-responsive>
       <n-gi
         v-for="item in proxiesList"

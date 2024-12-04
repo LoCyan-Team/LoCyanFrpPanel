@@ -41,7 +41,7 @@ import {
   CompassSharp,
   GameController
 } from '@vicons/ionicons5'
-import { MoreCircle20Filled } from '@vicons/fluent'
+import { MoreCircle20Filled, Box24Filled } from '@vicons/fluent'
 import { AttachMoneyFilled, AccountTreeOutlined } from '@vicons/material'
 
 import router from '@router'
@@ -154,6 +154,12 @@ const menuOptions = [
         icon: renderIcon(AccountTreeOutlined)
       }
     ]
+  },
+  {
+    path: '/app',
+    label: 'OAuth2.0 应用',
+    key: 'app',
+    icon: renderIcon(Box24Filled)
   },
   {
     key: 'status',

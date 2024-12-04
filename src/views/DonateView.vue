@@ -86,7 +86,8 @@
   </n-card>
   <n-h3>留言</n-h3>
   <n-spin :show="donateListLoading">
-    <n-grid cols="3" item-responsive :x-gap="12" :y-gap="12">
+    <n-empty v-if="donateList.length === 0"></n-empty>
+    <n-grid v-else cols="3" item-responsive :x-gap="12" :y-gap="12">
       <n-grid-item
         v-for="item in donateList
           .filter((element) => element.amount >= amountFilterThreshold)
@@ -117,6 +118,7 @@
     </n-grid>
     <br />
     <n-button
+      v-if="donateList.length !== 0"
       @click="
         () => {
           displayAllMessages = !displayAllMessages

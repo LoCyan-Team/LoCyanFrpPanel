@@ -27,7 +27,7 @@
     <n-grid-item span="1">
       <n-h3>已创建的联机</n-h3>
       <n-spin :show="loading">
-        <n-empty v-if="!loading && created.length === 0" description="没有任何数据捏"></n-empty>
+        <n-empty v-if="created.length === 0" description="没有任何数据捏"></n-empty>
         <n-grid v-else cols="3" item-responsive :x-gap="12" :y-gap="12">
           <n-grid-item v-for="item in created" span="0:3 950:1">
             <n-space style="display: block">
