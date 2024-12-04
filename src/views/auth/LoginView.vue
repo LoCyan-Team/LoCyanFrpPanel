@@ -95,7 +95,7 @@ const qqLoginLoading = ref(false)
 // const oauthLogin_loading = ref(false)
 
 let token = ref('')
-const showTurnstile = ref(false)
+let showTurnstile = ref(false)
 
 const model = ref([
   {

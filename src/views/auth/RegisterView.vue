@@ -19,8 +19,8 @@
         <n-form-item label="密码" path="password">
           <n-input type="password" v-model:value="model.password" placeholder="密码" />
         </n-form-item>
-        <n-form-item label="确认密码" path="confirmpwd">
-          <n-input type="password" v-model:value="model.confirmpwd" placeholder="再次输入密码" />
+        <n-form-item label="确认密码" path="confirmPassword">
+          <n-input type="password" v-model:value="model.confirmPassword" placeholder="再次输入密码" />
         </n-form-item>
         <n-form-item label="QQ & 邮件验证码" path="qq">
           <n-grid cols="6" :x-gap="8" :y-gap="8" item-responsive>
@@ -148,7 +148,7 @@ async function register() {
   // const rs = post('https://api.locyanfrp.cn/User/DoReg', model.value)
   if (rs.status === 200) {
     message.success(rs.message)
-    router.push({ name: 'Login' })
+    await router.push({ name: 'Login' })
   } else {
     message.error(rs.message)
   }

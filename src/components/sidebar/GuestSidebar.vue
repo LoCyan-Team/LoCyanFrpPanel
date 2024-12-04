@@ -66,7 +66,7 @@ const menuOptions = [
 
 const active = ref('')
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   computeActiveKey(menuOptions, to.path)
   next()
 })
@@ -84,7 +84,7 @@ const computeActiveKey = (menuOptions, path) => {
 const route = useRoute()
 computeActiveKey(menuOptions, route.path)
 
-const handleUpdateValue = (key, item) => {
+const handleUpdateValue = (_, item) => {
   router.push({ path: item.path })
 }
 </script>

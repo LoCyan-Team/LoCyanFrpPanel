@@ -172,7 +172,6 @@ onMounted(async () => {
 async function changeEmail() {
   if (tEmail.value.isEditDisable) {
     tEmail.value.isEditDisable = false
-    tEmail.value.isEditDisable1 = ref('')
     tEmail.value.msg = '确认'
   } else if (!tEmail.value.isEditDisable) {
     //换绑
