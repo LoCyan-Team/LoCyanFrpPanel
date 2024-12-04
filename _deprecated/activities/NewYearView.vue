@@ -34,10 +34,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import Message from '@/utils/dialog'
-import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
-import { get } from '@/utils/request'
-import userData from '@/utils/stores/userData/store'
+import Message from '@/utils/dialog.js'
+import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar.js'
+import { get } from '@/utils/request.js'
+import userData from '@/utils/stores/userData/store.js'
 
 const message = new Message()
 

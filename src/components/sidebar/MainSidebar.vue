@@ -37,7 +37,6 @@ import {
   PaperPlane,
   PencilSharp,
   Person,
-  PlanetOutline,
   Key,
   CompassSharp,
   GameController
@@ -65,28 +64,28 @@ const menuOptions = [
     key: 'dashboard',
     icon: renderIcon(CompassSharp)
   },
-  {
-    label: '新春活动',
-    key: 'yearly',
-    show: false,
-    icon: renderIcon(PlanetOutline),
-    children: [
-      {
-        path: '/hello2024',
-        label: '评价和祝福',
-        show: true,
-        key: 'new-year',
-        icon: renderIcon(PlanetOutline)
-      },
-      {
-        path: '/prize',
-        label: '抽奖',
-        show: true,
-        key: 'prize',
-        icon: renderIcon(PlanetOutline)
-      }
-    ]
-  },
+  // {
+  //   label: '新春活动',
+  //   key: 'yearly',
+  //   show: false,
+  //   icon: renderIcon(PlanetOutline),
+  //   children: [
+  //     {
+  //       path: '/hello2024',
+  //       label: '评价和祝福',
+  //       show: true,
+  //       key: 'new-year',
+  //       icon: renderIcon(PlanetOutline)
+  //     },
+  //     {
+  //       path: '/prize',
+  //       label: '抽奖',
+  //       show: true,
+  //       key: 'prize',
+  //       icon: renderIcon(PlanetOutline)
+  //     }
+  //   ]
+  // },
   {
     path: '/verification',
     label: '身份认证',
