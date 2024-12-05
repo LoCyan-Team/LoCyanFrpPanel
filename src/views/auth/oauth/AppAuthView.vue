@@ -1,7 +1,7 @@
 <template>
   <div class="flex-center outbox">
     <n-h2>应用授权</n-h2>
-    <n-spin style="width: 100%; max-width: 500px" :show="loading">
+    <n-spin style="width: 100%; max-width: 500px" v-if="!error" :show="loading">
       <n-card>
         <div v-if="valid">
           <n-h3>{{ applicationName }}</n-h3>
@@ -12,7 +12,9 @@
             <n-ul>
               <n-li v-for="permission in applicationPermissionRequested">
                 <n-text>{{ permission.node }}</n-text>
-                <n-text style="margin-left: 0.3rem">{{ permission.description }}</n-text>
+                <n-text style="margin-left: 1rem; float: right">{{
+                  permission.description
+                }}</n-text>
               </n-li>
             </n-ul>
           </div>
@@ -43,10 +45,13 @@
           </div>
         </div>
         <div v-else>
-          <n-text style="color: red">无效请求，请检查 URL 参数</n-text>
+          <n-text>无效请求，请检查 URL 参数</n-text>
         </div>
       </n-card>
     </n-spin>
+    <div v-else>
+      <n-text>初始化失败，请重试</n-text>
+    </div>
   </div>
 </template>
 
@@ -71,12 +76,15 @@ import userData from '@/utils/stores/userData/store'
 import { getUrlKey } from '@/utils/request'
 import { onMounted, ref } from 'vue'
 import Message from '@/utils/message'
+import Notification from '@/utils/notification'
 import api from '@/api'
 import logger from '@/utils/logger'
 
 const message = new Message()
+const notification = new Notification()
 
 const loading = ref(true)
+const error = ref(false)
 const valid = ref(true)
 
 const urlKeys = {
@@ -120,6 +128,7 @@ async function doAuthorize() {
     rs = await api.v2.auth.oauth.authorize(
       userData.getters.get_user_id,
       urlKeys.appId,
+      urlKeys.redirectUrl,
       permissionIds
     )
   } catch (e) {
@@ -132,6 +141,8 @@ async function doAuthorize() {
   if (rs.status === 200) {
     message.success('授权成功，正在重定向，请不要刷新浏览器')
     window.location.href = `${urlKeys.redirectUrl}?refresh_token=${rs.data.refresh_token}`
+  } else if (rs.status === 403) {
+    notification.error('授权失败', `服务器拒绝授权，原因: ${rs.message}`)
   } else {
     message.error('授权失败: ' + rs.message)
   }
@@ -139,7 +150,7 @@ async function doAuthorize() {
 }
 function deny() {
   denyLoading.value = true
-  window.location.href = urlKeys.redirectUrl + '?error=User.Deny'
+  window.location.href = urlKeys.redirectUrl + '?error=user.deny'
 }
 
 onMounted(async () => {
@@ -154,7 +165,7 @@ onMounted(async () => {
       message.error(e)
       return false
     }
-    if (rs) return false
+    if (!rs) return false
     if (rs.status === 200) {
       applicationName.value = rs.data.name
       applicationDescription.value = rs.data.description
@@ -204,6 +215,8 @@ onMounted(async () => {
   let init3 = await initAppPermissions()
   if (init1 && init2 && init3) {
     loading.value = false
+  } else {
+    error.value = true
   }
 })
 </script>
