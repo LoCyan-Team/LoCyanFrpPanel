@@ -61,7 +61,7 @@
             <n-divider></n-divider>
             <n-spin :show="applicationListLoading">
               <n-empty v-if="applicationList.length === 0"></n-empty>
-              <n-card v-for="app in applicationList">
+              <n-card style="margin-block: 1rem" v-for="app in applicationList">
                 <template #header>
                   <n-h3 style="margin-bottom: 0">
                     {{ app.name }}
