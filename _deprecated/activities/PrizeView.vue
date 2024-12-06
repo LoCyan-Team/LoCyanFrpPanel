@@ -46,10 +46,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog'
-import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
-import { get } from '@/utils/request'
-import userData from '@/utils/stores/userData/store'
+import { sendSuccessDialog, sendWarningDialog } from '@/utils/dialog.js'
+import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar.js'
+import { get } from '@/utils/request.js'
+import userData from '@/utils/stores/userData/store.js'
 import { marked } from 'marked'
 
 const prizesList = ref([

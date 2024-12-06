@@ -53,7 +53,7 @@ import { changeUserInfoShow } from '@components/UserInfo.vue'
 
 const avatar = ref('')
 const announcementHtml = ref('')
-const showAnnouncement = ref(false)
+let showAnnouncement = ref(false)
 
 avatar.value = userData.getters.get_avatar
 

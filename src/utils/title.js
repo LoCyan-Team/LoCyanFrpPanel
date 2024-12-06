@@ -7,7 +7,7 @@ const colorBadgeData = 'background-color: #606060; color: #fff;'
 const colorReset = 'background-color: none; color: none;'
 const colorCFU = 'wdith: 100%; background-color: #66ccff; color: #fff;'
 
-export async function printTitle() {
+export default () => {
   console.log(
     `%c
         _           ____                  _____           

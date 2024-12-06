@@ -13,8 +13,8 @@
           type="info"
           style="margin-top: 30px"
           v-clipboard="() => code"
-          v-clipboard:success="() => sendSuccessMessage('复制成功')"
-          v-clipboard:error="() => sendErrorMessage('复制失败')"
+          v-clipboard:success="() => message.success('复制成功')"
+          v-clipboard:error="() => message.error('复制失败')"
         >
           复制
         </n-button>
@@ -68,10 +68,12 @@ set_real_ip_from 127.0.0.1;"
 <script setup>
 import { ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
-import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
+import Message from '@/utils/message'
 // import clipboard from '@/utils/clipboard'
 import api from '@/api'
 import logger from '@/utils/logger'
+
+const message = new Message()
 
 const loading = ref(true)
 
@@ -99,10 +101,10 @@ const code = ref('')
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.node.all()
+    rs = await api.v2.node.all(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
-    sendErrorMessage('请求节点列表失败: ' + e)
+    message.error('请求节点列表失败: ' + e)
   }
   if (!rs) return
   let i = 0
@@ -133,17 +135,17 @@ async function updateValue(value) {
   loading.value = true
   let rs
   try {
-    rs = await api.v2.proxy.config(userData.getters.get_username, null, value)
+    rs = await api.v2.proxy.config(userData.getters.get_user_id, null, value)
   } catch (e) {
     logger.error(e)
-    sendErrorMessage('请求获取隧道配置文件失败: ' + e)
+    message.error('请求获取隧道配置文件失败: ' + e)
     loading.value = false
   }
   if (!rs) return
   if (rs.status === 200) {
     code.value = rs.data.config
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
     code.value = '该节点下没有任何隧道捏~'
   }
   loading.value = false

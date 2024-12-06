@@ -139,11 +139,14 @@ n-input {
 <script setup>
 import { onMounted, ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
-import { sendErrorMessage } from '@/utils/message'
-import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
+import Message from '@/utils/message'
+import Dialog from '@/utils/dialog'
 import api from '@/api'
 import logger from '@/utils/logger'
 import { CheckmarkCircle, CloseCircle } from '@vicons/ionicons5'
+
+const message = new Message()
+const dialog = new Dialog()
 
 const loading = ref(true)
 
@@ -282,29 +285,31 @@ function proxyTypeSelectChangeHandle(value) {
 
 async function randomPort() {
   if (proxyInfo.value.nodeId === 0) {
-    sendErrorDialog('请先选择你需要的节点')
+    dialog.error('请先选择你需要的节点')
     return
   }
   let rs
   try {
-    rs = await api.v1.Proxies.GetRandomPort(proxyInfo.value.nodeId)
+    rs = await api.v2.node.port.random(userData.getters.get_user_id, proxyInfo.value.nodeId)
   } catch (e) {
     logger.error(e)
-    sendErrorMessage('请求隧道端口失败: ' + e)
+    message.error('请求隧道端口失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
     proxyInfo.value.remotePort = rs.data.port
+  } else {
+    message.error(rs.message)
   }
 }
 
 async function addProxy() {
   if (editCheck.value === false) {
-    sendErrorDialog('参数检查未通过，请检查信息格式是否正确')
+    dialog.error('参数检查未通过，请检查信息格式是否正确')
     return
   }
   const tunnelCreateInfo = {
-    username: userData.getters.get_username,
+    user_id: userData.getters.get_user_id,
     name: proxyInfo.value.proxyName,
     localIp: proxyInfo.value.localIp,
     proxyType: proxyInfo.value.proxyType,
@@ -320,7 +325,7 @@ async function addProxy() {
   let rs
   try {
     rs = await api.v2.proxy.root.post(
-      tunnelCreateInfo.username,
+      tunnelCreateInfo.user_id,
       tunnelCreateInfo.name,
       tunnelCreateInfo.localIp,
       tunnelCreateInfo.proxyType,
@@ -334,15 +339,15 @@ async function addProxy() {
     )
   } catch (e) {
     logger.error(e)
-    sendErrorMessage(e)
-    sendErrorDialog('添加失败，再试一次吧~')
+    message.error(e)
+    message.dialog('添加失败，再试一次吧~')
     loading.value = false
   }
   if (!rs) return
   if (rs.status === 200) {
-    sendSuccessDialog('添加成功')
+    message.success('添加成功')
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
   }
   loading.value = false
 }
@@ -351,10 +356,10 @@ onMounted(async () => {
   loading.value = true
   let rs
   try {
-    rs = await api.v2.node.all()
+    rs = await api.v2.node.all(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
-    sendErrorMessage('请求节点列表失败: ' + e)
+    message.error('请求节点列表失败: ' + e)
     loading.value = false
   }
   if (!rs) return
