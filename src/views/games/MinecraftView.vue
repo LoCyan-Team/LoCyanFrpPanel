@@ -157,9 +157,7 @@ async function deleteMinecraftGame(code) {
   }
   if (!rs) return
   if (rs.status === 200) {
-    created.value = created.value.filter((item) => {
-      return item.code !== code
-    })
+    created.value = created.value.filter((item) => item.code !== code)
     message.success('删除成功')
   } else {
     message.error(rs.message)

@@ -4,8 +4,8 @@
     v-model:show="showEditModal"
     class="custom-card"
     preset="card"
-    :style="bodyStyle"
-    :title="'编辑隧道 - 隧道ID: ' + String(selectProxyID)"
+    style="max-width: 600px"
+    :title="'编辑隧道 - ID: ' + String(selectProxyID)"
     size="huge"
     :bordered="false"
     :segmented="segmented"
@@ -89,7 +89,7 @@
     v-model:show="showDetailModal"
     class="custom-card"
     preset="card"
-    :style="bodyStyle"
+    style="max-width: 600px"
     :title="'详细信息 - 隧道ID: ' + selectProxyID"
     size="huge"
     :bordered="false"
@@ -274,9 +274,6 @@ const selectProxyID = ref(0)
 const indexOfProxies = ref(0)
 const linkAddr = ref('')
 const editServerList = ref([])
-const bodyStyle = {
-  width: '600px'
-}
 const segmented = {
   content: 'soft',
   footer: 'soft'
