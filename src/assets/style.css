@@ -1,3 +1,8 @@
+/* 黑白滤镜 */
+body {
+  filter: grayscale(1);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
