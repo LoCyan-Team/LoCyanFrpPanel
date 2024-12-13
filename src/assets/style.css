@@ -1,7 +1,7 @@
 /* 黑白滤镜 */
-body {
+/*body {
   filter: grayscale(1);
-}
+}*/
 
 @tailwind base;
 @tailwind components;
