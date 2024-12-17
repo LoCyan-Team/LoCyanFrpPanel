@@ -1,7 +1,9 @@
 import api from '@/api'
 import logger from '@/utils/logger'
-import { sendErrorMessage } from '@/utils/message'
+import Message from '@/utils/message'
 import { marked } from 'marked'
+
+const message = new Message()
 
 let notice = {
   getNotice: getNotice
@@ -14,7 +16,7 @@ async function getNotice() {
     res = await api.v2.notice.root.get()
   } catch (e) {
     logger.error(e)
-    sendErrorMessage('获取 Notice 失败: ' + e)
+    message.error('获取 Notice 失败: ' + e)
   }
   // console.log(res)
   if (!res) return

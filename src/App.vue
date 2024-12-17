@@ -7,7 +7,7 @@
             <the-message />
             <loading-bar />
             <the-dialog />
-            <notification />
+            <the-notification />
             <n-layout v-show="loading">
               <n-el class="load-container">
                 <n-spin></n-spin>
@@ -57,7 +57,7 @@ import {
   NNotificationProvider,
   useOsTheme
 } from 'naive-ui'
-import Notification from '@components/TheNotification.vue'
+import TheNotification from '@components/TheNotification.vue'
 import TheFooter from '@components/TheFooter.vue'
 import TheHeader from '@components/TheHeader.vue'
 import UserInfo from '@components/UserInfo.vue'
@@ -73,10 +73,12 @@ import hljs from 'highlight.js/lib/core'
 import ini from 'highlight.js/lib/languages/ini'
 import nginx from 'highlight.js/lib/languages/nginx'
 import api from '@/api'
-import { sendWarningMessage } from '@/utils/message'
+import Notification from '@/utils/notification'
 import { logout } from '@/utils/profile'
 import router from '@router'
 import { useRoute, useRouter } from 'vue-router'
+
+const notification = new Notification()
 
 // 手机状态下收缩菜单栏
 const collapsed = ref(true)
@@ -121,9 +123,9 @@ vRouter.afterEach(() => {
 async function fetchUserInfo() {
   let rs
   try {
-    rs = await api.v2.user.info.root.get(userData.getters.get_username)
+    rs = await api.v2.user.info.root.get(userData.getters.get_user_id)
   } catch (e) {
-    sendWarningMessage('查询用户信息失败: ' + e + '，请重新登录后台！')
+    notification.warning('查询用户信息失败', e + '，请重新登录后台！')
   }
   if (!rs) return
   if (rs.status === 200) {
@@ -142,7 +144,7 @@ async function fetchUserInfo() {
     return true
   }
   if (rs.status === 401) {
-    sendWarningMessage('登录过期或未登录，请重新登录后台！')
+    notification.warning('授权失效', '请重新登录后台！')
     logout()
   }
   return false
@@ -151,6 +153,11 @@ async function fetchUserInfo() {
 watch(
   () => route.meta,
   (value) => {
+    if (value.noSidebar) {
+      showMainSidebar.value = false
+      showGuestSidebar.value = false
+      return
+    }
     if (value.needLogin) {
       showMainSidebar.value = true
       showGuestSidebar.value = false

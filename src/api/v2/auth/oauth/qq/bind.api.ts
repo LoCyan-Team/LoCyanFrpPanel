@@ -2,24 +2,24 @@ import base from '@/api/base'
 //@ts-ignore
 import { get, post, deleteReq } from '@/utils/request'
 
-const getBind = async (username: string) => {
+const getBind = async (user_id: number) => {
   const rs = await get(`${base.api_v2_url}/auth/oauth/qq/bind`, {
-    username: username
+    user_id: user_id
   })
   return base.buildResponse(rs)
 }
 
-const postBind = async (username: string, code: string) => {
+const postBind = async (user_id: number, code: string) => {
   const rs = await post(`${base.api_v2_url}/auth/oauth/qq/bind`, {
-    username: username,
+    user_id: user_id,
     code: code
   })
   return base.buildResponse(rs)
 }
 
-const deleteBind = async (username: string) => {
+const deleteBind = async (user_id: number) => {
   const rs = await deleteReq(`${base.api_v2_url}/auth/oauth/qq/bind`, {
-    username: username
+    user_id: user_id
   })
   return base.buildResponse(rs)
 }

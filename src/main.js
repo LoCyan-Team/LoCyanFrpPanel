@@ -10,10 +10,10 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import userData from '@/utils/stores/userData/store'
 import userDataLocal from '@/utils/stores/userData/local'
-import { printTitle } from '@/utils/title'
+import banner from '@/utils/title'
 import Clipboard from 'v-clipboard'
 
-printTitle()
+banner()
 
 const app = createApp(App)
 app.use(userData)

@@ -37,12 +37,11 @@ import {
   PaperPlane,
   PencilSharp,
   Person,
-  PlanetOutline,
   Key,
   CompassSharp,
   GameController
 } from '@vicons/ionicons5'
-import { MoreCircle20Filled } from '@vicons/fluent'
+import { MoreCircle20Filled, Box24Filled } from '@vicons/fluent'
 import { AttachMoneyFilled, AccountTreeOutlined } from '@vicons/material'
 
 import router from '@router'
@@ -65,28 +64,28 @@ const menuOptions = [
     key: 'dashboard',
     icon: renderIcon(CompassSharp)
   },
-  {
-    label: '新春活动',
-    key: 'yearly',
-    show: false,
-    icon: renderIcon(PlanetOutline),
-    children: [
-      {
-        path: '/hello2024',
-        label: '评价和祝福',
-        show: true,
-        key: 'new-year',
-        icon: renderIcon(PlanetOutline)
-      },
-      {
-        path: '/prize',
-        label: '抽奖',
-        show: true,
-        key: 'prize',
-        icon: renderIcon(PlanetOutline)
-      }
-    ]
-  },
+  // {
+  //   label: '新春活动',
+  //   key: 'yearly',
+  //   show: false,
+  //   icon: renderIcon(PlanetOutline),
+  //   children: [
+  //     {
+  //       path: '/hello2024',
+  //       label: '评价和祝福',
+  //       show: true,
+  //       key: 'new-year',
+  //       icon: renderIcon(PlanetOutline)
+  //     },
+  //     {
+  //       path: '/prize',
+  //       label: '抽奖',
+  //       show: true,
+  //       key: 'prize',
+  //       icon: renderIcon(PlanetOutline)
+  //     }
+  //   ]
+  // },
   {
     path: '/verification',
     label: '身份认证',
@@ -157,6 +156,12 @@ const menuOptions = [
     ]
   },
   {
+    path: '/app',
+    label: 'OAuth2.0 应用',
+    key: 'app',
+    icon: renderIcon(Box24Filled)
+  },
+  {
     key: 'status',
     icon: renderIcon(List),
     label: () =>
@@ -200,7 +205,7 @@ const menuOptions = [
 const active = ref('')
 // const menuInstRef = ref(null)
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   computeActiveKey(menuOptions, to.path)
   next()
 })
@@ -218,7 +223,7 @@ const computeActiveKey = (menuOptions, path) => {
 const route = useRoute()
 computeActiveKey(menuOptions, route.path)
 
-const handleUpdateValue = (key, item) => {
+const handleUpdateValue = (_, item) => {
   router.push({ path: item.path })
 }
 </script>

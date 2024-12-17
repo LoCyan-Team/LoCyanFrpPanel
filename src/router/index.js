@@ -72,6 +72,21 @@ const routes = [
               }
             },
             component: () => import('@views/auth/ResetPasswordView.vue')
+          },
+          {
+            path: 'oauth',
+            children: [
+              {
+                path: 'authorize',
+                name: 'OAuthAuthorize',
+                meta: {
+                  title: 'OAuth 授权界面',
+                  needLogin: true,
+                  noSidebar: true
+                },
+                component: () => import('@views/auth/oauth/AppAuthView.vue')
+              }
+            ]
           }
         ]
       },
@@ -120,26 +135,26 @@ const routes = [
         },
         component: () => import('@views/VerificationView.vue')
       },
-      {
-        path: '/hello2024',
-        name: 'NewYear',
-        meta: {
-          title: '留言',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/activities/NewYearView.vue')
-      },
-      {
-        path: '/prize',
-        name: 'Prize',
-        meta: {
-          title: '抽奖',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/activities/PrizeView.vue')
-      },
+      // {
+      //   path: '/hello2024',
+      //   name: 'NewYear',
+      //   meta: {
+      //     title: '留言',
+      //     keepAlive: true,
+      //     needLogin: true
+      //   },
+      //   component: () => import('../../_deprecated/activities/NewYearView.vue')
+      // },
+      // {
+      //   path: '/prize',
+      //   name: 'Prize',
+      //   meta: {
+      //     title: '抽奖',
+      //     keepAlive: true,
+      //     needLogin: true
+      //   },
+      //   component: () => import('../../_deprecated/activities/PrizeView.vue')
+      // },
       {
         path: '/donate',
         name: 'Donate',
@@ -159,6 +174,16 @@ const routes = [
           needLogin: true
         },
         component: () => import('@views/IcpCheckView.vue')
+      },
+      {
+        path: '/app',
+        name: 'App',
+        meta: {
+          title: '应用',
+          keepAlive: true,
+          needLogin: true
+        },
+        component: () => import('@views/AppView.vue')
       },
       {
         path: '/games',

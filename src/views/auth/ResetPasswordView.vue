@@ -12,10 +12,10 @@
         v-show="sendResetEmail"
       >
         <n-form-item label="新密码" path="password">
-          <n-input type="text" v-model:value="model.password" placeholder="新密码" />
+          <n-input type="password" v-model:value="model.password" placeholder="新密码" />
         </n-form-item>
         <n-form-item label="重复密码" path="confirm_password">
-          <n-input type="text" v-model:value="model.confirmPassword" placeholder="重复密码" />
+          <n-input type="password" v-model:value="model.confirmPassword" placeholder="重复密码" />
         </n-form-item>
         <n-form-item label="验证" path="username">
           <n-grid cols="6" :x-gap="8" :y-gap="8" item-responsive>

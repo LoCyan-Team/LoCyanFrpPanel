@@ -3,7 +3,7 @@ import base from '@/api/base'
 import { post } from '@/utils/request'
 
 const update = async (
-  username: string,
+  user_id: number,
   proxy_id: number,
   proxy_name: string,
   proxy_type: string,
@@ -17,7 +17,7 @@ const update = async (
   secret_key: string
 ) => {
   const rs = post(`${base.api_v2_url}/proxy/update`, {
-    username: username,
+    user_id: user_id,
     proxy_id: proxy_id,
     proxy_type: proxy_type,
     proxy_name: proxy_name,
