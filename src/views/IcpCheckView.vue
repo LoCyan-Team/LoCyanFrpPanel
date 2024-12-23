@@ -26,7 +26,7 @@
       <n-grid-item span="1">
         <n-h3> 已登记的域名 </n-h3>
         <n-spin :show="icpListLoading">
-          <n-empty v-if="!icpListLoading && icpList.length === 0"></n-empty>
+          <n-empty v-if="icpList.length === 0"></n-empty>
           <n-list v-else bordered v-show="showList">
             <n-list-item v-for="item in icpList">
               <n-thing
@@ -47,14 +47,16 @@
 <script setup>
 import { ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
-import { sendSuccessMessage, sendErrorMessage } from '@/utils/message'
-import { sendErrorDialog, sendSuccessDialog } from '@/utils/dialog'
-import { useDialog } from 'naive-ui'
+import Message from '@/utils/message'
+import Dialog from '@/utils/dialog'
+import logger from '@/utils/logger'
 import api from '@/api'
+
+const message = new Message()
+const dialog = new Dialog()
 
 const showList = ref(false)
 const formRef = ref(null)
-const dialog = useDialog()
 const loading = ref(false)
 const icpListLoading = ref(true)
 const domainInput = ref({
@@ -78,54 +80,46 @@ async function submit() {
   }
   loading.value = true
   if (domainInput.value.domain === '' || domainInput.value.domain === null) {
-    sendErrorDialog('域名不得为空！')
+    message.error('域名不得为空！')
     loading.value = false
     return
   }
   let rs
   try {
-    rs = await api.v2.icp.post(userData.getters.get_username, domainInput.value.domain)
+    rs = await api.v2.icp.post(userData.getters.get_user_id, domainInput.value.domain)
   } catch (e) {
-    sendErrorMessage('请求审核失败: ' + e)
+    logger.error(e)
+    dialog.error('请求审核失败: ' + e)
   }
   loading.value = false
   if (!rs) return
   if (rs.status !== 200) {
     loading.value = false
-    sendErrorDialog('审核失败，可能是域名没有备案或格式错误！')
+    dialog.error('审核失败: ' + rs.message)
   } else {
     getList()
     loading.value = false
-    sendSuccessDialog('添加成功！')
+    dialog.success('添加成功！')
   }
 }
 
 async function removeICP(id) {
-  dialog.warning({
-    title: '警告',
-    content: '你确定要删除这个域名吗？（域名 ID: ' + id + '）',
-    positiveText: '确定',
-    negativeText: '取消',
+  dialog.warning('你确定要删除这个域名吗？（域名 ID: ' + id + '）', {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.icp.delete(userData.getters.get_username, id)
+        rs = await api.v2.icp.delete(userData.getters.get_user_id, id)
       } catch (e) {
-        sendErrorMessage('请求移除域名失败: ' + e)
+        logger.error(e)
+        message.error('请求移除域名失败: ' + e)
       }
       if (!rs) return
       if (rs.status === 200) {
-        sendSuccessDialog('删除成功！')
+        message.success('删除成功！')
         await getList()
       } else {
-        sendErrorDialog('删除失败，请联系管理员处理！')
+        message.error('删除失败，请联系管理员处理！')
       }
-    },
-    onNegativeClick: () => {
-      sendSuccessMessage('你取消了操作！')
-    },
-    onMaskClick: () => {
-      sendSuccessMessage('你取消了操作！')
     }
   })
 }
@@ -134,9 +128,10 @@ async function getList() {
   icpListLoading.value = true
   let rs
   try {
-    rs = await api.v2.icp.get(userData.getters.get_username)
+    rs = await api.v2.icp.get(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('请求移除域名失败: ' + e)
+    logger.error(e)
+    message.error('请求移除域名失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {

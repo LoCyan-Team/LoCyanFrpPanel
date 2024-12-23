@@ -92,20 +92,24 @@
 <script setup>
 import { logout } from '@/utils/profile'
 import userData from '@/utils/stores/userData/store'
-import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
+import Message from '@/utils/message'
+import Dialog from '@/utils/dialog'
+import Notification from '@/utils/notification'
 import { onMounted, ref } from 'vue'
-import { useDialog, useLoadingBar, useMessage } from 'naive-ui'
+import { useLoadingBar } from 'naive-ui'
 import api from '@/api'
 import logger from '@/utils/logger'
 import router from '@router'
 
+const message = new Message()
+const dialog = new Dialog()
+const notification = new Notification()
+
 const dialogWidth = ref('30vw')
 const ldb = useLoadingBar()
-const message = useMessage()
 const binding = ref(false)
 const resetFrpTokenLoading = ref(false)
 const exitAllDevicesLoading = ref(false)
-const dialog = useDialog()
 if (document.body.clientWidth <= 800) {
   dialogWidth.value = '75vw'
 }
@@ -142,7 +146,7 @@ onMounted(async () => {
   if (userData.getters.get_token !== '') {
     let rs
     try {
-      rs = await api.v2.user.info.qq(userData.getters.get_username)
+      rs = await api.v2.user.info.qq(userData.getters.get_user_id)
     } catch (e) {
       logger.error(e)
       bindQQ.value.isDisable = true
@@ -160,7 +164,7 @@ onMounted(async () => {
       bindQQ.value.unBindDisable = true
       bindQQ.value.unBindMsg = '尚未绑定'
     } else {
-      sendErrorMessage('获取 QQ 绑定状态失败: ' + rs.message)
+      message.error('获取 QQ 绑定状态失败: ' + rs.message)
     }
   }
 })
@@ -168,7 +172,6 @@ onMounted(async () => {
 async function changeEmail() {
   if (tEmail.value.isEditDisable) {
     tEmail.value.isEditDisable = false
-    tEmail.value.isEditDisable1 = ref('')
     tEmail.value.msg = '确认'
   } else if (!tEmail.value.isEditDisable) {
     //换绑
@@ -176,12 +179,7 @@ async function changeEmail() {
     let rs
     ldb.start()
     try {
-      rs = await api.v1.Account.EditEmail(
-        userData.getters.get_username,
-        userData.getters.get_token,
-        tEmail.value.email,
-        tEmail.value.verify.code
-      )
+      rs = await api.v2.user.email(userData.getters.get_user_id, tEmail.value.verify.code)
     } catch (e) {
       logger.error(e)
       message.error('请求换绑失败: ' + e)
@@ -193,7 +191,7 @@ async function changeEmail() {
       ldb.error()
       return
     }
-    if (rs.status) {
+    if (rs.status === 200) {
       message.success(rs.message)
       tEmail.value.isEditDisable = true
       tEmail.value.isBtnDisable = false
@@ -214,7 +212,7 @@ async function sendChangeEmailCode() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.email.email(userData.getters.get_username, tEmail.value.email)
+    rs = await api.v2.email.email(userData.getters.get_user_id, tEmail.value.email)
   } catch (e) {
     logger.error(e)
     message.error('请求邮件验证码失败: ' + e)
@@ -240,7 +238,7 @@ async function doBindQQ() {
   binding.value = true
   let rs
   try {
-    rs = await api.v2.auth.oauth.qq.bind.get(userData.getters.get_username)
+    rs = await api.v2.auth.oauth.qq.bind.get(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
     message.error('请求失败: ' + e)
@@ -256,7 +254,7 @@ async function unBindQQ() {
   binding.value = true
   let rs
   try {
-    rs = await api.v2.auth.oauth.qq.bind.delete(userData.getters.get_username)
+    rs = await api.v2.auth.oauth.qq.bind.delete(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
     binding.value = false
@@ -291,7 +289,7 @@ async function unBindQQ() {
 function doLogOut() {
   changeUserInfoShow(false)
   logout()
-  sendSuccessMessage('您已登出，感谢您的使用！')
+  notification.success('已登出', '感谢您的使用！')
   router.push({ name: 'Login' })
 }
 
@@ -303,13 +301,13 @@ async function changePassword() {
     return
   }
   const data = {
-    username: userData.getters.get_username,
+    user_id: userData.getters.get_user_id,
     oldPassword: tPassword.value.oldPassword,
     newPassword: tPassword.value.newPassword
   }
   let rs
   try {
-    rs = await api.v2.user.password(data.username, data.oldPassword, data.newPassword, undefined)
+    rs = await api.v2.user.password(data.user_id, data.oldPassword, data.newPassword, undefined)
   } catch (e) {
     logger.error(e)
     tPassword.value.isLoading = false
@@ -318,7 +316,7 @@ async function changePassword() {
   if (!rs) return
   if (rs.status === 200) {
     tPassword.value.isLoading = false
-    sendSuccessMessage('修改成功')
+    message.success('修改成功')
     doLogOut()
   } else {
     tPassword.value.isLoading = false
@@ -327,22 +325,16 @@ async function changePassword() {
 }
 
 async function resetFrpToken() {
-  resetFrpTokenLoading.value = true
-
   const data = {
-    username: userData.getters.get_username
+    user_id: userData.getters.get_user_id
   }
 
-  dialog.warning({
-    title: '警告',
-    content: '你确定要重置访问密钥吗? 该操作不可逆',
-    positiveText: '确定',
-    negativeText: '取消',
-    maskClosable: false,
+  dialog.warning('你确定要重置访问密钥吗? 该操作不可逆', {
     onPositiveClick: async () => {
+      resetFrpTokenLoading.value = true
       let rs
       try {
-        rs = await api.v2.user.frp.token(data.username)
+        rs = await api.v2.user.frp.token(data.user_id)
       } catch (e) {
         logger.error(e)
         resetFrpTokenLoading.value = false
@@ -352,35 +344,26 @@ async function resetFrpToken() {
       if (rs.status === 200) {
         resetFrpTokenLoading.value = false
         userData.commit('set_frp_token', rs.data.frp_token)
-        sendSuccessMessage('重置成功')
+        message.success('重置成功')
       } else {
         resetFrpTokenLoading.value = false
         message.error('重置失败, 后端返回: ' + rs.message)
       }
-    },
-    onNegativeClick: () => {
-      resetFrpTokenLoading.value = false
     }
   })
 }
 
 async function exitAllDevices() {
-  exitAllDevicesLoading.value = true
-
   const data = {
-    username: userData.getters.get_username
+    user_id: userData.getters.get_user_id
   }
 
-  dialog.warning({
-    title: '警告',
-    content: '你确定要登出全部设备吗, 所有登录将会失效',
-    positiveText: '确定',
-    negativeText: '取消',
-    maskClosable: false,
+  dialog.warning('你确定要登出全部设备吗, 所有登录将会失效', {
     onPositiveClick: async () => {
+      exitAllDevicesLoading.value = true
       let rs
       try {
-        rs = await api.v2.user.token.all(data.username)
+        rs = await api.v2.user.token.all(data.user_id)
       } catch (e) {
         logger.error(e)
         exitAllDevicesLoading.value = false
@@ -390,15 +373,12 @@ async function exitAllDevices() {
       // const rs = await deleteReq('https://api-v2.locyanfrp.cn/api/v2/users/reset/token/all', data)
       if (rs.status === 200) {
         exitAllDevicesLoading.value = false
-        sendSuccessMessage('已全部退出')
+        message.success('已全部退出')
         doLogOut()
       } else {
         exitAllDevicesLoading.value = false
         message.error('退出失败, 后端返回: ' + rs.message)
       }
-    },
-    onNegativeClick: () => {
-      exitAllDevicesLoading.value = false
     }
   })
 }
@@ -409,7 +389,7 @@ import { ref } from 'vue'
 
 const show = ref(false)
 
-export const changeUserInfoShow = (status1) => {
-  show.value = status1
+export const changeUserInfoShow = (status) => {
+  show.value = status
 }
 </script>

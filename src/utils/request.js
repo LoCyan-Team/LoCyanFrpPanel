@@ -6,8 +6,10 @@ import QS from 'qs'
 import userData from './stores/userData/store'
 import router from '@router'
 import Base64 from 'qs/lib/utils'
-import { sendErrorMessage } from './message'
+import Message from './message'
 import logger from '@/utils/logger'
+
+const message = new Message()
 
 //这一步的目的是判断出当前是开发环境还是生成环境，方法不止一种，达到目的就行
 // if(process.env.NODE_ENV=="development"){
@@ -23,8 +25,6 @@ const instance = axios.create({
 
 const tokenDomains = ['api.locyanfrp.cn', 'api-v2.locyanfrp.cn', 'localhost']
 
-// post请求的时候，我们需要加上一个请求头，所以可以在这里进行一个默认的设置，即设置post的请求头为
-axios.defaults.headers.post['Content-Type'] = 'multipart/form-data;charset=UTF-8'
 // 添加请求拦截器
 instance.interceptors.request.use(
   async (config) => {
@@ -68,7 +68,7 @@ instance.interceptors.response.use(
           })
           break
         case 500:
-          sendErrorMessage('服务器响应时发生错误')
+          message.error('服务器响应时发生错误')
         // 403 token过期
         // 登录过期对用户进行提示
         // 清除本地token和清空vuex中token对象
@@ -119,7 +119,7 @@ export async function get(url, params) {
  * @param headers
  */
 export async function post(url, params, headers = {}) {
-  return await instance.post(url, QS.stringify(params), {
+  return await instance.post(url, QS.stringify(params, { arrayFormat: 'repeat' }), {
     headers: { ...headers, 'Content-Type': 'application/x-www-form-urlencoded' }
   })
 }

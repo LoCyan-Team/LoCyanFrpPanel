@@ -2,9 +2,9 @@ import base from '@/api/base'
 //@ts-ignore
 import { post } from '@/utils/request'
 
-const postRealperson = async (username: string, name: string, id_card: string) => {
+const postRealperson = async (user_id: number, name: string, id_card: string) => {
   const rs = post(`${base.api_v2_url}/verification/realperson`, {
-    username: username,
+    user_id: user_id,
     name: name,
     id_card: id_card
   })

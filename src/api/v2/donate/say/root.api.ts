@@ -5,9 +5,9 @@ import { post } from '@/utils/request'
 /**
  * 列出赞助列表
  */
-const postSay = async (username: number, trade_no: string, message: string) => {
+const postSay = async (user_id: number, trade_no: string, message: string) => {
   const rs = post(`${base.api_v2_url}/donate/say`, {
-    username: username,
+    user_id: user_id,
     trade_no: trade_no,
     message: message
   })

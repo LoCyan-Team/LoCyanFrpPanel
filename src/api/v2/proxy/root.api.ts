@@ -3,7 +3,7 @@ import base from '@/api/base'
 import { post, deleteReq } from '@/utils/request'
 
 const postProxy = async (
-  username: string,
+  user_id: number,
   name: string,
   local_ip: string,
   type: string,
@@ -16,7 +16,7 @@ const postProxy = async (
   domain: string
 ) => {
   const rs = post(`${base.api_v2_url}/proxy`, {
-    username: username,
+    user_id: user_id,
     name: name,
     local_ip: local_ip,
     type: type,
@@ -31,9 +31,9 @@ const postProxy = async (
   return base.buildResponse(await rs)
 }
 
-const deleteProxy = async (username: string, proxy_id: number) => {
+const deleteProxy = async (user_id: number, proxy_id: number) => {
   const rs = deleteReq(`${base.api_v2_url}/proxy`, {
-    username: username,
+    user_id: user_id,
     proxy_id: proxy_id
   })
   return base.buildResponse(await rs)

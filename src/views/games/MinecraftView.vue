@@ -27,7 +27,7 @@
     <n-grid-item span="1">
       <n-h3>已创建的联机</n-h3>
       <n-spin :show="loading">
-        <n-empty v-if="!loading && created.length === 0" description="没有任何数据捏"></n-empty>
+        <n-empty v-if="created.length === 0" description="没有任何数据捏"></n-empty>
         <n-grid v-else cols="3" item-responsive :x-gap="12" :y-gap="12">
           <n-grid-item v-for="item in created" span="0:3 950:1">
             <n-space style="display: block">
@@ -45,8 +45,8 @@
                       style="margin: 1px"
                       type="info"
                       v-clipboard="() => item.code"
-                      v-clipboard:success="() => sendSuccessMessage('复制成功')"
-                      v-clipboard:error="() => sendErrorMessage('复制失败')"
+                      v-clipboard:success="() => message.success('复制成功')"
+                      v-clipboard:error="() => message.error('复制失败')"
                     >
                       复制联机代码
                     </n-button>
@@ -69,9 +69,11 @@
 
 <script setup>
 import api from '@/api'
-import { sendErrorMessage, sendSuccessMessage } from '@/utils/message'
+import Message from '@/utils/message'
 import userData from '@/utils/stores/userData/store'
 import { ref } from 'vue'
+
+const message = new Message()
 
 const loading = ref(true)
 const createLoading = ref(false)
@@ -83,9 +85,9 @@ let created = ref([])
 async function initProxyList() {
   let rs
   try {
-    rs = await api.v2.proxy.all(userData.getters.get_username)
+    rs = await api.v2.proxy.all(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('请求隧道列表失败: ' + e)
+    message.error('请求隧道列表失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
@@ -102,8 +104,10 @@ async function initProxyList() {
       })
     })
     if (proxies.length !== 0) selected.value = proxies[0].id
+  } else if (rs.status === 404) {
+    // Nothing to do here
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
   }
 }
 
@@ -111,16 +115,16 @@ async function initCreatedGames() {
   created.value.length = 0
   let rs
   try {
-    rs = await api.v2.minecraft.game.all(userData.getters.get_username)
+    rs = await api.v2.minecraft.game.all(userData.getters.get_user_id)
   } catch (e) {
-    sendErrorMessage('请求游戏列表失败: ' + e)
+    message.error('请求游戏列表失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
     rs.data.list.forEach((value) => created.value.push(value))
     loading.value = false
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
   }
 }
 
@@ -129,9 +133,9 @@ async function createMinecraftGame() {
   let selectedId = selected.value
   let rs
   try {
-    rs = await api.v2.minecraft.game.root.post(userData.getters.get_username, selectedId)
+    rs = await api.v2.minecraft.game.root.post(userData.getters.get_user_id, selectedId)
   } catch (e) {
-    sendErrorMessage('创建联机失败: ' + e)
+    message.error('创建联机失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
@@ -139,7 +143,7 @@ async function createMinecraftGame() {
     await initCreatedGames()
     loading.value = false
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
   }
   createLoading.value = false
 }
@@ -147,18 +151,16 @@ async function createMinecraftGame() {
 async function deleteMinecraftGame(code) {
   let rs
   try {
-    rs = await api.v2.minecraft.game.root.delete(userData.getters.get_username, code)
+    rs = await api.v2.minecraft.game.root.delete(userData.getters.get_user_id, code)
   } catch (e) {
-    sendErrorMessage('删除联机失败: ' + e)
+    message.error('删除联机失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
-    created.value = created.value.filter((item) => {
-      return item.code !== code
-    })
-    sendSuccessMessage('删除成功')
+    created.value = created.value.filter((item) => item.code !== code)
+    message.success('删除成功')
   } else {
-    sendErrorMessage(rs.message)
+    message.error(rs.message)
   }
 }
 

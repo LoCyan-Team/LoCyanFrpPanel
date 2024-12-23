@@ -9,6 +9,7 @@ import user from './user'
 import email from './email'
 import notice from './notice'
 import minecraft from './minecraft'
+import app from './app'
 
 export default {
   user: user,
@@ -21,5 +22,6 @@ export default {
   sign: sign,
   icp: icp,
   notice: notice,
-  minecraft: minecraft
+  minecraft: minecraft,
+  app: app
 }

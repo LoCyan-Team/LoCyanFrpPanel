@@ -2,9 +2,9 @@ import base from '@/api/base'
 //@ts-ignore
 import { get } from '@/utils/request'
 
-const qq = async (username: string) => {
+const qq = async (user_id: number) => {
   const rs = await get(`${base.api_v2_url}/user/info/qq`, {
-    username: username
+    user_id: user_id
   })
   return base.buildResponse(rs)
 }
