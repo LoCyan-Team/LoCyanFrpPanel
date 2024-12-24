@@ -334,7 +334,7 @@ async function resetFrpToken() {
       resetFrpTokenLoading.value = true
       let rs
       try {
-        rs = await api.v2.user.frp.token(data.user_id)
+        rs = await api.v2.user.frp.token.post(data.user_id)
       } catch (e) {
         logger.error(e)
         resetFrpTokenLoading.value = false
