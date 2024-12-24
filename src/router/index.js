@@ -176,14 +176,30 @@ const routes = [
         component: () => import('@views/IcpCheckView.vue')
       },
       {
-        path: '/app',
+        path: '/apps',
         name: 'App',
-        meta: {
-          title: '应用',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/AppView.vue')
+        children: [
+          {
+            path: 'management',
+            name: 'AppManagement',
+            meta: {
+              title: '应用管理',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/apps/ManagementView.vue')
+          },
+          {
+            path: 'access',
+            name: 'AppAccess',
+            meta: {
+              title: '授权管理',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/apps/AccessManagementView.vue')
+          }
+        ]
       },
       {
         path: '/games',

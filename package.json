@@ -10,6 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vicons/carbon": "^0.13.0",
     "@vicons/fa": "^0.12.0",
     "@vicons/fluent": "^0.12.0",
     "@vicons/ionicons4": "^0.12.0",

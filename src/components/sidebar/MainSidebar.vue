@@ -41,6 +41,7 @@ import {
   CompassSharp,
   GameController
 } from '@vicons/ionicons5'
+import { GuiManagement, Api } from '@vicons/carbon'
 import { MoreCircle20Filled, Box24Filled } from '@vicons/fluent'
 import { AttachMoneyFilled, AccountTreeOutlined } from '@vicons/material'
 
@@ -156,29 +157,42 @@ const menuOptions = [
     ]
   },
   {
-    path: '/app',
-    label: 'OAuth2.0 应用',
-    key: 'app',
-    icon: renderIcon(Box24Filled)
-  },
-  {
-    key: 'status',
-    icon: renderIcon(List),
-    label: () =>
-      h(
-        'a',
-        {
-          href: 'https://status.locyanfrp.cn',
-          target: '_blank'
-        },
-        '服务状态'
-      )
+    label: '应用程序',
+    key: 'apps',
+    icon: renderIcon(Box24Filled),
+    children: [
+      {
+        path: '/apps/management',
+        label: '应用管理',
+        key: 'apps-management',
+        icon: renderIcon(GuiManagement)
+      },
+      {
+        path: '/apps/access',
+        label: '授权管理',
+        key: 'apps-access',
+        icon: renderIcon(Api)
+      },
+    ]
   },
   {
     label: '其他功能',
     key: 'other',
     icon: renderIcon(MoreCircle20Filled),
     children: [
+      {
+        label: () =>
+          h(
+            'a',
+            {
+              href: 'https://status.locyanfrp.cn',
+              target: '_blank'
+            },
+            '服务状态'
+          ),
+        key: 'other-status',
+        icon: renderIcon(List)
+      },
       {
         path: '/other/software',
         label: '软件下载',

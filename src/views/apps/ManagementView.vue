@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-package"></i>
-    <n-text type="primary"> OAuth2.0 应用</n-text>
+    <n-text type="primary"> 应用管理</n-text>
   </n-h1>
   <n-modal
     preset="card"
