@@ -245,7 +245,7 @@ const routes = [
                     children: [
                       {
                         path: 'login',
-                        name: 'LoginAuthCallback',
+                        name: 'QQLoginOAuthCallback',
                         meta: {
                           title: 'QQ 登录回调页面',
                           needLogin: false
@@ -254,7 +254,7 @@ const routes = [
                       },
                       {
                         path: 'bind',
-                        name: 'BindQQOAuthAuthCallback',
+                        name: 'BindQQOAuthCallback',
                         meta: {
                           title: 'QQ 绑定回调页面',
                           needLogin: false
@@ -262,6 +262,15 @@ const routes = [
                         component: () => import('@views/callback/auth/oauth/qq/BindView.vue')
                       }
                     ]
+                  },
+                  {
+                    path: 'localhost',
+                    name: 'OAuthLocalCallback',
+                    meta: {
+                      title: '本地重定向界面',
+                      needLogin: false
+                    },
+                    component: () => import('@views/callback/auth/oauth/LocalRedirectView.vue')
                   }
                 ]
               }

@@ -172,7 +172,7 @@ const menuOptions = [
         label: '授权管理',
         key: 'apps-access',
         icon: renderIcon(Api)
-      },
+      }
     ]
   },
   {

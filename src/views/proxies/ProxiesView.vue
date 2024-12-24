@@ -582,29 +582,26 @@ const proxyEditInfo = ref({
 })
 
 function deleteProxy(id) {
-  dialog.warning(
-    `你确定要删除这个隧道吗？（隧道 ID：${proxiesList.value[id].id}）`,
-    {
-      onPositiveClick: async () => {
-        loading.value = true
-        let rs
-        try {
-          rs = await api.v2.proxy.root.delete(userData.getters.get_user_id, proxiesList.value[id].id)
-        } catch (e) {
-          message.error('请求删除隧道失败: ' + e)
-          loading.value = false
-        }
-        if (!rs) return
-        if (rs.status === 200) {
-          message.success('删除成功！')
-          proxiesList.value.splice(id, 1)
-        } else {
-          message.error(rs.message)
-        }
+  dialog.warning(`你确定要删除这个隧道吗？（隧道 ID：${proxiesList.value[id].id}）`, {
+    onPositiveClick: async () => {
+      loading.value = true
+      let rs
+      try {
+        rs = await api.v2.proxy.root.delete(userData.getters.get_user_id, proxiesList.value[id].id)
+      } catch (e) {
+        message.error('请求删除隧道失败: ' + e)
         loading.value = false
       }
+      if (!rs) return
+      if (rs.status === 200) {
+        message.success('删除成功！')
+        proxiesList.value.splice(id, 1)
+      } else {
+        message.error(rs.message)
+      }
+      loading.value = false
     }
-  )
+  })
 }
 </script>
 

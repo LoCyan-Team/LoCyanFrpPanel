@@ -6,5 +6,4 @@
   <n-h3>此页面仍在开发中🔧</n-h3>
   <n-empty></n-empty>
 </template>
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

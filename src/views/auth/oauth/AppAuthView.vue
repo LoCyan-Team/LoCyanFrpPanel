@@ -143,7 +143,7 @@ async function doAuthorize() {
 
     if (urlKeys.redirectUrl.includes('?')) {
       // 包含查询字符串标识
-      if (urlKeys.redirectUrl[urlKeys.redirectUrl.length-1] == '?') {
+      if (urlKeys.redirectUrl[urlKeys.redirectUrl.length - 1] == '?') {
         // 末尾字符为查询字符串标识
         window.location.href = `${urlKeys.redirectUrl}refresh_token=${rs.data.refresh_token}`
       } else {
@@ -159,7 +159,6 @@ async function doAuthorize() {
       // 普通 URL
       window.location.href = `${urlKeys.redirectUrl}?refresh_token=${rs.data.refresh_token}`
     }
-
   } else if (rs.status === 403) {
     notification.error('授权失败', `服务器拒绝授权，原因: ${rs.message}`)
   } else {
@@ -171,7 +170,7 @@ function deny() {
   denyLoading.value = true
   if (urlKeys.redirectUrl.includes('?')) {
     // 包含查询字符串标识
-    if (urlKeys.redirectUrl[urlKeys.redirectUrl.length-1] == '?') {
+    if (urlKeys.redirectUrl[urlKeys.redirectUrl.length - 1] == '?') {
       // 末尾字符为查询字符串标识
       window.location.href = `${urlKeys.redirectUrl}error=user.deny`
     } else {
