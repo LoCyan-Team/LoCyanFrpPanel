@@ -106,8 +106,9 @@ const model = ref([
 
 // 检查是否存在redirect值
 // 这里一定要解码两次
-const redirect = decodeURIComponent(decodeURIComponent(getUrlKey('redirect')))
-if (redirect !== null) {
+let redirectQuery = getUrlKey('redirect')
+let redirect = decodeURIComponent(decodeURIComponent(redirectQuery))
+if (redirectQuery !== null) {
   logger.info('Redirect after login: ' + redirect)
 }
 
@@ -151,7 +152,7 @@ async function login(turnstileToken) {
     if (!rsx) message.error('获取访问令牌时发生错误')
     userData.commit('set_frp_token', rsx.data.frp_token)
     notification.success('登录成功', rs.data.username + '，欢迎回来！')
-    router.push(redirect || '/dashboard')
+    router.push(redirectQuery == null ? '/dashboard' : redirect)
     ldb.finish()
   } else {
     message.warning(rs.message)
