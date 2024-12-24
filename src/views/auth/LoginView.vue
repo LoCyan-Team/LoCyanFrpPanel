@@ -105,7 +105,8 @@ const model = ref([
 ])
 
 // 检查是否存在redirect值
-const redirect = decodeURIComponent(getUrlKey('redirect'))
+// 这里一定要解码两次
+const redirect = decodeURIComponent(decodeURIComponent(getUrlKey('redirect')))
 if (redirect !== null) {
   logger.info('Redirect after login: ' + redirect)
 }

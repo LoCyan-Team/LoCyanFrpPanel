@@ -350,7 +350,10 @@ router.beforeEach((to, from, next) => {
   const hasToken = userData.getters.get_token !== ''
 
   if (to.meta.needLogin && !hasToken) {
-    next({ name: 'Login', query: { redirect: location.pathname } })
+    next({
+      name: 'Login',
+      query: { redirect: encodeURIComponent(location.pathname + location.search) }
+    })
   }
   if (to.meta.autoRedirectAfterLogin && hasToken) {
     next({ name: 'Dashboard' })
