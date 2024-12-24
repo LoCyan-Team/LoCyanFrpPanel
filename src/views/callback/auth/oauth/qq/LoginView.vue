@@ -40,11 +40,18 @@ if (code !== null) {
     }
     if (!rs) return
     if (rs.status === 200) {
-      notification.success('登录成功', rs.data.username + '，欢迎回来！')
       userData.commit('set_token', rs.data.token)
-      // console.log(rs.data)
       userData.commit('set_user_info', rs.data)
-      router.push('/dashboard')
+      let rsx
+      try {
+        rsx = await api.v2.user.frp.token.get(rs.data.id)
+      } catch (e) {
+        message.error('请求失败: ' + e)
+      }
+      if (!rsx) message.error('获取访问令牌时发生错误')
+      userData.commit('set_frp_token', rsx.data.frp_token)
+      notification.success('登录成功', rs.data.username + '，欢迎回来！')
+      router.push(redirect || '/dashboard')
     } else {
       error.value = true
       errorMessage.value = rs.message

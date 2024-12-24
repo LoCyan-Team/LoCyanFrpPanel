@@ -140,7 +140,26 @@ async function doAuthorize() {
   if (!rs) return
   if (rs.status === 200) {
     message.success('授权成功，正在重定向，请不要刷新浏览器')
-    window.location.href = `${urlKeys.redirectUrl}?refresh_token=${rs.data.refresh_token}`
+
+    if (urlKeys.redirectUrl.includes('?')) {
+      // 包含查询字符串标识
+      if (urlKeys.redirectUrl[urlKeys.redirectUrl.length-1] == '?') {
+        // 末尾字符为查询字符串标识
+        window.location.href = `${urlKeys.redirectUrl}refresh_token=${rs.data.refresh_token}`
+      } else {
+        // 末尾字符不为查询字符串标识
+        window.location.href = `${urlKeys.redirectUrl}&refresh_token=${rs.data.refresh_token}`
+      }
+    } else if (urlKeys.redirectUrl.includes('#')) {
+      // 包含段落标识
+      const strArr = urlKeys.redirectUrl.split('#')
+      window.location.href = `${strArr[0]}?refresh_token=${rs.data.refresh_token}#${strArr[1]}`
+    } else {
+      // 不接受同时存在查询字符串与段落标识
+      // 普通 URL
+      window.location.href = `${urlKeys.redirectUrl}?refresh_token=${rs.data.refresh_token}`
+    }
+
   } else if (rs.status === 403) {
     notification.error('授权失败', `服务器拒绝授权，原因: ${rs.message}`)
   } else {
@@ -150,7 +169,24 @@ async function doAuthorize() {
 }
 function deny() {
   denyLoading.value = true
-  window.location.href = urlKeys.redirectUrl + '?error=user.deny'
+  if (urlKeys.redirectUrl.includes('?')) {
+    // 包含查询字符串标识
+    if (urlKeys.redirectUrl[urlKeys.redirectUrl.length-1] == '?') {
+      // 末尾字符为查询字符串标识
+      window.location.href = `${urlKeys.redirectUrl}error=user.deny`
+    } else {
+      // 末尾字符不为查询字符串标识
+      window.location.href = `${urlKeys.redirectUrl}&error=user.deny`
+    }
+  } else if (urlKeys.redirectUrl.includes('#')) {
+    // 包含段落标识
+    const strArr = urlKeys.redirectUrl.split('#')
+    window.location.href = `${strArr[0]}?error=user.deny#${strArr[1]}`
+  } else {
+    // 不接受同时存在查询字符串与段落标识
+    // 普通 URL
+    window.location.href = `${urlKeys.redirectUrl}?error=user.deny`
+  }
 }
 
 onMounted(async () => {
