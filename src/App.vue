@@ -188,7 +188,12 @@ setInterval(async () => {
     const valid = await fetchUserInfo()
     if (!valid) {
       logout()
-      router.push({ name: 'Login' })
+      router.push({
+        name: 'Login',
+        query: {
+          redirect: encodeURIComponent(window.location.pathname + window.location.search)
+        }
+      })
     }
   }
 }, 10000)

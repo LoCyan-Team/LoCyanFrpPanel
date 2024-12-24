@@ -136,21 +136,31 @@ export async function deleteReq(url, params) {
 }
 
 export function getUrlKey(name) {
-  let path = window.location.href.split('?') //分割url
-  // 拼接链接
-  let href = path[0] + '?' + path[1]
-  // 如果不存在则抛出null
-  if (path[1] === null || path[1] === '' || path[1] === undefined) {
-    return null
+  logger.info(window.location.href)
+  const query = window.location.search.substring(1)
+  const vars = query.split('&')
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split('=')
+    if (pair[0] === name) {
+      return pair[1]
+    }
   }
-  let query = Base64.decode(path[1]) //解码
-  href = path[0] + '?' + query //解码后重组
-  return (
-    decodeURIComponent(
-      (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(href) || [
-        undefined,
-        ''
-      ])[1].replace(/\+/g, '%20')
-    ) || null
-  )
+  return null
+  // let path = window.location.href.split('?') //分割url
+  // // 拼接链接
+  // let href = path[0] + '?' + path[1]
+  // // 如果不存在则抛出null
+  // if (path[1] === null || path[1] === '' || path[1] === undefined) {
+  //   return null
+  // }
+  // let query = Base64.decode(path[1]) //解码
+  // href = path[0] + '?' + query //解码后重组
+  // return (
+  //   decodeURIComponent(
+  //     (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(href) || [
+  //       undefined,
+  //       ''
+  //     ])[1].replace(/\+/g, '%20')
+  //   ) || null
+  // )
 }
