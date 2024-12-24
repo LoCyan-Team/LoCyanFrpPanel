@@ -17,6 +17,7 @@ import { getUrlKey } from '@/utils/request'
 
 const urlKeys = {
   port: getUrlKey('port'),
+  path: getUrlKey('path'),
   ssl: getUrlKey('ssl') === 'true',
   refreshToken: getUrlKey('refresh_token'),
   error: getUrlKey('error')
@@ -24,8 +25,8 @@ const urlKeys = {
 
 const finalUrl = ref(
   urlKeys.error != null
-    ? `${urlKeys.ssl ? 'https' : 'http'}://localhost:${urlKeys.port}?error=${urlKeys.error}`
-    : `${urlKeys.ssl ? 'https' : 'http'}://localhost:${urlKeys.port}?refresh_token=${urlKeys.refreshToken}`
+    ? `${urlKeys.ssl ? 'https' : 'http'}://localhost:${urlKeys.port}${urlKeys.path ?? ''}?error=${urlKeys.error}`
+    : `${urlKeys.ssl ? 'https' : 'http'}://localhost:${urlKeys.port}${urlKeys.path ?? ''}?refresh_token=${urlKeys.refreshToken}`
 )
 </script>
 
