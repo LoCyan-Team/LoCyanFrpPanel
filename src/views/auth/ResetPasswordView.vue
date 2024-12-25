@@ -22,7 +22,7 @@
             <n-grid-item span="0:6 600:4">
               <n-input
                 type="text"
-                v-model:value="model.username"
+                v-model:value="model.user"
                 placeholder="用户名 / 邮箱"
                 @keyup.enter="sendResetMail"
               />
@@ -109,7 +109,7 @@ const sendResetEmail = ref(true)
 
 const model = ref([
   {
-    username: '',
+    user: '',
     password: '',
     confirmPassword: '',
     verifyCode: ''
@@ -150,7 +150,7 @@ async function doResetRequest() {
   let rs
   try {
     rs = await api.v2.user.password(
-      model.value.username,
+      model.value.user,
       undefined,
       model.value.password,
       model.value.verifyCode
@@ -176,7 +176,7 @@ async function sendResetMail() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.email.password(model.value.username)
+    rs = await api.v2.email.password(model.value.user)
   } catch (e) {
     message.error('请求失败: ' + e)
   }
