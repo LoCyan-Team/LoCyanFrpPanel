@@ -57,11 +57,11 @@
                   v-model="token"
                   @error="
                     (code) => {
-                      if (code.startsWith(200)) {
+                      if (`${code}`.startsWith('200')) {
                         message.error(`验证失败，状态异常，错误代码: ${code}`)
-                      } else if (code.startsWith(300)) {
+                      } else if (`${code}`.startsWith('300')) {
                         message.error(`验证失败，当前环境异常，错误代码: ${code}`)
-                      } else if (code.startsWith(600)) {
+                      } else if (`${code}`.startsWith('600')) {
                         message.error(`验证失败，错误代码: ${code}`)
                       } else {
                         message.error(`验证错误，错误代码: ${code}`)
