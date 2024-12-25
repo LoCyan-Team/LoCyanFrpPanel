@@ -57,8 +57,18 @@
                   v-model="token"
                   @error="
                     (code) => {
-                      showTurnstile = false
-                      message.error(`验证码加载失败，错误代码: ${code}`)
+                      if (code.startsWith(200)) {
+                        message.error(`验证失败，状态异常，错误代码: ${code}`)
+                      } else if (code.startsWith(300)) {
+                        message.error(`验证失败，当前环境异常，错误代码: ${code}`)
+                      } else if (code.startsWith(600)) {
+                        message.error(`验证失败，错误代码: ${code}`)
+                      } else {
+                        message.error(`验证错误，错误代码: ${code}`)
+                      }
+                      setTimeout(() => {
+                        showTurnstile = false
+                      }, 3000)
                     }
                   "
                   @unsupported="
