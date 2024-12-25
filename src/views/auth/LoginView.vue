@@ -15,7 +15,7 @@
             type="text"
             v-model:value="model.username"
             placeholder="用户名"
-            @keyup.enter="login"
+            @keyup.enter="showTurnstile = true"
           />
         </n-form-item>
         <n-form-item label="密码" path="password">
@@ -23,7 +23,7 @@
             type="password"
             v-model:value="model.password"
             placeholder="密码"
-            @keyup.enter="login"
+            @keyup.enter="showTurnstile = true"
           />
         </n-form-item>
         <div>
