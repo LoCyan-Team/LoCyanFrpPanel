@@ -1,18 +1,20 @@
+import { fileURLToPath, URL } from 'node:url'
+
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
+import vueDevTools from 'vite-plugin-vue-devtools'
 import GitRevisionVitePlugin from 'git-revision-vite-plugin'
 import cssnanoPlugin from 'cssnano'
 import autoprefixer from 'autoprefixer'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
-import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    vueDevTools(),
     GitRevisionVitePlugin({
       commitHashCommand: 'rev-parse --short HEAD'
     }),
@@ -27,7 +29,6 @@ export default defineConfig({
     Components({
       resolvers: [NaiveUiResolver()]
     }),
-    vueDevTools()
   ],
   server: {
     host: '0.0.0.0'
@@ -39,19 +40,19 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve('./src'), // @代替src
-      '@views': path.resolve('./src/views'),
-      '@components': path.resolve('./src/components'),
-      '@router': path.resolve('./src/router/index.js')
-    }
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@views': fileURLToPath(new URL('./src/views', import.meta.url)),
+      '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
+      '@router': fileURLToPath(new URL('./src/router/index.js', import.meta.url)),
+    },
   },
   build: {
     rollupOptions: {
-      manualChunks(id) {
-        if (id.includes('node_modules')) {
-          return 'vendor'
-        }
-      }
+      // manualChunks(id) {
+      //   if (id.includes('node_modules')) {
+      //     return 'vendor'
+      //   }
+      // }
     }
   }
 })
