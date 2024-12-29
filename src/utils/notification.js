@@ -1,6 +1,6 @@
 class Notification {
   info(title, message) {
-    window.notification['info']({
+    window.$notification['info']({
       content: title,
       meta: message,
       duration: 2500,
@@ -8,7 +8,7 @@ class Notification {
     })
   }
   success(title, message) {
-    window.notification['success']({
+    window.$notification['success']({
       content: title,
       meta: message,
       duration: 2500,
@@ -16,7 +16,7 @@ class Notification {
     })
   }
   warning(title, message) {
-    window.notification['warning']({
+    window.$notification['warning']({
       content: title,
       meta: message,
       duration: 2500,
@@ -24,7 +24,7 @@ class Notification {
     })
   }
   error(title, message) {
-    window.notification['error']({
+    window.$notification['error']({
       content: title,
       meta: message,
       duration: 2500,

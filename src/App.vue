@@ -77,6 +77,7 @@ import Notification from '@/utils/notification'
 import { logout } from '@/utils/profile'
 import router from '@router'
 import { useRoute, useRouter } from 'vue-router'
+import logger from '@/utils/logger'
 
 const notification = new Notification()
 
@@ -120,14 +121,25 @@ vRouter.afterEach(() => {
 //   initFinished = true
 // }
 
+let reconnecting = false
+let connectionLostInstance
+
 async function fetchUserInfo() {
   let rs
   try {
     rs = await api.v2.user.info.root.get(userData.getters.get_user_id)
   } catch (e) {
-    notification.warning('查询用户信息失败', e + '，请重新登录后台！')
+    reconnecting = true
+    if (connectionLostInstance == undefined) {
+      connectionLostInstance = window.$notification.create({
+        title: '连接已断开',
+        content: '正在重新连接...',
+        closable: false
+      })
+    }
+    return false
   }
-  if (!rs) return
+  if (!rs) return false
   if (rs.status === 200) {
     // console.log(rs)
     userData.commit('set_user_email', rs.data.email)
@@ -145,7 +157,7 @@ async function fetchUserInfo() {
   }
   if (rs.status === 401) {
     notification.warning('授权失效', '请重新登录后台！')
-    logout()
+    // logout()
   }
   return false
 }
@@ -186,7 +198,17 @@ onMounted(async () => {
 setInterval(async () => {
   if (userData.getters.get_token !== '') {
     const valid = await fetchUserInfo()
-    if (!valid) {
+    // 有效
+    // connectionLostInstance 已订阅
+    if (valid && connectionLostInstance != undefined) {
+      connectionLostInstance.destroy()
+      // 重置对象
+      connectionLostInstance = undefined
+      reconnecting = false
+    }
+    // 无效
+    // 未重连
+    if (!valid && !reconnecting) {
       logout()
       router.push({
         name: 'Login',

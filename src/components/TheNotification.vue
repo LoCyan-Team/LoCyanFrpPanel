@@ -7,7 +7,7 @@ import { useNotification } from 'naive-ui'
 // content
 export default defineComponent({
   setup() {
-    window.notification = useNotification()
+    window.$notification = useNotification()
   }
 })
 </script>
