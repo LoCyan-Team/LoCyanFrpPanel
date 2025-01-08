@@ -1,7 +1,6 @@
 const base = {
-  api_v1_url: 'https://api.locyanfrp.cn',
-  api_v2_url: 'https://api-v2.locyanfrp.cn/api/v2',
-  // api_v2_url: 'http://localhost:18080/api/v2',
+  api_v2_url: 'https://api.locyanfrp.cn/v2',
+  // api_v2_url: 'http://localhost:18080',
   buildResponse: (res: any, useDataPath: boolean = true) => {
     const message =
       res.data?.message ??
