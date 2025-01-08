@@ -5,8 +5,33 @@
   </n-h1>
   <n-grid cols="1" y-gap="1" item-responsive>
     <n-grid-item span="1">
-      <n-card title="节点">
-        <n-select v-model:value="node" :options="serverList" @update:value="updateValue" />
+      <n-card title="隧道配置">
+        <n-spin :show="loading">
+          <n-tabs type="line" size="large" :tabs-padding="20" @update:value="tabUpdateHandler">
+            <n-tab-pane name="node" tab="按节点">
+              <n-select
+                v-model:value="node"
+                :options="serverList"
+                @update:value="updateValue(node, null)"
+              />
+            </n-tab-pane>
+            <n-tab-pane name="proxy" tab="按隧道">
+              <n-select
+                v-model:value="proxy"
+                :options="proxyList"
+                @update:value="updateValue(null, proxy)"
+              />
+            </n-tab-pane>
+          </n-tabs>
+          <n-scrollbar x-scrollable>
+            <n-code
+              :code="code"
+              language="ini"
+              show-line-numbers
+              style="margin-top: 30px; width: 100%"
+            />
+          </n-scrollbar>
+        </n-spin>
         <n-button
           strong
           secondary
@@ -18,16 +43,6 @@
         >
           复制
         </n-button>
-        <n-spin :show="loading">
-          <n-scrollbar x-scrollable>
-            <n-code
-              :code="code"
-              language="ini"
-              show-line-numbers
-              style="margin-top: 30px; width: 100%"
-            />
-          </n-scrollbar>
-        </n-spin>
       </n-card>
       <br />
     </n-grid-item>
@@ -77,9 +92,11 @@ const message = new Message()
 
 const loading = ref(true)
 
-const node = ref('')
+const node = ref(null)
+const proxy = ref(null)
 // 选择框数据
 const serverList = ref([])
+const proxyList = ref([])
 const code = ref('')
 
 // const rs = get('https://api.locyanfrp.cn/Proxies/GetServerList')
@@ -121,7 +138,7 @@ onMounted(async () => {
   list.forEach((s) => {
     if (i === 0) {
       node.value = s.id
-      updateValue(s.id)
+      updateValue(s.id, null)
     }
     serverList.value[i] = {
       label: s.name,
@@ -131,11 +148,55 @@ onMounted(async () => {
   })
 })
 
-async function updateValue(value) {
+onMounted(async () => {
+  let rs
+  try {
+    rs = await api.v2.proxy.all(userData.getters.get_user_id)
+  } catch (e) {
+    logger.error(e)
+    message.error('请求隧道列表失败: ' + e)
+  }
+  if (!rs) return
+  let i = 0
+  const list = rs.data.list
+  list.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1
+    }
+    if (a.name > b.name) {
+      return 1
+    }
+    return 0
+  })
+  list.forEach((s) => {
+    if (i === 0) {
+      proxy.value = s.id
+      updateValue(null, s.id)
+    }
+    proxyList.value[i] = {
+      label: s.proxy_name,
+      value: s.id
+    }
+    i = i + 1
+  })
+})
+
+async function tabUpdateHandler(value) {
+  switch (value) {
+    case 'node':
+      await updateValue(node.value, null)
+      break
+    case 'proxy':
+      await updateValue(null, proxy.value)
+      break
+  }
+}
+
+async function updateValue(nodeId, proxyId) {
   loading.value = true
   let rs
   try {
-    rs = await api.v2.proxy.config(userData.getters.get_user_id, null, value)
+    rs = await api.v2.proxy.config(userData.getters.get_user_id, proxyId, nodeId)
   } catch (e) {
     logger.error(e)
     message.error('请求获取隧道配置文件失败: ' + e)
