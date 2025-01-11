@@ -51,7 +51,7 @@ if (code !== null) {
       if (!rsx) message.error('获取访问令牌时发生错误')
       userData.commit('set_frp_token', rsx.data.frp_token)
       notification.success('登录成功', rs.data.username + '，欢迎回来！')
-      router.push(redirect || '/dashboard')
+      router.push('/dashboard')
     } else {
       error.value = true
       errorMessage.value = rs.message
