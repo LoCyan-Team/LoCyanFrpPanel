@@ -1,6 +1,6 @@
 <template>
   <div class="flex-center outbox" v-if="!error">
-    <n-spin description="正在进行第三方登录处理"></n-spin>>
+    <n-spin description="正在进行第三方登录处理"></n-spin>
     <p>请不要关闭此界面</p>
   </div>
   <div class="flex-center outbox" v-else>
