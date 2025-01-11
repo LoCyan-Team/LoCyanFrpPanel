@@ -24,9 +24,9 @@ let error = ref(false)
 let success = ref(false)
 let errorMessage = ref('')
 
-const user_id = userData.getters.get_user_id
+const userId = userData.getters.get_user_id
 
-if (user_id == null) {
+if (userId == null) {
   error.value = true
   errorMessage.value = '需要登录才能继续操作'
 }
@@ -37,7 +37,7 @@ if (!error.value && code !== null) {
   onMounted(async () => {
     let rs
     try {
-      rs = await api.v2.auth.oauth.qq.bind.post(get_user_id, code)
+      rs = await api.v2.auth.oauth.qq.bind.post(userId, code)
     } catch (e) {
       message.error('登录失败: ' + e)
       error.value = true
