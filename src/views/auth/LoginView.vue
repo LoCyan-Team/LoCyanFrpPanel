@@ -29,7 +29,18 @@
         <div>
           <n-space justify="space-between">
             <n-space>
-              <n-button type="info" @click="qqLogin" :loading="qqLoginLoading"> QQ 登录 </n-button>
+              <n-spin :show="threeSideLoading">
+                <n-button
+                  type="info"
+                  @click="startQqLogin"
+                  circle
+                >
+                  <n-icon><Qq /></n-icon>
+                </n-button>
+              </n-spin>
+              <n-spin :show="passkeyLoading">
+                <n-button @click="startPasskeyLogin" ghost>通行密钥登录</n-button>
+              </n-spin>
               <!--<n-button type="info" @click="oauthLogin" :loading="oauthLogin_loading">
                 OAuth 登录
               </n-button>-->
@@ -109,6 +120,8 @@ import logger from '@/utils/logger'
 import api from '@/api'
 import { getUrlKey } from '@/utils/request'
 
+import { Qq } from '@vicons/fa'
+
 import VueTurnstile from 'vue-turnstile'
 import '@chongying-star/vue-vaptcha/style.css'
 import { VaptchaButton } from '@chongying-star/vue-vaptcha'
@@ -118,7 +131,8 @@ const notification = new Notification()
 
 const formRef = ref(null)
 const ldb = useLoadingBar()
-const qqLoginLoading = ref(false)
+const threeSideLoading = ref(false),
+      passkeyLoading = ref(false)
 // const oauthLogin_loading = ref(false)
 
 let captchaPreData,
@@ -248,18 +262,28 @@ async function login(captchaData) {
 }
 
 // QQ 登录
-async function qqLogin() {
-  qqLoginLoading.value = true
+async function startQqLogin() {
+  threeSideLoading.value = true
   let rs
   try {
     rs = await api.v2.auth.oauth.qq.login.get()
   } catch (e) {
     message.error('请求 QQ 登录失败: ' + e)
   }
-  if (!rs) return
+  if (!rs) {
+    threeSideLoading.value = false
+    return
+  }
   if (rs.status === 200) {
     window.location.href = rs.data.url
   }
+  threeSideLoading.value = false
+}
+
+async function startPasskeyLogin() {
+  passkeyLoading.value = true
+  message.success("你是笨蛋吗？？！没见过的按钮也要点一下(≧^≦)ゞ")
+  passkeyLoading.value = false
 }
 
 const rules = {
