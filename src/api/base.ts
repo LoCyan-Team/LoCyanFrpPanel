@@ -1,6 +1,5 @@
 const base = {
-  api_v2_url: 'https://api.locyanfrp.cn/v2',
-  // api_v2_url: 'http://localhost:18080',
+  api_v2_url: import.meta.env.VITE_API_ENDPOINT,
   buildResponse: (res: any, useDataPath: boolean = true) => {
     const message =
       res.data?.message ??
