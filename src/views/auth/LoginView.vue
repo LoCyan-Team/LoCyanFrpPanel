@@ -15,7 +15,7 @@
             type="text"
             v-model:value="model.username"
             placeholder="用户名"
-            @keyup.enter="showTurnstile = true"
+            @keyup.enter="loadCaptcha"
           />
         </n-form-item>
         <n-form-item label="密码" path="password">
@@ -23,7 +23,7 @@
             type="password"
             v-model:value="model.password"
             placeholder="密码"
-            @keyup.enter="showTurnstile = true"
+            @keyup.enter="loadCaptcha"
           />
         </n-form-item>
         <div>
@@ -43,7 +43,7 @@
               >
                 没有账户？去注册
               </n-button>
-              <n-button type="primary" @click="showTurnstile = true"> 登录</n-button>
+              <n-button type="primary" @click="loadCaptcha"> 登录</n-button>
               <!-- Turnstile -->
               <n-modal
                 v-model:show="showTurnstile"
@@ -54,7 +54,7 @@
               >
                 <vue-turnstile
                   site-key="0x4AAAAAAAEXAhvwOKerpBsb"
-                  v-model="token"
+                  v-model="turnstileToken"
                   @error="
                     (code) => {
                       if (`${code}`.startsWith('200')) {
@@ -76,6 +76,20 @@
                   "
                 />
               </n-modal>
+              <n-modal
+                v-model:show="showVAPTCHA"
+                :mask-closable="false"
+                preset="card"
+                title="请完成人机验证"
+                style="min-width: 300px; width: min-content"
+              >
+                <vaptcha-button
+                  v-model="vaptchaToken"
+                  v-model:server="vaptchaServer"
+                  v-model:scene="vaptchaScene"
+                  vid="67813e52dc0ff12924d9b311"
+                ></vaptcha-button>
+              </n-modal>
             </n-space>
           </n-space>
         </div>
@@ -94,7 +108,10 @@ import Notification from '@/utils/notification'
 import logger from '@/utils/logger'
 import api from '@/api'
 import { getUrlKey } from '@/utils/request'
+
 import VueTurnstile from 'vue-turnstile'
+import '@chongying-star/vue-vaptcha/style.css'
+import { VaptchaButton } from '@chongying-star/vue-vaptcha'
 
 const message = new Message()
 const notification = new Notification()
@@ -104,8 +121,13 @@ const ldb = useLoadingBar()
 const qqLoginLoading = ref(false)
 // const oauthLogin_loading = ref(false)
 
-let token = ref('')
-let showTurnstile = ref(false)
+let captchaPreData,
+  showTurnstile = ref(false),
+  showVAPTCHA = ref(false)
+let turnstileToken = ref('')
+let vaptchaToken = ref(''),
+  vaptchaServer = ref(''),
+  vaptchaScene = 0
 
 const model = ref([
   {
@@ -122,13 +144,67 @@ if (redirectQuery !== null) {
   logger.info('Redirect after login: ' + redirect)
 }
 
-watch(token, (newToken, _) => {
+watch(turnstileToken, (newToken, _) => {
   showTurnstile.value = false
-  login(newToken)
+  login({
+    id: captchaPreData.id,
+    token: newToken
+  })
+})
+watch(vaptchaToken, (newToken, _) => {
+  showVAPTCHA.value = false
+  login({
+    id: captchaPreData.id,
+    token: newToken,
+    server: vaptchaServer.value
+  })
 })
 
+let vaptchaInserted = false
+
+async function loadCaptcha() {
+  ldb.start()
+  let rs
+  try {
+    rs = await api.v2.captcha('login')
+  } catch (e) {
+    message.error('请求验证码数据失败：' + e)
+    logger.error(e)
+    ldb.error()
+  }
+  if (rs.status === 200) {
+    captchaPreData = {
+      id: rs.data.id,
+      type: rs.data.type
+    }
+    console.log(captchaPreData)
+    switch (rs.data.type) {
+      case 'turnstile':
+        showTurnstile.value = true
+        break
+      case 'vaptcha':
+        if (!vaptchaInserted) {
+          const script = document.createElement('script')
+          script.src = 'https://v-cn.vaptcha.com/v3.js'
+          document.head.appendChild(script)
+          script.onload = () => {
+            showVAPTCHA.value = true
+          }
+          vaptchaInserted = true
+        } else showVAPTCHA.value = true
+        break
+      default:
+        message.error('后端返回数据错误')
+        ldb.error()
+    }
+  } else {
+    message.error(rs.message)
+    ldb.error()
+  }
+}
+
 // 登录
-async function login(turnstileToken) {
+async function login(captchaData) {
   ldb.start()
   if (
     model.value.username === null ||
@@ -142,7 +218,13 @@ async function login(turnstileToken) {
   }
   let rs
   try {
-    rs = await api.v2.auth.login(model.value.username, model.value.password, turnstileToken)
+    rs = await api.v2.auth.login(
+      model.value.username,
+      model.value.password,
+      captchaData.id,
+      captchaData.token,
+      captchaData.server
+    )
   } catch (e) {
     message.error('请求失败: ' + e)
   }

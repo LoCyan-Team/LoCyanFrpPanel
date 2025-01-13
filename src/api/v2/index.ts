@@ -10,6 +10,7 @@ import email from './email'
 import notice from './notice'
 import minecraft from './minecraft'
 import app from './app'
+import captcha from './captcha.api'
 
 export default {
   user: user,
@@ -23,5 +24,6 @@ export default {
   icp: icp,
   notice: notice,
   minecraft: minecraft,
-  app: app
+  app: app,
+  captcha: captcha
 }
