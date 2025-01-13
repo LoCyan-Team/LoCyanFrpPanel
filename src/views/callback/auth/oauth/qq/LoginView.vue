@@ -1,6 +1,6 @@
 <template>
   <div class="flex-center outbox" v-if="!error">
-    <n-spin description="正在进行第三方登录处理"></n-spin>>
+    <n-spin description="正在进行第三方登录处理"></n-spin>
     <p>请不要关闭此界面</p>
   </div>
   <div class="flex-center outbox" v-else>
@@ -44,7 +44,7 @@ if (code !== null) {
       userData.commit('set_user_info', rs.data)
       userData.commit('set_frp_token', rs.data.frp_token)
       notification.success('登录成功', rs.data.username + '，欢迎回来！')
-      router.push(redirect || '/dashboard')
+      router.push('/dashboard')
     } else {
       error.value = true
       errorMessage.value = rs.message
