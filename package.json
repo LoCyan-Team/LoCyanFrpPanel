@@ -13,7 +13,6 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@chongying-star/vaptcha-typescript": "^1.1.0",
     "@chongying-star/vue-vaptcha": "^1.0.0-beta.1",
     "@vicons/carbon": "^0.13.0",
     "@vicons/fa": "^0.12.0",
