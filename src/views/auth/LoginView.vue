@@ -88,7 +88,7 @@
                   v-model:server="vaptchaServer"
                   v-model:scene="vaptchaScene"
                   vid="67813e52dc0ff12924d9b311"
-                ></vaptcha-button>
+                />
               </n-modal>
             </n-space>
           </n-space>
