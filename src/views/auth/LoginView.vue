@@ -181,6 +181,7 @@ async function loadCaptcha() {
     switch (rs.data.type) {
       case 'turnstile':
         showTurnstile.value = true
+        ldb.finish()
         break
       case 'vaptcha':
         if (!vaptchaInserted) {
@@ -192,6 +193,7 @@ async function loadCaptcha() {
           }
           vaptchaInserted = true
         } else showVAPTCHA.value = true
+        ldb.finish()
         break
       default:
         message.error('后端返回数据错误')
