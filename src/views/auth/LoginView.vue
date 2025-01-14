@@ -30,11 +30,7 @@
           <n-space justify="space-between">
             <n-space>
               <n-spin :show="threeSideLoading">
-                <n-button
-                  type="info"
-                  @click="startQqLogin"
-                  circle
-                >
+                <n-button type="info" @click="startQqLogin" circle>
                   <n-icon><Qq /></n-icon>
                 </n-button>
               </n-spin>
@@ -132,7 +128,7 @@ const notification = new Notification()
 const formRef = ref(null)
 const ldb = useLoadingBar()
 const threeSideLoading = ref(false),
-      passkeyLoading = ref(false)
+  passkeyLoading = ref(false)
 // const oauthLogin_loading = ref(false)
 
 let captchaPreData,
@@ -282,7 +278,7 @@ async function startQqLogin() {
 
 async function startPasskeyLogin() {
   passkeyLoading.value = true
-  message.success("你是笨蛋吗？？！没见过的按钮也要点一下(≧^≦)ゞ")
+  message.success('你是笨蛋吗？？！没见过的按钮也要点一下(≧^≦)ゞ')
   passkeyLoading.value = false
 }
 

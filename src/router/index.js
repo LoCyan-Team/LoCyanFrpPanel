@@ -257,7 +257,8 @@ const routes = [
                         name: 'BindQQOAuthCallback',
                         meta: {
                           title: 'QQ 绑定回调页面',
-                          needLogin: false
+                          needLogin: true,
+                          noSidebar: true
                         },
                         component: () => import('@views/callback/auth/oauth/qq/BindView.vue')
                       }
@@ -296,9 +297,10 @@ const routes = [
                     name: 'DoneRealPersonVerificationCallback',
                     meta: {
                       title: '实人认证成功回调页面',
-                      needLogin: false
+                      needLogin: true,
+                      noSidebar: true
                     },
-                    component: () => import('@views/callback/verification/realperson/DoneView.vue')
+                    component: () => import('@views/callback/verification/realperson/QueryView.vue')
                   }
                 ]
               }

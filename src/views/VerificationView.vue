@@ -17,10 +17,11 @@
       <i class="twa twa-card-file-box"></i>
       <n-text type="primary"> 身份认证</n-text>
     </n-h1>
-    <n-collapse default-expanded-names="1" accordion v-show="!showFinishModal">
+    <n-collapse default-expanded-names="1" accordion v-if="!finished">
+      <!-- 二级认证 -->
       <n-collapse-item title="实名认证 （二级认证，可使用海外节点）" name="1">
         <n-grid cols="1" item-responsive>
-          <n-gi span="1" v-show="showRealnameModal">
+          <n-gi span="1" v-if="showRealnameModal">
             <n-card title="实名认证">
               <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
                 <n-grid cols="1" item-responsive :y-gap="5">
@@ -64,17 +65,26 @@
               </n-form>
             </n-card>
           </n-gi>
-          <n-gi cols="1" item-responsive>
-            <n-card v-show="!showRealnameModal">
-              <i class="twa twa-2x twa-party-popper"></i>您已经完成实名认证！
-            </n-card>
+          <n-gi cols="1" item-responsive v-else>
+            <n-card> <i class="twa twa-2x twa-party-popper"></i>您已经完成实名认证！ </n-card>
           </n-gi>
         </n-grid>
       </n-collapse-item>
+      <!-- 一级认证 -->
       <n-collapse-item title="实人认证（一级认证，可使用全部节点）" name="2">
         <n-grid cols="1" item-responsive>
           <n-gi span="1">
-            <n-card v-show="showRealpersonModal && !showPayModal" title="实人认证">
+            <n-card title="支付订单" v-if="showPayModal">
+              <div>
+                <n-space>
+                  <n-button type="primary" @click="realPersonPay()"> 点此付款 </n-button>
+                  <n-button type="primary" @click="checkVerificationStatus()">
+                    刷新付款状态
+                  </n-button>
+                </n-space>
+              </div>
+            </n-card>
+            <n-card title="实人认证" v-if="showRealpersonModal">
               <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
                 <n-grid cols="1" item-responsive :y-gap="5">
                   <n-grid-item>
@@ -114,27 +124,26 @@
                     </n-form-item>
                   </n-grid-item>
                 </n-grid>
-                <div style="display: flex; justify-content: flex-end">
-                  <n-button round type="primary" @click="submitRealPerson()"> 提交 </n-button>
+                <div>
+                  <n-space>
+                    <n-button type="primary" @click="submitRealPerson()">提交</n-button>
+                    <n-button type="primary" @click="queryRealPersonStatus()" secondary>
+                      刷新状态
+                    </n-button>
+                    <n-button type="error" @click="resetRealPersonStatus()" secondary>
+                      重置验证状态
+                    </n-button>
+                  </n-space>
                 </div>
               </n-form>
-            </n-card>
-            <n-card title="支付订单" v-show="showPayModal">
-              <div style="text-align: center">
-                <n-space justify="vertical">
-                  <n-button type="primary" @click="realPersonPay()"> 点此付款 </n-button>
-                  <n-button type="primary" @click="checkVerificationStatus()">
-                    刷新付款状态
-                  </n-button>
-                </n-space>
-              </div>
             </n-card>
           </n-gi>
         </n-grid>
       </n-collapse-item>
     </n-collapse>
+    <!-- 认证成功 -->
     <n-grid cols="1" item-responsive>
-      <n-gi span="1" v-show="showFinishModal">
+      <n-gi span="1" v-if="finished">
         <n-card title="认证完成">
           <p>恭喜完成全部认证流程</p>
         </n-card>
@@ -145,17 +154,16 @@
     v-model:show="showScanCodeModal"
     :mask-closable="false"
     preset="card"
-    :style="bodyStyle"
+    style="max-width: 600px"
     title="请使用支付宝扫描二维码"
-    size="huge"
     :bordered="false"
     :segmented="segmented"
+    content-style="text-align: center;"
+    footer-style="text-align: center;"
   >
-    <n-space justify="vertical">
-      <n-qr-code :value="realPersonUrl" :size="200" :error-correction-level="'L'" />
-    </n-space>
+    <n-qr-code :value="realPersonUrl" :size="200" :error-correction-level="'L'" />
     <template #footer>
-      <n-button type="primary" @click="queryRealPersonStatus()">点此刷新实人状态</n-button>
+      <n-button type="primary" @click="queryRealPersonStatus()">刷新状态</n-button>
     </template>
   </n-modal>
 </template>
@@ -173,11 +181,14 @@ const message = new Message()
 const dialog = new Dialog()
 
 const loading = ref(true)
-const showRealnameModal = ref(true)
-const showRealpersonModal = ref(true)
+const finished = ref(false)
+
+const showRealnameModal = ref(true),
+  showRealpersonModal = ref(true)
+
 const showPayModal = ref(false)
-const showFinishModal = ref(false)
 const showScanCodeModal = ref(false)
+
 const formRef = ref(null)
 const realName = ref(false)
 const realPersonCount = ref(0)
@@ -188,9 +199,6 @@ const userProfile = ref({
   name: '',
   idCard: ''
 })
-const bodyStyle = {
-  width: '600px'
-}
 const segmented = {
   content: 'soft',
   footer: 'soft'
@@ -250,32 +258,45 @@ async function submitRealPerson() {
     realPersonUrl.value = rs.data.url
     ci.value = rs.data.certify_id
     showScanCodeModal.value = true
-    const queryRealPersonInterval = setInterval(() => {
-      queryRealPersonStatus()
-      if (realPerson.value === true) {
-        finishLoadingBar()
-        clearInterval(queryRealPersonInterval)
-      }
-    }, 5000)
   } else {
     message.error('发生错误: ' + rs.message)
     finishLoadingBar()
   }
 }
 
+async function resetRealPersonStatus() {
+  dialog.warning('确认要重置验证状态吗？此操作不可逆', {
+    onPositiveClick: async () => {
+      let rs
+      try {
+        rs = await api.v2.verification.realperson.root.delete(userData.getters.get_user_id)
+      } catch (e) {
+        message.error('请求失败: ' + e)
+      }
+      if (!rs) return
+      if (rs.status === 200) {
+        message.success('重置成功')
+      } else {
+        message.error(rs.message)
+      }
+    }
+  })
+}
+
 async function queryRealPersonStatus() {
   let rs
   try {
-    rs = await api.v2.verification.realperson.query(userData.getters.get_user_id, ci.value)
+    rs = await api.v2.verification.realperson.root.get(userData.getters.get_user_id)
   } catch (e) {
     message.error('请求失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
-    // 后端会处理所有审核通过的事宜，前端处理消息显示
     message.success('一级认证成功')
     showScanCodeModal.value = false
     checkVerificationStatus()
+  } else {
+    message.error(rs.message)
   }
 }
 
@@ -294,7 +315,7 @@ async function checkVerificationStatus() {
 
   // 实名和实人都完成则展示最终窗口
   if (realName.value === true && realPerson.value === true) {
-    showFinishModal.value = true
+    finished.value = true
     showRealnameModal.value = false
     showRealpersonModal.value = false
     showPayModal.value = false
@@ -302,7 +323,7 @@ async function checkVerificationStatus() {
 
   // 实名完成但是实人没有完成，展示实人窗口关闭实名窗口
   if (realName.value === true && realPerson.value === false) {
-    showFinishModal.value = false
+    finished.value = false
     showRealnameModal.value = false
     // 实人次数足够展示实人，不够展示支付
     logger.info('剩余实人次数: ' + realPersonCount.value)
@@ -317,7 +338,7 @@ async function checkVerificationStatus() {
 
   // 两个都没完成则全部展示
   if (realName.value === false && realPerson.value === false) {
-    showFinishModal.value = false
+    finished.value = false
     showRealnameModal.value = true
     // 实人次数足够展示实人，不够展示支付
     if (realPersonCount.value < 1) {
