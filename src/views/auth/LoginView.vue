@@ -198,12 +198,15 @@ async function loadCaptcha() {
           const script = document.createElement('script')
           script.src = 'https://v-cn.vaptcha.com/v3.js'
           document.head.appendChild(script)
+          vaptchaInserted = true
           script.onload = () => {
             showVAPTCHA.value = true
+            ldb.finish()
           }
-          vaptchaInserted = true
-        } else showVAPTCHA.value = true
-        ldb.finish()
+        } else {
+          showVAPTCHA.value = true
+          ldb.finish()
+        }
         break
       default:
         message.error('后端返回数据错误')
