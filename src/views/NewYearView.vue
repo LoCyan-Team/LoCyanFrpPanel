@@ -7,11 +7,16 @@
     <n-grid cols="1" item-responsive>
       <n-grid-item span="1">
         <n-form-item label="评论和祝福" path="comment">
-          <n-input v-model:value="newYear.comment" placeholder="您有什么想对 LoCyanFrp 全体用户说的吗" />
+          <n-input
+            v-model:value="newYear.comment"
+            placeholder="您有什么想对 LoCyanFrp 全体用户说的吗"
+          />
         </n-form-item>
       </n-grid-item>
       <n-gi span="1">
-        <n-space justify="end"><n-button type="primary" @click="submitComment()"> 提交</n-button></n-space>
+        <n-space justify="end"
+          ><n-button type="primary" @click="submitComment()"> 提交</n-button></n-space
+        >
       </n-gi>
     </n-grid>
   </n-form>
@@ -55,17 +60,17 @@ function timestampToTime(timestamp) {
 async function submitComment() {
   let rs
   try {
-    rs = await api.v2.comment.post(userData.getters.get_user_id, newYear.value.comment);
+    rs = await api.v2.comment.post(userData.getters.get_user_id, newYear.value.comment)
   } catch (e) {
-    logger.error(e);
-    message.error("接口请求失败：" + e);
+    logger.error(e)
+    message.error('接口请求失败：' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
-    message.success("提交成功");
-    getMessageList();
+    message.success('提交成功')
+    getMessageList()
   } else {
-    message.error(rs.message);
+    message.error(rs.message)
   }
 }
 
@@ -74,14 +79,14 @@ async function getMessageList() {
   try {
     rs = await api.v2.comment.get(userData.getters.get_user_id)
   } catch (e) {
-    logger.error(e);
-    message.error("接口请求失败：" + e);
+    logger.error(e)
+    message.error('接口请求失败：' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
     commentList.value = rs.data.list
   } else {
-    message.error(rs.message);
+    message.error(rs.message)
   }
 }
 

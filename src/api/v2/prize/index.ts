@@ -1,5 +1,5 @@
-import root from "./root.api"
+import root from './root.api'
 
 export default {
-    root: root
+  root: root
 }

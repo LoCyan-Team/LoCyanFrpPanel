@@ -1,8 +1,26 @@
 <template>
-  <n-layout-sider bordered show-trigger :collapsed="collapsed" @collapse="collapsed = true" @expand="collapsed = false"
-    collapse-mode="width" :collapsed-width="64" :native-scrollbar="false" id="sider" style="height: 100%; bottom: 0">
-    <n-menu ref="menuInstRef" :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22"
-      :options="menuOptions" style="" :value="active" @update:value="handleUpdateValue" />
+  <n-layout-sider
+    bordered
+    show-trigger
+    :collapsed="collapsed"
+    @collapse="collapsed = true"
+    @expand="collapsed = false"
+    collapse-mode="width"
+    :collapsed-width="64"
+    :native-scrollbar="false"
+    id="sider"
+    style="height: 100%; bottom: 0"
+  >
+    <n-menu
+      ref="menuInstRef"
+      :collapsed="collapsed"
+      :collapsed-width="64"
+      :collapsed-icon-size="22"
+      :options="menuOptions"
+      style=""
+      :value="active"
+      @update:value="handleUpdateValue"
+    />
   </n-layout-sider>
 </template>
 
@@ -23,9 +41,9 @@ import {
   CompassSharp,
   GameController
 } from '@vicons/ionicons5'
-import { GuiManagement, Api } from '@vicons/carbon'
+import { GuiManagement, Api, Gift } from '@vicons/carbon'
 import { MoreCircle20Filled, Box24Filled } from '@vicons/fluent'
-import { AttachMoneyFilled, AccountTreeOutlined } from '@vicons/material'
+import { AttachMoneyFilled, AccountTreeOutlined, AnchorTwotone, MessageOutlined } from '@vicons/material'
 
 import router from '@router'
 import { useRoute } from 'vue-router'
@@ -48,16 +66,23 @@ const menuOptions = [
     icon: renderIcon(CompassSharp)
   },
   {
-    path: '/comment',
-    label: '留言',
-    key: 'comment',
-    icon: renderIcon(PencilSharp)
-  },
-  {
-    path: '/prize',
-    label: '抽奖',
-    key: 'prize',
-    icon: renderIcon(PencilSharp)
+    label: '新年活动',
+    key: 'newyear',
+    icon: renderIcon(AnchorTwotone),
+    children: [
+      {
+        path: '/comment',
+        label: '留言',
+        key: 'comment',
+        icon: renderIcon(MessageOutlined)
+      },
+      {
+        path: '/prize',
+        label: '抽奖',
+        key: 'prize',
+        icon: renderIcon(Gift)
+      }
+    ]
   },
   {
     path: '/verification',

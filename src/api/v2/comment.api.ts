@@ -12,7 +12,6 @@ const getCommentList = async (user_id: number) => {
   return base.buildResponse(await rs)
 }
 
-
 /**
  * 添加评论
  */
@@ -26,7 +25,7 @@ const postComment = async (user_id: number, comment: string) => {
 
 const comment = {
   get: getCommentList,
-  post: postComment,
+  post: postComment
 }
 
 export default comment
