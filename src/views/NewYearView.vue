@@ -14,9 +14,9 @@
         </n-form-item>
       </n-grid-item>
       <n-gi span="1">
-        <n-space justify="end"
-          ><n-button type="primary" @click="submitComment()"> 提交</n-button></n-space
-        >
+        <n-space justify="end">
+          <n-button type="primary" @click="submitComment()"> 提交</n-button>
+        </n-space>
       </n-gi>
     </n-grid>
   </n-form>
@@ -24,10 +24,12 @@
     <n-empty v-if="commentList.length == 0"></n-empty>
     <n-grid cols="3" item-responsive>
       <n-grid-item v-for="item in commentList" id="item" span="0:3 950:1" v-bind:key="item.id">
-        <n-card :title="'ID: ' + item.id + ' - ' + item.username" style="display: block; margin: 3px">
-          {{ item.comment }}
-          <template #footer> 提交时间：{{ timestampToTime(item.time) }} </template>
-        </n-card>
+        <n-space style="display: block">
+          <n-card :title="'ID: ' + item.id + ' - ' + item.username">
+            {{ item.comment }}
+            <template #footer> 提交时间：{{ timestampToTime(item.time) }} </template>
+          </n-card>
+        </n-space>
       </n-grid-item>
     </n-grid>
   </n-spin>

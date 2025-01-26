@@ -29,7 +29,7 @@
       <n-spin :show="loading">
         <n-empty v-if="created.length === 0" description="没有任何数据捏"></n-empty>
         <n-grid v-else cols="3" item-responsive :x-gap="12" :y-gap="12">
-          <n-grid-item v-for="item in created" span="0:3 950:1">
+          <n-grid-item v-for="item in created" span="0:3 950:1" v-bind:key="item.id">
             <n-space style="display: block">
               <n-card>
                 <n-space>
