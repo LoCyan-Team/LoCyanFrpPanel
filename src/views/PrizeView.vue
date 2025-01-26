@@ -24,14 +24,16 @@
               </n-p>
               <n-p>
                 参与用户:
-                <n-tag
-                  style="margin: 3px"
-                  type="info"
-                  v-for="user in users[item.id]"
-                  v-bind:key="user"
-                >
-                  {{ user }}
-                </n-tag>
+                <n-scrollbar style="max-height: 200px">
+                  <n-tag
+                    style="margin: 3px"
+                    type="info"
+                    v-for="user in users[item.id]"
+                    v-bind:key="user"
+                  >
+                    {{ user }}
+                  </n-tag>
+                </n-scrollbar>
               </n-p>
               <n-p>奖品描述：</n-p>
               <n-text v-html="marked(item.description)"></n-text>
