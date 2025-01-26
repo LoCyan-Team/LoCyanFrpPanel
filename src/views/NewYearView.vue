@@ -20,16 +20,19 @@
       </n-gi>
     </n-grid>
   </n-form>
-  <n-grid cols="3" item-responsive>
-    <n-grid-item v-for="item in commentList" id="item" span="0:3 950:1">
-      <n-space style="display: block">
-        <n-card :title="'ID: ' + item.id + ' - ' + item.username">
-          {{ item.comment }}
-          <template #footer> 提交时间：{{ timestampToTime(item.time) }} </template>
-        </n-card>
-      </n-space>
-    </n-grid-item>
-  </n-grid>
+  <n-spin :show="loading">
+    <n-empty v-if="commentList.length == 0"></n-empty>
+    <n-grid cols="3" item-responsive>
+      <n-grid-item v-for="item in commentList" id="item" span="0:3 950:1" v-bind:key="item.id">
+        <n-space style="display: block">
+          <n-card :title="'ID: ' + item.id + ' - ' + item.username">
+            {{ item.comment }}
+            <template #footer> 提交时间：{{ timestampToTime(item.time) }} </template>
+          </n-card>
+        </n-space>
+      </n-grid-item>
+    </n-grid>
+  </n-spin>
 </template>
 
 <script setup>
@@ -37,6 +40,8 @@ import { ref } from 'vue'
 import Message from '@/utils/dialog.js'
 import api from '@/api'
 import userData from '@/utils/stores/userData/store.js'
+
+const loading = ref(true)
 
 const message = new Message()
 
@@ -85,6 +90,7 @@ async function getMessageList() {
   if (!rs) return
   if (rs.status === 200) {
     commentList.value = rs.data.list
+    loading.value = false
   } else {
     message.error(rs.message)
   }

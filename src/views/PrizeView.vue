@@ -5,35 +5,48 @@
     <n-text type="primary">抽奖</n-text>
   </n-h1>
   <n-space vertical>
-    <n-grid :x-gap="12" :y-gap="12" :cols="4" item-responsive>
-      <n-gi span="0:4 1000:1" v-for="item in prizeList">
-        <n-space style="display: block">
-          <n-card :title="'奖品： ' + item.prizeName">
-            <n-p>
-              获奖人:
-              <n-tag style="margin: 3px" type="success" v-for="prizeuser in prizeUsers[item.id]"
-                >{{ prizeuser }}
-              </n-tag>
-            </n-p>
-            <n-p>
-              参与用户:
-              <n-tag style="margin: 3px" type="info" v-for="user in users[item.id]"
-                >{{ user }}
-              </n-tag>
-            </n-p>
-            <n-p>奖品描述：</n-p>
-            <n-text v-html="marked(item.description)"></n-text>
-            <n-p>创建时间：{{ timestampToTime(item.createTime) }}</n-p>
-            <template #footer>
-              <n-space justify="space-between">
-                开奖时间：{{ timestampToTime(item.prizeTime) }}
-                <n-button @click="submitJoin(item.id)" v-show="item.id"> 参与 </n-button>
-              </n-space>
-            </template>
-          </n-card>
-        </n-space>
-      </n-gi>
-    </n-grid>
+    <n-spin :show="loading">
+      <n-empty v-if="prizeList.length == 0"></n-empty>
+      <n-grid v-else :x-gap="12" :y-gap="12" :cols="4" item-responsive>
+        <n-gi span="0:4 1000:1" v-for="item in prizeList" v-bind:key="item.id">
+          <n-space style="display: block">
+            <n-card :title="'奖品： ' + item.prizeName">
+              <n-p>
+                获奖人:
+                <n-tag
+                  style="margin: 3px"
+                  type="success"
+                  v-for="prizeuser in prizeUsers[item.id]"
+                  v-bind:key="prizeuser"
+                >
+                  {{ prizeuser }}
+                </n-tag>
+              </n-p>
+              <n-p>
+                参与用户:
+                <n-tag
+                  style="margin: 3px"
+                  type="info"
+                  v-for="user in users[item.id]"
+                  v-bind:key="user"
+                >
+                  {{ user }}
+                </n-tag>
+              </n-p>
+              <n-p>奖品描述：</n-p>
+              <n-text v-html="marked(item.description)"></n-text>
+              <n-p>创建时间：{{ timestampToTime(item.createTime) }}</n-p>
+              <template #footer>
+                <n-space justify="space-between">
+                  开奖时间：{{ timestampToTime(item.prizeTime) }}
+                  <n-button @click="submitJoin(item.id)" v-show="item.id"> 参与 </n-button>
+                </n-space>
+              </template>
+            </n-card>
+          </n-space>
+        </n-gi>
+      </n-grid>
+    </n-spin>
   </n-space>
 </template>
 <script setup>
@@ -44,18 +57,19 @@ import logger from '@/utils/logger'
 import { ref } from 'vue'
 import { marked } from 'marked'
 
+const loading = ref(true)
+
 const message = new Message()
-const prizeList = ref([
-  {
-    id: 0,
-    username: '',
-    prizeName: '',
-    createTime: '',
-    prizeTime: '',
-    prizeUser: '',
-    description: ''
-  }
-])
+//   {
+//     id: 0,
+//     username: '',
+//     prizeName: '',
+//     createTime: '',
+//     prizeTime: '',
+//     prizeUser: '',
+//     description: ''
+//   }
+const prizeList = ref([])
 const prizeUsers = ref([])
 const users = ref([])
 
@@ -104,6 +118,7 @@ async function getPrizeList() {
         prizeUsers.value[e.id] = ['暂未开奖']
       }
     })
+    loading.value = false
   } else {
     message.error(rs.message)
   }

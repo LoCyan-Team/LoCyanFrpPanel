@@ -43,7 +43,12 @@ import {
 } from '@vicons/ionicons5'
 import { GuiManagement, Api, Gift } from '@vicons/carbon'
 import { MoreCircle20Filled, Box24Filled } from '@vicons/fluent'
-import { AttachMoneyFilled, AccountTreeOutlined, AnchorTwotone, MessageOutlined } from '@vicons/material'
+import {
+  AttachMoneyFilled,
+  AccountTreeOutlined,
+  AnchorTwotone,
+  MessageOutlined
+} from '@vicons/material'
 
 import router from '@router'
 import { useRoute } from 'vue-router'
