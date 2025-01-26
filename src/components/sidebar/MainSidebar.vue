@@ -1,26 +1,8 @@
 <template>
-  <n-layout-sider
-    bordered
-    show-trigger
-    :collapsed="collapsed"
-    @collapse="collapsed = true"
-    @expand="collapsed = false"
-    collapse-mode="width"
-    :collapsed-width="64"
-    :native-scrollbar="false"
-    id="sider"
-    style="height: 100%; bottom: 0"
-  >
-    <n-menu
-      ref="menuInstRef"
-      :collapsed="collapsed"
-      :collapsed-width="64"
-      :collapsed-icon-size="22"
-      :options="menuOptions"
-      style=""
-      :value="active"
-      @update:value="handleUpdateValue"
-    />
+  <n-layout-sider bordered show-trigger :collapsed="collapsed" @collapse="collapsed = true" @expand="collapsed = false"
+    collapse-mode="width" :collapsed-width="64" :native-scrollbar="false" id="sider" style="height: 100%; bottom: 0">
+    <n-menu ref="menuInstRef" :collapsed="collapsed" :collapsed-width="64" :collapsed-icon-size="22"
+      :options="menuOptions" style="" :value="active" @update:value="handleUpdateValue" />
   </n-layout-sider>
 </template>
 
@@ -65,28 +47,18 @@ const menuOptions = [
     key: 'dashboard',
     icon: renderIcon(CompassSharp)
   },
-  // {
-  //   label: '新春活动',
-  //   key: 'yearly',
-  //   show: false,
-  //   icon: renderIcon(PlanetOutline),
-  //   children: [
-  //     {
-  //       path: '/hello2024',
-  //       label: '评价和祝福',
-  //       show: true,
-  //       key: 'new-year',
-  //       icon: renderIcon(PlanetOutline)
-  //     },
-  //     {
-  //       path: '/prize',
-  //       label: '抽奖',
-  //       show: true,
-  //       key: 'prize',
-  //       icon: renderIcon(PlanetOutline)
-  //     }
-  //   ]
-  // },
+  {
+    path: '/comment',
+    label: '留言',
+    key: 'comment',
+    icon: renderIcon(PencilSharp)
+  },
+  {
+    path: '/prize',
+    label: '抽奖',
+    key: 'prize',
+    icon: renderIcon(PencilSharp)
+  },
   {
     path: '/verification',
     label: '身份认证',

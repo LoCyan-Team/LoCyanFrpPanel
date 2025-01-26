@@ -11,6 +11,8 @@ import notice from './notice'
 import minecraft from './minecraft'
 import app from './app'
 import captcha from './captcha.api'
+import prize from './prize'
+import comment from './comment.api'
 
 export default {
   user: user,
@@ -25,5 +27,7 @@ export default {
   notice: notice,
   minecraft: minecraft,
   app: app,
-  captcha: captcha
+  captcha: captcha,
+  prize: prize,
+  comment: comment
 }

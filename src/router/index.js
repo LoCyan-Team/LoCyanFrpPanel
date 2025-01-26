@@ -135,26 +135,26 @@ const routes = [
         },
         component: () => import('@views/VerificationView.vue')
       },
-      // {
-      //   path: '/hello2024',
-      //   name: 'NewYear',
-      //   meta: {
-      //     title: '留言',
-      //     keepAlive: true,
-      //     needLogin: true
-      //   },
-      //   component: () => import('../../_deprecated/activities/NewYearView.vue')
-      // },
-      // {
-      //   path: '/prize',
-      //   name: 'Prize',
-      //   meta: {
-      //     title: '抽奖',
-      //     keepAlive: true,
-      //     needLogin: true
-      //   },
-      //   component: () => import('../../_deprecated/activities/PrizeView.vue')
-      // },
+      {
+        path: '/comment',
+        name: 'comment',
+        meta: {
+          title: '留言',
+          keepAlive: true,
+          needLogin: true
+        },
+        component: () => import('@views/NewYearView.vue')
+      },
+      {
+        path: '/prize',
+        name: 'Prize',
+        meta: {
+          title: '抽奖',
+          keepAlive: true,
+          needLogin: true
+        },
+        component: () => import('@views/PrizeView.vue')
+      },
       {
         path: '/donate',
         name: 'Donate',
