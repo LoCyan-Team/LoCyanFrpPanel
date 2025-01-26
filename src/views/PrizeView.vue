@@ -2,7 +2,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-spiral-calendar"></i>
-    <n-text type="primary">抽奖</n-text>
+    <n-text type="primary"> 抽奖</n-text>
   </n-h1>
   <n-space vertical>
     <n-spin :show="loading">
