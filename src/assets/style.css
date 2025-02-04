@@ -4,6 +4,7 @@
 }*/
 
 @import 'tailwindcss';
+@import './markdown.css';
 
 * {
   margin: 0;

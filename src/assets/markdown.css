@@ -1,0 +1,91 @@
+.markdown-body a {
+  color: var(--n-text-color) !important;
+}
+.markdown-body a:hover {
+  color: var(--n-text-color-hover) !important;
+}
+
+.markdown-body p {
+  font-size: var(--n-font-size);
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  font-size: var(--n-font-size) !important;
+  font-weight: var(--n-font-weight) !important;
+  /* margin: var(--n-margin) !important; */
+  margin-top: 1rem !important;
+  margin-bottom: 0.6rem !important;
+  transition: color 0.3s var(--n-bezier) !important;
+  color: var(--n-text-color) !important;
+}
+
+.markdown-body h1 {
+  --n-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+  --n-font-size: 30px;
+  --n-margin: 28px 0 20px 0;
+  --n-bar-color: #18a058;
+  --n-bar-width: 4px;
+  --n-font-weight: 500;
+  --n-text-color: rgb(31, 34, 37);
+  --n-prefix-width: 16px;
+}
+
+.markdown-body h2 {
+  --n-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+  --n-font-size: 22px;
+  --n-margin: 28px 0 20px 0;
+  --n-bar-color: #18a058;
+  --n-bar-width: 4px;
+  --n-font-weight: 500;
+  --n-text-color: rgb(31, 34, 37);
+  --n-prefix-width: 16px;
+}
+
+.markdown-body h3 {
+  --n-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+  --n-font-size: 18px;
+  --n-margin: 28px 0 20px 0;
+  --n-bar-color: #18a058;
+  --n-bar-width: 3px;
+  --n-font-weight: 500;
+  --n-text-color: rgb(31, 34, 37);
+  --n-prefix-width: 12px;
+}
+
+.markdown-body h4 {
+  --n-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+  --n-font-size: 16px;
+  --n-margin: 28px 0 18px 0;
+  --n-bar-color: #18a058;
+  --n-bar-width: 3px;
+  --n-font-weight: 500;
+  --n-text-color: rgb(31, 34, 37);
+  --n-prefix-width: 12px;
+}
+
+.markdown-body h5 {
+  --n-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+  --n-font-size: 16px;
+  --n-margin: 28px 0 18px 0;
+  --n-bar-color: #18a058;
+  --n-bar-width: 3px;
+  --n-font-weight: 500;
+  --n-text-color: rgb(31, 34, 37);
+  --n-prefix-width: 12px;
+}
+
+.markdown-body h6 {
+  --n-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+  --n-font-size: 16px;
+  --n-margin: 28px 0 18px 0;
+  --n-bar-color: #18a058;
+  --n-bar-width: 3px;
+  --n-font-weight: 500;
+  --n-text-color: rgb(31, 34, 37);
+  --n-prefix-width: 12px;
+}
