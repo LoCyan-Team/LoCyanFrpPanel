@@ -1,12 +1,20 @@
 .markdown-body a {
-  color: var(--n-text-color) !important;
+  color: #1db966 !important;
 }
 .markdown-body a:hover {
-  color: var(--n-text-color-hover) !important;
+  color: #63e2b7 !important;
 }
 
-.markdown-body p {
-  font-size: var(--n-font-size);
+.markdown-body p,
+.markdown-body li,
+.markdown-body span,
+.markdown-body a,
+.markdown-body strong {
+  font-size: var(--n-font-size) !important;
+}
+
+.markdown-body ul {
+  padding: 1rem !important;
 }
 
 .markdown-body h1,
