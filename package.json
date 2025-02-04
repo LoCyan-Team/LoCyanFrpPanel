@@ -23,6 +23,7 @@
     "@vicons/ionicons5": "^0.13.0",
     "@vicons/material": "^0.13.0",
     "axios": "^1.7.9",
+    "github-markdown-css": "^5.8.1",
     "highlight.js": "^11.10.0",
     "js-cookie": "^3.0.5",
     "json": "^11.0.0",

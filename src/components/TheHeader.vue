@@ -9,7 +9,7 @@
     :bordered="false"
     :segmented="{ content: 'soft', footer: 'soft' }"
   >
-    <n-p v-html="announcementHtml"></n-p>
+    <n-text class="markdown-body" v-html="announcementHtml"></n-text>
   </n-modal>
   <n-space justify="space-between">
     <n-gradient-text

@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import '@/assets/style.css'
 import '@/assets/twemoji-amazing.css'
+import 'github-markdown-css/github-markdown.css'
 import App from './App.vue'
 import router from '@router'
 import axios from 'axios'
