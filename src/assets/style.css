@@ -3,9 +3,7 @@
   filter: grayscale(1);
 }*/
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 * {
   margin: 0;
