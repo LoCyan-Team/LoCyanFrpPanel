@@ -13,8 +13,14 @@
   font-size: var(--n-font-size) !important;
 }
 
+.markdown-body p {
+  margin: var(--base-size-4);
+}
+
+.markdown-body ol,
 .markdown-body ul {
-  padding: 1rem !important;
+  margin: var(--base-size-4);
+  list-style-position: inside !important;
 }
 
 .markdown-body h1,
