@@ -19,8 +19,9 @@
 
 .markdown-body ol,
 .markdown-body ul {
-  margin: var(--base-size-4);
-  list-style-position: inside !important;
+  padding-left: 1rem !important;
+  margin-block: var(--base-size-4);
+  list-style: inside !important;
 }
 
 .markdown-body h1,
