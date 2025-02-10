@@ -26,7 +26,11 @@
                 参与用户（共 {{ users[item.id].length }} 位）
                 <n-virtual-list style="max-height: 200px" :item-size="38" :items="users[item.id]">
                   <template #default="{ item }">
-                    <n-tag :key="item" type="info" style="margin-block:2px; width: 100%; height: 34px">
+                    <n-tag
+                      :key="item"
+                      type="info"
+                      style="margin-block: 2px; width: 100%; height: 34px"
+                    >
                       {{ item }}
                     </n-tag>
                   </template>
