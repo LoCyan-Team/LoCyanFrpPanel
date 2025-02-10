@@ -136,24 +136,30 @@ const routes = [
         component: () => import('@views/VerificationView.vue')
       },
       {
-        path: '/comment',
-        name: 'comment',
-        meta: {
-          title: '留言',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/NewYearView.vue')
-      },
-      {
-        path: '/prize',
-        name: 'Prize',
-        meta: {
-          title: '抽奖',
-          keepAlive: true,
-          needLogin: true
-        },
-        component: () => import('@views/PrizeView.vue')
+        path: 'newyear',
+        name: 'NewYear',
+        children: [
+          {
+            path: 'comment',
+            name: 'CommentNewYear',
+            meta: {
+              title: '留言',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/newyear/NewYearView.vue')
+          },
+          {
+            path: 'prize',
+            name: 'PrizeNewYear',
+            meta: {
+              title: '抽奖',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/newyear/PrizeView.vue')
+          }
+        ]
       },
       {
         path: '/donate',

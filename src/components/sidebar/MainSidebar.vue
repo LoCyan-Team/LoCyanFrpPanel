@@ -76,13 +76,13 @@ const menuOptions = [
     icon: renderIcon(AnchorTwotone),
     children: [
       {
-        path: '/comment',
+        path: '/newyear/comment',
         label: '留言',
         key: 'comment',
         icon: renderIcon(MessageOutlined)
       },
       {
-        path: '/prize',
+        path: '/newyear/prize',
         label: '抽奖',
         key: 'prize',
         icon: renderIcon(Gift)

@@ -23,20 +23,17 @@
                 </n-tag>
               </n-p>
               <n-p>
-                参与用户:
-                <n-scrollbar style="max-height: 200px">
-                  <n-tag
-                    style="margin: 3px"
-                    type="info"
-                    v-for="user in users[item.id]"
-                    v-bind:key="user"
-                  >
-                    {{ user }}
-                  </n-tag>
-                </n-scrollbar>
+                参与用户（共 {{ users[item.id].length }} 位）
+                <n-virtual-list style="max-height: 200px" :item-size="38" :items="users[item.id]">
+                  <template #default="{ item }">
+                    <n-tag :key="item" type="info" style="margin-block:2px; width: 100%; height: 34px">
+                      {{ item }}
+                    </n-tag>
+                  </template>
+                </n-virtual-list>
               </n-p>
               <n-p>奖品描述：</n-p>
-              <n-text v-html="marked(item.description)"></n-text>
+              <n-text class="markdown-body" v-html="marked(item.description)"></n-text>
               <n-p>创建时间：{{ timestampToTime(item.createTime) }}</n-p>
               <template #footer>
                 <n-space justify="space-between">

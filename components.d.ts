@@ -48,6 +48,7 @@ declare module 'vue' {
     NSteps: typeof import('naive-ui')['NSteps']
     NTag: typeof import('naive-ui')['NTag']
     NText: typeof import('naive-ui')['NText']
+    NVirtualList: typeof import('naive-ui')['NVirtualList']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheDialog: typeof import('./src/components/TheDialog.vue')['default']
