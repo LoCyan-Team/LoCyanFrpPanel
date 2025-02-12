@@ -302,7 +302,7 @@ const routes = [
                     path: 'done',
                     name: 'DoneRealPersonVerificationCallback',
                     meta: {
-                      title: '实人认证成功回调页面',
+                      title: '实人认证回调页面',
                       needLogin: true,
                       noSidebar: true
                     },
