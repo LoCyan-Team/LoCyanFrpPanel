@@ -146,109 +146,119 @@
         :id="proxiesList.indexOf(item)"
       >
         <n-space style="display: block">
-          <n-card style="min-height: 350px">
-            <div style="overflow-y: auto; height: 75px" class="nodeId-title">
-              <h2 style="font-weight: 400">
-                {{ item.proxy_name }}
-                <n-tag :bordered="false" type="success" style="transform: translateY(-2px)">
-                  ID: {{ item.id }}
-                </n-tag>
-              </h2>
-            </div>
-            <n-tag :bordered="false" type="success">
-              {{ item.proxy_type.toUpperCase() }}
-            </n-tag>
-            <n-tag :bordered="false" type="info" v-if="serverList[item.node_id]">
-              {{ serverList[item.node_id].name || '未知节点' }}
-            </n-tag>
-            <n-tag :bordered="false" type="error" v-else> 未知节点 </n-tag>
-            <template #footer>
-              <div v-if="serverList[item.node_id]">
-                连接地址： <br />
-                {{ makeLinkAddr(proxiesList.indexOf(item)) }}
-              </div>
-              <div v-else>
-                连接地址： <br />
-                节点已下线
-              </div>
+          <n-spin :show="item.status < 0" style="--n-color: darkred; --n-text-color: darkred" :rotate="false">
+            <template #icon>
+              <n-icon>
+                <Error />
+              </n-icon>
             </template>
-            <template #action>
-              <n-space>
-                <!-- <p style="margin-top: 9px">操作：</p> -->
-                <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
-                <n-button
-                  style="margin: 1px"
-                  secondary
-                  type="primary"
-                  @click="
-                    () => {
-                      indexOfProxies = proxiesList.indexOf(item)
-                      showEditModal = true
-                      selectProxyID = item.id
-                      proxyEditInfo = {
-                        nodeId: item.node_id,
-                        proxyId: selectProxyID,
-                        proxyName: item.proxy_name,
-                        proxyType: item.proxy_type,
-                        localIp: item.local_ip,
-                        localPort: item.local_port.toString(),
-                        remotePort: item.remote_port,
-                        domain: item.domain
+            <template #description>
+              隧道已被禁用
+            </template>
+            <n-card style="min-height: 350px">
+              <div style="overflow-y: auto; height: 75px" class="nodeId-title">
+                <h2 style="font-weight: 400">
+                  {{ item.proxy_name }}
+                  <n-tag :bordered="false" type="success" style="transform: translateY(-2px)">
+                    ID: {{ item.id }}
+                  </n-tag>
+                </h2>
+              </div>
+              <n-tag :bordered="false" type="success">
+                {{ item.proxy_type.toUpperCase() }}
+              </n-tag>
+              <n-tag :bordered="false" type="info" v-if="serverList[item.node_id]">
+                {{ serverList[item.node_id].name || '未知节点' }}
+              </n-tag>
+              <n-tag :bordered="false" type="error" v-else> 未知节点 </n-tag>
+              <template #footer>
+                <div v-if="serverList[item.node_id]">
+                  连接地址： <br />
+                  {{ makeLinkAddr(proxiesList.indexOf(item)) }}
+                </div>
+                <div v-else>
+                  连接地址： <br />
+                  节点已下线
+                </div>
+              </template>
+              <template #action>
+                <n-space>
+                  <!-- <p style="margin-top: 9px">操作：</p> -->
+                  <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
+                  <n-button
+                    style="margin: 1px"
+                    secondary
+                    type="primary"
+                    @click="
+                      () => {
+                        indexOfProxies = proxiesList.indexOf(item)
+                        showEditModal = true
+                        selectProxyID = item.id
+                        proxyEditInfo = {
+                          nodeId: item.node_id,
+                          proxyId: selectProxyID,
+                          proxyName: item.proxy_name,
+                          proxyType: item.proxy_type,
+                          localIp: item.local_ip,
+                          localPort: item.local_port.toString(),
+                          remotePort: item.remote_port,
+                          domain: item.domain
+                        }
+                        showDomainInput = item.proxy_type === 'http' || item.proxy_type === 'https'
                       }
-                      showDomainInput = item.proxy_type === 'http' || item.proxy_type === 'https'
-                    }
-                  "
-                  >编辑
-                </n-button>
-                <!-- 这个click被我利用到极致了 -->
-                <!-- JS大蛇你妈的也不套 () => {} 帮你套了下次别乱写了 -->
-                <n-button
-                  style="margin: 1px"
-                  strong
-                  secondary
-                  type="info"
-                  v-if="serverList[item.node_id]"
-                  @click="
-                    () => {
-                      indexOfProxies = proxiesList.indexOf(item)
-                      linkAddr = makeLinkAddr(proxiesList.indexOf(item))
-                      showDetailModal = true
-                      selectProxyID = item.id
-                    }
-                  "
-                >
-                  详细信息
-                </n-button>
-                <n-button
-                  style="margin: 1px"
-                  strong
-                  secondary
-                  type="warning"
-                  v-if="serverList[item.node_id]"
-                  @click="launchProxyThroughApplication(item.id)"
-                >
-                  一键启动
-                </n-button>
-                <n-button
-                  style="margin: 1px"
-                  strong
-                  tertiary
-                  type="warning"
-                  @click="forceDownProxy(item.id)"
-                >
-                  强制下线
-                </n-button>
-                <n-button
-                  style="margin: 1px"
-                  strong
-                  secondary
-                  type="error"
-                  @click="deleteProxy(proxiesList.indexOf(item))"
-                  >删除
-                </n-button>
-              </n-space>
-            </template>
-          </n-card>
+                    "
+                    >编辑
+                  </n-button>
+                  <!-- 这个click被我利用到极致了 -->
+                  <!-- JS大蛇你妈的也不套 () => {} 帮你套了下次别乱写了 -->
+                  <n-button
+                    style="margin: 1px"
+                    strong
+                    secondary
+                    type="info"
+                    v-if="serverList[item.node_id]"
+                    @click="
+                      () => {
+                        indexOfProxies = proxiesList.indexOf(item)
+                        linkAddr = makeLinkAddr(proxiesList.indexOf(item))
+                        showDetailModal = true
+                        selectProxyID = item.id
+                      }
+                    "
+                  >
+                    详细信息
+                  </n-button>
+                  <n-button
+                    style="margin: 1px"
+                    strong
+                    secondary
+                    type="warning"
+                    v-if="serverList[item.node_id]"
+                    @click="launchProxyThroughApplication(item.id)"
+                  >
+                    一键启动
+                  </n-button>
+                  <n-button
+                    style="margin: 1px"
+                    strong
+                    tertiary
+                    type="warning"
+                    @click="forceDownProxy(item.id)"
+                  >
+                    强制下线
+                  </n-button>
+                  <n-button
+                    style="margin: 1px"
+                    strong
+                    secondary
+                    type="error"
+                    @click="deleteProxy(proxiesList.indexOf(item))"
+                    >删除
+                  </n-button>
+                </n-space>
+              </template>
+            </n-card>
+          </n-spin>
         </n-space>
       </n-gi>
     </n-grid>
@@ -256,6 +266,8 @@
 </template>
 
 <script setup>
+import { Error } from '@vicons/carbon'
+
 import { computed, ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
