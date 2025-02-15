@@ -51,52 +51,14 @@
                 没有账户？去注册
               </n-button>
               <n-button type="primary" @click="loadCaptcha"> 登录</n-button>
-              <!-- Turnstile -->
-              <n-modal
-                v-model:show="showTurnstile"
-                :mask-closable="false"
-                preset="card"
-                title="请完成人机验证"
-                style="min-width: 300px; width: min-content"
-              >
-                <vue-turnstile
-                  site-key="0x4AAAAAAAEXAhvwOKerpBsb"
-                  v-model="turnstileToken"
-                  @error="
-                    (code) => {
-                      if (`${code}`.startsWith('200')) {
-                        message.error(`验证失败，状态异常，错误代码: ${code}`)
-                      } else if (`${code}`.startsWith('300')) {
-                        message.error(`验证失败，当前环境异常，错误代码: ${code}`)
-                      } else if (`${code}`.startsWith('600')) {
-                        message.error(`验证失败，错误代码: ${code}`)
-                      } else {
-                        message.error(`验证错误，错误代码: ${code}`)
-                      }
-                      setTimeout(() => {
-                        showTurnstile = false
-                      }, 3000)
-                    }
-                  "
-                  @unsupported="
-                    message.error('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')
-                  "
-                />
-              </n-modal>
-              <n-modal
-                v-model:show="showVAPTCHA"
-                :mask-closable="false"
-                preset="card"
-                title="请完成人机验证"
-                style="min-width: 300px; width: min-content"
-              >
-                <vaptcha-button
-                  v-model="vaptchaToken"
-                  v-model:server="vaptchaServer"
-                  v-model:scene="vaptchaScene"
-                  vid="67813e52dc0ff12924d9b311"
-                />
-              </n-modal>
+              <captcha-component
+                :show="showCaptcha"
+                :type="captchaPreData.type"
+                :vaptcha-scene="0"
+                @error="(code) => message.error('发生错误: ' + code)"
+                @unsupported="message.error('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')"
+                @callback="captchaCallback"
+              />
             </n-space>
           </n-space>
         </div>
@@ -106,7 +68,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useLoadingBar } from 'naive-ui'
 import router from '@router'
 import userData from '@/utils/stores/userData/store'
@@ -117,10 +79,7 @@ import api from '@/api'
 import { getUrlKey } from '@/utils/request'
 
 import { Qq } from '@vicons/fa'
-
-import VueTurnstile from 'vue-turnstile'
-import '@chongying-star/vue-vaptcha/style.css'
-import { VaptchaButton } from '@chongying-star/vue-vaptcha'
+import CaptchaComponent from '@/components/CaptchaComponent.vue'
 
 const message = new Message()
 const notification = new Notification()
@@ -131,13 +90,11 @@ const threeSideLoading = ref(false),
   passkeyLoading = ref(false)
 // const oauthLogin_loading = ref(false)
 
-let captchaPreData,
-  showTurnstile = ref(false),
-  showVAPTCHA = ref(false)
-let turnstileToken = ref('')
-let vaptchaToken = ref(''),
-  vaptchaServer = ref(''),
-  vaptchaScene = 0
+let captchaPreData = ref({
+    id: null,
+    type: ''
+  }),
+  showCaptcha = ref(false)
 
 const model = ref([
   {
@@ -154,23 +111,16 @@ if (redirectQuery !== null) {
   logger.info('Redirect after login: ' + redirect)
 }
 
-watch(turnstileToken, (newToken, _) => {
-  showTurnstile.value = false
-  login({
-    id: captchaPreData.id,
-    token: newToken
-  })
-})
-watch(vaptchaToken, (newToken, _) => {
-  showVAPTCHA.value = false
-  login({
-    id: captchaPreData.id,
-    token: newToken,
-    server: vaptchaServer.value
-  })
-})
-
 let vaptchaInserted = false
+
+async function captchaCallback(token, server) {
+  showCaptcha.value = false
+  await login({
+    id: captchaPreData.value.id,
+    token: token,
+    server: server
+  })
+}
 
 async function loadCaptcha() {
   ldb.start()
@@ -183,14 +133,14 @@ async function loadCaptcha() {
     ldb.error()
   }
   if (rs.status === 200) {
-    captchaPreData = {
+    captchaPreData.value = {
       id: rs.data.id,
       type: rs.data.type
     }
-    console.log(captchaPreData)
+    // console.log(captchaPreData)
     switch (rs.data.type) {
       case 'turnstile':
-        showTurnstile.value = true
+        showCaptcha.value = true
         ldb.finish()
         break
       case 'vaptcha':
@@ -200,11 +150,11 @@ async function loadCaptcha() {
           document.head.appendChild(script)
           vaptchaInserted = true
           script.onload = () => {
-            showVAPTCHA.value = true
+            showCaptcha.value = true
             ldb.finish()
           }
         } else {
-          showVAPTCHA.value = true
+          showCaptcha.value = true
           ldb.finish()
         }
         break
@@ -232,6 +182,7 @@ async function login(captchaData) {
     return
   }
   let rs
+  console.log(captchaData)
   try {
     rs = await api.v2.auth.login(
       model.value.username,
