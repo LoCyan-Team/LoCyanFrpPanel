@@ -146,15 +146,17 @@
         :id="proxiesList.indexOf(item)"
       >
         <n-space style="display: block">
-          <n-spin :show="item.status < 0" style="--n-color: darkred; --n-text-color: darkred" :rotate="false">
+          <n-spin
+            :show="item.status < 0"
+            style="--n-color: darkred; --n-text-color: darkred"
+            :rotate="false"
+          >
             <template #icon>
               <n-icon>
                 <Error />
               </n-icon>
             </template>
-            <template #description>
-              隧道已被禁用
-            </template>
+            <template #description> 隧道已被禁用 </template>
             <n-card style="min-height: 350px">
               <div style="overflow-y: auto; height: 75px" class="nodeId-title">
                 <n-h2 style="font-weight: 400">
@@ -266,6 +268,8 @@
 </template>
 
 <script setup>
+import { Error } from '@vicons/carbon'
+
 import { computed, ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
