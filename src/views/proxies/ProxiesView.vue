@@ -55,7 +55,7 @@
             />
           </n-form-item>
         </n-grid-item>
-        <n-grid-item span="0:2 1000:1">
+        <n-grid-item span="0:2 1000:1" v-if="showRemotePortInput">
           <n-form-item label="远程端口" path="remotePort">
             <n-input
               v-model:value="proxyEditInfo.remotePort"
@@ -63,11 +63,19 @@
             />
           </n-form-item>
         </n-grid-item>
-        <n-grid-item span="0:2 1000:1">
-          <n-form-item label="自定义域名" path="domain" v-show="showDomainInput">
+        <n-grid-item span="0:2 1000:1" v-if="showDomainInput">
+          <n-form-item label="自定义域名" path="domain">
             <n-input
               v-model:value="proxyEditInfo.domain"
               placeholder="HTTPS/HTTP需要填写，其他协议不需要填写"
+            />
+          </n-form-item>
+        </n-grid-item>
+        <n-grid-item span="0:2 1000:1" id="item" v-if="showSecretKeyInput">
+          <n-form-item label="访问密钥" path="secretKey">
+            <n-input
+              v-model:value="proxyEditInfo.secretKey"
+              placeholder="XTCP / STCP 需要填写, 其他协议不需要填写"
             />
           </n-form-item>
         </n-grid-item>
@@ -146,130 +154,133 @@
         </n-switch>
       </div>
       <div v-if="listMode">
-        <n-table :bordered="true" :single-line="false">
-          <n-thead>
-            <n-tr>
-              <n-th>隧道 ID</n-th>
-              <n-th>隧道名</n-th>
-              <n-th>隧道节点</n-th>
-              <n-th>隧道协议</n-th>
-              <n-th>连接地址</n-th>
-              <n-th>操作</n-th>
-            </n-tr>
-          </n-thead>
-          <n-tbody>
-            <n-tr v-for="item in proxiesList" :id="proxiesList.indexOf(item)">
-              <n-td>{{ item.id }}</n-td>
-              <n-td>{{ item.proxy_name }}</n-td>
+        <n-scrollbar x-scrollable>
+          <n-table style="min-width: 800px" :bordered="true" :single-line="false">
+            <n-thead>
+              <n-tr>
+                <n-th>隧道 ID</n-th>
+                <n-th>隧道名</n-th>
+                <n-th>隧道节点</n-th>
+                <n-th>隧道协议</n-th>
+                <n-th>连接地址</n-th>
+                <n-th>操作</n-th>
+              </n-tr>
+            </n-thead>
+            <n-tbody>
+              <n-tr v-for="item in proxiesList" :id="proxiesList.indexOf(item)">
+                <n-td>{{ item.id }}</n-td>
+                <n-td>{{ item.proxy_name }}</n-td>
 
-              <n-td v-if="serverList[item.node_id]">{{
-                serverList[item.node_id].name || '未知节点'
-              }}</n-td>
-              <n-td v-else>未知节点</n-td>
+                <n-td v-if="serverList[item.node_id]">{{
+                  serverList[item.node_id].name || '未知节点'
+                }}</n-td>
+                <n-td v-else>未知节点</n-td>
 
-              <n-td>{{ item.proxy_type.toUpperCase() }}</n-td>
+                <n-td>{{ item.proxy_type.toUpperCase() }}</n-td>
 
-              <n-td v-if="serverList[item.node_id]">{{
-                makeLinkAddr(proxiesList.indexOf(item))
-              }}</n-td>
-              <n-td v-else></n-td>
+                <n-td v-if="serverList[item.node_id]">{{
+                  makeLinkAddr(proxiesList.indexOf(item))
+                }}</n-td>
+                <n-td v-else></n-td>
 
-              <n-td>
-                <n-spin
-                  :show="item.status < 0"
-                  style="
-                    width: 100%;
-                    --disable-color: #d90303;
-                    --n-color: var(--disable-color);
-                    --n-text-color: var(--disable-color);
-                  "
-                  :rotate="false"
-                >
-                  <template #icon>
-                    <n-icon>
-                      <Error />
-                    </n-icon>
-                  </template>
-                  <n-space>
-                    <!-- <p style="margin-top: 9px">操作：</p> -->
-                    <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
-                    <n-button
-                      style="margin: 1px"
-                      secondary
-                      type="primary"
-                      @click="
-                        () => {
-                          indexOfProxies = proxiesList.indexOf(item)
-                          showEditModal = true
-                          selectProxyID = item.id
-                          proxyEditInfo = {
-                            nodeId: item.node_id,
-                            proxyId: selectProxyID,
-                            proxyName: item.proxy_name,
-                            proxyType: item.proxy_type,
-                            localIp: item.local_ip,
-                            localPort: item.local_port.toString(),
-                            remotePort: item.remote_port,
-                            domain: item.domain
+                <n-td>
+                  <n-spin
+                    :show="item.status < 0"
+                    style="
+                      width: 100%;
+                      --disable-color: #d90303;
+                      --n-color: var(--disable-color);
+                      --n-text-color: var(--disable-color);
+                    "
+                    :rotate="false"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <Error />
+                      </n-icon>
+                    </template>
+                    <n-space>
+                      <!-- <p style="margin-top: 9px">操作：</p> -->
+                      <!-- index: 在点击编辑按钮时，将当前隧道对应的数组索引传递到变量中以便调用 -->
+                      <n-button
+                        style="margin: 1px"
+                        secondary
+                        type="primary"
+                        @click="
+                          () => {
+                            indexOfProxies = proxiesList.indexOf(item)
+                            showEditModal = true
+                            selectProxyID = item.id
+                            proxyEditInfo = {
+                              nodeId: item.node_id,
+                              proxyId: selectProxyID,
+                              proxyName: item.proxy_name,
+                              proxyType: item.proxy_type,
+                              localIp: item.local_ip,
+                              localPort: item.local_port.toString(),
+                              remotePort: item.remote_port,
+                              domain: item.domain,
+                              secretKey: item.secret_key
+                            }
+                            showDomainInput =
+                              item.proxy_type === 'http' || item.proxy_type === 'https'
                           }
-                          showDomainInput =
-                            item.proxy_type === 'http' || item.proxy_type === 'https'
-                        }
-                      "
-                      >编辑
-                    </n-button>
-                    <!-- 这个click被我利用到极致了 -->
-                    <!-- JS大蛇你妈的也不套 () => {} 帮你套了下次别乱写了 -->
-                    <n-button
-                      style="margin: 1px"
-                      strong
-                      secondary
-                      type="info"
-                      v-if="serverList[item.node_id]"
-                      @click="
-                        () => {
-                          indexOfProxies = proxiesList.indexOf(item)
-                          linkAddr = makeLinkAddr(proxiesList.indexOf(item))
-                          showDetailModal = true
-                          selectProxyID = item.id
-                        }
-                      "
-                    >
-                      详细信息
-                    </n-button>
-                    <n-button
-                      style="margin: 1px"
-                      strong
-                      tertiary
-                      type="warning"
-                      @click="forceDownProxy(item.id)"
-                    >
-                      强制下线
-                    </n-button>
-                    <n-button
-                      style="margin: 1px"
-                      strong
-                      secondary
-                      type="error"
-                      @click="deleteProxy(proxiesList.indexOf(item))"
-                      >删除
-                    </n-button>
-                    <n-button
-                      style="margin: 1px"
-                      strong
-                      secondary
-                      type="warning"
-                      v-if="serverList[item.node_id]"
-                      @click="launchProxyThroughApplication(item.id)"
-                    >
-                      一键启动
-                    </n-button>
-                  </n-space>
-                </n-spin>
-              </n-td>
-            </n-tr>
-          </n-tbody>
-        </n-table>
+                        "
+                        >编辑
+                      </n-button>
+                      <!-- 这个click被我利用到极致了 -->
+                      <!-- JS大蛇你妈的也不套 () => {} 帮你套了下次别乱写了 -->
+                      <n-button
+                        style="margin: 1px"
+                        strong
+                        secondary
+                        type="info"
+                        v-if="serverList[item.node_id]"
+                        @click="
+                          () => {
+                            indexOfProxies = proxiesList.indexOf(item)
+                            linkAddr = makeLinkAddr(proxiesList.indexOf(item))
+                            showDetailModal = true
+                            selectProxyID = item.id
+                          }
+                        "
+                      >
+                        详细信息
+                      </n-button>
+                      <n-button
+                        style="margin: 1px"
+                        strong
+                        tertiary
+                        type="warning"
+                        @click="forceDownProxy(item.id)"
+                      >
+                        强制下线
+                      </n-button>
+                      <n-button
+                        style="margin: 1px"
+                        strong
+                        secondary
+                        type="error"
+                        @click="deleteProxy(proxiesList.indexOf(item))"
+                        >删除
+                      </n-button>
+                      <n-button
+                        style="margin: 1px"
+                        strong
+                        secondary
+                        type="warning"
+                        v-if="serverList[item.node_id]"
+                        @click="launchProxyThroughApplication(item.id)"
+                      >
+                        一键启动
+                      </n-button>
+                    </n-space>
+                  </n-spin>
+                </n-td>
+              </n-tr>
+            </n-tbody>
+          </n-table>
+        </n-scrollbar>
       </div>
       <div v-else>
         <n-grid cols="4" item-responsive>
@@ -344,8 +355,7 @@
                               remotePort: item.remote_port,
                               domain: item.domain
                             }
-                            showDomainInput =
-                              item.proxy_type === 'http' || item.proxy_type === 'https'
+                            proxyTypeSelectChangeHandle(item.proxy_type)
                           }
                         "
                         >编辑
@@ -440,38 +450,22 @@ const quickStartCommand = computed(
   () => `./frpc -u ${userData.getters.get_frp_token} -p ${selectProxyID.value}`
 )
 
-// 隧道类型翻译
-// function transType(type) {
-//   let pt
-//   if (type === 'tcp') {
-//     pt = '1'
-//   } else if (type === 'udp') {
-//     pt = '2'
-//   } else if (type === 'http') {
-//     pt = '3'
-//   } else if (type === 'https') {
-//     pt = '4'
-//   } else if (type === 'xtcp') {
-//     pt = '5'
-//   } else if (type === 'stcp') {
-//     pt = '6'
-//   } else {
-//     pt = '1'
-//   }
-//   return pt
-// }
-
 // 就是有弱智不知道隧道链接是什么，气死我了
 // 2024-01-23 By Muska_Ami: ↑然而加了依然有弱智不知道
 function makeLinkAddr(id) {
-  if (proxiesList.value[id].proxy_type === 'http' || proxiesList.value[id].proxy_type === 'https') {
-    return proxiesList.value[id].domain
-  } else {
-    return (
-      serverList.value[proxiesList.value[id].node_id].hostname +
-      ':' +
-      proxiesList.value[id].remote_port
-    )
+  switch (proxiesList.value[id].proxy_type) {
+    case 'http':
+    case 'https':
+      return proxiesList.value[id].domain
+    case 'xtcp':
+    case 'stcp':
+      return '无'
+    default:
+      return (
+        serverList.value[proxiesList.value[id].node_id].hostname +
+        ':' +
+        proxiesList.value[id].remote_port
+      )
   }
 }
 
@@ -518,7 +512,8 @@ async function editProxy(proxyId) {
     localIp: proxyEditInfo.value.localIp,
     localPort: proxyEditInfo.value.localPort,
     domain: proxyEditInfo.value.domain,
-    nodeId: proxyEditInfo.value.nodeId
+    nodeId: proxyEditInfo.value.nodeId,
+    secretKey: proxyEditInfo.value.secretKey
   }
   let rs
   try {
@@ -534,7 +529,7 @@ async function editProxy(proxyId) {
       false,
       editInfo.nodeId,
       editInfo.domain,
-      null
+      editInfo.secretKey
     )
   } catch (e) {
     message.error('请求修改隧道信息失败: ' + e)
@@ -610,7 +605,7 @@ const rules = {
     }
   },
   remotePort: {
-    required: true,
+    required: false,
     trigger: ['blur', 'input'],
     validator(rule, value) {
       if (!value) {
@@ -644,10 +639,15 @@ const rules = {
   }
 }
 
-const showDomainInput = ref(false)
+const showRemotePortInput = ref(true),
+  showDomainInput = ref(true),
+  showSecretKeyInput = ref(true)
 
 function proxyTypeSelectChangeHandle(value) {
+  showRemotePortInput.value =
+    value !== 'http' && value !== 'https' && value !== 'xtcp' && value !== 'stcp'
   showDomainInput.value = value === 'http' || value === 'https'
+  showSecretKeyInput.value = value === 'xtcp' || value === 'stcp'
 }
 
 const proxiesList = ref([])

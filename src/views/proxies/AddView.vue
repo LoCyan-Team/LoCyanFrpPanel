@@ -100,7 +100,7 @@
             />
           </n-form-item>
         </n-grid-item>
-        <n-grid-item span="0:2 1000:1" id="item">
+        <n-grid-item span="0:2 1000:1" id="item" v-if="showRemotePortInput">
           <n-form-item label="远程端口" path="remotePort">
             <n-input
               v-model:value="proxyInfo.remotePort"
@@ -110,14 +110,16 @@
             <n-button @click="randomPort"> 随机端口 </n-button>
           </n-form-item>
         </n-grid-item>
-        <n-grid-item span="0:2 1000:1" id="item">
-          <n-form-item label="自定义域名" path="domain" v-show="showDomainInput">
+        <n-grid-item span="0:2 1000:1" id="item" v-if="showDomainInput">
+          <n-form-item label="自定义域名" path="domain">
             <n-input
               v-model:value="proxyInfo.domain"
               placeholder="HTTPS/HTTP需要填写, 其他协议不需要填写"
             />
           </n-form-item>
-          <n-form-item label="访问密钥" path="secretKey" v-show="showSecretKeyInput">
+        </n-grid-item>
+        <n-grid-item span="0:2 1000:1" id="item" v-if="showSecretKeyInput">
+          <n-form-item label="访问密钥" path="secretKey">
             <n-input
               v-model:value="proxyInfo.secretKey"
               placeholder="XTCP / STCP 需要填写, 其他协议不需要填写"
@@ -242,7 +244,6 @@ const rules = {
     }
   },
   remotePort: {
-    required: true,
     trigger: ['blur', 'input'],
     validator(rule, value) {
       if (!value) {
@@ -275,13 +276,19 @@ const rules = {
     }
   }
 }
-const showDomainInput = ref(false)
-const showSecretKeyInput = ref(false)
+const showRemotePortInput = ref(true),
+  showDomainInput = ref(true),
+  showSecretKeyInput = ref(true)
 
 function proxyTypeSelectChangeHandle(value) {
+  showRemotePortInput.value =
+    value !== 'http' && value !== 'https' && value !== 'xtcp' && value !== 'stcp'
   showDomainInput.value = value === 'http' || value === 'https'
   showSecretKeyInput.value = value === 'xtcp' || value === 'stcp'
 }
+onMounted(() => {
+  proxyTypeSelectChangeHandle('tcp')
+})
 
 async function randomPort() {
   if (proxyInfo.value.nodeId === 0) {
