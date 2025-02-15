@@ -41,9 +41,14 @@ import {
   CompassSharp,
   GameController
 } from '@vicons/ionicons5'
-import { GuiManagement, Api } from '@vicons/carbon'
+import { GuiManagement, Api, Gift } from '@vicons/carbon'
 import { MoreCircle20Filled, Box24Filled } from '@vicons/fluent'
-import { AttachMoneyFilled, AccountTreeOutlined } from '@vicons/material'
+import {
+  AttachMoneyFilled,
+  AccountTreeOutlined,
+  AnchorTwotone,
+  MessageOutlined
+} from '@vicons/material'
 
 import router from '@router'
 import { useRoute } from 'vue-router'
@@ -65,28 +70,25 @@ const menuOptions = [
     key: 'dashboard',
     icon: renderIcon(CompassSharp)
   },
-  // {
-  //   label: '新春活动',
-  //   key: 'yearly',
-  //   show: false,
-  //   icon: renderIcon(PlanetOutline),
-  //   children: [
-  //     {
-  //       path: '/hello2024',
-  //       label: '评价和祝福',
-  //       show: true,
-  //       key: 'new-year',
-  //       icon: renderIcon(PlanetOutline)
-  //     },
-  //     {
-  //       path: '/prize',
-  //       label: '抽奖',
-  //       show: true,
-  //       key: 'prize',
-  //       icon: renderIcon(PlanetOutline)
-  //     }
-  //   ]
-  // },
+  {
+    label: '新年活动',
+    key: 'newyear',
+    icon: renderIcon(AnchorTwotone),
+    children: [
+      {
+        path: '/newyear/comment',
+        label: '留言',
+        key: 'comment',
+        icon: renderIcon(MessageOutlined)
+      },
+      {
+        path: '/newyear/prize',
+        label: '抽奖',
+        key: 'prize',
+        icon: renderIcon(Gift)
+      }
+    ]
+  },
   {
     path: '/verification',
     label: '身份认证',

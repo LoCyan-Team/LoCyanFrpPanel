@@ -363,6 +363,8 @@ async function realPersonPay() {
   if (!rs) return
   if (rs.status === 200) {
     window.open(rs.data.url)
+  } else {
+    message.error(rs.message)
   }
 }
 

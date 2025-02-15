@@ -135,26 +135,32 @@ const routes = [
         },
         component: () => import('@views/VerificationView.vue')
       },
-      // {
-      //   path: '/hello2024',
-      //   name: 'NewYear',
-      //   meta: {
-      //     title: '留言',
-      //     keepAlive: true,
-      //     needLogin: true
-      //   },
-      //   component: () => import('../../_deprecated/activities/NewYearView.vue')
-      // },
-      // {
-      //   path: '/prize',
-      //   name: 'Prize',
-      //   meta: {
-      //     title: '抽奖',
-      //     keepAlive: true,
-      //     needLogin: true
-      //   },
-      //   component: () => import('../../_deprecated/activities/PrizeView.vue')
-      // },
+      {
+        path: 'newyear',
+        name: 'NewYear',
+        children: [
+          {
+            path: 'comment',
+            name: 'CommentNewYear',
+            meta: {
+              title: '留言',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/newyear/NewYearView.vue')
+          },
+          {
+            path: 'prize',
+            name: 'PrizeNewYear',
+            meta: {
+              title: '抽奖',
+              keepAlive: true,
+              needLogin: true
+            },
+            component: () => import('@views/newyear/PrizeView.vue')
+          }
+        ]
+      },
       {
         path: '/donate',
         name: 'Donate',
@@ -296,7 +302,7 @@ const routes = [
                     path: 'done',
                     name: 'DoneRealPersonVerificationCallback',
                     meta: {
-                      title: '实人认证成功回调页面',
+                      title: '实人认证回调页面',
                       needLogin: true,
                       noSidebar: true
                     },

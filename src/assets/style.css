@@ -3,9 +3,8 @@
   filter: grayscale(1);
 }*/
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import './markdown.css';
 
 * {
   margin: 0;
@@ -20,9 +19,4 @@ a {
 
 a:hover {
   color: #63e2b7;
-}
-
-ul,
-ol {
-  margin-left: 1rem;
 }

@@ -150,6 +150,7 @@ async function doResetRequest() {
   let rs
   try {
     rs = await api.v2.user.password(
+      undefined,
       model.value.user,
       undefined,
       model.value.password,

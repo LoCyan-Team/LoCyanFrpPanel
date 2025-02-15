@@ -157,12 +157,12 @@
             </template>
             <n-card style="min-height: 350px">
               <div style="overflow-y: auto; height: 75px" class="nodeId-title">
-                <h2 style="font-weight: 400">
+                <n-h2 style="font-weight: 400">
                   {{ item.proxy_name }}
                   <n-tag :bordered="false" type="success" style="transform: translateY(-2px)">
                     ID: {{ item.id }}
                   </n-tag>
-                </h2>
+                </n-h2>
               </div>
               <n-tag :bordered="false" type="success">
                 {{ item.proxy_type.toUpperCase() }}
@@ -266,8 +266,6 @@
 </template>
 
 <script setup>
-import { Error } from '@vicons/carbon'
-
 import { computed, ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'

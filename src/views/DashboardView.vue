@@ -132,7 +132,7 @@
     <n-grid-item span="0:3 600:2">
       <n-card title="公告" size="large">
         <n-spin :show="broadcastLoading">
-          <n-text v-html="broadcastHtml" id="boardrcast"></n-text>
+          <n-text class="markdown-body" v-html="broadcastHtml" id="boardrcast"></n-text>
         </n-spin>
         <br />
       </n-card>
@@ -189,7 +189,7 @@ const broadcastHtml = ref('')
 const broadcastLoading = ref(true)
 
 onMounted(async () => {
-  let result = await notice.getNotice()
+  const result = await notice.getNotice()
   broadcastHtml.value = result.broadcast
   broadcastLoading.value = false
 })

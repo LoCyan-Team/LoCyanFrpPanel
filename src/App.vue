@@ -18,7 +18,7 @@
               <n-layout-header :inverted="false" bordered>
                 <the-header />
               </n-layout-header>
-              <n-layout has-sider style="height: calc(100vh - 66px); bottom: 0">
+              <n-layout has-sider style="height: calc(100dvh - 65px); bottom: 0">
                 <div>
                   <guest-sidebar v-if="showGuestSidebar" />
                   <main-sidebar v-if="showMainSidebar" />

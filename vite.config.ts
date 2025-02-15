@@ -4,17 +4,17 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import GitRevisionVitePlugin from 'git-revision-vite-plugin'
-import cssnanoPlugin from 'cssnano'
-import autoprefixer from 'autoprefixer'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
+    tailwindcss(),
     GitRevisionVitePlugin({
       commitHashCommand: 'rev-parse --short HEAD'
     }),
@@ -32,11 +32,6 @@ export default defineConfig({
   ],
   server: {
     host: '0.0.0.0'
-  },
-  css: {
-    postcss: {
-      plugins: [cssnanoPlugin(), autoprefixer()]
-    }
   },
   resolve: {
     alias: {
