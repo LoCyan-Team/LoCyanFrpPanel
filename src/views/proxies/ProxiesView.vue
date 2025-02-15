@@ -148,7 +148,11 @@
         <n-space style="display: block">
           <n-spin
             :show="item.status < 0"
-            style="--n-color: darkred; --n-text-color: darkred"
+            style="
+              --disable-color: #d90303;
+              --n-color: var(--disable-color);
+              --n-text-color: var(--disable-color);
+            "
             :rotate="false"
           >
             <template #icon>
