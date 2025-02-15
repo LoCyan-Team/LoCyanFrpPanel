@@ -130,7 +130,7 @@ async function fetchUserInfo() {
     rs = await api.v2.user.info.root.get(userData.getters.get_user_id)
   } catch (e) {
     reconnecting = true
-    if (connectionLostInstance == undefined) {
+    if (connectionLostInstance === undefined) {
       connectionLostInstance = window.$notification.create({
         title: '连接已断开',
         content: '正在重新连接...',
@@ -157,7 +157,13 @@ async function fetchUserInfo() {
   }
   if (rs.status === 401) {
     notification.warning('授权失效', '请重新登录后台！')
-    // logout()
+    logout()
+    router.push({
+      name: 'Login',
+      query: {
+        redirect: encodeURIComponent(window.location.pathname + window.location.search)
+      }
+    })
   }
   return false
 }
@@ -200,7 +206,7 @@ setInterval(async () => {
     const valid = await fetchUserInfo()
     // 有效
     // connectionLostInstance 已订阅
-    if (valid && connectionLostInstance != undefined) {
+    if (valid && connectionLostInstance !== undefined) {
       connectionLostInstance.destroy()
       // 重置对象
       connectionLostInstance = undefined
