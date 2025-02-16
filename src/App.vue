@@ -8,12 +8,12 @@
             <loading-bar />
             <the-dialog />
             <the-notification />
-            <n-layout v-show="loading">
+            <n-layout style="height: 100%" v-show="loading">
               <n-el class="load-container">
                 <n-spin></n-spin>
               </n-el>
             </n-layout>
-            <n-layout v-show="!loading">
+            <n-layout style="height: 100%" v-show="!loading">
               <user-info />
               <n-layout-header :inverted="false" bordered>
                 <the-header />
@@ -245,11 +245,15 @@ setInterval(async () => {
 </script>
 
 <style>
-.load-container {
+.n-config-provider {
   height: 100dvh;
+}
+
+.load-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
 .content {
