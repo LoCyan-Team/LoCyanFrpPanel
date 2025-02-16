@@ -14,7 +14,6 @@
               </n-el>
             </n-layout>
             <n-layout style="height: 100%" v-show="!loading">
-              <user-info />
               <n-layout-header :inverted="false" bordered>
                 <the-header />
               </n-layout-header>
@@ -77,7 +76,6 @@ import {
 import TheNotification from '@components/TheNotification.vue'
 import TheFooter from '@components/TheFooter.vue'
 import TheHeader from '@components/TheHeader.vue'
-import UserInfo from '@components/UserInfo.vue'
 import MainSidebar from '@components/sidebar/MainSidebar.vue'
 import GuestSidebar from '@components/sidebar/GuestSidebar.vue'
 import LoadingBar from '@components/LoadingBar.vue'

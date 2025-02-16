@@ -2,7 +2,7 @@
   <template v-if="loading">
     <n-h1 prefix="bar" style="margin-top: 30px">
       <i class="twa twa-card-file-box"></i>
-      <n-text type="primary"> 身份认证</n-text>
+      <n-text type="success"> 身份认证</n-text>
     </n-h1>
     <n-grid cols="1" item-responsive>
       <n-grid-item span="1">
@@ -15,7 +15,7 @@
   <template v-else>
     <n-h1 prefix="bar" style="margin-top: 30px">
       <i class="twa twa-card-file-box"></i>
-      <n-text type="primary"> 身份认证</n-text>
+      <n-text type="success"> 身份认证</n-text>
     </n-h1>
     <n-collapse default-expanded-names="1" accordion v-if="!finished">
       <!-- 二级认证 -->
@@ -60,7 +60,7 @@
                   </n-grid-item>
                 </n-grid>
                 <div style="display: flex; justify-content: flex-end">
-                  <n-button round type="primary" @click="submitRealName()"> 提交 </n-button>
+                  <n-button round type="success" @click="submitRealName()"> 提交 </n-button>
                 </div>
               </n-form>
             </n-card>
@@ -77,8 +77,8 @@
             <n-card title="支付订单" v-if="showPayModal">
               <div>
                 <n-space>
-                  <n-button type="primary" @click="realPersonPay()"> 点此付款 </n-button>
-                  <n-button type="primary" @click="checkVerificationStatus()">
+                  <n-button type="success" @click="realPersonPay()"> 点此付款 </n-button>
+                  <n-button type="success" @click="checkVerificationStatus()">
                     刷新付款状态
                   </n-button>
                 </n-space>
@@ -126,8 +126,8 @@
                 </n-grid>
                 <div>
                   <n-space>
-                    <n-button type="primary" @click="submitRealPerson()">提交</n-button>
-                    <n-button type="primary" @click="queryRealPersonStatus()" secondary>
+                    <n-button type="success" @click="submitRealPerson()">提交</n-button>
+                    <n-button type="success" @click="queryRealPersonStatus()" secondary>
                       刷新状态
                     </n-button>
                     <n-button type="error" @click="resetRealPersonStatus()" secondary>
@@ -163,7 +163,7 @@
   >
     <n-qr-code :value="realPersonUrl" :size="200" :error-correction-level="'L'" />
     <template #footer>
-      <n-button type="primary" @click="queryRealPersonStatus()">刷新状态</n-button>
+      <n-button type="success" @click="queryRealPersonStatus()">刷新状态</n-button>
     </template>
   </n-modal>
 </template>

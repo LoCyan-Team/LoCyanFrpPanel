@@ -38,7 +38,7 @@
               <n-button
                 ghost
                 round
-                type="primary"
+                type="success"
                 @click="sendCode"
                 v-bind:disabled="verify.isClick"
               >
@@ -54,13 +54,13 @@
           <n-space>
             <n-button
               ghost
-              type="primary"
+              type="success"
               style="--n-border: none"
               @click="() => router.push({ name: 'Login' })"
             >
               已有账户？去登录
             </n-button>
-            <n-button type="primary" @click="register"> 注册 </n-button>
+            <n-button type="success" @click="register"> 注册 </n-button>
           </n-space>
         </div>
       </n-form>

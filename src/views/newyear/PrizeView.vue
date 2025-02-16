@@ -2,11 +2,11 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-spiral-calendar"></i>
-    <n-text type="primary"> 抽奖</n-text>
+    <n-text type="success"> 抽奖</n-text>
   </n-h1>
   <n-space vertical>
     <n-spin :show="loading">
-      <n-empty v-if="prizeList.length == 0"></n-empty>
+      <n-empty v-if="prizeList.length === 0"></n-empty>
       <n-grid v-else :x-gap="12" :y-gap="12" :cols="4" item-responsive>
         <n-gi span="0:4 1000:1" v-for="item in prizeList" v-bind:key="item.id">
           <n-space style="display: block">

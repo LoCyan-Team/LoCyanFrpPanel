@@ -22,6 +22,7 @@ declare module 'vue' {
     NDivider: typeof import('naive-ui')['NDivider']
     NDrawer: typeof import('naive-ui')['NDrawer']
     NDrawerContent: typeof import('naive-ui')['NDrawerContent']
+    NDropdown: typeof import('naive-ui')['NDropdown']
     NEl: typeof import('naive-ui')['NEl']
     NEllipsis: typeof import('naive-ui')['NEllipsis']
     NEmpty: typeof import('naive-ui')['NEmpty']
@@ -37,6 +38,7 @@ declare module 'vue' {
     NH4: typeof import('naive-ui')['NH4']
     NH5: typeof import('naive-ui')['NH5']
     NIcon: typeof import('naive-ui')['NIcon']
+    NImage: typeof import('naive-ui')['NImage']
     NInput: typeof import('naive-ui')['NInput']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
@@ -81,6 +83,6 @@ declare module 'vue' {
     TheHeader: typeof import('./src/components/TheHeader.vue')['default']
     TheMessage: typeof import('./src/components/TheMessage.vue')['default']
     TheNotification: typeof import('./src/components/TheNotification.vue')['default']
-    UserInfo: typeof import('./src/components/UserInfo.vue')['default']
+    UserInfo: typeof import('./_deprecated/UserInfo.vue')['default']
   }
 }

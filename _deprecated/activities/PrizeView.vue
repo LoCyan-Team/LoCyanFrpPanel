@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-ballot-box-with-ballot"></i>
-    <n-text type="primary"> 抽奖</n-text>
+    <n-text type="success"> 抽奖</n-text>
   </n-h1>
   <n-grid cols="3" item-responsive>
     <n-grid-item v-for="item in prizesList" id="item" span="0:3 950:1">

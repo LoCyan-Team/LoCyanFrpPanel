@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-red-paper-lantern"></i>
-    <n-text type="primary"> 新年祝福</n-text>
+    <n-text type="success"> 新年祝福</n-text>
   </n-h1>
   <n-form :ref="formRef" :model="newYear" label-width="auto" size="large">
     <n-grid cols="1" item-responsive>
@@ -15,13 +15,13 @@
       </n-grid-item>
       <n-gi span="1">
         <n-space justify="end">
-          <n-button type="primary" @click="submitComment()"> 提交</n-button>
+          <n-button type="success" @click="submitComment()"> 提交</n-button>
         </n-space>
       </n-gi>
     </n-grid>
   </n-form>
   <n-spin :show="loading">
-    <n-empty v-if="commentList.length == 0"></n-empty>
+    <n-empty v-if="commentList.length === 0"></n-empty>
     <n-grid cols="3" item-responsive>
       <n-grid-item v-for="item in commentList" id="item" span="0:3 950:1" v-bind:key="item.id">
         <n-space style="display: block">

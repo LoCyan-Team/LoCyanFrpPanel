@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-page-facing-up"></i>
-    <n-text type="primary"> 域名白名单</n-text>
+    <n-text type="success"> 域名白名单</n-text>
   </n-h1>
 
   <n-alert title="说明" type="info">
@@ -19,7 +19,7 @@
             <n-input v-model:value="domainInput.domain" placeholder="example.com" />
           </n-form-item>
           <div style="display: flex; justify-content: flex-start">
-            <n-button type="primary" @click="submit"> 创建</n-button>
+            <n-button type="success" @click="submit"> 创建</n-button>
           </div>
         </n-card>
       </n-grid-item>

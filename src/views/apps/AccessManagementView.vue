@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-identification-card"></i>
-    <n-text type="primary"> 授权管理</n-text>
+    <n-text type="success"> 授权管理</n-text>
   </n-h1>
   <n-spin :show="loading">
     <n-empty v-if="list.length === 0"></n-empty>

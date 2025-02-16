@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-money-bag"></i>
-    <n-text type="primary"> 赞助</n-text>
+    <n-text type="success"> 赞助</n-text>
   </n-h1>
   <n-modal v-model:show="showModal">
     <n-card
@@ -57,7 +57,7 @@
         </n-text>
         <br />
         <br />
-        <n-button type="primary" @click="doDonate" :loading="donateLoading"> 赞助</n-button>
+        <n-button type="success" @click="doDonate" :loading="donateLoading"> 赞助</n-button>
       </n-grid-item>
       <n-grid-item span="1" v-if="showMessageLabel">
         <n-form
@@ -72,7 +72,7 @@
           </n-form-item>
           <n-space>
             <n-button
-              type="primary"
+              type="success"
               style="margin-right: 10px"
               @click="submitMessage"
               :loading="submitLoading"
@@ -98,7 +98,7 @@
         <n-space style="display: block">
           <n-card>
             <n-space>
-              <n-gradient-text type="primary">
+              <n-gradient-text type="success">
                 {{ item.username }}
               </n-gradient-text>
               <n-gradient-text type="warning">

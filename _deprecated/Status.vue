@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-spiral-calendar"></i>
-    <n-text type="primary"> 节点状态</n-text>
+    <n-text type="success"> 节点状态</n-text>
   </n-h1>
   <n-space vertical>
     <n-button strong secondary type="info" @click="getList()"> 手动刷新列表 </n-button>

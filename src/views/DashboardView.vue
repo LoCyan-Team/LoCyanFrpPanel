@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-compass"></i>
-    <n-text type="primary"> 仪表盘</n-text>
+    <n-text type="success"> 仪表盘</n-text>
   </n-h1>
   <n-grid :y-gap="3" :x-gap="20" cols="3" item-responsive>
     <!--<n-grid-item span="3">

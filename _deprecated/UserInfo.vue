@@ -51,7 +51,7 @@
             <n-button
               round
               ghost
-              type="primary"
+              type="success"
               v-bind:disabled="tEmail.verify.isClick"
               @click="sendChangeEmailCode"
               >{{ tEmail.verify.msg }}
@@ -83,22 +83,22 @@
         </n-space>
       </n-space>
       <template #footer>
-        <n-button ghost type="primary" @click="doLogOut"> 退出登录 </n-button>
+        <n-button ghost type="success" @click="doLogOut"> 退出登录 </n-button>
       </template>
     </n-drawer-content>
   </n-drawer>
 </template>
 
 <script setup>
-import { logout } from '@/utils/profile'
-import userData from '@/utils/stores/userData/store'
-import Message from '@/utils/message'
-import Dialog from '@/utils/dialog'
-import Notification from '@/utils/notification'
+import { logout } from 'src/utils/profile.js'
+import userData from 'src/utils/stores/userData/store.js'
+import Message from 'src/utils/message.js'
+import Dialog from 'src/utils/dialog.js'
+import Notification from 'src/utils/notification.js'
 import { onMounted, ref } from 'vue'
 import { useLoadingBar } from 'naive-ui'
-import api from '@/api'
-import logger from '@/utils/logger'
+import api from 'src/api/index.js'
+import logger from 'src/utils/logger.js'
 import router from '@router'
 
 const message = new Message()

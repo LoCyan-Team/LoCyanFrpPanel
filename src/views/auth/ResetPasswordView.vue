@@ -39,7 +39,7 @@
               <n-button
                 ghost
                 round
-                type="primary"
+                type="success"
                 @click="sendResetMail"
                 v-bind:disabled="verify.isClick"
               >
@@ -55,14 +55,14 @@
           <n-space>
             <n-button
               ghost
-              type="primary"
+              type="success"
               style="--n-border: none"
               @click="() => router.push({ name: 'Login' })"
             >
               我想起密码了，带我去登录
             </n-button>
-            <n-button type="primary" @click="doResetRequest">提交</n-button>
-            <!--            <n-button type="primary" @click="sendResetMail" style="margin-right: 10px">-->
+            <n-button type="success" @click="doResetRequest">提交</n-button>
+            <!--            <n-button type="success" @click="sendResetMail" style="margin-right: 10px">-->
             <!--              发送邮件-->
             <!--            </n-button>-->
           </n-space>
@@ -86,7 +86,7 @@
       <!--        </n-form-item>-->
       <!--        <div style="display: flex; justify-content: flex-end">-->
       <!--          <n-space>-->
-      <!--            <n-button type="primary" @click="doResetRequest" style="margin-right: 10px">-->
+      <!--            <n-button type="success" @click="doResetRequest" style="margin-right: 10px">-->
       <!--              提交-->
       <!--            </n-button>-->
       <!--          </n-space>-->

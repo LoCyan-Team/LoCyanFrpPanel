@@ -29,7 +29,7 @@
             <n-button
               :loading="acceptLoading"
               :disabled="acceptLoading"
-              type="primary"
+              type="success"
               @click="doAuthorize"
               >同意</n-button
             >

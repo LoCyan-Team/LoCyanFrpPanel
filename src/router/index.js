@@ -238,6 +238,16 @@ const routes = [
         ]
       },
       {
+        path: '/me',
+        name: 'Me',
+        meta: {
+          title: '用户资料',
+          keepAlive: true,
+          needLogin: true
+        },
+        component: () => import('@views/UserView.vue')
+      },
+      {
         path: '/callback',
         children: [
           {

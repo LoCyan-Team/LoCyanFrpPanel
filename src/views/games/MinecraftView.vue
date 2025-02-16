@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-link"></i>
-    <n-text type="primary">
+    <n-text type="success">
       Minecraft 联机
       <n-tag type="warning" class="beta-tag">BETA</n-tag>
     </n-text>
@@ -15,7 +15,7 @@
         <n-select v-model:value="selected" :options="options"></n-select>
         <br />
         <n-button
-          type="primary"
+          type="success"
           @click="createMinecraftGame"
           :loading="createLoading"
           :disabled="createLoading"

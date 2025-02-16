@@ -45,12 +45,12 @@
               <n-button
                 ghost
                 style="--n-border: none"
-                type="primary"
+                type="success"
                 @click="() => router.push({ name: 'Register' })"
               >
                 没有账户？去注册
               </n-button>
-              <n-button type="primary" @click="loadCaptcha"> 登录</n-button>
+              <n-button type="success" @click="loadCaptcha"> 登录</n-button>
               <captcha-component
                 :show="showCaptcha"
                 :type="captchaPreData.type"

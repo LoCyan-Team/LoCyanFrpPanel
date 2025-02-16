@@ -86,7 +86,7 @@
         style="margin: 2px"
         strong
         secondary
-        type="primary"
+        type="success"
         @click="editProxy(proxiesList[indexOfProxies].id)"
         >提交
       </n-button>
@@ -128,7 +128,7 @@
         <!-- 2024-09-14 9:35 Muska-Ami: 我觉得是 NaiveUI 实现的问题 -->
         <n-button
           secondary
-          type="primary"
+          type="success"
           v-clipboard="() => quickStartCommand"
           v-clipboard:success="() => message.success('复制成功')"
           v-clipboard:error="() => message.error('复制失败')"
@@ -142,7 +142,7 @@
   </n-modal>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-books"></i>
-    <n-text type="primary"> 隧道列表</n-text>
+    <n-text type="success"> 隧道列表</n-text>
   </n-h1>
   <n-spin :show="loading">
     <n-empty v-if="proxiesList.length === 0" description="一个隧道都没找到哦~"></n-empty>
@@ -205,7 +205,7 @@
                       <n-button
                         style="margin: 1px"
                         secondary
-                        type="primary"
+                        type="success"
                         @click="
                           () => {
                             indexOfProxies = proxiesList.indexOf(item)
@@ -339,7 +339,7 @@
                       <n-button
                         style="margin: 1px"
                         secondary
-                        type="primary"
+                        type="success"
                         @click="
                           () => {
                             indexOfProxies = proxiesList.indexOf(item)

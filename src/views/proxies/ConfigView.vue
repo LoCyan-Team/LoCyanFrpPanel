@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-bookmark-tabs"></i>
-    <n-text type="primary"> 配置文件</n-text>
+    <n-text type="success"> 配置文件</n-text>
   </n-h1>
   <n-grid cols="1" y-gap="1" item-responsive>
     <n-grid-item span="1">

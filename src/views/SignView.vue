@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-spiral-calendar"></i>
-    <n-text type="primary"> 签到</n-text>
+    <n-text type="success"> 签到</n-text>
   </n-h1>
   <n-space vertical>
     <n-grid cols="1" item-responsive>

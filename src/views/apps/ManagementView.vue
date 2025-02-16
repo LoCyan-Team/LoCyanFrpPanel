@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-package"></i>
-    <n-text type="primary"> 应用管理</n-text>
+    <n-text type="success"> 应用管理</n-text>
   </n-h1>
   <n-modal
     preset="card"
@@ -24,7 +24,7 @@
       </n-form-item>
     </n-form>
     <template #footer>
-      <n-button @click="createApplication" type="primary" secondary>提交</n-button>
+      <n-button @click="createApplication" type="success" secondary>提交</n-button>
     </template>
   </n-modal>
   <n-modal
@@ -48,7 +48,7 @@
       </n-form-item>
     </n-form>
     <template #footer>
-      <n-button @click="modifyApplication" type="primary" secondary>提交</n-button>
+      <n-button @click="modifyApplication" type="success" secondary>提交</n-button>
     </template>
   </n-modal>
   <n-grid :y-gap="3" :x-gap="20" cols="3" item-responsive>
@@ -57,7 +57,7 @@
         <n-space style="flex-direction: column">
           <div>
             <n-h3>我的应用</n-h3>
-            <n-button @click="createModal" type="primary">创建</n-button>
+            <n-button @click="createModal" type="success">创建</n-button>
             <n-divider></n-divider>
             <n-spin :show="applicationListLoading">
               <n-empty v-if="applicationList.length === 0"></n-empty>
@@ -76,7 +76,7 @@
                 <n-text>重定向地址: {{ app.redirect_url }}</n-text>
                 <template #action>
                   <n-space>
-                    <n-button @click="modifyModal(app.id)" type="primary" secondary>修改</n-button>
+                    <n-button @click="modifyModal(app.id)" type="success" secondary>修改</n-button>
                     <n-button @click="deleteApplication(app.id)" type="error" secondary
                       >删除</n-button
                     >

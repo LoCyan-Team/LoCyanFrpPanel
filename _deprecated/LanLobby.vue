@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-page-facing-up"></i>
-    <n-text type="primary">联机大厅</n-text>
+    <n-text type="success">联机大厅</n-text>
   </n-h1>
   <n-alert title="关于联机大厅的通知" type="warning">
     该功能正在开发中暂不可用，我们后续会进行持续完善，期待该功能尽快与各位用户相见！
@@ -19,7 +19,7 @@
             @update:value="handleUpdateValue"
           >
             <n-tab-pane v-for="i in gameList" :name="i.game_name" :tab="i.game_tab">
-              <n-button type="primary" @click="getLobbys(i.game_name)">刷新</n-button>
+              <n-button type="success" @click="getLobbys(i.game_name)">刷新</n-button>
               <br /><br />
               <n-grid cols="2" item-responsive y-gap="10" x-gap="10">
                 <n-gi span="0:2 800:1" v-for="l in lobbyList">
@@ -34,7 +34,7 @@
                     <template #action>
                       <n-space justify="end">
                         <n-button
-                          type="primary"
+                          type="success"
                           @click="
                             () => {
                               choseLobbyIndex = lobbyList.indexOf(l)
@@ -148,7 +148,7 @@
                     />
                   </n-form-item>
                   <n-form-item>
-                    <n-button type="primary" @click="createLobby"> 提交 </n-button>
+                    <n-button type="success" @click="createLobby"> 提交 </n-button>
                   </n-form-item>
                 </div>
               </n-gi>
@@ -158,7 +158,7 @@
         <n-tab-pane name="list" tab="我的房间">
           <n-grid cols="1" item-responsive>
             <n-gi span="1">
-              <n-button type="primary" @click="getPrivateLobby">刷新</n-button>
+              <n-button type="success" @click="getPrivateLobby">刷新</n-button>
               <br />
               <br />
               <n-list bordered>

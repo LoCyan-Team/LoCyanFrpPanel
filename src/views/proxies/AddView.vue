@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-writing-hand-light-skin-tone"></i>
-    <n-text type="primary"> 添加隧道</n-text>
+    <n-text type="success"> 添加隧道</n-text>
   </n-h1>
   <n-spin :show="loading">
     <n-form :ref="formRef" :model="proxyInfo" :rules="rules" label-width="auto" size="large">
@@ -128,7 +128,7 @@
         </n-grid-item>
       </n-grid>
       <div style="display: flex; justify-content: flex-end">
-        <n-button round type="primary" @click="addProxy"> 创建</n-button>
+        <n-button round type="success" @click="addProxy"> 创建</n-button>
       </div>
     </n-form>
   </n-spin>

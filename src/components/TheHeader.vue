@@ -32,24 +32,32 @@
           <n-icon><MdNotifications /></n-icon>
         </template>
       </n-button>
-      <n-avatar
-        round
-        size="medium"
-        :style="userData.getters.get_token ? '' : 'display: none;'"
-        style="margin-top: 15px; margin-right: 23px"
-        :src="avatar"
-        @click="() => changeUserInfoShow(true)"
-      />
+      <n-dropdown :options="avatarOptions" @select="handleAvatarOptionSelect">
+        <n-avatar
+          round
+          size="medium"
+          v-show="userData.getters.get_token !== '' && userData.getters.get_token !== null"
+          style="margin-top: 15px; margin-right: 23px"
+          :src="avatar"
+        />
+      </n-dropdown>
     </n-space>
   </n-space>
 </template>
 <script setup>
-import { NGradientText } from 'naive-ui'
+import { NGradientText, NIcon } from 'naive-ui'
 import { MdNotifications } from '@vicons/ionicons4'
-import { onMounted, ref } from 'vue'
+import { h, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { logout } from '@/utils/profile.js'
 import notice from '@/utils/notice'
 import userData from '@/utils/stores/userData/store'
-import { changeUserInfoShow } from '@components/UserInfo.vue'
+import { PersonCircleOutline, LogOutOutline } from '@vicons/ionicons5'
+import Notification from '@/utils/notification'
+// import { changeUserInfoShow } from '@components/UserInfo.vue'
+
+const router = useRouter()
+const notification = new Notification()
 
 const avatar = ref('')
 const announcementHtml = ref('')
@@ -62,6 +70,35 @@ userData.subscribe((mutation, state) => {
     avatar.value = state.avatar
   }
 })
+
+const avatarOptions = [
+  {
+    label: '用户资料',
+    key: 'profile',
+    icon: renderIcon(PersonCircleOutline)
+  },
+  {
+    label: '退出登录',
+    key: 'logout',
+    icon: renderIcon(LogOutOutline)
+  }
+]
+
+function renderIcon(icon) {
+  return () => h(NIcon, null, { default: () => h(icon) })
+}
+
+function handleAvatarOptionSelect(key) {
+  switch (key) {
+    case 'profile':
+      router.push({ name: 'Me' })
+      break
+    case 'logout':
+      logout()
+      notification.success('已登出', '感谢您的使用！')
+      router.push({ name: 'Login' })
+  }
+}
 
 onMounted(async () => {
   const time = new Date()

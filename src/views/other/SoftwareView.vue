@@ -1,7 +1,7 @@
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
     <i class="twa twa-flashlight"></i>
-    <n-text type="primary"> 软件下载</n-text>
+    <n-text type="success"> 软件下载</n-text>
   </n-h1>
   <n-alert title="说明" type="info">
     若您并不知道 Frpc 到底是干什么用的，请不要直接下载它。
