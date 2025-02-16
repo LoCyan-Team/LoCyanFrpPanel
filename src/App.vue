@@ -19,11 +19,15 @@
                 <the-header />
               </n-layout-header>
               <n-layout has-sider style="height: calc(100dvh - 65px); bottom: 0">
-                <div>
+                <div class="sidebar-container">
                   <guest-sidebar v-if="showGuestSidebar" />
                   <main-sidebar v-if="showMainSidebar" />
                 </div>
-                <n-layout-content ref="contentRef" :native-scrollbar="false">
+                <n-layout-content
+                  class="content-container"
+                  ref="contentRef"
+                  :native-scrollbar="false"
+                >
                   <div class="content">
                     <router-view v-slot="{ Component }">
                       <keep-alive :max="10">
@@ -46,6 +50,19 @@
     </n-loading-bar-provider>
   </n-config-provider>
 </template>
+
+<style scoped>
+@media screen and (max-width: 650px) {
+  .sidebar-container {
+    position: absolute;
+    height: 100%;
+    z-index: 2;
+  }
+  .content-container {
+    margin-left: 64px;
+  }
+}
+</style>
 
 <script setup>
 import {
@@ -229,7 +246,7 @@ setInterval(async () => {
 
 <style>
 .load-container {
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -238,7 +255,7 @@ setInterval(async () => {
 .content {
   margin-right: 15px;
   margin-left: 15px;
-  min-height: calc(100vh - 115px);
+  min-height: calc(100dvh - 64px);
 }
 
 .fade-enter-active,
