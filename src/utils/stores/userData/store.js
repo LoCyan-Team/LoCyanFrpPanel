@@ -71,7 +71,6 @@ export default new vuex.Store({
     },
     // user id
     set_user_id(state, user_id) {
-      console.log(user_id)
       state.user_id = user_id
       localStorage.setItem('user_id', user_id)
     },
