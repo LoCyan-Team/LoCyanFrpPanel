@@ -397,7 +397,13 @@ async function sendChangeEmailCode() {
 
 @media screen and (max-width: 800px) {
   .container {
-    margin-block: 1rem;
+    margin-top: 1rem;
+    margin-bottom: -0.5rem;
+  }
+}
+@media screen and (min-width: 800px) {
+  .container {
+    margin-bottom: 3rem;
   }
 }
 </style>
