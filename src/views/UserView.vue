@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <n-card class="info-card" style="text-align: center">
-      <n-avatar round :size="80" :src="userData.getters.get_avatar + 's=480'" />
+      <n-avatar round :size="80" :src="userData.getters.get_avatar + '?s=480'" />
       <br />
       <n-text style="font-size: 20px">
         {{ userData.getters.get_username }}
