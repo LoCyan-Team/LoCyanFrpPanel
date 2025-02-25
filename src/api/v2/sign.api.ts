@@ -3,14 +3,14 @@ import base from '@/api/base'
 import { get, post } from '@/utils/request'
 
 const getSign = async (user_id: number) => {
-  const rs = get(`${base.api_v2_url}/sign`, {
+  const rs = get(`/sign`, {
     user_id: user_id
   })
   return base.buildResponse(await rs)
 }
 
 const postSign = async (user_id: number) => {
-  const rs = post(`${base.api_v2_url}/sign`, {
+  const rs = post(`/sign`, {
     user_id: user_id
   })
   return base.buildResponse(await rs)

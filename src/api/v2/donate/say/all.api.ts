@@ -4,7 +4,7 @@ import { get } from '@/utils/request'
 
 const all = async (user_id: number | undefined) => {
   const rs = get(
-    `${base.api_v2_url}/donate/say/all`,
+    `/donate/say/all`,
     user_id
       ? {
           user_id: user_id

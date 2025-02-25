@@ -9,7 +9,7 @@ const update = async (
   app_description: string | null,
   redirect_url: string | null
 ) => {
-  const rs = post(`${base.api_v2_url}/app/update`, {
+  const rs = post(`/app/update`, {
     user_id: user_id,
     app_id: app_id,
     app_name: app_name,

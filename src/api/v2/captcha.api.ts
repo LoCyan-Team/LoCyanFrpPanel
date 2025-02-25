@@ -3,7 +3,7 @@ import base from '@/api/base'
 import { get, post } from '@/utils/request'
 
 const captcha = async (action: string) => {
-  const rs = get(`${base.api_v2_url}/captcha`, {
+  const rs = get(`/captcha`, {
     action: action
   })
   return base.buildResponse(await rs)

@@ -15,7 +15,7 @@ const postProxy = async (
   secret_key: string,
   domain: string
 ) => {
-  const rs = post(`${base.api_v2_url}/proxy`, {
+  const rs = post(`/proxy`, {
     user_id: user_id,
     name: name,
     local_ip: local_ip,
@@ -32,7 +32,7 @@ const postProxy = async (
 }
 
 const deleteProxy = async (user_id: number, proxy_id: number) => {
-  const rs = deleteReq(`${base.api_v2_url}/proxy`, {
+  const rs = deleteReq(`/proxy`, {
     user_id: user_id,
     proxy_id: proxy_id
   })

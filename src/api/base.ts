@@ -1,5 +1,4 @@
 const base = {
-  api_v2_url: import.meta.env.VITE_API_ENDPOINT,
   buildResponse: (res: any, useDataPath: boolean = true) => {
     const message =
       res.data?.message ??

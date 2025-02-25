@@ -9,7 +9,7 @@ const register = async (
   verify_code: number,
   qq_code: number
 ) => {
-  const rs = post(`${base.api_v2_url}/auth/register`, {
+  const rs = post(`/auth/register`, {
     username: username,
     password: password,
     email: email,

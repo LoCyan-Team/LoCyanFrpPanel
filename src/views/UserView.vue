@@ -88,7 +88,7 @@
         </n-button>
       </n-form>
     </n-card>
-    <n-card class="info-card" style="margin-bottom: 0;">
+    <n-card class="info-card" style="margin-bottom: 0">
       <n-h3>修改邮箱</n-h3>
       <n-form ref="emailRef" :model="emailModel">
         <n-form-item label="新邮箱" path="email">

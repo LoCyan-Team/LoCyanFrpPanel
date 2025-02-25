@@ -9,7 +9,7 @@ const login = async (
   captcha_token: string,
   captcha_server: string | undefined
 ) => {
-  const rs = post(`${base.api_v2_url}/auth/login`, {
+  const rs = post(`/auth/login`, {
     username: username,
     password: password,
     captcha_id: captcha_id,
