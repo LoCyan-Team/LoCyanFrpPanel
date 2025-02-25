@@ -3,7 +3,7 @@ import base from '@/api/base'
 import { post, deleteReq } from '@/utils/request'
 
 const postGame = async (user_id: number, proxy_id: number) => {
-  const rs = await post(`${base.api_v2_url}/minecraft/game`, {
+  const rs = await post(`/minecraft/game`, {
     user_id: user_id,
     proxy_id: proxy_id
   })
@@ -11,7 +11,7 @@ const postGame = async (user_id: number, proxy_id: number) => {
 }
 
 const deleteGame = async (user_id: number, code: number) => {
-  const rs = await deleteReq(`${base.api_v2_url}/minecraft/game`, {
+  const rs = await deleteReq(`/minecraft/game`, {
     user_id: user_id,
     code: code
   })

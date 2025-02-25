@@ -8,7 +8,7 @@ const authorize = async (
   redirect_url: string,
   request_permission_ids: Array<number>
 ) => {
-  const rs = post(`${base.api_v2_url}/auth/oauth/authorize`, {
+  const rs = post(`/auth/oauth/authorize`, {
     user_id: user_id,
     app_id: app_id,
     redirect_url: redirect_url,

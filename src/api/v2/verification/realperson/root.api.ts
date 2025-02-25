@@ -3,14 +3,14 @@ import base from '@/api/base'
 import { get, post, deleteReq } from '@/utils/request'
 
 const getRealperson = async (user_id: number) => {
-  const rs = get(`${base.api_v2_url}/verification/realperson`, {
+  const rs = get(`/verification/realperson`, {
     user_id: user_id
   })
   return base.buildResponse(await rs)
 }
 
 const postRealperson = async (user_id: number, name: string, id_card: string) => {
-  const rs = post(`${base.api_v2_url}/verification/realperson`, {
+  const rs = post(`/verification/realperson`, {
     user_id: user_id,
     name: name,
     id_card: id_card
@@ -19,7 +19,7 @@ const postRealperson = async (user_id: number, name: string, id_card: string) =>
 }
 
 const deleteRealperson = async (user_id: number) => {
-  const rs = deleteReq(`${base.api_v2_url}/verification/realperson`, {
+  const rs = deleteReq(`/verification/realperson`, {
     user_id: user_id
   })
   return base.buildResponse(await rs)

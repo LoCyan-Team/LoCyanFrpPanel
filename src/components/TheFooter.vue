@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios'
 import { GitAlt } from '@vicons/fa'
 import { onMounted, ref } from 'vue'
 import { get } from '@/utils/request'
@@ -7,10 +8,14 @@ const gitHash = GIT_COMMITHASH
 const nowYear = new Date().getFullYear()
 const hitokotoContent = ref('Loading')
 
+const hitokotoReqInstance = axios.create({
+  timeout: 80000
+})
+
 onMounted(async () => {
   let rs
   try {
-    rs = await get('https://v1.hitokoto.cn/', {})
+    rs = await hitokotoReqInstance.get('https://v1.hitokoto.cn/')
   } catch (e) {
     hitokotoContent.value = '加载失败'
   }

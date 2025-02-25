@@ -3,7 +3,7 @@ import base from '@/api/base'
 import { get } from '@/utils/request'
 
 const qq = async (user_id: number) => {
-  const rs = await get(`${base.api_v2_url}/user/info/qq`, {
+  const rs = await get(`/user/info/qq`, {
     user_id: user_id
   })
   return base.buildResponse(rs)

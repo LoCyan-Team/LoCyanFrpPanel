@@ -3,14 +3,14 @@ import base from '@/api/base'
 import { get, post, deleteReq } from '@/utils/request'
 
 const getBind = async (user_id: number) => {
-  const rs = await get(`${base.api_v2_url}/auth/oauth/qq/bind`, {
+  const rs = await get(`/auth/oauth/qq/bind`, {
     user_id: user_id
   })
   return base.buildResponse(rs)
 }
 
 const postBind = async (user_id: number, code: string) => {
-  const rs = await post(`${base.api_v2_url}/auth/oauth/qq/bind`, {
+  const rs = await post(`/auth/oauth/qq/bind`, {
     user_id: user_id,
     code: code
   })
@@ -18,7 +18,7 @@ const postBind = async (user_id: number, code: string) => {
 }
 
 const deleteBind = async (user_id: number) => {
-  const rs = await deleteReq(`${base.api_v2_url}/auth/oauth/qq/bind`, {
+  const rs = await deleteReq(`/auth/oauth/qq/bind`, {
     user_id: user_id
   })
   return base.buildResponse(rs)

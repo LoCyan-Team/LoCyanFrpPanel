@@ -16,7 +16,7 @@ const update = async (
   domain: string,
   secret_key: string
 ) => {
-  const rs = post(`${base.api_v2_url}/proxy/update`, {
+  const rs = post(`/proxy/update`, {
     user_id: user_id,
     proxy_id: proxy_id,
     proxy_type: proxy_type,

@@ -9,7 +9,7 @@ const password = async (
   new_password: string,
   verify_code: string | undefined
 ) => {
-  const rs = await post(`${base.api_v2_url}/user/password`, {
+  const rs = await post(`/user/password`, {
     user_id: user_id,
     email: email,
     old_password: old_password,

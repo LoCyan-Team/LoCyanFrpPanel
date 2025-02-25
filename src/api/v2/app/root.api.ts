@@ -8,7 +8,7 @@ const postApp = async (
   app_description: string | null,
   redirect_url: string
 ) => {
-  const rs = post(`${base.api_v2_url}/app`, {
+  const rs = post(`/app`, {
     user_id: user_id,
     app_name: app_name,
     app_description: app_description,
@@ -18,7 +18,7 @@ const postApp = async (
 }
 
 const deleteApp = async (user_id: number, app_id: number) => {
-  const rs = deleteReq(`${base.api_v2_url}/app`, {
+  const rs = deleteReq(`/app`, {
     user_id: user_id,
     app_id: app_id
   })

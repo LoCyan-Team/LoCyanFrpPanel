@@ -3,14 +3,14 @@ import { get, deleteReq } from '@/utils/request'
 import base from '@/api/base'
 
 const getToken = async (user_id: number) => {
-  const rs = get(`${base.api_v2_url}/user/token`, {
+  const rs = get(`/user/token`, {
     user_id: user_id
   })
   return base.buildResponse(await rs)
 }
 
 const deleteToken = async (user_id: number) => {
-  const rs = deleteReq(`${base.api_v2_url}/user/token`, {
+  const rs = deleteReq(`/user/token`, {
     user_id: user_id
   })
   return base.buildResponse(await rs)

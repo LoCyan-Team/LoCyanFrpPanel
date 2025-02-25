@@ -3,7 +3,7 @@ import base from '@/api/base'
 import { post } from '@/utils/request'
 
 const down = async (user_id: number, proxy_id: string) => {
-  const rs = post(`${base.api_v2_url}/proxy/down`, {
+  const rs = post(`/proxy/down`, {
     user_id: user_id,
     proxy_id: proxy_id
   })

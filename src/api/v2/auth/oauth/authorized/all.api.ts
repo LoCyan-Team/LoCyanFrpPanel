@@ -3,7 +3,7 @@ import { get } from '@/utils/request'
 import base from '@/api/base'
 
 const all = async (user_id: number) => {
-  const rs = get(`${base.api_v2_url}/auth/oauth/authorized/all`, {
+  const rs = get(`/auth/oauth/authorized/all`, {
     user_id: user_id
   })
   return base.buildResponse(await rs)

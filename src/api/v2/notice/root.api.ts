@@ -3,7 +3,7 @@ import base from '@/api/base'
 import { get } from '@/utils/request'
 
 const getNotice = async () => {
-  const rs = get(`${base.api_v2_url}/notice`)
+  const rs = get(`/notice`)
   return base.buildResponse(await rs)
 }
 
