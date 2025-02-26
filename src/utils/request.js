@@ -52,9 +52,10 @@ instance.interceptors.response.use(
               redirect: router.currentRoute.fullPath
             }
           })
-          break
+          return error
         case 500:
           message.error('服务器响应时发生错误')
+          return error
         default:
           return error
       }
