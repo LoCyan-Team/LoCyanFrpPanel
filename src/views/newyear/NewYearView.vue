@@ -101,6 +101,6 @@ getMessageList()
 <style scoped>
 #item {
   max-width: 100vw;
-  margin: 20px;
+  margin: 5px;
 }
 </style>
