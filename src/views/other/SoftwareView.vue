@@ -19,7 +19,7 @@
             <span>架构支持</span>
           </p>
           <ul>
-            <li>GUI: x86_64</li>
+            <li>GUI: x86_64, arm64 (macOS)</li>
             <li>CLI: x86_64, arm64 (macOS)</li>
           </ul>
           <h3>下载</h3>
