@@ -48,7 +48,7 @@
         <br />
       </n-card>
       <br />
-      <n-card title="赞助商广告" size="large">
+      <!-- <n-card title="赞助商广告" size="large">
         <n-space>
           <a href="https://spcraft.cn" target="_blank">
             <img
@@ -59,7 +59,7 @@
           </a>
         </n-space>
       </n-card>
-      <br />
+      <br /> -->
       <n-card title="数据报表" size="large">
         <n-space>
           <n-statistic label="上行限速" tabular-nums>
