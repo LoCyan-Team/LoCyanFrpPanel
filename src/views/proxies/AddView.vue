@@ -127,9 +127,7 @@
           </n-form-item>
         </n-grid-item>
       </n-grid>
-      <div style="display: flex; justify-content: flex-end">
-        <n-button round type="success" @click="addProxy"> 创建</n-button>
-      </div>
+      <n-button type="success" @click="addProxy"> 创建</n-button>
     </n-form>
   </n-spin>
 </template>
