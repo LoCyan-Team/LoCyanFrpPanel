@@ -52,9 +52,9 @@ onMounted(async () => {
       <span style="text-align: center">© {{ nowYear }} LoCyanTeam。保留所有权利。</span>
       <br />
       <span style="text-align: center">
-        <a target="_blank" href="https://www.locyan.cn/doc/yhfw.html"> 服务条款 </a>
+        <a target="_blank" href="https://terms.locyan.cn/terms-of-service"> 服务条款 </a>
         |
-        <a target="_blank" href="https://www.locyan.cn/doc/yszc.html"> 隐私政策 </a>
+        <a target="_blank" href="https://terms.locyan.cn/privacy-policy"> 隐私政策 </a>
         |
         <a target="_blank" href="https://github.com/LoCyan-Team/LoCyanFrpPanel">
           <n-button text style="transform: translateY(4.5px)">
