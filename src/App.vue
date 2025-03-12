@@ -23,8 +23,8 @@
                   <main-sidebar v-if="showMainSidebar" />
                 </div>
                 <n-layout-content
+                  :class="sidebarContentClass"
                   class="content-container"
-                  ref="contentRef"
                   :native-scrollbar="false"
                 >
                   <div class="content">
@@ -57,8 +57,11 @@
     height: 100%;
     z-index: 2;
   }
-  .content-container {
+  .content-container.siderbar {
     margin-left: 64px;
+  }
+  .content-container.no-siderbar {
+    margin-left: 0;
   }
 }
 </style>
@@ -112,7 +115,7 @@ const loading = ref(true)
 const tokenValid = ref(false)
 const showGuestSidebar = ref(false)
 const showMainSidebar = ref(false)
-const contentRef = ref(null)
+const sidebarContentClass = computed(() => (showGuestSidebar.value === false && showMainSidebar.value === false) ? 'no-sidebar' : 'sidebar')
 
 hljs.registerLanguage('ini', ini)
 hljs.registerLanguage('nginx', nginx)
