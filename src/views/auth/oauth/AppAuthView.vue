@@ -89,7 +89,7 @@ const valid = ref(true)
 
 const urlKeys = {
   appId: getUrlKey('app_id'),
-  scopes: getUrlKey('scopes'),
+  scopes: decodeURIComponent(getUrlKey('scopes')),
   redirectUrl: decodeURIComponent(getUrlKey('redirect_url'))
 }
 
