@@ -57,10 +57,10 @@
     height: 100%;
     z-index: 2;
   }
-  .content-container.siderbar {
+  .content-container.sidebar {
     margin-left: 64px;
   }
-  .content-container.no-siderbar {
+  .content-container.no-sidebar {
     margin-left: 0;
   }
 }
