@@ -69,6 +69,11 @@
   margin-left: 1rem;
   float: right;
 }
+@media screen and (max-width: 650px) {
+  .outbox {
+    margin: 0.5rem;
+  }
+}
 </style>
 
 <script setup lang="ts">
