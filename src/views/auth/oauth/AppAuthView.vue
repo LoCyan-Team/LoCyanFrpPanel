@@ -71,7 +71,7 @@
 }
 @media screen and (max-width: 650px) {
   .outbox {
-    margin: 0.5rem;
+    margin-inline: 0.5rem;
   }
 }
 </style>
