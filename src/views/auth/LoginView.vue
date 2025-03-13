@@ -55,7 +55,12 @@
                 :show="showCaptcha"
                 :type="captchaPreData.type"
                 :vaptcha-scene="0"
-                @error="(code) => message.error('发生错误: ' + code)"
+                @error="
+                  (code) => {
+                    message.error('发生错误: ' + code)
+                    showCaptcha = false
+                  }
+                "
                 @unsupported="message.error('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')"
                 @callback="captchaCallback"
               />

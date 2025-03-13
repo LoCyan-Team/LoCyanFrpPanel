@@ -39,14 +39,28 @@
                 ghost
                 round
                 type="success"
-                @click="sendCode"
+                @click="loadCaptcha"
                 v-bind:disabled="verify.isClick"
               >
                 {{ verify.msg }}
               </n-button>
-              <n-text style="margin-left: 0.5rem" v-show="verify.resendTimer !== 0"
-                >{{ verify.resendTimer }}s</n-text
-              >
+              <n-text style="margin-left: 0.5rem" v-show="verify.resendTimer !== 0">
+                {{ verify.resendTimer }}s
+              </n-text>
+
+              <captcha-component
+                :show="showCaptcha"
+                :type="captchaPreData.type"
+                :vaptcha-scene="0"
+                @error="
+                  (code) => {
+                    message.error('发生错误: ' + code)
+                    showCaptcha = false
+                  }
+                "
+                @unsupported="message.error('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')"
+                @callback="captchaCallback"
+              />
             </n-grid-item>
           </n-grid>
         </n-form-item>
@@ -73,12 +87,19 @@ import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
 import router from '@router'
 import api from '@/api'
-// import logger from '@/utils/logger'
+import CaptchaComponent from '@/components/CaptchaComponent.vue'
+import logger from '@/utils/logger'
 
 const refkey = 0
 const formRef = ref(null)
 const message = useMessage()
 const ldb = useLoadingBar()
+
+let captchaPreData = ref({
+    id: null,
+    type: ''
+  }),
+  showCaptcha = ref(false)
 
 const model = ref([
   {
@@ -97,14 +118,76 @@ const verify = ref({
   resendTimer: 0
 })
 
-async function sendCode() {
+let vaptchaInserted = false
+
+async function loadCaptcha() {
+  ldb.start()
+  let rs
+  try {
+    rs = await api.v2.captcha('register')
+  } catch (e) {
+    message.error('请求验证码数据失败：' + e)
+    logger.error(e)
+    ldb.error()
+  }
+  if (rs.status === 200) {
+    captchaPreData.value = {
+      id: rs.data.id,
+      type: rs.data.type
+    }
+    // console.log(captchaPreData)
+    switch (rs.data.type) {
+      case 'turnstile':
+        showCaptcha.value = true
+        ldb.finish()
+        break
+      case 'vaptcha':
+        if (!vaptchaInserted) {
+          const script = document.createElement('script')
+          script.src = 'https://v-cn.vaptcha.com/v3.js'
+          document.head.appendChild(script)
+          vaptchaInserted = true
+          script.onload = () => {
+            showCaptcha.value = true
+            ldb.finish()
+          }
+        } else {
+          showCaptcha.value = true
+          ldb.finish()
+        }
+        break
+      default:
+        message.error('后端返回数据错误')
+        ldb.error()
+    }
+  } else {
+    message.error(rs.message)
+    ldb.error()
+  }
+}
+
+async function captchaCallback(token, server) {
+  showCaptcha.value = false
+  await sendCode({
+    id: captchaPreData.value.id,
+    token: token,
+    server: server
+  })
+}
+
+async function sendCode(captchaData) {
   // logger.info('发送邮件验证代码')
   verify.value.isClick = true
   verify.value.msg = `正在处理`
   ldb.start()
   let rs
   try {
-    rs = await api.v2.email.register(model.value.email)
+    rs = await api.v2.email.register(
+      model.value.email,
+      captchaData.id,
+      captchaData.token,
+      captchaData.server
+    )
   } catch (e) {
     message.error('请求邮件验证代码失败: ' + e)
   }

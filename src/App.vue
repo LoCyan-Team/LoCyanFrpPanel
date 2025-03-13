@@ -95,7 +95,6 @@ import Notification from '@/utils/notification'
 import { logout } from '@/utils/profile'
 import router from '@router'
 import { useRoute, useRouter } from 'vue-router'
-import logger from '@/utils/logger'
 
 const notification = new Notification()
 
@@ -115,7 +114,9 @@ const loading = ref(true)
 const tokenValid = ref(false)
 const showGuestSidebar = ref(false)
 const showMainSidebar = ref(false)
-const sidebarContentClass = computed(() => (showGuestSidebar.value === false && showMainSidebar.value === false) ? 'no-sidebar' : 'sidebar')
+const sidebarContentClass = computed(() =>
+  showGuestSidebar.value === false && showMainSidebar.value === false ? 'no-sidebar' : 'sidebar'
+)
 
 hljs.registerLanguage('ini', ini)
 hljs.registerLanguage('nginx', nginx)

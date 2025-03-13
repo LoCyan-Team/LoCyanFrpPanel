@@ -1,345 +1,332 @@
 export default [
   {
-    path: "/",
+    path: '/',
     children: [
       {
-        path: "/",
-        redirect: "/auth/login",
+        path: '/',
+        redirect: '/auth/login'
       },
       {
-        path: "/dashboard",
-        name: "Dashboard",
+        path: '/dashboard',
+        name: 'Dashboard',
         meta: {
-          title: "仪表盘",
+          title: '仪表盘',
           keepAlive: true,
-          needLogin: true,
+          needLogin: true
         },
-        component: () => import("@views/DashboardView.vue"),
+        component: () => import('@views/DashboardView.vue')
       },
       {
-        path: "/sign",
-        name: "Sign",
+        path: '/sign',
+        name: 'Sign',
         meta: {
-          title: "签到",
+          title: '签到',
           keepAlive: true,
-          needLogin: true,
+          needLogin: true
         },
-        component: () => import("@views/SignView.vue"),
+        component: () => import('@views/SignView.vue')
       },
       {
-        path: "/auth",
+        path: '/auth',
         children: [
           {
-            path: "login",
-            name: "Login",
+            path: 'login',
+            name: 'Login',
             meta: {
-              title: "登录",
+              title: '登录',
               keepAlive: true,
               autoRedirectAfterLogin: true,
               sidebar: {
-                guest: true,
-              },
+                guest: true
+              }
             },
-            component: () => import("@views/auth/LoginView.vue"),
+            component: () => import('@views/auth/LoginView.vue')
           },
           {
-            path: "register",
-            name: "Register",
+            path: 'register',
+            name: 'Register',
             meta: {
-              title: "注册",
+              title: '注册',
               keepAlive: true,
               autoRedirectAfterLogin: true,
               sidebar: {
-                guest: true,
-              },
+                guest: true
+              }
             },
-            component: () => import("@views/auth/RegisterView.vue"),
+            component: () => import('@views/auth/RegisterView.vue')
           },
           {
-            path: "resetPassword",
-            name: "ResetPassword",
+            path: 'resetPassword',
+            name: 'ResetPassword',
             meta: {
-              title: "重置密码",
+              title: '重置密码',
               keepAlive: true,
               autoRedirectAfterLogin: true,
               sidebar: {
-                guest: true,
-              },
+                guest: true
+              }
             },
-            component: () => import("@views/auth/ResetPasswordView.vue"),
+            component: () => import('@views/auth/ResetPasswordView.vue')
           },
           {
-            path: "oauth",
+            path: 'oauth',
             children: [
               {
-                path: "authorize",
-                name: "OAuthAuthorize",
+                path: 'authorize',
+                name: 'OAuthAuthorize',
                 meta: {
-                  title: "OAuth 授权界面",
+                  title: 'OAuth 授权界面',
                   needLogin: true,
-                  noSidebar: true,
+                  noSidebar: true
                 },
-                component: () => import("@views/auth/oauth/AppAuthView.vue"),
-              },
-            ],
-          },
-        ],
+                component: () => import('@views/auth/oauth/AppAuthView.vue')
+              }
+            ]
+          }
+        ]
       },
       {
-        path: "/proxies",
+        path: '/proxies',
         children: [
           {
-            path: "",
-            name: "Proxies",
+            path: '',
+            name: 'Proxies',
             meta: {
-              title: "隧道列表",
+              title: '隧道列表',
               keepAlive: true,
-              needLogin: true,
+              needLogin: true
             },
-            component: () => import("@views/proxies/ProxiesView.vue"),
+            component: () => import('@views/proxies/ProxiesView.vue')
           },
           {
-            path: "add",
-            name: "AddProxies",
+            path: 'add',
+            name: 'AddProxies',
             meta: {
-              title: "添加隧道",
+              title: '添加隧道',
               keepAlive: true,
-              needLogin: true,
+              needLogin: true
             },
-            component: () => import("@views/proxies/AddView.vue"),
+            component: () => import('@views/proxies/AddView.vue')
           },
           {
-            path: "config",
-            name: "Config",
+            path: 'config',
+            name: 'Config',
             meta: {
-              title: "配置文件",
+              title: '配置文件',
               keepAlive: true,
-              needLogin: true,
+              needLogin: true
             },
-            component: () => import("@views/proxies/ConfigView.vue"),
-          },
-        ],
+            component: () => import('@views/proxies/ConfigView.vue')
+          }
+        ]
       },
       {
-        path: "/verification",
-        name: "Verification",
+        path: '/verification',
+        name: 'Verification',
         meta: {
-          title: "身份认证",
+          title: '身份认证',
           keepAlive: true,
-          needLogin: true,
+          needLogin: true
         },
-        component: () => import("@views/VerificationView.vue"),
+        component: () => import('@views/VerificationView.vue')
       },
       {
-        path: "newyear",
-        name: "NewYear",
+        path: 'newyear',
+        name: 'NewYear',
         children: [
           {
-            path: "comment",
-            name: "CommentNewYear",
+            path: 'comment',
+            name: 'CommentNewYear',
             meta: {
-              title: "留言",
+              title: '留言',
               keepAlive: true,
-              needLogin: true,
+              needLogin: true
             },
-            component: () => import("@views/newyear/NewYearView.vue"),
+            component: () => import('@views/newyear/NewYearView.vue')
           },
           {
-            path: "prize",
-            name: "PrizeNewYear",
+            path: 'prize',
+            name: 'PrizeNewYear',
             meta: {
-              title: "抽奖",
+              title: '抽奖',
               keepAlive: true,
-              needLogin: true,
+              needLogin: true
             },
-            component: () => import("@views/newyear/PrizeView.vue"),
-          },
-        ],
+            component: () => import('@views/newyear/PrizeView.vue')
+          }
+        ]
       },
       {
-        path: "/donate",
-        name: "Donate",
+        path: '/donate',
+        name: 'Donate',
         meta: {
-          title: "赞助",
+          title: '赞助',
           keepAlive: true,
-          needLogin: true,
+          needLogin: true
         },
-        component: () => import("@views/DonateView.vue"),
+        component: () => import('@views/DonateView.vue')
       },
       {
-        path: "/icp",
-        name: "Icp",
+        path: '/icp',
+        name: 'Icp',
         meta: {
-          title: "域名白名单",
+          title: '域名白名单',
           keepAlive: true,
-          needLogin: true,
+          needLogin: true
         },
-        component: () => import("@views/IcpCheckView.vue"),
+        component: () => import('@views/IcpCheckView.vue')
       },
       {
-        path: "/apps",
-        name: "App",
+        path: '/apps',
+        name: 'App',
         children: [
           {
-            path: "management",
-            name: "AppManagement",
+            path: 'management',
+            name: 'AppManagement',
             meta: {
-              title: "应用管理",
+              title: '应用管理',
               keepAlive: true,
-              needLogin: true,
+              needLogin: true
             },
-            component: () => import("@views/apps/ManagementView.vue"),
+            component: () => import('@views/apps/ManagementView.vue')
           },
           {
-            path: "access",
-            name: "AppAccess",
+            path: 'access',
+            name: 'AppAccess',
             meta: {
-              title: "授权管理",
+              title: '授权管理',
               keepAlive: true,
-              needLogin: true,
+              needLogin: true
             },
-            component: () => import("@views/apps/AccessManagementView.vue"),
-          },
-        ],
+            component: () => import('@views/apps/AccessManagementView.vue')
+          }
+        ]
       },
       {
-        path: "/games",
+        path: '/games',
         children: [
           {
-            path: "minecraft",
-            name: "MinecraftGames",
+            path: 'minecraft',
+            name: 'MinecraftGames',
             meta: {
-              name: "Minecraft 联机",
+              name: 'Minecraft 联机',
               keepAlive: true,
-              needLogin: true,
+              needLogin: true
             },
-            component: () => import("@views/games/MinecraftView.vue"),
-          },
-        ],
+            component: () => import('@views/games/MinecraftView.vue')
+          }
+        ]
       },
       {
-        path: "/other",
+        path: '/other',
         children: [
           {
-            path: "software",
-            name: "Software",
+            path: 'software',
+            name: 'Software',
             meta: {
-              title: "软件下载",
+              title: '软件下载',
               keepAlive: true,
-              needLogin: true,
+              needLogin: true
             },
-            component: () => import("@views/other/SoftwareView.vue"),
-          },
-        ],
+            component: () => import('@views/other/SoftwareView.vue')
+          }
+        ]
       },
       {
-        path: "/me",
-        name: "Me",
+        path: '/me',
+        name: 'Me',
         meta: {
-          title: "用户资料",
+          title: '用户资料',
           keepAlive: true,
-          needLogin: true,
+          needLogin: true
         },
-        component: () => import("@views/UserView.vue"),
+        component: () => import('@views/UserView.vue')
       },
       {
-        path: "/callback",
+        path: '/callback',
         children: [
           {
-            path: "auth",
+            path: 'auth',
             children: [
               {
-                path: "oauth",
+                path: 'oauth',
                 children: [
                   {
-                    path: "qq",
+                    path: 'qq',
                     children: [
                       {
-                        path: "login",
-                        name: "QQLoginOAuthCallback",
+                        path: 'login',
+                        name: 'QQLoginOAuthCallback',
                         meta: {
-                          title: "QQ 登录回调页面",
-                          needLogin: false,
+                          title: 'QQ 登录回调页面',
+                          needLogin: false
                         },
-                        component: () =>
-                          import(
-                            "@/views/callback/auth/oauth/qq/LoginView.vue"
-                          ),
+                        component: () => import('@/views/callback/auth/oauth/qq/LoginView.vue')
                       },
                       {
-                        path: "bind",
-                        name: "BindQQOAuthCallback",
+                        path: 'bind',
+                        name: 'BindQQOAuthCallback',
                         meta: {
-                          title: "QQ 绑定回调页面",
+                          title: 'QQ 绑定回调页面',
                           needLogin: true,
-                          noSidebar: true,
+                          noSidebar: true
                         },
-                        component: () =>
-                          import("@views/callback/auth/oauth/qq/BindView.vue"),
-                      },
-                    ],
+                        component: () => import('@views/callback/auth/oauth/qq/BindView.vue')
+                      }
+                    ]
                   },
                   {
-                    path: "localhost",
-                    name: "OAuthLocalCallback",
+                    path: 'localhost',
+                    name: 'OAuthLocalCallback',
                     meta: {
-                      title: "本地重定向界面",
-                      needLogin: false,
+                      title: '本地重定向界面',
+                      needLogin: false
                     },
-                    component: () =>
-                      import(
-                        "@views/callback/auth/oauth/LocalRedirectView.vue"
-                      ),
-                  },
-                ],
-              },
-            ],
+                    component: () => import('@views/callback/auth/oauth/LocalRedirectView.vue')
+                  }
+                ]
+              }
+            ]
           },
           {
-            path: "verification",
+            path: 'verification',
             children: [
               {
-                path: "realperson",
+                path: 'realperson',
                 children: [
                   {
-                    path: "pay",
-                    name: "PayRealPersonVerificationCallback",
+                    path: 'pay',
+                    name: 'PayRealPersonVerificationCallback',
                     meta: {
-                      title: "实人认证支付回调页面",
-                      needLogin: false,
+                      title: '实人认证支付回调页面',
+                      needLogin: false
                     },
-                    component: () =>
-                      import(
-                        "@views/callback/verification/realperson/PayView.vue"
-                      ),
+                    component: () => import('@views/callback/verification/realperson/PayView.vue')
                   },
                   {
-                    path: "done",
-                    name: "DoneRealPersonVerificationCallback",
+                    path: 'done',
+                    name: 'DoneRealPersonVerificationCallback',
                     meta: {
-                      title: "实人认证回调页面",
+                      title: '实人认证回调页面',
                       needLogin: true,
-                      noSidebar: true,
+                      noSidebar: true
                     },
-                    component: () =>
-                      import(
-                        "@views/callback/verification/realperson/QueryView.vue"
-                      ),
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+                    component: () => import('@views/callback/verification/realperson/QueryView.vue')
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
-        path: "/:pathMatch(.*)*",
-        name: "NotFound",
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
         meta: {
-          title: "页面未找到",
+          title: '页面未找到'
         },
-        component: () => import("@views/NotFoundView.vue"),
-      },
+        component: () => import('@views/NotFoundView.vue')
+      }
       // 没做完的
       // {
       //   path: '/multiplayer',
@@ -350,6 +337,6 @@ export default [
       //   },
       //   component: () => import('@views/LanLobby.vue')
       // }
-    ],
-  },
-];
+    ]
+  }
+]

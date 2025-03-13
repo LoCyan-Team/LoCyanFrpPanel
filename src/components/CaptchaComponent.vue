@@ -8,7 +8,7 @@
     style="min-width: 300px; width: min-content"
   >
     <vue-turnstile
-      site-key="0x4AAAAAAAEXAhvwOKerpBsb"
+      :site-key="env.turnstileSiteKey"
       v-model="turnstileToken"
       @error="error"
       @unsupported="unsupported"
@@ -26,7 +26,7 @@
       v-model="vaptchaToken"
       v-model:server="vaptchaServer"
       v-model:scene="props.vaptchaScene"
-      vid="67813e52dc0ff12924d9b311"
+      :vid="env.vaptchaVid"
     />
   </n-modal>
 </template>
@@ -36,6 +36,11 @@ import VueTurnstile from 'vue-turnstile'
 import '@chongying-star/vue-vaptcha/style.css'
 import { VaptchaButton } from '@chongying-star/vue-vaptcha'
 import { ref, watch } from 'vue'
+
+const env = {
+  turnstileSiteKey: import.meta.env.VITE_TURNSTILE_SITEKEY,
+  vaptchaVid: import.meta.env.VITE_VAPTCHA_VID
+}
 
 const props = defineProps<{
   show: boolean
