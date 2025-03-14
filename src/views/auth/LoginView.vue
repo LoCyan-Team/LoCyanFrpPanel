@@ -54,7 +54,7 @@
               <captcha-component
                 :show="showCaptcha"
                 :type="captchaPreData.type"
-                :vaptcha-scene="1"
+                :vaptcha-scene="2"
                 @error="
                   (code) => {
                     message.error('发生错误: ' + code)
