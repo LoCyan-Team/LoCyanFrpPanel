@@ -1,5 +1,5 @@
-import token from './token.api'
+import Token from './token.api'
 
-export default {
-  token: token
+export default class Frp {
+  public token = new Token()
 }

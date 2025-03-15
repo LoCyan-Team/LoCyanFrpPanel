@@ -53,13 +53,14 @@
   </n-space>
 </template>
 <script setup>
-import api from '@/api'
+import API from '@/api'
 import Message from '@/utils/message'
 import userData from '@/utils/stores/userData/store'
 import logger from '@/utils/logger'
 import { ref } from 'vue'
 import { marked } from 'marked'
 
+const api = new API()
 const loading = ref(true)
 
 const message = new Message()
@@ -90,7 +91,9 @@ function timestampToTime(timestamp) {
 async function getPrizeList() {
   let rs
   try {
-    rs = await api.v2.prize.root.get(userData.getters.get_user_id)
+    rs = await api.v2.prize.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('接口请求失败：' + e)
@@ -100,7 +103,7 @@ async function getPrizeList() {
     prizeList.value = rs.data.list
     rs.data.list.forEach((e) => {
       // 参与抽奖的
-      if (e.username != '' && e.username != null) {
+      if (e.username !== '' && e.username != null) {
         if (e.username.indexOf('|') !== -1) {
           users.value[e.id] = e.username.split('|')
         } else {
@@ -111,7 +114,7 @@ async function getPrizeList() {
       }
 
       // 获奖用户部分
-      if (e.prizeUser != '' && e.prizeUser != null) {
+      if (e.prizeUser !== '' && e.prizeUser != null) {
         if (e.prizeUser.indexOf('|') !== -1) {
           prizeUsers.value[e.id] = e.prizeUser.split('|')
         } else {
@@ -130,7 +133,10 @@ async function getPrizeList() {
 async function submitJoin(prize_id) {
   let rs
   try {
-    rs = await api.v2.prize.root.join(userData.getters.get_user_id, prize_id)
+    rs = await api.v2.prize.post({
+      userId: userData.getters.get_user_id,
+      prizeId: prize_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('接口请求失败：' + e)

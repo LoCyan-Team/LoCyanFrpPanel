@@ -37,12 +37,14 @@
 
 <script setup>
 import { ref } from 'vue'
-import Message from '@/utils/dialog.js'
-import api from '@/api'
-import userData from '@/utils/stores/userData/store.js'
+import Message from '@/utils/dialog'
+import API from '@/api'
+import userData from '@/utils/stores/userData/store'
+import logger from '@/utils/logger'
 
 const loading = ref(true)
 
+const api = new API()
 const message = new Message()
 
 const commentList = ref([])
@@ -65,7 +67,10 @@ function timestampToTime(timestamp) {
 async function submitComment() {
   let rs
   try {
-    rs = await api.v2.comment.post(userData.getters.get_user_id, newYear.value.comment)
+    rs = await api.v2.comment.post({
+      userId: userData.getters.get_user_id,
+      comment: newYear.value.comment
+    })
   } catch (e) {
     logger.error(e)
     message.error('接口请求失败：' + e)
@@ -73,7 +78,7 @@ async function submitComment() {
   if (!rs) return
   if (rs.status === 200) {
     message.success('提交成功')
-    getMessageList()
+    await getMessageList()
   } else {
     message.error(rs.message)
   }
@@ -82,7 +87,9 @@ async function submitComment() {
 async function getMessageList() {
   let rs
   try {
-    rs = await api.v2.comment.get(userData.getters.get_user_id)
+    rs = await api.v2.comment.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('接口请求失败：' + e)

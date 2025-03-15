@@ -82,9 +82,10 @@ import { getUrlKey } from '@/utils/request'
 import { onMounted, ref } from 'vue'
 import Message from '@/utils/message'
 import Notification from '@/utils/notification'
-import api from '@/api'
+import API from '@/api'
 import logger from '@/utils/logger'
 
+const api = new API()
 const message = new Message()
 const notification = new Notification()
 
@@ -130,12 +131,12 @@ async function doAuthorize() {
   })
   let rs
   try {
-    rs = await api.v2.auth.oauth.authorize(
-      userData.getters.get_user_id,
-      urlKeys.appId,
-      urlKeys.redirectUrl,
-      permissionIds
-    )
+    rs = await api.v2.auth.oauth.authorize.post({
+      userId: userData.getters.get_user_id,
+      appId: urlKeys.appId,
+      redirectUrl: urlKeys.redirectUrl,
+      requestPermissionIds: permissionIds
+    })
   } catch (e) {
     logger.error(e)
     message.error('授权失败: ' + e)
@@ -199,7 +200,10 @@ onMounted(async () => {
   async function initAppInfo(): Promise<boolean> {
     let rs
     try {
-      rs = await api.v2.app.info(userData.getters.get_user_id, urlKeys.appId)
+      rs = await api.v2.app.info.get({
+        userId: userData.getters.get_user_id,
+        appId: urlKeys.appId
+      })
     } catch (e) {
       logger.error(e)
       message.error(e)
@@ -223,7 +227,9 @@ onMounted(async () => {
   async function initPermissions(): Promise<boolean> {
     let rs
     try {
-      rs = await api.v2.auth.oauth.permission.all(userData.getters.get_user_id)
+      rs = await api.v2.auth.oauth.permission.all.get({
+        userId: userData.getters.get_user_id
+      })
     } catch (e) {
       logger.error(e)
       message.error(e)

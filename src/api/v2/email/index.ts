@@ -1,9 +1,9 @@
-import register from './register.api'
-import password from './password.api'
-import email from './email.api'
+import Register from './register.api'
+import Password from './password.api'
+import EmailX from './email.api'
 
-export default {
-  register: register,
-  password: password,
-  email: email
+export default class Email {
+  public register = new Register()
+  public password = new Password()
+  public email = new EmailX()
 }

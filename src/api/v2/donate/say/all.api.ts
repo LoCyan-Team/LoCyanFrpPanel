@@ -1,17 +1,14 @@
 import base from '@/api/base'
-//@ts-ignore
 import { get } from '@/utils/request'
 
-const all = async (user_id: number | undefined) => {
-  const rs = get(
-    `/donate/say/all`,
-    user_id
-      ? {
-          user_id: user_id
-        }
-      : null
-  )
-  return base.buildResponse(await rs)
+export default class All {
+  /**
+   * 获取所有捐赠记录
+   */
+  async get(params: { userId: number | undefined }) {
+    const rs = await get(`/donate/say/all`, {
+      user_id: params.userId
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default all

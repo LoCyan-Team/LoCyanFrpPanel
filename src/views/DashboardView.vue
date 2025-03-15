@@ -165,13 +165,15 @@ import { ref, onMounted } from 'vue'
 // import clipboard from '@/utils/clipboard'
 import { AngleRight, Key } from '@vicons/fa'
 import userData from '@/utils/stores/userData/store'
-import { startLoadingBar, finishLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
 import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
-import api from '@/api'
+import API from '@/api'
 import logger from '@/utils/logger'
 import notice from '@/utils/notice'
+import { useLoadingBar } from 'naive-ui'
 
+const ldb = useLoadingBar()
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 
@@ -246,19 +248,18 @@ function helloMessage() {
 async function resetTraffic() {
   dialog.warning('确定要重置流量吗？这将将剩余流量设置为 10 GiB', {
     onPositiveClick: async () => {
-      startLoadingBar()
-      const data = {
-        user_id: userData.getters.get_user_id
-      }
+      ldb.start()
       let rs
       try {
-        rs = await api.v2.user.traffic(data.user_id)
+        rs = await api.v2.user.traffic.post({
+          userId: userData.getters.get_user_id
+        })
       } catch (e) {
         logger.error(e)
         message.error('请求重置流量失败: ' + e)
       }
       if (!rs) {
-        errorLoadingBar()
+        ldb.error()
         return
       }
       if (rs.status === 200) {
@@ -266,7 +267,7 @@ async function resetTraffic() {
       } else {
         message.error('重置失败, API 返回: ' + rs.message)
       }
-      finishLoadingBar()
+      ldb.finish()
     }
   })
 }

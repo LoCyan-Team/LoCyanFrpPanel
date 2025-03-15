@@ -1,20 +1,22 @@
-//@ts-ignore
 import { get } from '@/utils/request'
 import base from '@/api/base'
 
-const register = async (
-  email: string,
-  captcha_id: string,
-  captcha_token: string,
-  captcha_server: string | undefined
-) => {
-  const rs = get(`/email/register`, {
-    email: email,
-    captcha_id: captcha_id,
-    captcha_token: captcha_token,
-    captcha_server: captcha_server
-  })
-  return base.buildResponse(await rs)
+export default class Register {
+  /**
+   * 获取用户注册邮件验证代码
+   */
+  async get(params: {
+    email: string
+    captchaId: string
+    captchaToken: string
+    captchaServer?: string
+  }) {
+    const rs = await get(`/email/register`, {
+      email: params.email,
+      captcha_id: params.captchaId,
+      captcha_token: params.captchaToken,
+      captcha_server: params.captchaServer
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default register

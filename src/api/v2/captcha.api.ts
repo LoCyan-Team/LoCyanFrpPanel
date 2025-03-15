@@ -1,12 +1,11 @@
 import base from '@/api/base'
-//@ts-ignore
-import { get, post } from '@/utils/request'
+import { get } from '@/utils/request'
 
-const captcha = async (action: string) => {
-  const rs = get(`/captcha`, {
-    action: action
-  })
-  return base.buildResponse(await rs)
+export default class Captcha {
+  async get(params: { action: string }) {
+    const rs = await get(`/captcha`, {
+      action: params.action
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default captcha

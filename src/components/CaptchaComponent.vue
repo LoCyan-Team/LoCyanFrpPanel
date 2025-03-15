@@ -89,6 +89,8 @@ function unsupported() {
 }
 
 function error(err: any) {
+  showTurnstileInstance.value = false
+  showVaptchaInstance.value = false
   emit('error', err)
 }
 </script>

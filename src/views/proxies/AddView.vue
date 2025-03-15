@@ -141,10 +141,11 @@ import { onMounted, ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
-import api from '@/api'
+import API from '@/api'
 import logger from '@/utils/logger'
 import { CheckmarkCircle, CloseCircle } from '@vicons/ionicons5'
 
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 
@@ -295,7 +296,10 @@ async function randomPort() {
   }
   let rs
   try {
-    rs = await api.v2.node.port.random(userData.getters.get_user_id, proxyInfo.value.nodeId)
+    rs = await api.v2.node.port.random.get({
+      userId: userData.getters.get_user_id,
+      nodeId: proxyInfo.value.nodeId
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求隧道端口失败: ' + e)
@@ -313,39 +317,26 @@ async function addProxy() {
     dialog.error('参数检查未通过，请检查信息格式是否正确')
     return
   }
-  const tunnelCreateInfo = {
-    user_id: userData.getters.get_user_id,
-    name: proxyInfo.value.proxyName,
-    localIp: proxyInfo.value.localIp,
-    proxyType: proxyInfo.value.proxyType,
-    localPort: proxyInfo.value.localPort,
-    remotePort: proxyInfo.value.remotePort,
-    useEncryption: false,
-    useCompression: false,
-    nodeId: proxyInfo.value.nodeId,
-    domain: proxyInfo.value.domain,
-    secretKey: proxyInfo.value.secretKey
-  }
   loading.value = false
   let rs
   try {
-    rs = await api.v2.proxy.root.post(
-      tunnelCreateInfo.user_id,
-      tunnelCreateInfo.name,
-      tunnelCreateInfo.localIp,
-      tunnelCreateInfo.proxyType,
-      tunnelCreateInfo.localPort,
-      tunnelCreateInfo.remotePort,
-      tunnelCreateInfo.nodeId,
-      tunnelCreateInfo.useEncryption,
-      tunnelCreateInfo.useCompression,
-      tunnelCreateInfo.secretKey,
-      tunnelCreateInfo.domain
-    )
+    rs = await api.v2.proxy.post({
+      userId: userData.getters.get_user_id,
+      name: proxyInfo.value.proxyName,
+      localIp: proxyInfo.value.localIp,
+      type: proxyInfo.value.proxyType,
+      localPort: proxyInfo.value.localPort,
+      remotePort: proxyInfo.value.remotePort,
+      useEncryption: false,
+      useCompression: false,
+      nodeId: proxyInfo.value.nodeId,
+      domain: proxyInfo.value.domain,
+      secretKey: proxyInfo.value.secretKey
+    })
   } catch (e) {
     logger.error(e)
     message.error(e)
-    message.dialog('添加失败，再试一次吧~')
+    dialog.error('添加失败，再试一次吧~')
     loading.value = false
   }
   if (!rs) return
@@ -361,7 +352,9 @@ onMounted(async () => {
   loading.value = true
   let rs
   try {
-    rs = await api.v2.node.all(userData.getters.get_user_id)
+    rs = await api.v2.node.all.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求节点列表失败: ' + e)

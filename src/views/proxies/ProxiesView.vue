@@ -425,10 +425,11 @@ import { computed, ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
-import api from '@/api'
+import API from '@/api'
 import logger from '@/utils/logger'
-import router from '@router'
+import router from '@/router'
 
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 
@@ -486,7 +487,10 @@ async function forceDownProxy(proxyId) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.proxy.down(userData.getters.get_user_id, proxyId)
+        rs = await api.v2.proxy.down.post({
+          userId: userData.getters.get_user_id,
+          proxyId: proxyId
+        })
       } catch (e) {
         logger.error(e)
         message.error(`请求强制下线隧道失败: ${e}`)
@@ -517,20 +521,20 @@ async function editProxy(proxyId) {
   }
   let rs
   try {
-    rs = await api.v2.proxy.update(
-      userData.getters.get_user_id,
-      editInfo.proxyId,
-      editInfo.proxyName,
-      editInfo.proxyType,
-      editInfo.localIp,
-      editInfo.localPort,
-      editInfo.remotePort,
-      false,
-      false,
-      editInfo.nodeId,
-      editInfo.domain,
-      editInfo.secretKey
-    )
+    rs = await api.v2.proxy.update.post({
+      userId: userData.getters.get_user_id,
+      proxyId: editInfo.proxyId,
+      proxyName: editInfo.proxyName,
+      proxyType: editInfo.proxyType,
+      localIp: editInfo.localIp,
+      localPort: editInfo.localPort,
+      remotePort: editInfo.remotePort,
+      useEncryption: false,
+      useCompression: false,
+      nodeId: editInfo.nodeId,
+      domain: editInfo.domain,
+      secretKey: editInfo.secretKey
+    })
   } catch (e) {
     message.error('请求修改隧道信息失败: ' + e)
     dialog.error('修改隧道信息失败，再试一次吧~')
@@ -665,7 +669,9 @@ const serverList = ref([
 async function initList() {
   let rs1
   try {
-    rs1 = await api.v2.node.all(userData.getters.get_user_id)
+    rs1 = await api.v2.node.all.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     message.error('请求节点列表失败: ' + e)
   }
@@ -705,7 +711,9 @@ async function initList() {
 
   let rs2
   try {
-    rs2 = await api.v2.proxy.all(userData.getters.get_user_id)
+    rs2 = await api.v2.proxy.all.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     message.error('请求隧道列表失败: ' + e)
   }
@@ -743,7 +751,10 @@ function deleteProxy(id) {
       loading.value = true
       let rs
       try {
-        rs = await api.v2.proxy.root.delete(userData.getters.get_user_id, proxiesList.value[id].id)
+        rs = await api.v2.proxy.delete({
+          userId: userData.getters.get_user_id,
+          proxyId: proxiesList.value[id].id
+        })
       } catch (e) {
         message.error('请求删除隧道失败: ' + e)
         loading.value = false

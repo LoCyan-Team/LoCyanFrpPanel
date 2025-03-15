@@ -68,11 +68,12 @@
 </template>
 
 <script setup>
-import api from '@/api'
+import API from '@/api'
 import Message from '@/utils/message'
 import userData from '@/utils/stores/userData/store'
 import { ref } from 'vue'
 
+const api = new API()
 const message = new Message()
 
 const loading = ref(true)
@@ -85,7 +86,9 @@ let created = ref([])
 async function initProxyList() {
   let rs
   try {
-    rs = await api.v2.proxy.all(userData.getters.get_user_id)
+    rs = await api.v2.proxy.all.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     message.error('请求隧道列表失败: ' + e)
   }
@@ -115,7 +118,9 @@ async function initCreatedGames() {
   created.value.length = 0
   let rs
   try {
-    rs = await api.v2.minecraft.game.all(userData.getters.get_user_id)
+    rs = await api.v2.minecraft.game.all.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     message.error('请求游戏列表失败: ' + e)
   }
@@ -133,7 +138,10 @@ async function createMinecraftGame() {
   let selectedId = selected.value
   let rs
   try {
-    rs = await api.v2.minecraft.game.root.post(userData.getters.get_user_id, selectedId)
+    rs = await api.v2.minecraft.game.post({
+      userId: userData.getters.get_user_id,
+      proxyId: selectedId
+    })
   } catch (e) {
     message.error('创建联机失败: ' + e)
   }
@@ -151,7 +159,10 @@ async function createMinecraftGame() {
 async function deleteMinecraftGame(code) {
   let rs
   try {
-    rs = await api.v2.minecraft.game.root.delete(userData.getters.get_user_id, code)
+    rs = await api.v2.minecraft.game.delete({
+      userId: userData.getters.get_user_id,
+      code: code
+    })
   } catch (e) {
     message.error('删除联机失败: ' + e)
   }

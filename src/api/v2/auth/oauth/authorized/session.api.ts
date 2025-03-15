@@ -1,14 +1,16 @@
-//@ts-ignore
 import { deleteReq } from '@/utils/request'
 import base from '@/api/base'
 
-const session = async (user_id: number, app_id: number, session_id: number | undefined) => {
-  const rs = deleteReq(`/auth/oauth/authorized/session`, {
-    user_id: user_id,
-    app_id: app_id,
-    session_id: session_id
-  })
-  return base.buildResponse(await rs)
+export default class Session {
+  /**
+   * 删除授权会话
+   */
+  async delete(params: { userId: number; appId: number; sessionId?: number }) {
+    const rs = await deleteReq(`/auth/oauth/authorized/session`, {
+      user_id: params.userId,
+      app_id: params.appId,
+      session_id: params.sessionId
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default session

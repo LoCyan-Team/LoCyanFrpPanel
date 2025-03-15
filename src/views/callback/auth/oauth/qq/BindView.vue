@@ -15,9 +15,10 @@
 <script setup>
 import Message from '@/utils/message'
 import { getUrlKey } from '@/utils/request'
-import api from '@/api'
+import API from '@/api'
 import userData from '@/utils/stores/userData/store'
 
+const api = new API()
 const message = new Message()
 
 let error = ref(false)
@@ -32,7 +33,10 @@ if (code !== null) {
   onMounted(async () => {
     let rs
     try {
-      rs = await api.v2.auth.oauth.qq.bind.post(userId, code)
+      rs = await api.v2.auth.oauth.qq.bind.post({
+        userId: userId,
+        code: code
+      })
     } catch (e) {
       message.error('登录失败: ' + e)
       error.value = true

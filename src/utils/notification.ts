@@ -1,5 +1,5 @@
-class Notification {
-  info(title, message) {
+export default class Notification {
+  info(title: string, message: string) {
     window.$notification['info']({
       content: title,
       meta: message,
@@ -7,7 +7,7 @@ class Notification {
       keepAliveOnHover: true
     })
   }
-  success(title, message) {
+  success(title: string, message: string) {
     window.$notification['success']({
       content: title,
       meta: message,
@@ -15,7 +15,7 @@ class Notification {
       keepAliveOnHover: true
     })
   }
-  warning(title, message) {
+  warning(title: string, message: string) {
     window.$notification['warning']({
       content: title,
       meta: message,
@@ -23,7 +23,7 @@ class Notification {
       keepAliveOnHover: true
     })
   }
-  error(title, message) {
+  error(title: string, message: string) {
     window.$notification['error']({
       content: title,
       meta: message,
@@ -32,5 +32,3 @@ class Notification {
     })
   }
 }
-
-export default Notification

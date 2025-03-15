@@ -1,7 +1,5 @@
-import v2 from './v2'
+import V2 from './v2'
 
-const api = {
-  v2: v2
+export default class API {
+  public v2: V2 = new V2()
 }
-
-export default api

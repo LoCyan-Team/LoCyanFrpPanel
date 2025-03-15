@@ -97,10 +97,11 @@ import Dialog from 'src/utils/dialog.js'
 import Notification from 'src/utils/notification.js'
 import { onMounted, ref } from 'vue'
 import { useLoadingBar } from 'naive-ui'
-import api from 'src/api/index.js'
+import API from '@/api'
 import logger from 'src/utils/logger.js'
-import router from '@router'
+import router from '@/router'
 
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 const notification = new Notification()
@@ -146,7 +147,7 @@ onMounted(async () => {
   if (userData.getters.get_token !== '') {
     let rs
     try {
-      rs = await api.v2.user.info.qq(userData.getters.get_user_id)
+      rs = await api.v2.user.info.qq.get(userData.getters.get_user_id)
     } catch (e) {
       logger.error(e)
       bindQQ.value.isDisable = true
@@ -179,7 +180,7 @@ async function changeEmail() {
     let rs
     ldb.start()
     try {
-      rs = await api.v2.user.email(userData.getters.get_user_id, tEmail.value.verify.code)
+      rs = await api.v2.user.email.post(userData.getters.get_user_id, tEmail.value.verify.code)
     } catch (e) {
       logger.error(e)
       message.error('请求换绑失败: ' + e)
@@ -212,7 +213,7 @@ async function sendChangeEmailCode() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.email.email(userData.getters.get_user_id, tEmail.value.email)
+    rs = await api.v2.email.email.get(userData.getters.get_user_id, tEmail.value.email)
   } catch (e) {
     logger.error(e)
     message.error('请求邮件验证码失败: ' + e)
@@ -307,7 +308,7 @@ async function changePassword() {
   }
   let rs
   try {
-    rs = await api.v2.user.password(
+    rs = await api.v2.user.password.post(
       data.user_id,
       undefined,
       data.oldPassword,
@@ -369,7 +370,7 @@ async function exitAllDevices() {
       exitAllDevicesLoading.value = true
       let rs
       try {
-        rs = await api.v2.user.token.all(data.user_id)
+        rs = await api.v2.user.token.all.delete(data.user_id)
       } catch (e) {
         logger.error(e)
         exitAllDevicesLoading.value = false

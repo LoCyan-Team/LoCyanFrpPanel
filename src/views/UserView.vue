@@ -125,11 +125,12 @@
 import { onMounted, ref, computed } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import { Qq } from '@vicons/fa'
-import api from '@/api'
+import API from '@/api'
 import logger from '@/utils/logger'
 import Message from '@/utils/message.js'
 import Dialog from '@/utils/dialog.js'
 
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 
@@ -155,7 +156,9 @@ async function handleQqButton() {
       onPositiveClick: async () => {
         let rs
         try {
-          rs = await api.v2.auth.oauth.qq.bind.delete(userData.getters.get_user_id)
+          rs = await api.v2.auth.oauth.qq.bind.delete({
+            userId: userData.getters.get_user_id
+          })
         } catch (e) {
           logger.error(e)
           message.error('请求失败: ' + e)
@@ -173,7 +176,9 @@ async function handleQqButton() {
     bind.value.qq.loading = true
     let rs
     try {
-      rs = await api.v2.auth.oauth.qq.bind.get(userData.getters.get_user_id)
+      rs = await api.v2.auth.oauth.qq.bind.get({
+        userId: userData.getters.get_user_id
+      })
     } catch (e) {
       logger.error(e)
       message.error('请求失败: ' + e)
@@ -196,7 +201,9 @@ async function checkBindQqStatus(func?: Function) {
   if (userData.getters.get_token !== '') {
     let rs
     try {
-      rs = await api.v2.user.info.qq(userData.getters.get_user_id)
+      rs = await api.v2.user.info.qq.get({
+        userId: userData.getters.get_user_id
+      })
     } catch (e) {
       logger.error(e)
       message.error('获取 QQ 绑定状态失败: ' + rs.message)
@@ -227,15 +234,13 @@ const notification = new Notification()
 const router = useRouter()
 
 async function resetFrpToken() {
-  const data = {
-    user_id: userData.getters.get_user_id
-  }
-
   dialog.warning('确定要重置访问密钥吗? 该操作不可逆', {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.user.frp.token.post(data.user_id)
+        rs = await api.v2.user.frp.token.post({
+          userId: userData.getters.get_user_id
+        })
       } catch (e) {
         logger.error(e)
         message.error('请求失败: ' + e)
@@ -252,15 +257,13 @@ async function resetFrpToken() {
 }
 
 async function exitAllDevices() {
-  const data = {
-    user_id: userData.getters.get_user_id
-  }
-
   dialog.warning('你确定要登出全部设备吗, 所有登录将会失效', {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.user.token.all(data.user_id)
+        rs = await api.v2.user.token.all.delete({
+          userId: userData.getters.get_user_id
+        })
       } catch (e) {
         logger.error(e)
         message.error('请求失败: ' + e)
@@ -295,20 +298,15 @@ async function changePassword() {
     message.error('两次输入的密码不一致')
     return
   }
-  const data = {
-    userId: userData.getters.get_user_id,
-    oldPassword: passwordModel.value.oldPassword,
-    newPassword: passwordModel.value.newPassword
-  }
   let rs
   try {
-    rs = await api.v2.user.password(
-      data.userId,
+    rs = await api.v2.user.password.post({
+      userId: userData.getters.get_user_id,
       undefined,
-      data.oldPassword,
-      data.newPassword,
+      oldPassword: passwordModel.value.oldPassword,
+      newPassword: passwordModel.value.newPassword,
       undefined
-    )
+    })
   } catch (e) {
     logger.error(e)
     passwordSubmitLoading.value = false
@@ -336,7 +334,10 @@ async function changeEmail() {
   emailSubmitLoading.value = true
   let rs
   try {
-    rs = await api.v2.user.email(userData.getters.get_user_id, emailModel.value.verifyCode)
+    rs = await api.v2.user.email.post({
+      userId: userData.getters.get_user_id,
+      verifyCode: emailModel.value.verifyCode
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求换绑失败: ' + e)
@@ -355,7 +356,10 @@ async function sendChangeEmailCode() {
   emailCodeRequestLoading.value = true
   let rs
   try {
-    rs = await api.v2.email.email(userData.getters.get_user_id, emailModel.value.email)
+    rs = await api.v2.email.email.get({
+      userId: userData.getters.get_user_id,
+      email: emailModel.value.email
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求邮件验证码失败: ' + e)

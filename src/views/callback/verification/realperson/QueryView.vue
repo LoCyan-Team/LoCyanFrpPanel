@@ -14,9 +14,10 @@
 
 <script setup>
 import Message from '@/utils/message'
-import api from '@/api'
+import API from '@/api'
 import userData from '@/utils/stores/userData/store'
 
+const api = new API()
 const message = new Message()
 
 let error = ref(false)
@@ -28,7 +29,9 @@ const userId = userData.getters.get_user_id
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.verification.realperson.root.get(userId)
+    rs = await api.v2.verification.realperson.get({
+      userId: userId
+    })
   } catch (e) {
     message.error('登录失败: ' + e)
     error.value = true

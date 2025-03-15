@@ -1,12 +1,11 @@
 import base from '@/api/base'
-//@ts-ignore
 import { get } from '@/utils/request'
 
-const pay = async (user_id: number) => {
-  const rs = get(`/verification/realperson/pay`, {
-    user_id: user_id
-  })
-  return base.buildResponse(await rs)
+export default class Pay {
+  async get(params: { userId: number }) {
+    const rs = await get(`/verification/realperson/pay`, {
+      user_id: params.userId
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default pay

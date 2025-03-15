@@ -1,33 +1,35 @@
-import auth from './auth'
-import donate from './donate'
-import icp from './icp.api'
-import node from './node'
-import proxy from './proxy'
-import verification from './verification'
-import sign from './sign.api'
-import user from './user'
-import email from './email'
-import notice from './notice'
-import minecraft from './minecraft'
-import app from './app'
-import captcha from './captcha.api'
-import prize from './prize'
-import comment from './comment.api'
+import Sign from './sign.api'
+import ICP from './icp.api'
+import Captcha from './captcha.api'
+import Comment from './comment.api'
+import Prize from './prize.api'
 
-export default {
-  user: user,
-  auth: auth,
-  email: email,
-  verification: verification,
-  proxy: proxy,
-  node: node,
-  donate: donate,
-  sign: sign,
-  icp: icp,
-  notice: notice,
-  minecraft: minecraft,
-  app: app,
-  captcha: captcha,
-  prize: prize,
-  comment: comment
+import User from './user'
+import Proxy from './proxy'
+import App from './app'
+import Auth from './auth'
+import Donate from './donate'
+import Node from './node'
+import Email from './email'
+import Notice from './notice'
+import Minecraft from './minecraft'
+import Verification from './verification'
+
+export default class V2 {
+  public sign = new Sign()
+  public icp = new ICP()
+  public captcha = new Captcha()
+  public comment = new Comment()
+  public prize = new Prize()
+
+  public user = new User()
+  public proxy = new Proxy()
+  public app = new App()
+  public auth = new Auth()
+  public email = new Email()
+  public node = new Node()
+  public donate = new Donate()
+  public notice = new Notice()
+  public minecraft = new Minecraft()
+  public verification = new Verification()
 }

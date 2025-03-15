@@ -1,20 +1,22 @@
-//@ts-ignore
 import { post } from '@/utils/request'
 import base from '@/api/base'
 
-const authorize = async (
-  user_id: number,
-  app_id: number,
-  redirect_url: string,
-  request_permission_ids: Array<number>
-) => {
-  const rs = post(`/auth/oauth/authorize`, {
-    user_id: user_id,
-    app_id: app_id,
-    redirect_url: redirect_url,
-    request_permission_ids: request_permission_ids
-  })
-  return base.buildResponse(await rs)
+export default class Authorize {
+  /**
+   * 授权
+   */
+  async post(params: {
+    userId: number
+    appId: number
+    redirectUrl: string
+    requestPermissionIds: Array<number>
+  }) {
+    const rs = await post(`/auth/oauth/authorize`, {
+      user_id: params.userId,
+      app_id: params.appId,
+      redirect_url: params.redirectUrl,
+      request_permission_ids: params.requestPermissionIds
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default authorize

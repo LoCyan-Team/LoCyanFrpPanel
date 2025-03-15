@@ -1,5 +1,5 @@
-import random from './random.api'
+import Random from './random.api'
 
-export default {
-  random: random
+export default class Port {
+  public random = new Random()
 }

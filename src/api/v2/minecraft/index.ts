@@ -1,5 +1,5 @@
-import game from './game'
+import Game from './game'
 
-export default {
-  game: game
+export default class Minecraft {
+  public game = new Game()
 }

@@ -85,9 +85,10 @@ import { ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
 // import clipboard from '@/utils/clipboard'
-import api from '@/api'
+import API from '@/api'
 import logger from '@/utils/logger'
 
+const api = new API()
 const message = new Message()
 
 const loading = ref(true)
@@ -118,7 +119,9 @@ const code = ref('')
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.node.all(userData.getters.get_user_id)
+    rs = await api.v2.node.all.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求节点列表失败: ' + e)
@@ -151,7 +154,9 @@ onMounted(async () => {
 onMounted(async () => {
   let rs
   try {
-    rs = await api.v2.proxy.all(userData.getters.get_user_id)
+    rs = await api.v2.proxy.all.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求隧道列表失败: ' + e)
@@ -196,7 +201,11 @@ async function updateValue(nodeId, proxyId) {
   loading.value = true
   let rs
   try {
-    rs = await api.v2.proxy.config(userData.getters.get_user_id, proxyId, nodeId)
+    rs = await api.v2.proxy.config.get({
+      userId: userData.getters.get_user_id,
+      proxyId: proxyId,
+      nodeId: nodeId
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求获取隧道配置文件失败: ' + e)

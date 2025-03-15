@@ -1,8 +1,3 @@
-<script setup>
-import router from '@router'
-import userData from '@/utils/stores/userData/store'
-</script>
-
 <template>
   <div class="flex-center outbox">
     <n-h2>404 :&lpar;</n-h2>

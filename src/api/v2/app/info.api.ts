@@ -1,13 +1,15 @@
-//@ts-ignore
 import { get } from '@/utils/request'
 import base from '@/api/base'
 
-const info = async (user_id: number, app_id: number) => {
-  const rs = get(`/app/info`, {
-    user_id: user_id,
-    app_id: app_id
-  })
-  return base.buildResponse(await rs)
+export default class Info {
+  /**
+   * 获取应用信息
+   */
+  async get(params: { userId: number; appId: number }) {
+    const rs = await get(`/app/info`, {
+      user_id: params.userId,
+      app_id: params.appId
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default info

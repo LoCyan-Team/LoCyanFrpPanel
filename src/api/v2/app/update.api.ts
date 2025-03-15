@@ -1,22 +1,24 @@
-//@ts-ignore
 import { post } from '@/utils/request'
 import base from '@/api/base'
 
-const update = async (
-  user_id: number,
-  app_id: number,
-  app_name: string,
-  app_description: string | null,
-  redirect_url: string | null
-) => {
-  const rs = post(`/app/update`, {
-    user_id: user_id,
-    app_id: app_id,
-    app_name: app_name,
-    app_description: app_description,
-    redirect_url: redirect_url
-  })
-  return base.buildResponse(await rs)
+export default class Update {
+  /**
+   * 更新应用信息
+   */
+  async post(params: {
+    userId: number
+    appId: number
+    appName: string
+    appDescription: string | undefined
+    redirectUrl: string | undefined
+  }) {
+    const rs = await post(`/app/update`, {
+      user_id: params.userId,
+      app_id: params.appId,
+      app_name: params.appName,
+      app_description: params.appDescription,
+      redirect_url: params.redirectUrl
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default update

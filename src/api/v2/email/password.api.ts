@@ -1,12 +1,14 @@
-//@ts-ignore
 import { get } from '@/utils/request'
 import base from '@/api/base'
 
-const password = async (user: string) => {
-  const rs = get(`/email/password`, {
-    user: user
-  })
-  return base.buildResponse(await rs)
+export default class Password {
+  /**
+   * 发送重置密码邮件验证代码
+   */
+  async get(params: { user: string }) {
+    const rs = await get(`/email/password`, {
+      user: params.user
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default password

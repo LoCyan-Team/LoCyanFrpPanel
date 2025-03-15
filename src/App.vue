@@ -26,6 +26,7 @@
                   :class="sidebarContentClass"
                   class="content-container"
                   :native-scrollbar="false"
+                  ref="contentRef"
                 >
                   <div class="content">
                     <router-view v-slot="{ Component }">
@@ -76,26 +77,27 @@ import {
   NNotificationProvider,
   useOsTheme
 } from 'naive-ui'
-import TheNotification from '@components/TheNotification.vue'
-import TheFooter from '@components/TheFooter.vue'
-import TheHeader from '@components/TheHeader.vue'
-import MainSidebar from '@components/sidebar/MainSidebar.vue'
-import GuestSidebar from '@components/sidebar/GuestSidebar.vue'
-import LoadingBar from '@components/LoadingBar.vue'
-import TheMessage from '@components/TheMessage.vue'
-import TheDialog from '@components/TheDialog.vue'
+import TheNotification from '@/components/TheNotification.vue'
+import TheFooter from '@/components/TheFooter.vue'
+import TheHeader from '@/components/TheHeader.vue'
+import MainSidebar from '@/components/sidebar/MainSidebar.vue'
+import GuestSidebar from '@/components/sidebar/GuestSidebar.vue'
+import LoadingBar from '@/components/LoadingBar.vue'
+import TheMessage from '@/components/TheMessage.vue'
+import TheDialog from '@/components/TheDialog.vue'
 
 import { computed, ref } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import hljs from 'highlight.js/lib/core'
 import ini from 'highlight.js/lib/languages/ini'
 import nginx from 'highlight.js/lib/languages/nginx'
-import api from '@/api'
+import API from '@/api'
 import Notification from '@/utils/notification'
 import { logout } from '@/utils/profile'
-import router from '@router'
+import router from '@/router'
 import { useRoute, useRouter } from 'vue-router'
 
+const api = new API()
 const notification = new Notification()
 
 // 手机状态下收缩菜单栏
@@ -105,6 +107,9 @@ if (document.body.clientWidth >= 1000) {
 }
 
 const osThemeRef = useOsTheme()
+
+const contentRef = ref(null)
+
 const route = useRoute()
 const vRouter = useRouter()
 const theme = computed(() => (osThemeRef.value === 'dark' ? darkTheme : null))
@@ -146,7 +151,9 @@ let connectionLostInstance
 async function fetchUserInfo() {
   let rs
   try {
-    rs = await api.v2.user.info.root.get(userData.getters.get_user_id)
+    rs = await api.v2.user.info.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     reconnecting = true
     if (connectionLostInstance === undefined) {

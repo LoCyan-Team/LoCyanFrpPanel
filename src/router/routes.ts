@@ -14,7 +14,7 @@ export default [
           keepAlive: true,
           needLogin: true
         },
-        component: () => import('@views/DashboardView.vue')
+        component: () => import('@/views/DashboardView.vue')
       },
       {
         path: '/sign',
@@ -24,7 +24,7 @@ export default [
           keepAlive: true,
           needLogin: true
         },
-        component: () => import('@views/SignView.vue')
+        component: () => import('@/views/SignView.vue')
       },
       {
         path: '/auth',
@@ -40,7 +40,7 @@ export default [
                 guest: true
               }
             },
-            component: () => import('@views/auth/LoginView.vue')
+            component: () => import('@/views/auth/LoginView.vue')
           },
           {
             path: 'register',
@@ -53,7 +53,7 @@ export default [
                 guest: true
               }
             },
-            component: () => import('@views/auth/RegisterView.vue')
+            component: () => import('@/views/auth/RegisterView.vue')
           },
           {
             path: 'resetPassword',
@@ -66,7 +66,7 @@ export default [
                 guest: true
               }
             },
-            component: () => import('@views/auth/ResetPasswordView.vue')
+            component: () => import('@/views/auth/ResetPasswordView.vue')
           },
           {
             path: 'oauth',
@@ -79,7 +79,7 @@ export default [
                   needLogin: true,
                   noSidebar: true
                 },
-                component: () => import('@views/auth/oauth/AppAuthView.vue')
+                component: () => import('@/views/auth/oauth/AppAuthView.vue')
               }
             ]
           }
@@ -96,7 +96,7 @@ export default [
               keepAlive: true,
               needLogin: true
             },
-            component: () => import('@views/proxies/ProxiesView.vue')
+            component: () => import('@/views/proxies/ProxiesView.vue')
           },
           {
             path: 'add',
@@ -106,7 +106,7 @@ export default [
               keepAlive: true,
               needLogin: true
             },
-            component: () => import('@views/proxies/AddView.vue')
+            component: () => import('@/views/proxies/AddView.vue')
           },
           {
             path: 'config',
@@ -116,7 +116,7 @@ export default [
               keepAlive: true,
               needLogin: true
             },
-            component: () => import('@views/proxies/ConfigView.vue')
+            component: () => import('@/views/proxies/ConfigView.vue')
           }
         ]
       },
@@ -128,7 +128,7 @@ export default [
           keepAlive: true,
           needLogin: true
         },
-        component: () => import('@views/VerificationView.vue')
+        component: () => import('@/views/VerificationView.vue')
       },
       {
         path: 'newyear',
@@ -142,7 +142,7 @@ export default [
               keepAlive: true,
               needLogin: true
             },
-            component: () => import('@views/newyear/NewYearView.vue')
+            component: () => import('@/views/newyear/NewYearView.vue')
           },
           {
             path: 'prize',
@@ -152,7 +152,7 @@ export default [
               keepAlive: true,
               needLogin: true
             },
-            component: () => import('@views/newyear/PrizeView.vue')
+            component: () => import('@/views/newyear/PrizeView.vue')
           }
         ]
       },
@@ -164,7 +164,7 @@ export default [
           keepAlive: true,
           needLogin: true
         },
-        component: () => import('@views/DonateView.vue')
+        component: () => import('@/views/DonateView.vue')
       },
       {
         path: '/icp',
@@ -174,7 +174,7 @@ export default [
           keepAlive: true,
           needLogin: true
         },
-        component: () => import('@views/IcpCheckView.vue')
+        component: () => import('@/views/IcpCheckView.vue')
       },
       {
         path: '/apps',
@@ -188,7 +188,7 @@ export default [
               keepAlive: true,
               needLogin: true
             },
-            component: () => import('@views/apps/ManagementView.vue')
+            component: () => import('@/views/apps/ManagementView.vue')
           },
           {
             path: 'access',
@@ -198,7 +198,7 @@ export default [
               keepAlive: true,
               needLogin: true
             },
-            component: () => import('@views/apps/AccessManagementView.vue')
+            component: () => import('@/views/apps/AccessManagementView.vue')
           }
         ]
       },
@@ -213,7 +213,7 @@ export default [
               keepAlive: true,
               needLogin: true
             },
-            component: () => import('@views/games/MinecraftView.vue')
+            component: () => import('@/views/games/MinecraftView.vue')
           }
         ]
       },
@@ -228,7 +228,7 @@ export default [
               keepAlive: true,
               needLogin: true
             },
-            component: () => import('@views/other/SoftwareView.vue')
+            component: () => import('@/views/other/SoftwareView.vue')
           }
         ]
       },
@@ -240,7 +240,7 @@ export default [
           keepAlive: true,
           needLogin: true
         },
-        component: () => import('@views/UserView.vue')
+        component: () => import('@/views/UserView.vue')
       },
       {
         path: '/callback',
@@ -271,7 +271,7 @@ export default [
                           needLogin: true,
                           noSidebar: true
                         },
-                        component: () => import('@views/callback/auth/oauth/qq/BindView.vue')
+                        component: () => import('@/views/callback/auth/oauth/qq/BindView.vue')
                       }
                     ]
                   },
@@ -282,7 +282,7 @@ export default [
                       title: '本地重定向界面',
                       needLogin: false
                     },
-                    component: () => import('@views/callback/auth/oauth/LocalRedirectView.vue')
+                    component: () => import('@/views/callback/auth/oauth/LocalRedirectView.vue')
                   }
                 ]
               }
@@ -301,7 +301,7 @@ export default [
                       title: '实人认证支付回调页面',
                       needLogin: false
                     },
-                    component: () => import('@views/callback/verification/realperson/PayView.vue')
+                    component: () => import('@/views/callback/verification/realperson/PayView.vue')
                   },
                   {
                     path: 'done',
@@ -311,7 +311,8 @@ export default [
                       needLogin: true,
                       noSidebar: true
                     },
-                    component: () => import('@views/callback/verification/realperson/QueryView.vue')
+                    component: () =>
+                      import('@/views/callback/verification/realperson/QueryView.vue')
                   }
                 ]
               }
@@ -325,18 +326,8 @@ export default [
         meta: {
           title: '页面未找到'
         },
-        component: () => import('@views/NotFoundView.vue')
+        component: () => import('@/views/NotFoundView.vue')
       }
-      // 没做完的
-      // {
-      //   path: '/multiplayer',
-      //   name: 'Multiplayer',
-      //   meta: {
-      //     keepAlive: true,
-      //     title: '多人游戏大厅'
-      //   },
-      //   component: () => import('@views/LanLobby.vue')
-      // }
     ]
   }
 ]

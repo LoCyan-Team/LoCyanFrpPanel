@@ -115,9 +115,10 @@ import { ref, onMounted } from 'vue'
 import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
-import api from '@/api'
+import API from '@/api'
 import logger from '@/utils/logger'
 
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 
@@ -151,12 +152,12 @@ function createModal() {
 async function createApplication() {
   let rs
   try {
-    rs = await api.v2.app.root.post(
-      userData.getters.get_user_id,
-      creatingData.value.name,
-      creatingData.value.description,
-      creatingData.value.redirectUrl
-    )
+    rs = await api.v2.app.post({
+      userId: userData.getters.get_user_id,
+      appName: creatingData.value.name,
+      appDescription: creatingData.value.description,
+      redirectUrl: creatingData.value.redirectUrl
+    })
   } catch (e) {
     logger.error(e)
     message.error(e)
@@ -164,7 +165,7 @@ async function createApplication() {
   if (!rs) return
   if (rs.status === 200) {
     dialog.success('创建成功')
-    reloadApplications()
+    await reloadApplications()
     showCreateModal.value = false
   } else {
     message.error(rs.status)
@@ -182,13 +183,13 @@ function modifyModal(id: number) {
 async function modifyApplication() {
   let rs
   try {
-    rs = await api.v2.app.update(
-      userData.getters.get_user_id,
-      modifyingData.value.id,
-      modifyingData.value.name,
-      modifyingData.value.description,
-      modifyingData.value.redirectUrl
-    )
+    rs = await api.v2.app.update.post({
+      userId: userData.getters.get_user_id,
+      appId: modifyingData.value.id,
+      appName: modifyingData.value.name,
+      appDescription: modifyingData.value.description,
+      redirectUrl: modifyingData.value.redirectUrl
+    })
   } catch (e) {
     logger.error(e)
     message.error(e)
@@ -196,7 +197,7 @@ async function modifyApplication() {
   if (!rs) return
   if (rs.status === 200) {
     dialog.success('修改成功')
-    reloadApplications()
+    await reloadApplications()
     showModifyModal.value = false
   } else {
     message.error(rs.status)
@@ -208,7 +209,10 @@ async function deleteApplication(id: number) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.app.root.delete(userData.getters.get_user_id, id)
+        rs = await api.v2.app.delete({
+          userId: userData.getters.get_user_id,
+          appId: id
+        })
       } catch (e) {
         logger.error(e)
         message.error(e)
@@ -234,7 +238,9 @@ async function reloadApplications() {
 async function initApplications(): Promise<boolean> {
   let rs
   try {
-    rs = await api.v2.app.all(userData.getters.get_user_id)
+    rs = await api.v2.app.all.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error(e)
@@ -254,7 +260,9 @@ onMounted(async () => {
   async function initPermissions(): Promise<boolean> {
     let rs
     try {
-      rs = await api.v2.auth.oauth.permission.all(userData.getters.get_user_id)
+      rs = await api.v2.auth.oauth.permission.all.get({
+        userId: userData.getters.get_user_id
+      })
     } catch (e) {
       logger.error(e)
       message.error(e)

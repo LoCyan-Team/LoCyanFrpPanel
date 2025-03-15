@@ -1,13 +1,12 @@
 import base from '@/api/base'
-//@ts-ignore
 import { post } from '@/utils/request'
 
-const password = async (user_id: number, verify_code: string) => {
-  const rs = await post(`/user/email`, {
-    user_id: user_id,
-    verify_code: verify_code
-  })
-  return base.buildResponse(rs)
+export default class Email {
+  async post(params: { userId: number; verifyCode: string }) {
+    const rs = await post(`/user/email`, {
+      user_id: params.userId,
+      verify_code: params.verifyCode
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default password

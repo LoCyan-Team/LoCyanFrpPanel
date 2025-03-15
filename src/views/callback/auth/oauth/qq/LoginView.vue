@@ -15,11 +15,12 @@
 <script setup>
 import userData from '@/utils/stores/userData/store'
 import { getUrlKey } from '@/utils/request'
-import router from '@router'
-import api from '@/api'
+import router from '@/router'
+import API from '@/api'
 import Message from '@/utils/message'
 import Notification from '@/utils/notification'
 
+const api = new API()
 const message = new Message()
 const notification = new Notification()
 
@@ -32,7 +33,9 @@ if (code !== null) {
   onMounted(async () => {
     let rs
     try {
-      rs = await api.v2.auth.oauth.qq.login.post(code)
+      rs = await api.v2.auth.oauth.qq.login.post({
+        code: code
+      })
     } catch (e) {
       message.error('登录失败: ' + e)
       error.value = true

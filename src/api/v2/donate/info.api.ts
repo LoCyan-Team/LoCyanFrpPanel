@@ -1,16 +1,15 @@
 import base from '@/api/base'
-//@ts-ignore
 import { get } from '@/utils/request'
 
-/**
- * 获取捐赠订单信息
- */
-const list = async (user_id: number, trade_no: string) => {
-  const rs = get(`/donate/info`, {
-    user_id: user_id,
-    trade_no: trade_no
-  })
-  return base.buildResponse(await rs)
+export default class Info {
+  /**
+   * 获取捐赠订单信息
+   */
+  async get(params: { userId: number; tradeNo: string }) {
+    const rs = await get(`/donate/info`, {
+      user_id: params.userId,
+      trade_no: params.tradeNo
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default list

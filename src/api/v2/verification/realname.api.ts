@@ -1,14 +1,13 @@
 import base from '@/api/base'
-//@ts-ignore
 import { post } from '@/utils/request'
 
-const realname = async (user_id: number, name: string, id_card: string) => {
-  const rs = post(`/verification/realname`, {
-    user_id: user_id,
-    name: name,
-    id_card: id_card
-  })
-  return base.buildResponse(await rs)
+export default class RealName {
+  async post(params: { userId: number; name: string; idCard: string }) {
+    const rs = await post(`/verification/realname`, {
+      user_id: params.userId,
+      name: params.name,
+      id_card: params.idCard
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default realname

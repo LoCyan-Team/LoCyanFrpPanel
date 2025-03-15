@@ -1,7 +1,7 @@
-import bind from './bind.api'
-import login from './login.api'
+import Bind from './bind.api'
+import Login from './login.api'
 
-export default {
-  login: login,
-  bind: bind
+export default class QQ {
+  public login = new Login()
+  public bind = new Bind()
 }

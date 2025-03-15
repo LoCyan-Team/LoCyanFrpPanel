@@ -30,7 +30,7 @@ import { h, ref } from 'vue'
 import { LogInOutline, MailOpenOutline } from '@vicons/ionicons5'
 import { KeyReset20Regular } from '@vicons/fluent'
 
-import router from '@router'
+import router from '@/router'
 import { useRoute } from 'vue-router'
 
 // 手机状态下收缩菜单栏

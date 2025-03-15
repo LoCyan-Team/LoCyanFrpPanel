@@ -50,8 +50,9 @@ import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
 import logger from '@/utils/logger'
-import api from '@/api'
+import API from '@/api'
 
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 
@@ -86,7 +87,10 @@ async function submit() {
   }
   let rs
   try {
-    rs = await api.v2.icp.post(userData.getters.get_user_id, domainInput.value.domain)
+    rs = await api.v2.icp.post({
+      userId: userData.getters.get_user_id,
+      domain: domainInput.value.domain
+    })
   } catch (e) {
     logger.error(e)
     dialog.error('请求审核失败: ' + e)
@@ -108,7 +112,10 @@ async function removeICP(id) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.icp.delete(userData.getters.get_user_id, id)
+        rs = await api.v2.icp.delete({
+          userId: userData.getters.get_user_id,
+          domainId: id
+        })
       } catch (e) {
         logger.error(e)
         message.error('请求移除域名失败: ' + e)
@@ -128,7 +135,9 @@ async function getList() {
   icpListLoading.value = true
   let rs
   try {
-    rs = await api.v2.icp.get(userData.getters.get_user_id)
+    rs = await api.v2.icp.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求移除域名失败: ' + e)

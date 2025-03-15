@@ -85,10 +85,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import router from '@router'
-import api from '@/api'
+import router from '@/router'
+import API from '@/api'
 import CaptchaComponent from '@/components/CaptchaComponent.vue'
 import logger from '@/utils/logger'
+
+const api = new API()
 
 const refkey = 0
 const formRef = ref(null)
@@ -124,7 +126,9 @@ async function loadCaptcha() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.captcha('register')
+    rs = await api.v2.captcha.get({
+      action: 'register'
+    })
   } catch (e) {
     message.error('请求验证码数据失败：' + e)
     logger.error(e)
@@ -182,12 +186,12 @@ async function sendCode(captchaData) {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.email.register(
-      model.value.email,
-      captchaData.id,
-      captchaData.token,
-      captchaData.server
-    )
+    rs = await api.v2.email.register.get({
+      email: model.value.email,
+      captchaId: captchaData.id,
+      captchaToken: captchaData.token,
+      captchaServer: captchaData.server
+    })
   } catch (e) {
     message.error('请求邮件验证代码失败: ' + e)
   }
@@ -221,13 +225,13 @@ async function register() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.auth.register(
-      model.value.username,
-      model.value.password,
-      model.value.email,
-      model.value.verify,
-      model.value.qq
-    )
+    rs = await api.v2.auth.register.post({
+      username: model.value.username,
+      password: model.value.password,
+      email: model.value.email,
+      verifyCode: model.value.verify,
+      qqCode: model.value.qq
+    })
   } catch (e) {
     message.error('请求注册失败: ' + e)
   }

@@ -1,11 +1,10 @@
 import axios from 'axios'
+import type { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import QS from 'qs'
-
-// vuex
-import userData from './stores/userData/store'
-import router from '@router'
-import Message from './message'
+import router from '@/router'
+import Message from '@/utils/message'
 import logger from '@/utils/logger'
+import userData from '@/utils/stores/userData/store'
 
 const message = new Message()
 
@@ -15,41 +14,36 @@ const instance = axios.create({
   timeout: 50000
 })
 
-const tokenDomains = ['api.locyanfrp.cn', 'backup.api.locyanfrp.cn', 'localhost']
+const tokenDomains: string[] = ['api.locyanfrp.cn', 'backup.api.locyanfrp.cn', 'localhost']
 
 // 添加请求拦截器
 instance.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     const token = userData.getters.get_token
-    // 2024-09-07 Muska_Ami: 修复 Token 泄露问题 只有在指定域名请求时才应该添加 Token
-    const url = new URL(config.baseURL + config.url)
+    const url = new URL(config.baseURL! + config.url!)
     logger.info(url.hostname + ', ' + url.pathname + ', ' + tokenDomains.includes(url.hostname))
     if (token && tokenDomains.includes(url.hostname)) {
       // 已经登录成功，统一添加token
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers!.Authorization = `Bearer ${token}`
     }
     return config
   },
-  (error) => error
+  (error) => Promise.reject(error)
 )
 
-// 这里说一下token，一般是在登录完成之后，将用户的token通过localStorage或者cookie存在本地，
-// 然后用户每次在进入页面的时候（即在main.js中），会首先从本地存储中读取token，如果token存在说明用户已经登陆过，
-// 则更新vuex中的token状态。然后，在每次请求接口的时候，都会在请求的header中携带token，
-// 后台人员就可以根据你携带的token来判断你的登录是否过期，如果没有携带，则说明没有登录过。
 // 添加响应拦截器
 instance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // console.log(error)
-    // 对响应错误做点什么
-    if (error.status) {
-      switch (error.status) {
+  (response: AxiosResponse) => response,
+  (error: any) => {
+    // 处理响应错误
+    if (error.response) {
+      const { status } = error.response
+      switch (status) {
         case 401:
           router.replace({
             path: '/auth/login',
             query: {
-              redirect: router.currentRoute.fullPath
+              redirect: router.currentRoute.value.fullPath
             }
           })
           return error
@@ -60,14 +54,9 @@ instance.interceptors.response.use(
           return error
       }
     } else {
-      let retryConfig = error.config
-      // console.log(retryConfig)
-
-      if (retryConfig.baseURL == import.meta.env.VITE_API_BACKUP_ENDPOINT) return error
-      // 响应拦截器：捕获请求失败并尝试备用域名重试
-      // 如果请求失败并且没有响应（通常是网络问题），尝试使用备用域名重试
-      // console.log("Request failed, switching to backup domain...");
-
+      const retryConfig = error.config
+      // 如果请求失败并且没有响应，尝试备用域名重试
+      if (retryConfig.baseURL === import.meta.env.VITE_API_BACKUP_ENDPOINT) return error
       retryConfig.baseURL = import.meta.env.VITE_API_BACKUP_ENDPOINT
 
       // 重试请求
@@ -87,7 +76,7 @@ instance.interceptors.response.use(
  * @param url
  * @param params
  */
-export async function get(url, params) {
+export async function get(url: string, params?: Record<string, any>): Promise<AxiosResponse> {
   return await instance.get(url, {
     params: params
   })
@@ -99,7 +88,11 @@ export async function get(url, params) {
  * @param params
  * @param headers
  */
-export async function post(url, params, headers = {}) {
+export async function post(
+  url: string,
+  params: Record<string, any>,
+  headers: Record<string, string> = {}
+): Promise<AxiosResponse> {
   return await instance.post(url, QS.stringify(params, { arrayFormat: 'repeat' }), {
     headers: {
       ...headers,
@@ -113,13 +106,13 @@ export async function post(url, params, headers = {}) {
  * @param url
  * @param params
  */
-export async function deleteReq(url, params) {
+export async function deleteReq(url: string, params?: Record<string, any>): Promise<AxiosResponse> {
   return await instance.delete(url, {
     params: params
   })
 }
 
-export function getUrlKey(name) {
+export function getUrlKey(name: string): string | null {
   logger.info(window.location.href)
   const query = window.location.search.substring(1)
   const vars = query.split('&')

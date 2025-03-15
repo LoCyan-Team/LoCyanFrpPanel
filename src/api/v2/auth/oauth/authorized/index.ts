@@ -1,9 +1,9 @@
-import all from './all.api'
-import app from './app.api'
-import session from './session.api'
+import All from './all.api'
+import App from './app.api'
+import Session from './session.api'
 
-export default {
-  all: all,
-  app: app,
-  session: session
+export default class Authorized {
+  public all = new All()
+  public app = new App()
+  public session = new Session()
 }

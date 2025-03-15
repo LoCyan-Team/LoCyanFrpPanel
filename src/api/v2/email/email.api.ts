@@ -1,13 +1,15 @@
-//@ts-ignore
 import { get } from '@/utils/request'
 import base from '@/api/base'
 
-const email = async (user_id: number, email: string) => {
-  const rs = get(`/email/email`, {
-    user_id: user_id,
-    email: email
-  })
-  return base.buildResponse(await rs)
+export default class EmailX {
+  /**
+   * 发送重置邮箱邮件验证代码
+   */
+  async get(params: { userId: number; email: string }) {
+    const rs = await get(`/email/email`, {
+      user_id: params.userId,
+      email: params.email
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default email

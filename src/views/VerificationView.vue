@@ -172,11 +172,13 @@
 import { ref } from 'vue'
 import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
-import { finishLoadingBar, startLoadingBar, errorLoadingBar } from '@/utils/loadingbar'
 import userData from '@/utils/stores/userData/store'
-import api from '@/api'
+import API from '@/api'
 import logger from '@/utils/logger'
+import { useLoadingBar } from 'naive-ui'
 
+const ldb = useLoadingBar()
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 
@@ -205,62 +207,57 @@ const segmented = {
 }
 
 async function submitRealName() {
-  startLoadingBar()
-  const submitForm = {
-    user_id: userData.getters.get_user_id,
-    name: userProfile.value.name,
-    id_card: userProfile.value.idCard
-  }
+  ldb.start()
   let rs
   try {
-    rs = await api.v2.verification.realname(submitForm.user_id, submitForm.name, submitForm.id_card)
+    rs = await api.v2.verification.realname.post({
+      userId: userData.getters.get_user_id,
+      name: userProfile.value.name,
+      idCard: userProfile.value.idCard
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求失败: ' + e)
   }
   if (!rs) {
-    errorLoadingBar()
+    ldb.error()
     return
   }
   if (rs.status === 200) {
     checkVerificationStatus()
-    finishLoadingBar()
+    ldb.finish()
     message.success('恭喜, 二级认证成功!')
   } else {
-    finishLoadingBar()
+    ldb.finish()
     message.warning(rs.message)
   }
 }
 
 async function submitRealPerson() {
-  startLoadingBar()
-  const submitForm = {
-    user_id: userData.getters.get_user_id,
-    name: userProfile.value.name,
-    id_card: userProfile.value.idCard
-  }
+  ldb.start()
   let rs
   try {
-    rs = await api.v2.verification.realperson.root.post(
-      submitForm.user_id,
-      submitForm.name,
-      submitForm.id_card
-    )
+    rs = await api.v2.verification.realperson.post({
+      userId: userData.getters.get_user_id,
+      name: userProfile.value.name,
+      idCard: userProfile.value.idCard
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求失败: ' + e)
   }
   if (!rs) {
-    errorLoadingBar()
+    ldb.error()
     return
   }
   if (rs.status === 200) {
     realPersonUrl.value = rs.data.url
     ci.value = rs.data.certify_id
     showScanCodeModal.value = true
+    ldb.finish()
   } else {
     message.error('发生错误: ' + rs.message)
-    finishLoadingBar()
+    ldb.error()
   }
 }
 
@@ -269,7 +266,9 @@ async function resetRealPersonStatus() {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.verification.realperson.root.delete(userData.getters.get_user_id)
+        rs = await api.v2.verification.realperson.delete({
+          userId: userData.getters.get_user_id
+        })
       } catch (e) {
         message.error('请求失败: ' + e)
       }
@@ -286,7 +285,9 @@ async function resetRealPersonStatus() {
 async function queryRealPersonStatus() {
   let rs
   try {
-    rs = await api.v2.verification.realperson.root.get(userData.getters.get_user_id)
+    rs = await api.v2.verification.realperson.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     message.error('请求失败: ' + e)
   }
@@ -294,7 +295,7 @@ async function queryRealPersonStatus() {
   if (rs.status === 200) {
     message.success('一级认证成功')
     showScanCodeModal.value = false
-    checkVerificationStatus()
+    await checkVerificationStatus()
   } else {
     message.error(rs.message)
   }
@@ -303,7 +304,9 @@ async function queryRealPersonStatus() {
 async function checkVerificationStatus() {
   let rs
   try {
-    rs = await api.v2.verification.root.get(userData.getters.get_user_id)
+    rs = await api.v2.verification.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     message.error('请求失败: ' + e)
   }
@@ -355,7 +358,9 @@ async function checkVerificationStatus() {
 async function realPersonPay() {
   let rs
   try {
-    rs = await api.v2.verification.realperson.pay(userData.getters.get_user_id)
+    rs = await api.v2.verification.realperson.pay.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求失败: ' + e)

@@ -1,9 +1,9 @@
-import login from './login.api'
-import oauth from './oauth'
-import register from './register.api'
+import Login from './login.api'
+import OAuth from './oauth'
+import Register from './register.api'
 
-export default {
-  login: login,
-  register: register,
-  oauth: oauth
+export default class Auth {
+  public login = new Login()
+  public register = new Register()
+  public oauth = new OAuth()
 }

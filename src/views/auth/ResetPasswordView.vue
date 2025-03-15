@@ -99,9 +99,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar, useMessage } from 'naive-ui'
-import router from '@router'
-import api from '@/api'
+import router from '@/router'
+import API from '@/api'
 
+const api = new API()
 const formRef = ref(null)
 const message = useMessage()
 const ldb = useLoadingBar()
@@ -149,13 +150,13 @@ async function doResetRequest() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.user.password(
-      undefined,
-      model.value.user,
-      undefined,
-      model.value.password,
-      model.value.verifyCode
-    )
+    rs = await api.v2.user.password.post({
+      userId: undefined,
+      email: model.value.user,
+      oldPassword: undefined,
+      newPassword: model.value.password,
+      verifyCode: model.value.verifyCode
+    })
   } catch (e) {
     message.error('请求重置密码失败: ' + e)
   }
@@ -177,7 +178,9 @@ async function sendResetMail() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.email.password(model.value.user)
+    rs = await api.v2.email.password.get({
+      user: model.value.user
+    })
   } catch (e) {
     message.error('请求失败: ' + e)
   }

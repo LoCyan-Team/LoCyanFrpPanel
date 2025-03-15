@@ -49,12 +49,12 @@ import { NGradientText, NIcon } from 'naive-ui'
 import { MdNotifications } from '@vicons/ionicons4'
 import { h, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { logout } from '@/utils/profile.js'
+import { logout } from '@/utils/profile'
 import notice from '@/utils/notice'
 import userData from '@/utils/stores/userData/store'
 import { PersonCircleOutline, LogOutOutline } from '@vicons/ionicons5'
 import Notification from '@/utils/notification'
-// import { changeUserInfoShow } from '@components/UserInfo.vue'
+// import { changeUserInfoShow } from '@/components/UserInfo.vue'
 
 const router = useRouter()
 const notification = new Notification()

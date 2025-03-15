@@ -75,17 +75,18 @@
 <script setup>
 import { ref } from 'vue'
 import { useLoadingBar } from 'naive-ui'
-import router from '@router'
+import router from '@/router'
 import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
 import Notification from '@/utils/notification'
 import logger from '@/utils/logger'
-import api from '@/api'
+import API from '@/api'
 import { getUrlKey } from '@/utils/request'
 
 import { Qq } from '@vicons/fa'
 import CaptchaComponent from '@/components/CaptchaComponent.vue'
 
+const api = new API()
 const message = new Message()
 const notification = new Notification()
 
@@ -131,7 +132,9 @@ async function loadCaptcha() {
   ldb.start()
   let rs
   try {
-    rs = await api.v2.captcha('login')
+    rs = await api.v2.captcha.get({
+      action: 'login'
+    })
   } catch (e) {
     message.error('请求验证码数据失败：' + e)
     logger.error(e)
@@ -189,13 +192,13 @@ async function login(captchaData) {
   let rs
   console.log(captchaData)
   try {
-    rs = await api.v2.auth.login(
-      model.value.username,
-      model.value.password,
-      captchaData.id,
-      captchaData.token,
-      captchaData.server
-    )
+    rs = await api.v2.auth.login.post({
+      username: model.value.username,
+      password: model.value.password,
+      captchaId: captchaData.id,
+      captchaToken: captchaData.token,
+      captchaServer: captchaData.server
+    })
   } catch (e) {
     message.error('请求失败: ' + e)
   }

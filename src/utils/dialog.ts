@@ -1,10 +1,10 @@
-class Dialog {
+export default class Dialog {
   success(
-    message,
+    message: string,
     options = {
-      onPositiveClick: null,
-      onNegativeClick: null,
-      onMaskClick: null
+      onPositiveClick: async () => {},
+      onNegativeClick: async () => {},
+      onMaskClick: async () => {}
     }
   ) {
     window.$dialog.success({
@@ -18,11 +18,11 @@ class Dialog {
     })
   }
   warning(
-    message,
+    message: string,
     options = {
-      onPositiveClick: null,
-      onNegativeClick: null,
-      onMaskClick: null
+      onPositiveClick: async () => {},
+      onNegativeClick: async () => {},
+      onMaskClick: async () => {}
     }
   ) {
     window.$dialog.warning({
@@ -36,11 +36,11 @@ class Dialog {
     })
   }
   error(
-    message,
+    message: string,
     options = {
-      onPositiveClick: null,
-      onNegativeClick: null,
-      onMaskClick: null
+      onPositiveClick: async () => {},
+      onNegativeClick: async () => {},
+      onMaskClick: async () => {}
     }
   ) {
     window.$dialog.error({
@@ -54,5 +54,3 @@ class Dialog {
     })
   }
 }
-
-export default Dialog

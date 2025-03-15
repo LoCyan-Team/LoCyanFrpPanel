@@ -1,25 +1,24 @@
 import base from '@/api/base'
-//@ts-ignore
 import { get, post } from '@/utils/request'
 
-export default class Comment {
+export default class Prize {
   /**
-   * 获取评论列表
+   * 获取奖品信息
    */
   async get(params: { userId: number }) {
-    const rs = await get(`/comment`, {
+    const rs = await get(`/prize`, {
       user_id: params.userId
     })
     return base.buildResponse(rs)
   }
 
   /**
-   * 添加评论
+   * 参与抽奖
    */
-  async post(params: { userId: number; comment: string }) {
-    const rs = await post('/comment', {
+  async post(params: { userId: number; prizeId: number }) {
+    const rs = await post(`/prize`, {
       user_id: params.userId,
-      comment: params.comment
+      prize_id: params.prizeId
     })
     return base.buildResponse(rs)
   }

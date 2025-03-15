@@ -1,13 +1,15 @@
 import base from '@/api/base'
-//@ts-ignore
 import { get } from '@/utils/request'
 
-const random = async (user_id: number, node_id: number) => {
-  const rs = get(`/node/port/random`, {
-    user_id: user_id,
-    node_id: node_id
-  })
-  return base.buildResponse(await rs)
+export default class Random {
+  /**
+   * 获取随机节点端口
+   */
+  async get(params: { userId: number; nodeId: number }) {
+    const rs = await get(`/node/port/random`, {
+      user_id: params.userId,
+      node_id: params.nodeId
+    })
+    return base.buildResponse(rs)
+  }
 }
-
-export default random

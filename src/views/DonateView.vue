@@ -137,8 +137,9 @@ import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
 import logger from '@/utils/logger'
-import api from '@/api'
+import API from '@/api'
 
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 
@@ -175,7 +176,10 @@ onMounted(async () => {
     showModal.value = true
     let rs
     try {
-      rs = await api.v2.donate.info(userData.getters.get_user_id, inputTradeNo)
+      rs = await api.v2.donate.info.get({
+        userId: userData.getters.get_user_id,
+        tradeNo: inputTradeNo
+      })
     } catch (e) {
       logger.error(e)
       message.error('请求列表失败: ' + e)
@@ -201,7 +205,9 @@ const donateList = ref([])
 async function getDonateList() {
   let rs
   try {
-    rs = await api.v2.donate.say.all()
+    rs = await api.v2.donate.say.all.get({
+      userId: undefined
+    })
   } catch (e) {
     message.error('请求列表失败: ' + e)
   }
@@ -237,11 +243,11 @@ async function submitMessage() {
 
   let rs
   try {
-    rs = await api.v2.donate.say.root.post(
-      userData.getters.get_user_id,
-      inputTradeNo,
-      donateMessage.value.message
-    )
+    rs = await api.v2.donate.say.post({
+      userId: userData.getters.get_user_id,
+      tradeNo: inputTradeNo,
+      message: donateMessage.value.message
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求列表失败: ' + e)
@@ -266,7 +272,10 @@ async function doDonate() {
   }
   let rs
   try {
-    rs = await api.v2.donate.root.post(userData.getters.get_user_id, amount.value)
+    rs = await api.v2.donate.post({
+      userId: userData.getters.get_user_id,
+      money: amount.value
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求列表失败: ' + e)

@@ -111,8 +111,9 @@ import { NButton, NCard, NGrid, NGridItem, NH1, NSkeleton, NSpace, NText } from 
 import Message from '@/utils/message'
 import userData from '@/utils/stores/userData/store'
 import logger from '@/utils/logger'
-import api from '@/api'
+import API from '@/api'
 
+const api = new API()
 const message = new Message()
 
 const loading = ref(true)
@@ -121,7 +122,9 @@ const status = ref(false)
 async function checkSign() {
   let rs
   try {
-    rs = await api.v2.sign.get(userData.getters.get_user_id)
+    rs = await api.v2.sign.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('获取签到状态失败: ' + e)
@@ -137,7 +140,9 @@ async function checkSign() {
 async function doSign() {
   let rs
   try {
-    rs = await api.v2.sign.post(userData.getters.get_user_id)
+    rs = await api.v2.sign.post({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('签到失败: ' + e)

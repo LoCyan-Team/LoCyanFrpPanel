@@ -49,24 +49,39 @@
 <script setup lang="ts">
 import userData from '@/utils/stores/userData/store'
 import { ref, onMounted } from 'vue'
-import api from '@/api'
+import API from '@/api'
 import logger from '@/utils/logger'
 import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
 
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 
-const loading = ref(true)
-const list = ref([])
-const permissionList = ref([])
+const loading = ref<boolean>(true)
+const list = ref<
+  Array<{
+    id: number
+    name: string
+    description: string
+    authorizedPermissions: Array[]
+    sessions: Array<{
+      id: number
+      authorizeTime: number
+    }>
+  }>
+>([])
+const permissionList = ref<Array<{}>>([])
 
 async function revokeAppAuthorize(appId: number | undefined) {
   dialog.warning('确认要撤销授权吗？撤销后应用将不具有访问权限', {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.auth.oauth.authorized.app(userData.getters.get_user_id, appId)
+        rs = await api.v2.auth.oauth.authorized.app.delete({
+          userId: userData.getters.get_user_id,
+          appId: appId
+        })
       } catch (e) {
         logger.error(e)
         message.error(e)
@@ -89,11 +104,11 @@ async function revokeSessionAuthorize(appId: number, sessionId: number | undefin
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.auth.oauth.authorized.session(
-          userData.getters.get_user_id,
-          appId,
-          sessionId
-        )
+        rs = await api.v2.auth.oauth.authorized.session.delete({
+          userId: userData.getters.get_user_id,
+          appId: appId,
+          sessionId: sessionId
+        })
       } catch (e) {
         logger.error(e)
         message.error(e)
@@ -123,7 +138,9 @@ onMounted(async () => {
   async function initPermissions(): Promise<boolean> {
     let rs
     try {
-      rs = await api.v2.auth.oauth.permission.all(userData.getters.get_user_id)
+      rs = await api.v2.auth.oauth.permission.all.get({
+        userId: userData.getters.get_user_id
+      })
     } catch (e) {
       logger.error(e)
       message.error(e)
@@ -143,7 +160,9 @@ onMounted(async () => {
   async function initAuthorizedList(): Promise<boolean> {
     let rs
     try {
-      rs = await api.v2.auth.oauth.authorized.all(userData.getters.get_user_id)
+      rs = await api.v2.auth.oauth.authorized.all.get({
+        userId: userData.getters.get_user_id
+      })
     } catch (e) {
       logger.error(e)
       message.error(e)
@@ -153,22 +172,36 @@ onMounted(async () => {
     if (rs.status === 200) {
       // logger.info(rs.data)
       if (rs.data.list.length == 0) return true
-      rs.data.list.forEach((item) => {
-        let sessions = []
-        item.sessions.forEach((session) => {
-          sessions.push({
-            id: session.id,
-            authorizeTime: session.authorize_time
+      rs.data.list.forEach(
+        (item: {
+          id: number
+          name: string
+          description: string
+          authorizedPermissions: Array[]
+          sessions: Array<{
+            id: number
+            authorizeTime: number
+          }>
+        }) => {
+          let sessions: Array<{
+            id: number
+            authorizeTime: number
+          }> = []
+          item.sessions.forEach((session: { id: number; authorizeTime: number }) => {
+            sessions.push({
+              id: session.id,
+              authorizeTime: session.authorize_time
+            })
           })
-        })
-        list.value.push({
-          id: item.app_id,
-          name: item.app_name,
-          description: item.app_description,
-          authorizedPermissions: item.authorized_permissions,
-          sessions: sessions
-        })
-      })
+          list.value.push({
+            id: item.app_id,
+            name: item.app_name,
+            description: item.app_description,
+            authorizedPermissions: item.authorized_permissions,
+            sessions: sessions
+          })
+        }
+      )
       return true
     } else {
       message.error(rs.message)

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { finishLoadingBar, startLoadingBar } from '@/utils/loadingbar'
 import userData from '@/utils/stores/userData/store'
 import logger from '@/utils/logger'
 import routes from '@/router/routes'
@@ -15,8 +14,8 @@ const router = createRouter({
 // }
 
 router.beforeEach((to, from, next) => {
-  logger.info(`Routing from ${from.name} to ${to.name}`)
-  startLoadingBar()
+  logger.info(`Routing from ${String(from.name)} to ${String(to.name)}`)
+  window.$loadingBar.start()
 
   if (to.name === 'NotFound') {
     next() // 直接放行 404 路由
@@ -39,7 +38,7 @@ router.beforeEach((to, from, next) => {
 
 // from next
 router.afterEach((to) => {
-  finishLoadingBar()
+  window.$loadingBar.finish()
   if (to.meta.title) {
     // 设置标题
     document.title = to.meta.title + ' | LoCyanFrp'

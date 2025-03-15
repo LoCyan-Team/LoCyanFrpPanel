@@ -1,7 +1,7 @@
-import all from './all.api'
-import port from './port'
+import All from './all.api'
+import Port from './port'
 
-export default {
-  all: all,
-  port: port
+export default class Node {
+  public all = new All()
+  public port = new Port()
 }

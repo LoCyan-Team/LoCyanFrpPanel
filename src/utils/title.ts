@@ -1,13 +1,13 @@
-const colorTitle =
+const colorTitle: string =
   'background: linear-gradient(to right, #e66465, #9198e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;'
-const colorBadgeA = 'background-color: #F14E32; color: #fff;'
-const colorBadgeB = 'background-color: #000; color: #fff;'
-const colorBadgeC = 'background-color: #862d59; color: #fff;'
-const colorBadgeData = 'background-color: #606060; color: #fff;'
-const colorReset = 'background-color: none; color: none;'
-const colorCFU = 'wdith: 100%; background-color: #66ccff; color: #fff;'
+const colorBadgeA: string = 'background-color: #F14E32; color: #fff;'
+const colorBadgeB: string = 'background-color: #000; color: #fff;'
+const colorBadgeC: string = 'background-color: #862d59; color: #fff;'
+const colorBadgeData: string = 'background-color: #606060; color: #fff;'
+const colorReset: string = 'background-color: none; color: none;'
+const colorCFU: string = 'wdith: 100%; background-color: #66ccff; color: #fff;'
 
-export default () => {
+export default (): void => {
   console.log(
     `%c
         _           ____                  _____           

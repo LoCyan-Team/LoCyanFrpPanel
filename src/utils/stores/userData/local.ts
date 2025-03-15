@@ -1,7 +1,7 @@
 import userData from './store'
 import defStateData from './def'
 
-const loadFromLocal = () => {
+const loadFromLocal = (): void => {
   userData.commit('set_token', localStorage.getItem('token') ?? defStateData.token)
   userData.commit('set_username', localStorage.getItem('username') ?? defStateData.username)
   userData.commit('set_user_id', localStorage.getItem('user_id') ?? defStateData.user_id)
