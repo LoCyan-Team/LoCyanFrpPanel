@@ -5,7 +5,7 @@
   </n-h1>
   <n-space vertical>
     <n-alert title="说明" type="info">
-      请填写您的姓名和身份证号进行实人认证（请认真填写，实人一旦成功除特殊情况外无法修改）
+      请填写您的姓名和身份证号进行身份认证（请认真填写，认证一旦成功除特殊情况外无法修改）
       <br />本站全部个人隐私信息遵守
       <a href="https://terms.locyan.cn/privacy-policy" target="_blank">LoCyan 隐私政策</a>
       的约束，我们将最大限度的保护用户的个人信息数据
