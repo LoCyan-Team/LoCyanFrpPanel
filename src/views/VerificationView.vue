@@ -17,138 +17,105 @@
       <i class="twa twa-card-file-box"></i>
       <n-text type="success"> 身份认证</n-text>
     </n-h1>
-    <n-collapse default-expanded-names="1" accordion v-if="!finished">
-      <!-- 二级认证 -->
-      <n-collapse-item title="实名认证 （二级认证，可使用海外节点）" name="1">
-        <n-grid cols="1" item-responsive>
-          <n-gi span="1" v-if="showRealnameModal">
-            <n-card title="实名认证">
-              <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
-                <n-grid cols="1" item-responsive :y-gap="5">
-                  <n-grid-item>
-                    <p style="color: red">
-                      请填写您的姓名和身份证号进行实名认证（请认真填写，实名一旦成功除特殊情况外无法修改）
-                    </p>
-                    <p>
-                      若点击提交后 5
-                      秒内没有回调信息出现，请再次点击按钮，直到出现提示框。若无法实名，请联系管理员解决！
-                    </p>
-                    <p>
-                      本站全部个人隐私信息遵守
-                      <a
-                        style="color: dodgerblue"
-                        href="https://www.locyan.cn/doc/yszc.html"
-                        target="_blank"
-                        >LoCyan 隐私协议</a
-                      >
-                      的约束，我们将最大限度的保护用户的个人信息数据
-                    </p>
-                    <p>
-                      我们允许<a style="color: red"><b>未成年人注册</b></a
-                      >，请勿冒用非本人身份证实名，已经实名过得既往不咎！
-                    </p>
-                  </n-grid-item>
-                  <n-grid-item span="1">
-                    <n-form-item label="姓名" path="name">
-                      <n-input v-model:value="userProfile.name" placeholder="您的姓名" />
-                    </n-form-item>
-                  </n-grid-item>
-                  <n-grid-item span="1">
-                    <n-form-item label="身份证号" path="idcard">
-                      <n-input v-model:value="userProfile.idCard" placeholder="您的身份证号" />
-                    </n-form-item>
-                  </n-grid-item>
-                </n-grid>
-                <div style="display: flex; justify-content: flex-end">
-                  <n-button round type="success" @click="submitRealName()"> 提交 </n-button>
-                </div>
-              </n-form>
-            </n-card>
-          </n-gi>
-          <n-gi cols="1" item-responsive v-else>
-            <n-card> <i class="twa twa-2x twa-party-popper"></i>您已经完成实名认证！ </n-card>
-          </n-gi>
-        </n-grid>
-      </n-collapse-item>
-      <!-- 一级认证 -->
-      <n-collapse-item title="实人认证（一级认证，可使用全部节点）" name="2">
-        <n-grid cols="1" item-responsive>
-          <n-gi span="1">
-            <n-card title="支付订单" v-if="showPayModal">
-              <div>
-                <n-space>
-                  <n-button type="success" @click="realPersonPay()"> 点此付款 </n-button>
-                  <n-button type="success" @click="checkVerificationStatus()">
-                    刷新付款状态
-                  </n-button>
-                </n-space>
-              </div>
-            </n-card>
-            <n-card title="实人认证" v-if="showRealpersonModal">
-              <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
-                <n-grid cols="1" item-responsive :y-gap="5">
-                  <n-grid-item>
-                    <p style="color: red">
-                      请填写您的姓名和身份证号进行实人认证（请认真填写，实人一旦成功除特殊情况外无法修改）
-                    </p>
-                    <p>
-                      若点击提交后 5
-                      秒内没有回调信息出现，请再次点击按钮，直到出现提示框。若无法实名，请联系管理员解决！
-                    </p>
-                    <p>
-                      本站全部个人隐私信息遵守
-                      <a
-                        style="color: dodgerblue"
-                        href="https://www.locyan.cn/doc/yszc.html"
-                        target="_blank"
-                        >LoCyan 隐私协议</a
-                      >
-                      的约束，我们将最大限度的保护用户的个人信息数据
-                    </p>
-                    <p>
-                      我们允许<a style="color: red"><b>未成年人注册</b></a
-                      >，请勿冒用非本人身份证实名，已经实名过得既往不咎！
-                    </p>
-                    <p>
-                      若认证失败，请先点击<b>重置验证状态</b>重置状态，再重新发起认证！
-                    </p>
-                  </n-grid-item>
-                  <n-grid-item span="1">
-                    <n-form-item label="姓名" path="name">
-                      <n-input v-model:value="userProfile.name" placeholder="您的姓名" />
-                    </n-form-item>
-                  </n-grid-item>
-                  <n-grid-item span="1">
-                    <n-form-item label="身份证号" path="idcard">
-                      <n-input v-model:value="userProfile.idCard" placeholder="您的身份证号" />
-                    </n-form-item>
-                  </n-grid-item>
-                </n-grid>
+    <n-space vertical>
+      <n-alert title="说明" type="info">
+        请填写您的姓名和身份证号进行实人认证（请认真填写，实人一旦成功除特殊情况外无法修改）
+        <br />本站全部个人隐私信息遵守
+        <a href="https://terms.locyan.cn/privacy-policy" target="_blank">LoCyan 隐私政策</a>
+        的约束，我们将最大限度的保护用户的个人信息数据
+      </n-alert>
+      <n-alert title="请勿冒用他人信息实名" type="warning">
+        我们允许未成年人注册，请勿冒用非本人身份证实名，已经实名过得既往不咎！
+      </n-alert>
+      <n-alert title="认证失败重新发起方式" type="error">
+        若认证失败，请先点击
+        <n-tag>重置验证状态</n-tag>
+        重置状态，再重新发起认证！
+      </n-alert>
+      <n-collapse default-expanded-names="1" accordion v-if="!finished">
+        <!-- 二级认证 -->
+        <n-collapse-item title="实名认证 （二级认证，可使用海外节点）" name="1">
+          <n-grid cols="1" item-responsive>
+            <n-gi span="1" v-if="showRealnameModal">
+              <n-card title="实名认证">
+                <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
+                  <n-grid cols="1" item-responsive :y-gap="5">
+                    <n-grid-item span="1">
+                      <n-form-item label="姓名" path="name">
+                        <n-input v-model:value="userProfile.name" placeholder="您的姓名" />
+                      </n-form-item>
+                    </n-grid-item>
+                    <n-grid-item span="1">
+                      <n-form-item label="身份证号" path="idcard">
+                        <n-input v-model:value="userProfile.idCard" placeholder="您的身份证号" />
+                      </n-form-item>
+                    </n-grid-item>
+                  </n-grid>
+                  <div style="display: flex; justify-content: flex-end">
+                    <n-button round type="success" @click="submitRealName()"> 提交 </n-button>
+                  </div>
+                </n-form>
+              </n-card>
+            </n-gi>
+            <n-gi cols="1" item-responsive v-else>
+              <n-card> <i class="twa twa-2x twa-party-popper"></i>您已经完成实名认证！ </n-card>
+            </n-gi>
+          </n-grid>
+        </n-collapse-item>
+        <!-- 一级认证 -->
+        <n-collapse-item title="实人认证（一级认证，可使用全部节点）" name="2">
+          <n-grid cols="1" item-responsive>
+            <n-gi span="1">
+              <n-card title="支付订单" v-if="showPayModal">
                 <div>
                   <n-space>
-                    <n-button type="success" @click="submitRealPerson()">提交</n-button>
-                    <n-button type="success" @click="queryRealPersonStatus()" secondary>
-                      刷新状态
-                    </n-button>
-                    <n-button type="error" @click="resetRealPersonStatus()" secondary>
-                      重置验证状态
+                    <n-button type="success" @click="realPersonPay()"> 点此付款 </n-button>
+                    <n-button type="success" @click="checkVerificationStatus()">
+                      刷新付款状态
                     </n-button>
                   </n-space>
                 </div>
-              </n-form>
-            </n-card>
-          </n-gi>
-        </n-grid>
-      </n-collapse-item>
-    </n-collapse>
-    <!-- 认证成功 -->
-    <n-grid cols="1" item-responsive>
-      <n-gi span="1" v-if="finished">
-        <n-card title="认证完成">
-          <p>恭喜完成全部认证流程</p>
-        </n-card>
-      </n-gi>
-    </n-grid>
+              </n-card>
+              <n-card title="实人认证" v-if="showRealpersonModal">
+                <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
+                  <n-grid cols="1" item-responsive :y-gap="5">
+                    <n-grid-item span="1">
+                      <n-form-item label="姓名" path="name">
+                        <n-input v-model:value="userProfile.name" placeholder="您的姓名" />
+                      </n-form-item>
+                    </n-grid-item>
+                    <n-grid-item span="1">
+                      <n-form-item label="身份证号" path="idcard">
+                        <n-input v-model:value="userProfile.idCard" placeholder="您的身份证号" />
+                      </n-form-item>
+                    </n-grid-item>
+                  </n-grid>
+                  <div>
+                    <n-space>
+                      <n-button type="success" @click="submitRealPerson()">提交</n-button>
+                      <n-button type="success" @click="queryRealPersonStatus()" secondary>
+                        刷新状态
+                      </n-button>
+                      <n-button type="error" @click="resetRealPersonStatus()" secondary>
+                        重置验证状态
+                      </n-button>
+                    </n-space>
+                  </div>
+                </n-form>
+              </n-card>
+            </n-gi>
+          </n-grid>
+        </n-collapse-item>
+      </n-collapse>
+      <!-- 认证成功 -->
+      <n-grid cols="1" item-responsive>
+        <n-gi span="1" v-if="finished">
+          <n-card title="认证完成">
+            <p>恭喜完成全部认证流程</p>
+          </n-card>
+        </n-gi>
+      </n-grid>
+    </n-space>
   </template>
   <n-modal
     v-model:show="showScanCodeModal"
