@@ -5,45 +5,51 @@
   </n-h1>
   <n-spin :show="loading">
     <n-empty v-if="list.length === 0"></n-empty>
-    <n-card
-      v-else
-      v-for="app in list"
-      style="margin-bottom: 1rem"
-      content-style="padding: 0"
-      :title="app.name"
-    >
-      <n-text style="margin: 0 var(--n-padding-left) var(--n-padding-bottom) var(--n-padding-left)">
-        应用介绍: {{ app.description }}
-      </n-text>
-      <n-tabs type="line" size="large" :tabs-padding="20" pane-style="padding: 20px;">
-        <n-tab-pane name="授权信息">
-          <n-text>活动会话数: {{ app.sessions.length }}</n-text>
-          <br />
-          <n-text>已授予的权限:&nbsp;</n-text>
-          <n-text v-for="permissionId in app.authorizedPermissions">
-            {{ permissionList.filter((it) => it.id == permissionId)[0]['node']
-            }}{{ [...app.authorizedPermissions].reverse()[0] != permissionId ? ', ' : '' }}
-          </n-text>
-        </n-tab-pane>
-        <n-tab-pane style="padding-block: 0.5rem" name="活动会话">
-          <n-list style="margin-right: 2.5rem">
-            <n-list-item v-for="session in app.sessions" :key="session.id">
-              <n-text>会话 ID: {{ session.id }}</n-text>
-              <br />
-              <n-text>授权时间: {{ new Date(session.authorizeTime) }}</n-text>
-              <template #suffix>
-                <n-button type="error" @click="revokeSessionAuthorize(app.id, session.id)" secondary
-                  >撤销授权</n-button
-                >
-              </template>
-            </n-list-item>
-          </n-list>
-        </n-tab-pane>
-      </n-tabs>
-      <template #action>
-        <n-button @click="revokeAppAuthorize(app.id)" type="error">撤销应用程序授权</n-button>
-      </template>
-    </n-card>
+    <n-space vertical v-else>
+      <n-card
+        v-for="app in list"
+        style="margin-bottom: 1rem"
+        content-style="padding: 0"
+        :title="app.name"
+      >
+        <n-text
+          style="margin: 0 var(--n-padding-left) var(--n-padding-bottom) var(--n-padding-left)"
+        >
+          应用介绍: {{ app.description }}
+        </n-text>
+        <n-tabs type="line" size="large" :tabs-padding="20" pane-style="padding: 20px;">
+          <n-tab-pane name="授权信息">
+            <n-text>活动会话数: {{ app.sessions.length }}</n-text>
+            <br />
+            <n-text>已授予的权限:&nbsp;</n-text>
+            <n-text v-for="permissionId in app.authorizedPermissions">
+              {{ permissionList.filter((it) => it.id == permissionId)[0]['node']
+              }}{{ [...app.authorizedPermissions].reverse()[0] != permissionId ? ', ' : '' }}
+            </n-text>
+          </n-tab-pane>
+          <n-tab-pane style="padding-block: 0.5rem" name="活动会话">
+            <n-list style="margin-right: 2.5rem">
+              <n-list-item v-for="session in app.sessions" :key="session.id">
+                <n-text>会话 ID: {{ session.id }}</n-text>
+                <br />
+                <n-text>授权时间: {{ new Date(session.authorizeTime) }}</n-text>
+                <template #suffix>
+                  <n-button
+                    type="error"
+                    @click="revokeSessionAuthorize(app.id, session.id)"
+                    secondary
+                    >撤销授权</n-button
+                  >
+                </template>
+              </n-list-item>
+            </n-list>
+          </n-tab-pane>
+        </n-tabs>
+        <template #action>
+          <n-button @click="revokeAppAuthorize(app.id)" type="error">撤销应用程序授权</n-button>
+        </template>
+      </n-card>
+    </n-space>
   </n-spin>
 </template>
 <script setup lang="ts">

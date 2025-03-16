@@ -9,7 +9,7 @@
       </n-card>
       <br />
     </n-grid-item>-->
-    <n-grid-item span="0:3 600:1">
+    <n-grid-item span="0:3 800:1">
       <n-card title="个人信息" size="medium">
         <span>{{ username }}，{{ helloMessage() }}</span>
         <br />
@@ -128,8 +128,9 @@
         违规的隧道将会被封禁，这是为了保障大部分用户的体验，谢谢配合！
         若您违规使用，可能需要支付相应的流量费用！<br />
       </n-alert>
+      <br />
     </n-grid-item>
-    <n-grid-item span="0:3 600:2">
+    <n-grid-item span="0:3 800:2">
       <n-card title="公告" size="large">
         <n-spin :show="broadcastLoading">
           <n-text class="markdown-body" v-html="broadcastHtml" id="boardrcast"></n-text>
@@ -146,16 +147,15 @@
             <n-step title="开始使用" description="好了，开始享受吧" />
           </n-steps>
         </n-space>
-        <br />
       </n-card>
     </n-grid-item>
   </n-grid>
 </template>
 
 <style scoped>
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
   .ext-margin-bottom {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 }
 </style>

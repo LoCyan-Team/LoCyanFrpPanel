@@ -1,96 +1,117 @@
 <template>
-  <template v-if="loading">
-    <n-h1 prefix="bar" style="margin-top: 30px">
-      <i class="twa twa-card-file-box"></i>
-      <n-text type="success"> 身份认证</n-text>
-    </n-h1>
-    <n-grid cols="1" item-responsive>
-      <n-grid-item span="1">
-        <n-card>
-          <n-skeleton text :repeat="3" />
-        </n-card>
-      </n-grid-item>
-    </n-grid>
-  </template>
-  <template v-else>
-    <n-h1 prefix="bar" style="margin-top: 30px">
-      <i class="twa twa-card-file-box"></i>
-      <n-text type="success"> 身份认证</n-text>
-    </n-h1>
-    <n-space vertical>
-      <n-alert title="说明" type="info">
-        请填写您的姓名和身份证号进行实人认证（请认真填写，实人一旦成功除特殊情况外无法修改）
-        <br />本站全部个人隐私信息遵守
-        <a href="https://terms.locyan.cn/privacy-policy" target="_blank">LoCyan 隐私政策</a>
-        的约束，我们将最大限度的保护用户的个人信息数据
-      </n-alert>
-      <n-alert title="请勿冒用他人信息实名" type="warning">
-        我们允许未成年人注册，请勿冒用非本人身份证实名，已经实名过得既往不咎！
-      </n-alert>
-      <n-alert title="认证失败重新发起方式" type="error">
-        若认证失败，请先点击
-        <n-tag>重置验证状态</n-tag>
-        重置状态，再重新发起认证！
-      </n-alert>
-      <n-collapse default-expanded-names="1" accordion v-if="!finished">
+  <n-h1 prefix="bar" style="margin-top: 30px">
+    <i class="twa twa-card-file-box"></i>
+    <n-text type="success"> 身份认证</n-text>
+  </n-h1>
+  <n-space vertical>
+    <n-alert title="说明" type="info">
+      请填写您的姓名和身份证号进行实人认证（请认真填写，实人一旦成功除特殊情况外无法修改）
+      <br />本站全部个人隐私信息遵守
+      <a href="https://terms.locyan.cn/privacy-policy" target="_blank">LoCyan 隐私政策</a>
+      的约束，我们将最大限度的保护用户的个人信息数据
+    </n-alert>
+    <n-alert title="请勿冒用他人信息实名" type="warning">
+      我们允许未成年人注册，请勿冒用非本人身份证实名，已经实名过得既往不咎！
+    </n-alert>
+    <n-alert title="认证失败重新发起方式" type="error">
+      若认证失败，请先点击
+      <n-tag>重置验证状态</n-tag>
+      重置状态，再重新发起认证！
+    </n-alert>
+    <n-spin :show="loading">
+      <n-card title="认证总览">
+        <n-h4>认证说明</n-h4>
+        二级认证可使用二级认证节点，一级认证可使用二级认证及一级认证节点。
+        <br />您需要先完成二级认证才能进行一级认证。
+        <n-h4>认证状态</n-h4>
+        <n-space vertical>
+          <n-el>
+            二级认证:
+            <n-tag type="warning" v-if="showRealnameModal">未通过</n-tag>
+            <n-tag type="success" v-if="!showRealnameModal">已通过</n-tag>
+          </n-el>
+          <n-el>
+            一级认证:
+            <n-tag type="warning" v-if="showRealpersonModal">未通过</n-tag>
+            <n-tag type="success" v-if="!showRealpersonModal">已通过</n-tag>
+          </n-el>
+        </n-space>
+      </n-card>
+      <br />
+      <n-grid :y-gap="2" :x-gap="20" cols="2" item-responsive>
         <!-- 二级认证 -->
-        <n-collapse-item title="实名认证 （二级认证，可使用海外节点）" name="1">
-          <n-grid cols="1" item-responsive>
-            <n-gi span="1" v-if="showRealnameModal">
-              <n-card title="实名认证">
-                <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
-                  <n-grid cols="1" item-responsive :y-gap="5">
-                    <n-grid-item span="1">
-                      <n-form-item label="姓名" path="name">
-                        <n-input v-model:value="userProfile.name" placeholder="您的姓名" />
-                      </n-form-item>
-                    </n-grid-item>
-                    <n-grid-item span="1">
-                      <n-form-item label="身份证号" path="idcard">
-                        <n-input v-model:value="userProfile.idCard" placeholder="您的身份证号" />
-                      </n-form-item>
-                    </n-grid-item>
-                  </n-grid>
-                  <div style="display: flex; justify-content: flex-end">
-                    <n-button round type="success" @click="submitRealName()"> 提交 </n-button>
-                  </div>
-                </n-form>
-              </n-card>
-            </n-gi>
-            <n-gi cols="1" item-responsive v-else>
-              <n-card> <i class="twa twa-2x twa-party-popper"></i>您已经完成实名认证！ </n-card>
-            </n-gi>
-          </n-grid>
-        </n-collapse-item>
+        <n-grid-item span="0:2 800:1">
+          <n-card title="实名认证（二级认证）">
+            <n-spin :show="!showRealnameModal" :rotate="false">
+              <template #icon>
+                <n-icon>
+                  <FileDownloadDoneOutlined />
+                </n-icon>
+              </template>
+              <template #description> 已完成 </template>
+              <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
+                <n-grid cols="1" item-responsive :y-gap="5">
+                  <n-grid-item span="1">
+                    <n-form-item label="姓名" path="name">
+                      <n-input v-model:value="userProfile.name" placeholder="您的姓名" />
+                    </n-form-item>
+                  </n-grid-item>
+                  <n-grid-item span="1">
+                    <n-form-item label="身份证号" path="idcard">
+                      <n-input v-model:value="userProfile.idCard" placeholder="您的身份证号" />
+                    </n-form-item>
+                  </n-grid-item>
+                </n-grid>
+                <div style="display: flex; justify-content: flex-end">
+                  <n-button round type="success" @click="submitRealName()"> 提交 </n-button>
+                </div>
+              </n-form>
+            </n-spin>
+          </n-card>
+          <br />
+        </n-grid-item>
+
         <!-- 一级认证 -->
-        <n-collapse-item title="实人认证（一级认证，可使用全部节点）" name="2">
-          <n-grid cols="1" item-responsive>
-            <n-gi span="1">
-              <n-card title="支付订单" v-if="showPayModal">
-                <div>
+        <n-grid-item span="0:2 800:1">
+          <n-card title="实人认证（一级认证）">
+            <n-space vertical>
+              <n-spin :show="!showPayModal" :rotate="false">
+                <template #icon>
+                  <n-icon>
+                    <FileDownloadDoneOutlined />
+                  </n-icon>
+                </template>
+                <template #description> 已完成 </template>
+                <n-card title="购买认证次数">
                   <n-space>
                     <n-button type="success" @click="realPersonPay()"> 点此付款 </n-button>
                     <n-button type="success" @click="checkVerificationStatus()">
                       刷新付款状态
                     </n-button>
                   </n-space>
-                </div>
-              </n-card>
-              <n-card title="实人认证" v-if="showRealpersonModal">
-                <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
-                  <n-grid cols="1" item-responsive :y-gap="5">
-                    <n-grid-item span="1">
-                      <n-form-item label="姓名" path="name">
-                        <n-input v-model:value="userProfile.name" placeholder="您的姓名" />
-                      </n-form-item>
-                    </n-grid-item>
-                    <n-grid-item span="1">
-                      <n-form-item label="身份证号" path="idcard">
-                        <n-input v-model:value="userProfile.idCard" placeholder="您的身份证号" />
-                      </n-form-item>
-                    </n-grid-item>
-                  </n-grid>
-                  <div>
+                </n-card>
+              </n-spin>
+              <n-spin :show="!showRealpersonModal" :rotate="false">
+                <template #icon>
+                  <n-icon>
+                    <FileDownloadDoneOutlined />
+                  </n-icon>
+                </template>
+                <template #description> 已完成 </template>
+                <n-card title="提交认证">
+                  <n-form :ref="formRef" :model="userProfile" label-width="auto" :size="'large'">
+                    <n-grid cols="1" item-responsive :y-gap="5">
+                      <n-grid-item span="1">
+                        <n-form-item label="姓名" path="name">
+                          <n-input v-model:value="userProfile.name" placeholder="您的姓名" />
+                        </n-form-item>
+                      </n-grid-item>
+                      <n-grid-item span="1">
+                        <n-form-item label="身份证号" path="idcard">
+                          <n-input v-model:value="userProfile.idCard" placeholder="您的身份证号" />
+                        </n-form-item>
+                      </n-grid-item>
+                    </n-grid>
                     <n-space>
                       <n-button type="success" @click="submitRealPerson()">提交</n-button>
                       <n-button type="success" @click="queryRealPersonStatus()" secondary>
@@ -100,23 +121,15 @@
                         重置验证状态
                       </n-button>
                     </n-space>
-                  </div>
-                </n-form>
-              </n-card>
-            </n-gi>
-          </n-grid>
-        </n-collapse-item>
-      </n-collapse>
-      <!-- 认证成功 -->
-      <n-grid cols="1" item-responsive>
-        <n-gi span="1" v-if="finished">
-          <n-card title="认证完成">
-            <p>恭喜完成全部认证流程</p>
+                  </n-form>
+                </n-card>
+              </n-spin>
+            </n-space>
           </n-card>
-        </n-gi>
+        </n-grid-item>
       </n-grid>
-    </n-space>
-  </template>
+    </n-spin>
+  </n-space>
   <n-modal
     v-model:show="showScanCodeModal"
     :mask-closable="false"
@@ -143,6 +156,7 @@ import userData from '@/utils/stores/userData/store'
 import API from '@/api'
 import logger from '@/utils/logger'
 import { useLoadingBar } from 'naive-ui'
+import { FileDownloadDoneOutlined } from '@vicons/material'
 
 const ldb = useLoadingBar()
 const api = new API()

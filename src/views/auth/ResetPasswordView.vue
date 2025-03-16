@@ -19,7 +19,7 @@
         </n-form-item>
         <n-form-item label="验证" path="username">
           <n-grid cols="6" :x-gap="8" :y-gap="8" item-responsive>
-            <n-grid-item span="0:6 600:4">
+            <n-grid-item span="0:6 800:4">
               <n-input
                 type="text"
                 v-model:value="model.user"
@@ -27,7 +27,7 @@
                 @keyup.enter="sendResetMail"
               />
             </n-grid-item>
-            <n-grid-item span="0:6 600:1">
+            <n-grid-item span="0:6 800:1">
               <n-input
                 type="text"
                 v-model:value="model.verifyCode"
@@ -35,7 +35,7 @@
                 @keyup.enter="sendResetMail"
               />
             </n-grid-item>
-            <n-grid-item span="0:6 600:1">
+            <n-grid-item span="0:6 800:1">
               <n-button
                 ghost
                 round

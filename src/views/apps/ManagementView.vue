@@ -52,7 +52,7 @@
     </template>
   </n-modal>
   <n-grid :y-gap="3" :x-gap="20" cols="3" item-responsive>
-    <n-grid-item span="0:3 600:2">
+    <n-grid-item span="0:3 800:2">
       <n-card>
         <n-space style="flex-direction: column">
           <div>
@@ -87,9 +87,10 @@
           </div>
         </n-space>
       </n-card>
+      <br />
     </n-grid-item>
     <!-- 权限列表 -->
-    <n-grid-item span="0:3 600:1">
+    <n-grid-item span="0:3 800:1">
       <n-list style="margin: 0" bordered>
         <template #header>
           <n-h3 style="margin-bottom: 0">权限节点列表</n-h3>

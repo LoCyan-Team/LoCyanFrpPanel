@@ -28,13 +28,13 @@
         </n-form-item>
         <n-form-item label="QQ & 邮件验证码" path="qq">
           <n-grid cols="6" :x-gap="8" :y-gap="8" item-responsive>
-            <n-grid-item span="0:6 600:3">
+            <n-grid-item span="0:6 800:3">
               <n-input type="text" v-model:value="model.qq" placeholder="QQ号" />
             </n-grid-item>
-            <n-grid-item span="0:6 600:2">
+            <n-grid-item span="0:6 800:2">
               <n-input type="text" v-model:value="model.verify" placeholder="验证码" />
             </n-grid-item>
-            <n-grid-item span="0:6 600:1">
+            <n-grid-item span="0:6 800:1">
               <n-button
                 ghost
                 round
