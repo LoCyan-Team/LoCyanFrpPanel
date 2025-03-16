@@ -655,16 +655,7 @@ function proxyTypeSelectChangeHandle(value) {
 }
 
 const proxiesList = ref([])
-const serverList = ref([
-  {
-    id: 0,
-    name: '',
-    description: '',
-    ip: '',
-    hostname: '',
-    status: ''
-  }
-])
+const serverList = ref([])
 
 async function initList() {
   let rs1
@@ -704,7 +695,8 @@ async function initList() {
         allowBigTraffic: s.attribute.allow_big_traffic,
         allowUdp: s.attribute.allow_udp,
         allowWebsite: s.attribute.allow_website
-      }
+      },
+      portRange: s.port_range
     }
     i = i + 1
   })

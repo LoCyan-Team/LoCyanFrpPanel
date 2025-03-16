@@ -62,6 +62,12 @@
         <p>服务器介绍：{{ serverValue[proxyInfo.nodeId].description }}</p>
         <p>服务器IP：{{ serverValue[proxyInfo.nodeId].ip }}</p>
         <p>服务器域名：{{ serverValue[proxyInfo.nodeId].hostname }}</p>
+        <div>
+          <n-text>可用端口范围：</n-text>
+          <n-tag :key="port" v-for="port in serverValue[proxyInfo.nodeId].portRange">
+            {{ port.replace(':', '-') }}
+          </n-tag>
+        </div>
       </div>
       <br />
       <n-grid x-gap="12" cols="2" item-responsive>
@@ -168,7 +174,8 @@ const serverValue = ref([
       allowBigTraffic: false,
       allowUdp: false,
       allowWebsite: false
-    }
+    },
+    portRange: []
   }
 ])
 // 表格数据
@@ -393,7 +400,8 @@ onMounted(async () => {
         allowBigTraffic: s.attribute.allow_big_traffic,
         allowUdp: s.attribute.allow_udp,
         allowWebsite: s.attribute.allow_website
-      }
+      },
+      portRange: s.port_range
     }
     i = i + 1
   })
