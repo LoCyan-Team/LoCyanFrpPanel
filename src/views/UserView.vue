@@ -387,7 +387,7 @@ async function sendChangeEmailCode() {
 }
 .info-card {
   max-width: 600px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 .actions {
   display: flex;

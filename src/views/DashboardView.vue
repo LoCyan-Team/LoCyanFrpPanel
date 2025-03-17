@@ -128,7 +128,6 @@
         违规的隧道将会被封禁，这是为了保障大部分用户的体验，谢谢配合！
         若您违规使用，可能需要支付相应的流量费用！<br />
       </n-alert>
-      <br />
     </n-grid-item>
     <n-grid-item span="0:3 800:2">
       <n-card title="公告" size="large">
