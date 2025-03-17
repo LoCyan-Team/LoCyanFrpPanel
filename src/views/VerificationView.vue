@@ -13,11 +13,6 @@
     <n-alert title="请勿冒用他人信息实名" type="warning">
       我们允许未成年人注册，请勿冒用非本人身份证实名，已经实名过得既往不咎！
     </n-alert>
-    <n-alert title="认证失败重新发起方式" type="error">
-      若认证失败，请先点击
-      <n-tag>重置验证状态</n-tag>
-      重置状态，再重新发起认证！
-    </n-alert>
     <n-spin :show="loading">
       <n-card title="认证总览">
         <n-h4>认证说明</n-h4>
@@ -89,6 +84,11 @@
                   </n-space>
                 </n-card>
               </n-spin>
+              <n-alert title="认证失败重新发起方式" type="error">
+                若认证失败，请先点击
+                <n-tag>重置验证状态</n-tag>
+                重置状态，再重新发起认证！
+              </n-alert>
               <n-spin :show="!showRealpersonModal" :rotate="false">
                 <template #icon>
                   <n-icon>
