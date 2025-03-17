@@ -2,9 +2,9 @@ export default class Dialog {
   success(
     message: string,
     options = {
-      onPositiveClick: async () => {},
-      onNegativeClick: async () => {},
-      onMaskClick: async () => {}
+      onPositiveClick: Promise<void>,
+      onNegativeClick: Promise<void>,
+      onMaskClick: Promise<void>
     }
   ) {
     window.$dialog.success({
@@ -20,9 +20,9 @@ export default class Dialog {
   warning(
     message: string,
     options = {
-      onPositiveClick: async () => {},
-      onNegativeClick: async () => {},
-      onMaskClick: async () => {}
+      onPositiveClick: Promise<void>,
+      onNegativeClick: Promise<void>,
+      onMaskClick: Promise<void>
     }
   ) {
     window.$dialog.warning({
@@ -38,9 +38,9 @@ export default class Dialog {
   error(
     message: string,
     options = {
-      onPositiveClick: async () => {},
-      onNegativeClick: async () => {},
-      onMaskClick: async () => {}
+      onPositiveClick: Promise<void>,
+      onNegativeClick: Promise<void>,
+      onMaskClick: Promise<void>
     }
   ) {
     window.$dialog.error({

@@ -205,9 +205,7 @@ const donateList = ref([])
 async function getDonateList() {
   let rs
   try {
-    rs = await api.v2.donate.say.all.get({
-      userId: undefined
-    })
+    rs = await api.v2.donate.say.all.get({})
   } catch (e) {
     message.error('请求列表失败: ' + e)
   }

@@ -472,7 +472,7 @@ function makeLinkAddr(id) {
 
 async function launchProxyThroughApplication(id) {
   dialog.success('该功能需要配合 C# 客户端或 NyaLCF 使用!', {
-    onPositiveClick: () => {
+    onPositiveClick: async () => {
       const url = 'locyanfrp://' + userData.getters.get_frp_token + '/' + id
       window.open(url)
     },

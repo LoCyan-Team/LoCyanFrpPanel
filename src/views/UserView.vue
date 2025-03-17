@@ -127,8 +127,8 @@ import userData from '@/utils/stores/userData/store'
 import { Qq } from '@vicons/fa'
 import API from '@/api'
 import logger from '@/utils/logger'
-import Message from '@/utils/message.js'
-import Dialog from '@/utils/dialog.js'
+import Message from '@/utils/message'
+import Dialog from '@/utils/dialog'
 
 const api = new API()
 const message = new Message()
@@ -223,10 +223,12 @@ async function checkBindQqStatus(func?: Function) {
 </script>
 
 <script lang="ts">
-import Notification from '@/utils/notification.js'
-import { logout } from '@/utils/profile.js'
+import Notification from '@/utils/notification'
+import { logout } from '@/utils/profile'
 import { useRouter } from 'vue-router'
+import API from '@/api'
 
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 const notification = new Notification()
@@ -302,10 +304,8 @@ async function changePassword() {
   try {
     rs = await api.v2.user.password.post({
       userId: userData.getters.get_user_id,
-      undefined,
       oldPassword: passwordModel.value.oldPassword,
-      newPassword: passwordModel.value.newPassword,
-      undefined
+      newPassword: passwordModel.value.newPassword
     })
   } catch (e) {
     logger.error(e)

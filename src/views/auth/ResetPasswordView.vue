@@ -151,9 +151,7 @@ async function doResetRequest() {
   let rs
   try {
     rs = await api.v2.user.password.post({
-      userId: undefined,
       email: model.value.user,
-      oldPassword: undefined,
       newPassword: model.value.password,
       verifyCode: model.value.verifyCode
     })
