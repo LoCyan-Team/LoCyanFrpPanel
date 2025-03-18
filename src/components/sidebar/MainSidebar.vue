@@ -74,6 +74,7 @@ const menuOptions = [
     label: '新年活动',
     key: 'newyear',
     icon: renderIcon(AnchorTwotone),
+    show: false,
     children: [
       {
         path: '/newyear/comment',

@@ -1,7 +1,7 @@
 !
 <template>
   <n-h1 prefix="bar" style="margin-top: 30px">
-    <i class="twa twa-spiral-calendar"></i>
+    <i class="twa twa-wrapped-gift"></i>
     <n-text type="success"> 抽奖</n-text>
   </n-h1>
   <n-space vertical>
