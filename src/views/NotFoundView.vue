@@ -16,6 +16,13 @@
   </div>
 </template>
 
+<script setup lang="ts">
+import userData from '@/utils/stores/userData/store'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+</script>
+
 <style scoped>
 .outbox {
   margin: 3rem;

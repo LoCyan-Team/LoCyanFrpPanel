@@ -131,30 +131,36 @@ export default [
         component: () => import('@/views/VerificationView.vue')
       },
       {
-        path: 'newyear',
-        name: 'NewYear',
+        path: '/activites',
+        name: 'Activites',
         children: [
           {
-            path: 'comment',
-            name: 'CommentNewYear',
-            meta: {
-              title: '留言',
-              keepAlive: true,
-              needLogin: true
-            },
-            component: () => import('@/views/newyear/NewYearView.vue')
+            path: 'newyear',
+            name: 'NewYear',
+            children: [
+              {
+                path: 'comment',
+                name: 'CommentNewYear',
+                meta: {
+                  title: '留言',
+                  keepAlive: true,
+                  needLogin: true
+                },
+                component: () => import('@/views/activites/newyear/NewYearView.vue')
+              },
+              {
+                path: 'prize',
+                name: 'PrizeNewYear',
+                meta: {
+                  title: '抽奖',
+                  keepAlive: true,
+                  needLogin: true
+                },
+                component: () => import('@/views/activites/newyear/PrizeView.vue')
+              }
+            ]
           },
-          {
-            path: 'prize',
-            name: 'PrizeNewYear',
-            meta: {
-              title: '抽奖',
-              keepAlive: true,
-              needLogin: true
-            },
-            component: () => import('@/views/newyear/PrizeView.vue')
-          }
-        ]
+        ],
       },
       {
         path: '/donate',
