@@ -168,7 +168,8 @@ const showPayModal = ref(false)
 const showScanCodeModal = ref(false)
 
 const formRef = ref(null)
-const realName = ref(false), realPerson = ref(false)
+const realName = ref(false),
+  realPerson = ref(false)
 const realPersonCount = ref(0)
 const realPersonUrl = ref('')
 const ci = ref('')

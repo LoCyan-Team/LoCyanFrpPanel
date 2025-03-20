@@ -4,6 +4,27 @@
     <n-text type="success"> 添加隧道</n-text>
   </n-h1>
   <n-spin :show="loading">
+    <n-alert title="创建隧道须知" type="info">
+      这些业务禁止搭建，参见
+      <a href="https://docs.locyanfrp.cn/%E8%BF%9D%E8%A7%84%E4%B8%9A%E5%8A%A1.html" target="_blank">
+        违规业务
+      </a>
+      。大流量的定义，参见
+      <a
+        href="https://docs.locyanfrp.cn/%E5%A4%A7%E6%B5%81%E9%87%8F%E6%80%A7%E8%B4%A8%E5%86%85%E5%AE%B9.html"
+        target="_blank"
+      >
+        大流量性质内容
+      </a>
+      。节点相关限制参见
+      <a
+        href="https://docs.locyanfrp.cn/%E8%8A%82%E7%82%B9%E6%B5%81%E9%87%8F%E5%AE%A1%E8%AE%A1%E9%99%90%E5%88%B6.html"
+        target="_blank"
+      >
+        节点流量审计限制
+      </a>
+      。
+    </n-alert>
     <n-form :ref="formRef" :model="proxyInfo" :rules="rules" label-width="auto" size="large">
       <n-space vertical>
         <n-form-item label="选择服务器" path="node">
