@@ -25,12 +25,11 @@
       </a>
       。
     </n-alert>
+    <br />
     <n-form :ref="formRef" :model="proxyInfo" :rules="rules" label-width="auto" size="large">
-      <n-space vertical>
-        <n-form-item label="选择服务器" path="node">
-          <n-select v-model:value="proxyInfo.nodeId" :options="serverList" size="medium" />
-        </n-form-item>
-      </n-space>
+      <n-form-item label="选择服务器" path="node">
+        <n-select v-model:value="proxyInfo.nodeId" :options="serverList" size="medium" />
+      </n-form-item>
       <div>
         <n-tag class="tip-tag" style="transform: translateY(-0.3rem)" type="info">
           <span v-if="serverValue[proxyInfo.nodeId].attribute.china">一级认证</span>
