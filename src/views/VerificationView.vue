@@ -22,13 +22,13 @@
         <n-space vertical>
           <n-el>
             二级认证:
-            <n-tag type="warning" v-if="showRealnameModal">未通过</n-tag>
-            <n-tag type="success" v-if="!showRealnameModal">已通过</n-tag>
+            <n-tag type="warning" v-if="!realName">未通过</n-tag>
+            <n-tag type="success" v-if="realName">已通过</n-tag>
           </n-el>
           <n-el>
             一级认证:
-            <n-tag type="warning" v-if="showRealpersonModal">未通过</n-tag>
-            <n-tag type="success" v-if="!showRealpersonModal">已通过</n-tag>
+            <n-tag type="warning" v-if="!realPerson">未通过</n-tag>
+            <n-tag type="success" v-if="realPerson">已通过</n-tag>
           </n-el>
         </n-space>
       </n-card>
@@ -37,7 +37,7 @@
         <!-- 二级认证 -->
         <n-grid-item span="0:2 800:1">
           <n-card title="实名认证（二级认证）">
-            <n-spin :show="!showRealnameModal" :rotate="false">
+            <n-spin :show="realName" :rotate="false">
               <template #icon>
                 <n-icon>
                   <FileDownloadDoneOutlined />
@@ -68,7 +68,7 @@
         <n-grid-item span="0:2 800:1">
           <n-card title="实人认证（一级认证）">
             <n-space vertical>
-              <n-spin :show="!showPayModal" :rotate="false">
+              <n-spin :show="!showPayModal && realPerson" :rotate="false">
                 <template #icon>
                   <n-icon>
                     <FileDownloadDoneOutlined />
@@ -89,7 +89,7 @@
                 <n-tag>重置验证状态</n-tag>
                 重置状态，再重新发起认证！
               </n-alert>
-              <n-spin :show="!showRealpersonModal" :rotate="false">
+              <n-spin :show="realPerson" :rotate="false">
                 <template #icon>
                   <n-icon>
                     <FileDownloadDoneOutlined />
@@ -164,16 +164,12 @@ const dialog = new Dialog()
 const loading = ref(true)
 const finished = ref(false)
 
-const showRealnameModal = ref(true),
-  showRealpersonModal = ref(true)
-
 const showPayModal = ref(false)
 const showScanCodeModal = ref(false)
 
 const formRef = ref(null)
-const realName = ref(false)
+const realName = ref(false), realPerson = ref(false)
 const realPersonCount = ref(0)
-const realPerson = ref(false)
 const realPersonUrl = ref('')
 const ci = ref('')
 const userProfile = ref({
@@ -292,28 +288,23 @@ async function checkVerificationStatus() {
   if (!rs) return
   // 如果已经完成实名，那么关闭实名的框，展示实人的框
   realName.value = rs.data.real_name
-  realPersonCount.value = rs.data.real_person_count
   realPerson.value = rs.data.real_person
+  realPersonCount.value = rs.data.real_person_count
 
   // 实名和实人都完成则展示最终窗口
   if (realName.value === true && realPerson.value === true) {
     finished.value = true
-    showRealnameModal.value = false
-    showRealpersonModal.value = false
     showPayModal.value = false
   }
 
   // 实名完成但是实人没有完成，展示实人窗口关闭实名窗口
   if (realName.value === true && realPerson.value === false) {
     finished.value = false
-    showRealnameModal.value = false
     // 实人次数足够展示实人，不够展示支付
     logger.info('剩余实人次数: ' + realPersonCount.value)
     if (realPersonCount.value < 1) {
-      showRealpersonModal.value = false
       showPayModal.value = true
     } else {
-      showRealpersonModal.value = true
       showPayModal.value = false
     }
   }
@@ -321,13 +312,10 @@ async function checkVerificationStatus() {
   // 两个都没完成则全部展示
   if (realName.value === false && realPerson.value === false) {
     finished.value = false
-    showRealnameModal.value = true
     // 实人次数足够展示实人，不够展示支付
     if (realPersonCount.value < 1) {
-      showRealpersonModal.value = false
       showPayModal.value = true
     } else {
-      showRealpersonModal.value = true
       showPayModal.value = false
     }
   }
