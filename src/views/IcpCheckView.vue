@@ -19,7 +19,7 @@
             <n-input v-model:value="domainInput.domain" placeholder="example.com" />
           </n-form-item>
           <div style="display: flex; justify-content: flex-start">
-            <n-button type="success" @click="submit" :loading="loading"> 创建</n-button>
+            <n-button type="success" @click="submit" :loading="loading" :disabled="loading"> 创建</n-button>
           </div>
         </n-card>
       </n-grid-item>
