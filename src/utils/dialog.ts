@@ -1,10 +1,14 @@
 export default class Dialog {
   success(
     message: string,
-    options = {
-      onPositiveClick: Promise<void>,
-      onNegativeClick: Promise<void>,
-      onMaskClick: Promise<void>
+    options: {
+      onPositiveClick: Promise<void> | undefined
+      onNegativeClick: Promise<void> | undefined
+      onMaskClick: Promise<void> | undefined
+    } = {
+      onPositiveClick: undefined,
+      onNegativeClick: undefined,
+      onMaskClick: undefined
     }
   ) {
     window.$dialog.success({
@@ -19,10 +23,14 @@ export default class Dialog {
   }
   warning(
     message: string,
-    options = {
-      onPositiveClick: Promise<void>,
-      onNegativeClick: Promise<void>,
-      onMaskClick: Promise<void>
+    options: {
+      onPositiveClick: Promise<void> | undefined
+      onNegativeClick: Promise<void> | undefined
+      onMaskClick: Promise<void> | undefined
+    } = {
+      onPositiveClick: undefined,
+      onNegativeClick: undefined,
+      onMaskClick: undefined
     }
   ) {
     window.$dialog.warning({
@@ -37,10 +45,14 @@ export default class Dialog {
   }
   error(
     message: string,
-    options = {
-      onPositiveClick: Promise<void>,
-      onNegativeClick: Promise<void>,
-      onMaskClick: Promise<void>
+    options: {
+      onPositiveClick: Promise<void> | undefined
+      onNegativeClick: Promise<void> | undefined
+      onMaskClick: Promise<void> | undefined
+    } = {
+      onPositiveClick: undefined,
+      onNegativeClick: undefined,
+      onMaskClick: undefined
     }
   ) {
     window.$dialog.error({

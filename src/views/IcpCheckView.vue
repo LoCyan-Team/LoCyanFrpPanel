@@ -19,7 +19,7 @@
             <n-input v-model:value="domainInput.domain" placeholder="example.com" />
           </n-form-item>
           <div style="display: flex; justify-content: flex-start">
-            <n-button type="success" @click="submit"> 创建</n-button>
+            <n-button type="success" @click="submit" :loading="loading"> 创建</n-button>
           </div>
         </n-card>
       </n-grid-item>
@@ -28,7 +28,7 @@
         <n-spin :show="icpListLoading">
           <n-empty v-if="icpList.length === 0"></n-empty>
           <n-list v-else bordered v-show="showList">
-            <n-list-item v-for="item in icpList">
+            <n-list-item v-for="item in icpList" v-bind:key="item.id">
               <n-thing
                 :title="item.domain"
                 :description="item.unit_name + ' (' + item.nature_name + ') - ' + item.icp"
@@ -44,6 +44,7 @@
     </n-grid>
   </n-form>
 </template>
+
 <script setup>
 import { ref } from 'vue'
 import userData from '@/utils/stores/userData/store'

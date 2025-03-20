@@ -159,8 +159,8 @@ export default [
                 component: () => import('@/views/activites/newyear/PrizeView.vue')
               }
             ]
-          },
-        ],
+          }
+        ]
       },
       {
         path: '/donate',
