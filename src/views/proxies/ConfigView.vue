@@ -176,7 +176,7 @@ onMounted(async () => {
   list.forEach((s) => {
     if (i === 0) {
       proxy.value = s.id
-      updateValue(null, s.id)
+      //updateValue(null, s.id)
     }
     proxyList.value[i] = {
       label: s.proxy_name,
