@@ -10,6 +10,10 @@
     2. 域名需在中华人民共和国工业和信息化部完成并通过备案，随后将顶级域名填入下方编辑框中提交即可。
   </n-alert>
   <br />
+  <n-alert title="警告" type="warning">
+    由于工信部接口存在一定的QOS限制, 固本站备案白名单接口限制单用户每分钟请求三次, 感谢您的理解与支持
+  </n-alert>
+  <br />
 
   <n-modal v-model:show="showMiitImageModal">
     <n-card
