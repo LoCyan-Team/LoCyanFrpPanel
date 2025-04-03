@@ -221,7 +221,7 @@ async function submitMiitImagePointJson() {
   loading.value = true
   let rs
   try {
-    rs = await api.v2.icp.miit.getQuerySign(miitPointJsonString.value, miitToken.value, miitUuidToken.value, miitSecretKey.value, miitClientUid.value) 
+    rs = await api.v2.icp.miit.getQuerySign(userData.getters.get_user_id, miitPointJsonString.value, miitToken.value, miitUuidToken.value, miitSecretKey.value, miitClientUid.value) 
   } catch (e) {
     loading.value = false
     logger.error(e)
@@ -251,7 +251,7 @@ async function queryDomain() {
       miitSign.value,
       miitUuidToken.value,
       miitToken.value,
-      userData.getters.get_user_id
+      userData.getters.get_user_id,
     )
   } catch (e) {
     loading.value = false
