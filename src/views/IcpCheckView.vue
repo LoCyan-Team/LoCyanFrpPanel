@@ -189,7 +189,7 @@ async function getCaptchaImage(){
   loading.value = true
   let rs
   try {
-    rs = await api.v2.icp.miit.getMiitImage(domainInput.value.domain)
+    rs = await api.v2.icp.miit.getMiitImage(userData.getters.get_user_id, domainInput.value.domain)
   } catch (e) {
     loading.value = false
     logger.error(e)

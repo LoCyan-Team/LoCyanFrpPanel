@@ -5,8 +5,9 @@ import { get, post } from '@/utils/request'
 /**
  * 审核 ICP 备案域名
  */
-const getMiitImage = async (domain: string) => {
+const getMiitImage = async (user_id: string, domain: string) => {
   const rs = get(`${base.api_v2_url}/icp/miit/image`, {
+    user_id: user_id,
     domain: domain,
   })
   return base.buildResponse(await rs)
