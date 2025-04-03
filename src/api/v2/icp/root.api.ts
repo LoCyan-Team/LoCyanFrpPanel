@@ -31,10 +31,10 @@ const getIcp = async (user_id: number) => {
   return base.buildResponse(await rs)
 }
 
-const icp = {
-  get: getIcp,
-  post: postIcp,
-  delete: deleteIcp
+const root = {
+    postIcp: postIcp,
+    deleteIcp: deleteIcp,
+    getIcp: getIcp
 }
 
-export default icp
+export default root

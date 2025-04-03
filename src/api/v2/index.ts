@@ -1,6 +1,6 @@
 import auth from './auth'
 import donate from './donate'
-import icp from './icp.api'
+import icp from './icp'
 import node from './node'
 import proxy from './proxy'
 import verification from './verification'

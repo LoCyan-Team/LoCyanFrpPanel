@@ -5,7 +5,6 @@ import QS from 'qs'
 // vuex
 import userData from './stores/userData/store'
 import router from '@router'
-import Base64 from 'qs/lib/utils'
 import Message from './message'
 import logger from '@/utils/logger'
 
@@ -23,7 +22,7 @@ const instance = axios.create({
   timeout: 80000
 })
 
-const tokenDomains = ['api.locyanfrp.cn', 'api-v2.locyanfrp.cn', 'localhost']
+const tokenDomains = ['api.locyanfrp.cn', 'api-v2.locyanfrp.cn', 'localhost', '127.0.0.1']
 
 // 添加请求拦截器
 instance.interceptors.request.use(

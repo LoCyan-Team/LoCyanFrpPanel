@@ -11,6 +11,29 @@
   </n-alert>
   <br />
 
+  <n-modal v-model:show="showMiitImageModal">
+    <n-card
+      style="width: 600px"
+      title="请点选验证码"
+      :bordered="false"
+      size="huge"
+      role="dialog"
+      aria-modal="true"
+    >
+      <n-space>
+        <ImageMarker 
+          :smallImageSrc="miitSmallImageBase64"
+          :bigImageSrc="miitBigImageBase64"
+          :max-markers="4"
+          @update:markers="handleMiitImageMarkerUpdate"
+        />
+        <n-button type="success" @click="getCaptchaImage">
+          刷新验证码
+        </n-button>
+      </n-space>
+    </n-card>
+  </n-modal>
+
   <n-form :ref="formRef" :model="domainInput" label-width="auto" size="large">
     <n-grid y-gap="12" cols="1" item-responsive>
       <n-grid-item span="1">
@@ -19,7 +42,9 @@
             <n-input v-model:value="domainInput.domain" placeholder="example.com" />
           </n-form-item>
           <div style="display: flex; justify-content: flex-start">
-            <n-button type="success" @click="submit"> 创建</n-button>
+            <!-- 先留着这部分代码 -->
+            <!-- <n-button type="success" @click="submit"> 创建</n-button> -->
+            <n-button type="success" @click="getCaptchaImage"> 创建</n-button>
           </div>
         </n-card>
       </n-grid-item>
@@ -51,6 +76,7 @@ import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
 import logger from '@/utils/logger'
 import api from '@/api'
+import ImageMarker from "@/components/ImageMarker.vue"
 
 const message = new Message()
 const dialog = new Dialog()
@@ -73,6 +99,16 @@ const icpList = ref([
     username: ''
   }
 ])
+const showMiitImageModal = ref(false)
+const miitBigImageBase64 = ref("")
+const miitSmallImageBase64 = ref("")
+const miitSecretKey = ref("")
+const miitClientUid = ref("")
+const miitUuidToken = ref("")
+const miitToken = ref("")
+const miitSign = ref("")
+const miitPointJson = ref([])
+const miitPointJsonString = ref("")
 
 async function submit() {
   if (loading.value === true) {
@@ -86,8 +122,9 @@ async function submit() {
   }
   let rs
   try {
-    rs = await api.v2.icp.post(userData.getters.get_user_id, domainInput.value.domain)
+    rs = await api.v2.icp.root.postIcp(userData.getters.get_user_id, domainInput.value.domain)
   } catch (e) {
+    loading.value = false
     logger.error(e)
     dialog.error('请求审核失败: ' + e)
   }
@@ -108,7 +145,7 @@ async function removeICP(id) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.icp.delete(userData.getters.get_user_id, id)
+        rs = await api.v2.icp.root.deleteIcp(userData.getters.get_user_id, id)
       } catch (e) {
         logger.error(e)
         message.error('请求移除域名失败: ' + e)
@@ -128,7 +165,7 @@ async function getList() {
   icpListLoading.value = true
   let rs
   try {
-    rs = await api.v2.icp.get(userData.getters.get_user_id)
+    rs = await api.v2.icp.root.getIcp(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
     message.error('请求移除域名失败: ' + e)
@@ -138,9 +175,99 @@ async function getList() {
     icpList.value = rs.data.list
     showList.value = true
   } else {
+    message.error(rs.message)
     showList.value = false
   }
   icpListLoading.value = false
+}
+
+async function getCaptchaImage(){
+  if (domainInput.value.domain === '' || domainInput.value.domain === null) {
+    message.error('域名不得为空！')
+    return
+  }
+  loading.value = true
+  let rs
+  try {
+    rs = await api.v2.icp.miit.getMiitImage(domainInput.value.domain)
+  } catch (e) {
+    loading.value = false
+    logger.error(e)
+    message.error('请求工信部验证码图片失败: ' + e)
+  }
+  if (!rs) return
+  if (rs.status === 200) {
+    loading.value = false
+    showMiitImageModal.value = true
+    miitBigImageBase64.value = rs.data.bigImage
+    miitSmallImageBase64.value = rs.data.smallImage
+    miitSecretKey.value = rs.data.secretKey
+    miitClientUid.value = rs.data.clientUid
+    miitUuidToken.value = rs.data.uuid
+    miitToken.value = rs.data.token
+  } else {
+    loading.value = false
+    message.error(rs.message)
+  }
+}
+
+function handleMiitImageMarkerUpdate(point) {
+  miitPointJson.value = point
+  miitPointJsonString.value = JSON.stringify(point)
+  submitMiitImagePointJson()
+}
+
+async function submitMiitImagePointJson() {
+  loading.value = true
+  let rs
+  try {
+    rs = await api.v2.icp.miit.getQuerySign(miitPointJsonString.value, miitToken.value, miitUuidToken.value, miitSecretKey.value, miitClientUid.value) 
+  } catch (e) {
+    loading.value = false
+    logger.error(e)
+    message.error('提交点位失败:'+ e) 
+  }
+  loading.value = false
+  if (!rs) return
+  if (rs.status === 200) {
+    message.success('提交点位成功！')
+    miitSign.value = rs.data.sign
+    queryDomain()
+  } else {
+    message.error(rs.message)
+  }
+}
+
+async function queryDomain() {
+  if (domainInput.value.domain === '' || domainInput.value.domain === null) {
+    message.error('域名不得为空！')
+    return
+  }
+  loading.value = true
+  let rs
+  try {
+    rs = await api.v2.icp.miit.queryDomain(
+      domainInput.value.domain,
+      miitSign.value,
+      miitUuidToken.value,
+      miitToken.value,
+      userData.getters.get_user_id
+    )
+  } catch (e) {
+    loading.value = false
+    logger.error(e)
+    message.error('查询域名失败:'+ e)
+  }
+  loading.value = false
+  if (!rs) return
+  if (rs.status === 200) {
+    message.success('查询域名成功！')
+    showMiitImageModal.value = false
+    getList()
+    logger.info(rs.data) 
+  } else {
+    message.error(rs.message) 
+  }
 }
 
 getList()
