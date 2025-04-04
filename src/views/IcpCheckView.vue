@@ -169,7 +169,7 @@ async function getList() {
     rs = await api.v2.icp.root.get(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
-    message.error('请求移除域名失败: ' + e)
+    message.error('请求失败: ' + e)
   }
   if (!rs) return
   if (rs.status === 200) {
