@@ -75,9 +75,10 @@ import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
 import logger from '@/utils/logger'
-import api from '@/api'
 import ImageMarker from "@/components/ImageMarker.vue"
+import API from "@/api";
 
+const api = new API()
 const message = new Message()
 const dialog = new Dialog()
 
