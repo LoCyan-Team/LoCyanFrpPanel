@@ -6,15 +6,17 @@ export default class MIIT {
   /**
    * 审核 ICP 备案域名
    */
-  async getMiitImage(params: {domain: string}) {
+  async getMiitImage(params: {userId: number, domain: string}) {
     const rs = await get("/icp/miit/image", {
+      user_id: params.userId,
       domain: params.domain,
     })
     return base.buildResponse(rs)
   }
 
-  async getQuerySign(params: {pointJson: string, token: string, uuidToken: string, secretKey: string, clientUid: string}) {
+  async getQuerySign(params: {userId: number, pointJson: string, token: string, uuidToken: string, secretKey: string, clientUid: string}) {
     const rs = await post("/icp/miit/sign", {
+      user_id: params.userId,
       point_json: params.pointJson,
       token: params.token,
       uuid_token: params.uuidToken,
@@ -24,7 +26,7 @@ export default class MIIT {
     return base.buildResponse(rs)
   }
 
-  async queryDomain(params: {domain: string, sign: string, uuidToken: string, token: string, userId: string}) {
+  async queryDomain(params: {domain: string, sign: string, uuidToken: string, token: string, userId: number}) {
     const rs = await post("/icp/miit/sign", {
       domain: params.domain,
       sign: params.sign,

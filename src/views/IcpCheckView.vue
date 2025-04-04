@@ -146,7 +146,10 @@ async function removeICP(id) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.icp.root.delete(userData.getters.get_user_id, id)
+        rs = await api.v2.icp.root.delete({
+          userId: userData.getters.get_user_id,
+          domainId: id
+        })
       } catch (e) {
         logger.error(e)
         message.error('请求移除域名失败: ' + e)
@@ -166,7 +169,9 @@ async function getList() {
   icpListLoading.value = true
   let rs
   try {
-    rs = await api.v2.icp.root.get(userData.getters.get_user_id)
+    rs = await api.v2.icp.root.get({
+      userId: userData.getters.get_user_id
+    })
   } catch (e) {
     logger.error(e)
     message.error('请求失败: ' + e)
@@ -190,7 +195,10 @@ async function getCaptchaImage(){
   loading.value = true
   let rs
   try {
-    rs = await api.v2.icp.miit.getMiitImage(domainInput.value.domain)
+    rs = await api.v2.icp.miit.getMiitImage({
+      userId: userData.getters.get_user_id,
+      domain: domainInput.value.domain
+    })
   } catch (e) {
     loading.value = false
     logger.error(e)
@@ -222,7 +230,15 @@ async function submitMiitImagePointJson() {
   loading.value = true
   let rs
   try {
-    rs = await api.v2.icp.miit.getQuerySign(miitPointJsonString.value, miitToken.value, miitUuidToken.value, miitSecretKey.value, miitClientUid.value) 
+    miitPointJsonString.value, miitToken.value, miitUuidToken.value, miitSecretKey.value, miitClientUid.value
+    rs = await api.v2.icp.miit.getQuerySign({
+      userId: userData.getters.get_user_id,
+      pointJson: miitPointJsonString.value,
+      token: miitToken.value,
+      uuidToken: miitUuidToken.value,
+      secretKey: miitSecretKey.value,
+      clientUid: miitClientUid,
+    })
   } catch (e) {
     loading.value = false
     logger.error(e)
@@ -247,13 +263,13 @@ async function queryDomain() {
   loading.value = true
   let rs
   try {
-    rs = await api.v2.icp.miit.queryDomain(
-      domainInput.value.domain,
-      miitSign.value,
-      miitUuidToken.value,
-      miitToken.value,
-      userData.getters.get_user_id
-    )
+    rs = await api.v2.icp.miit.queryDomain({
+          domain: domainInput.value.domain,
+          sign: miitSign.value,
+          uuidToken: miitUuidToken.value,
+          token: miitToken.value,
+          userId: userData.getters.get_user_id
+    })
   } catch (e) {
     loading.value = false
     logger.error(e)
