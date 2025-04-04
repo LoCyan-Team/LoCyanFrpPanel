@@ -110,42 +110,42 @@ const miitSign = ref("")
 const miitPointJson = ref([])
 const miitPointJsonString = ref("")
 
-async function submit() {
-  if (loading.value === true) {
-    return
-  }
-  loading.value = true
-  if (domainInput.value.domain === '' || domainInput.value.domain === null) {
-    message.error('域名不得为空！')
-    loading.value = false
-    return
-  }
-  let rs
-  try {
-    rs = await api.v2.icp.root.postIcp(userData.getters.get_user_id, domainInput.value.domain)
-  } catch (e) {
-    loading.value = false
-    logger.error(e)
-    dialog.error('请求审核失败: ' + e)
-  }
-  loading.value = false
-  if (!rs) return
-  if (rs.status !== 200) {
-    loading.value = false
-    dialog.error('审核失败: ' + rs.message)
-  } else {
-    getList()
-    loading.value = false
-    dialog.success('添加成功！')
-  }
-}
+// async function submit() {
+//   if (loading.value === true) {
+//     return
+//   }
+//   loading.value = true
+//   if (domainInput.value.domain === '' || domainInput.value.domain === null) {
+//     message.error('域名不得为空！')
+//     loading.value = false
+//     return
+//   }
+//   let rs
+//   try {
+//     rs = await api.v2.icp.root.post(userData.getters.get_user_id, domainInput.value.domain)
+//   } catch (e) {
+//     loading.value = false
+//     logger.error(e)
+//     dialog.error('请求审核失败: ' + e)
+//   }
+//   loading.value = false
+//   if (!rs) return
+//   if (rs.status !== 200) {
+//     loading.value = false
+//     dialog.error('审核失败: ' + rs.message)
+//   } else {
+//     getList()
+//     loading.value = false
+//     dialog.success('添加成功！')
+//   }
+// }
 
 async function removeICP(id) {
   dialog.warning('你确定要删除这个域名吗？（域名 ID: ' + id + '）', {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.icp.root.deleteIcp(userData.getters.get_user_id, id)
+        rs = await api.v2.icp.root.delete(userData.getters.get_user_id, id)
       } catch (e) {
         logger.error(e)
         message.error('请求移除域名失败: ' + e)
@@ -165,7 +165,7 @@ async function getList() {
   icpListLoading.value = true
   let rs
   try {
-    rs = await api.v2.icp.root.getIcp(userData.getters.get_user_id)
+    rs = await api.v2.icp.root.get(userData.getters.get_user_id)
   } catch (e) {
     logger.error(e)
     message.error('请求移除域名失败: ' + e)

@@ -1,9 +1,7 @@
-import root from "./root.api"
-import miit from "./miit.api"
+import ROOT from "./root.api"
+import MIIT from "./miit.api"
 
-const icp = {
-  root: root,
-  miit: miit
+export default class ICP {
+  public root = new ROOT()
+  public miit = new MIIT()
 }
-
-export default icp
