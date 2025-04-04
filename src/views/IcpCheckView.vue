@@ -237,7 +237,7 @@ async function submitMiitImagePointJson() {
       token: miitToken.value,
       uuidToken: miitUuidToken.value,
       secretKey: miitSecretKey.value,
-      clientUid: miitClientUid,
+      clientUid: miitClientUid.value,
     })
   } catch (e) {
     loading.value = false
