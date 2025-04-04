@@ -27,7 +27,7 @@ export default class MIIT {
   }
 
   async queryDomain(params: {domain: string, sign: string, uuidToken: string, token: string, userId: number}) {
-    const rs = await post("/icp/miit/sign", {
+    const rs = await post("/icp/miit/query", {
       domain: params.domain,
       sign: params.sign,
       uuid_token: params.uuidToken,
