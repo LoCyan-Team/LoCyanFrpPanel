@@ -2,44 +2,38 @@ import base from '@/api/base'
 //@ts-ignore
 import { get, post } from '@/utils/request'
 
-/**
- * 审核 ICP 备案域名
- */
-const getMiitImage = async (user_id: string, domain: string) => {
-  const rs = get(`${base.api_v2_url}/icp/miit/image`, {
-    user_id: user_id,
-    domain: domain
-  })
-  return base.buildResponse(await rs)
-}
+export default class MIIT {
+  /**
+   * 审核 ICP 备案域名
+   */
+  async getMiitImage(params: {userId: string, domain: string}) {
+    const rs = get("/icp/miit/image", {
+      user_id: params.userId,
+      domain: params.domain,
+    })
+    return base.buildResponse(rs)
+  }
 
-const getQuerySign = async (user_id: string, point_json: string, token: string, uuid_token: string, secret_key: string, client_uid: string) => {
-  const rs = post(`${base.api_v2_url}/icp/miit/sign`, {
-    user_id: user_id,
-    point_json: point_json,
-    token: token,
-    uuid_token: uuid_token,
-    secret_key: secret_key,
-    client_uid: client_uid
-  })
-  return base.buildResponse(await rs)
-}
+  async getQuerySign(params: {userId: string, pointJson: string, token: string, uuidToken: string, secretKey: string, clientUid: string}) {
+    const rs = post("/icp/miit/sign", {
+      user_id: params.userId,
+      point_json: params.pointJson,
+      token: params.token,
+      uuid_token: params.uuidToken,
+      secret_key: params.secretKey,
+      client_uid: params.clientUid
+    })
+    return base.buildResponse(await rs)
+  }
 
-const queryDomain = async (domain: string, sign: string, uuid_token: string, token: string, user_id: string) => {
-  const rs = post(`${base.api_v2_url}/icp/miit/query`, {
-    user_id: user_id,
-    domain: domain,
-    sign: sign,
-    uuid_token: uuid_token,
-    token: token
-  })
-  return base.buildResponse(await rs)
+  async queryDomain(params: {domain: string, sign: string, uuidToken: string, token: string, userId: string}) {
+    const rs = post("/icp/miit/sign", {
+      domain: params.domain,
+      sign: params.sign,
+      uuid_token: params.uuidToken,
+      token: params.token,
+      user_id: params.userId
+    })
+    return base.buildResponse(await rs)
+  }
 }
-
-const miit = {
-    getMiitImage: getMiitImage,
-    getQuerySign: getQuerySign,
-    queryDomain: queryDomain,
-}
-
-export default miit
