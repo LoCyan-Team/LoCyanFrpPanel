@@ -2,12 +2,22 @@
   <div class="image-marker">
     <img :src="'data:image/jpeg;base64,' + smallImageSrc" />
     <div class="image-container" ref="container">
-      <img :src="'data:image/jpeg;base64,' + bigImageSrc" alt="点击图片标记位置" @click="handleImageClick" ref="image" />
-      <div v-for="(marker, index) in markers" :key="index" class="marker" :style="{
-    left: `${marker.x}px`,
-    top: `${marker.y}px`,
-    backgroundColor: markerColors[index % markerColors.length]
-  }">
+      <img
+        :src="'data:image/jpeg;base64,' + bigImageSrc"
+        alt="点击图片标记位置"
+        @click="handleImageClick"
+        ref="image"
+      />
+      <div
+        v-for="(marker, index) in markers"
+        :key="index"
+        class="marker"
+        :style="{
+          left: `${marker.x}px`,
+          top: `${marker.y}px`,
+          backgroundColor: markerColors[index % markerColors.length]
+        }"
+      >
         {{ index + 1 }}
       </div>
     </div>
@@ -41,9 +51,12 @@ const markers = ref([])
 const markerColors = ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'] // 改为蓝色系
 
 // 添加图片变化监听
-watch(() => props.bigImageSrc, () => {
-  markers.value = [] // 清空所有标记点
-})
+watch(
+  () => props.bigImageSrc,
+  () => {
+    markers.value = [] // 清空所有标记点
+  }
+)
 
 const handleImageClick = (event) => {
   const rect = image.value.getBoundingClientRect()

@@ -48,6 +48,26 @@
         <br />
       </n-card>
       <br />
+      <n-card title="广告">
+        <n-carousel
+          dot-type="line"
+          dot-position="bottom"
+          :space-between="20"
+          :show-arrow="true"
+          autoplay
+        >
+          <a href="https://spcraft.cn" target="_blank">
+            <img class="carousel-img" src="https://cdn.r2-images.locyanfrp.cn/ad-spcraft.png" />
+          </a>
+          <a
+            href="https://docs.locyanfrp.cn/%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F.html#e-mail"
+            target="_blank"
+          >
+            <img class="carousel-img" src="https://cdn.r2-images.locyanfrp.cn/ad-default.jpg" />
+          </a>
+        </n-carousel>
+      </n-card>
+      <br />
       <!-- <n-card title="赞助商广告" size="large">
         <n-space>
           <a href="https://spcraft.cn" target="_blank">
@@ -156,6 +176,12 @@
   .ext-margin-bottom {
     margin-bottom: 20px;
   }
+}
+
+.carousel-img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
 }
 </style>
 

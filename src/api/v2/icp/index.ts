@@ -1,4 +1,4 @@
-import MIIT from "./miit"
+import MIIT from './miit'
 
 import base from '@/api/base'
 import { get, post, deleteReq } from '@/utils/request'

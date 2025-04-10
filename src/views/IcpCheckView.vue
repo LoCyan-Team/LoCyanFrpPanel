@@ -21,15 +21,13 @@
       aria-modal="true"
     >
       <n-space>
-        <ImageMarker 
+        <ImageMarker
           :smallImageSrc="miitSmallImageBase64"
           :bigImageSrc="miitBigImageBase64"
           :max-markers="4"
           @update:markers="handleMiitImageMarkerUpdate"
         />
-        <n-button type="success" @click="getCaptchaImage">
-          刷新验证码
-        </n-button>
+        <n-button type="success" @click="getCaptchaImage"> 刷新验证码 </n-button>
       </n-space>
     </n-card>
   </n-modal>
@@ -44,7 +42,12 @@
           <div style="display: flex; justify-content: flex-start">
             <!-- 先留着这部分代码 -->
             <!-- <n-button type="success" @click="submit"> 创建</n-button> -->
-            <n-button type="success" :loading="icpAddButtonLoading" :disabled="icpAddButtonLoading" @click="getCaptchaImage">
+            <n-button
+              type="success"
+              :loading="icpAddButtonLoading"
+              :disabled="icpAddButtonLoading"
+              @click="getCaptchaImage"
+            >
               创建
             </n-button>
           </div>
@@ -77,8 +80,8 @@ import userData from '@/utils/stores/userData/store'
 import Message from '@/utils/message'
 import Dialog from '@/utils/dialog'
 import logger from '@/utils/logger'
-import ImageMarker from "@/components/ImageMarker.vue"
-import API from "@/api";
+import ImageMarker from '@/components/ImageMarker.vue'
+import API from '@/api'
 
 const api = new API()
 const message = new Message()
@@ -104,15 +107,15 @@ const icpList = ref([
   }
 ])
 const showMiitImageModal = ref(false)
-const miitBigImageBase64 = ref("")
-const miitSmallImageBase64 = ref("")
-const miitSecretKey = ref("")
-const miitClientUid = ref("")
-const miitUuidToken = ref("")
-const miitToken = ref("")
-const miitSign = ref("")
+const miitBigImageBase64 = ref('')
+const miitSmallImageBase64 = ref('')
+const miitSecretKey = ref('')
+const miitClientUid = ref('')
+const miitUuidToken = ref('')
+const miitToken = ref('')
+const miitSign = ref('')
 const miitPointJson = ref([])
-const miitPointJsonString = ref("")
+const miitPointJsonString = ref('')
 
 // async function submit() {
 //   if (loading.value === true) {
@@ -190,7 +193,7 @@ async function getList() {
   icpListLoading.value = false
 }
 
-async function getCaptchaImage(){
+async function getCaptchaImage() {
   icpAddButtonLoading.value = true
   if (domainInput.value.domain === '' || domainInput.value.domain === null) {
     message.error('域名不得为空！')
@@ -239,19 +242,23 @@ async function submitMiitImagePointJson() {
   loading.value = true
   let rs
   try {
-    miitPointJsonString.value, miitToken.value, miitUuidToken.value, miitSecretKey.value, miitClientUid.value
+    miitPointJsonString.value,
+      miitToken.value,
+      miitUuidToken.value,
+      miitSecretKey.value,
+      miitClientUid.value
     rs = await api.v2.icp.miit.sign.post({
       userId: userData.getters.get_user_id,
       pointJson: miitPointJsonString.value,
       token: miitToken.value,
       uuidToken: miitUuidToken.value,
       secretKey: miitSecretKey.value,
-      clientUid: miitClientUid.value,
+      clientUid: miitClientUid.value
     })
   } catch (e) {
     loading.value = false
     logger.error(e)
-    message.error('提交点位失败:'+ e) 
+    message.error('提交点位失败:' + e)
   }
   loading.value = false
   if (!rs) return
@@ -273,16 +280,16 @@ async function queryDomain() {
   let rs
   try {
     rs = await api.v2.icp.miit.query.post({
-          domain: domainInput.value.domain,
-          sign: miitSign.value,
-          uuidToken: miitUuidToken.value,
-          token: miitToken.value,
-          userId: userData.getters.get_user_id
+      domain: domainInput.value.domain,
+      sign: miitSign.value,
+      uuidToken: miitUuidToken.value,
+      token: miitToken.value,
+      userId: userData.getters.get_user_id
     })
   } catch (e) {
     loading.value = false
     logger.error(e)
-    message.error('查询域名失败:'+ e)
+    message.error('查询域名失败:' + e)
   }
   loading.value = false
   if (!rs) return
@@ -290,9 +297,9 @@ async function queryDomain() {
     message.success('查询域名成功！')
     showMiitImageModal.value = false
     getList()
-    logger.info(rs.data) 
+    logger.info(rs.data)
   } else {
-    message.error(rs.message) 
+    message.error(rs.message)
   }
 }
 

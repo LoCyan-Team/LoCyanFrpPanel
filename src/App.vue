@@ -41,6 +41,7 @@
                   </div>
                   <n-divider />
                   <the-footer />
+                  <n-back-top :right="50" />
                 </n-layout-content>
               </n-layout>
             </n-layout>
