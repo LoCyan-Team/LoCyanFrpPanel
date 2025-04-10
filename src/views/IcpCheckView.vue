@@ -44,7 +44,9 @@
           <div style="display: flex; justify-content: flex-start">
             <!-- 先留着这部分代码 -->
             <!-- <n-button type="success" @click="submit"> 创建</n-button> -->
-            <n-button type="success" @click="getCaptchaImage"> 创建</n-button>
+            <n-button type="success" :loading="icpAddButtonLoading" :disabled="icpAddButtonLoading" @click="getCaptchaImage">
+              创建
+            </n-button>
           </div>
         </n-card>
       </n-grid-item>
@@ -85,7 +87,8 @@ const dialog = new Dialog()
 const showList = ref(false)
 const formRef = ref(null)
 const loading = ref(false)
-const icpListLoading = ref(true)
+const icpListLoading = ref(true),
+  icpAddButtonLoading = ref(false)
 const domainInput = ref({
   domain: ''
 })
@@ -146,7 +149,7 @@ async function removeICP(id) {
     onPositiveClick: async () => {
       let rs
       try {
-        rs = await api.v2.icp.root.delete({
+        rs = await api.v2.icp.delete({
           userId: userData.getters.get_user_id,
           domainId: id
         })
@@ -169,7 +172,7 @@ async function getList() {
   icpListLoading.value = true
   let rs
   try {
-    rs = await api.v2.icp.root.get({
+    rs = await api.v2.icp.get({
       userId: userData.getters.get_user_id
     })
   } catch (e) {
@@ -188,14 +191,16 @@ async function getList() {
 }
 
 async function getCaptchaImage(){
+  icpAddButtonLoading.value = true
   if (domainInput.value.domain === '' || domainInput.value.domain === null) {
     message.error('域名不得为空！')
+    icpAddButtonLoading.value = false
     return
   }
   loading.value = true
   let rs
   try {
-    rs = await api.v2.icp.miit.getMiitImage({
+    rs = await api.v2.icp.miit.image.get({
       userId: userData.getters.get_user_id,
       domain: domainInput.value.domain
     })
@@ -204,7 +209,10 @@ async function getCaptchaImage(){
     logger.error(e)
     message.error('请求工信部验证码图片失败: ' + e)
   }
-  if (!rs) return
+  if (!rs) {
+    icpAddButtonLoading.value = false
+    return
+  }
   if (rs.status === 200) {
     loading.value = false
     showMiitImageModal.value = true
@@ -218,6 +226,7 @@ async function getCaptchaImage(){
     loading.value = false
     message.error(rs.message)
   }
+  icpAddButtonLoading.value = false
 }
 
 function handleMiitImageMarkerUpdate(point) {
@@ -231,7 +240,7 @@ async function submitMiitImagePointJson() {
   let rs
   try {
     miitPointJsonString.value, miitToken.value, miitUuidToken.value, miitSecretKey.value, miitClientUid.value
-    rs = await api.v2.icp.miit.getQuerySign({
+    rs = await api.v2.icp.miit.sign.post({
       userId: userData.getters.get_user_id,
       pointJson: miitPointJsonString.value,
       token: miitToken.value,
@@ -263,7 +272,7 @@ async function queryDomain() {
   loading.value = true
   let rs
   try {
-    rs = await api.v2.icp.miit.queryDomain({
+    rs = await api.v2.icp.miit.query.post({
           domain: domainInput.value.domain,
           sign: miitSign.value,
           uuidToken: miitUuidToken.value,
