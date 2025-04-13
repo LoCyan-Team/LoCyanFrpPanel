@@ -34,9 +34,10 @@
             </template>
           </n-image>
         </n-card>
+        <br />
       </n-grid-item>
       <n-grid-item>
-        <n-card style="margin-top: 20px;">
+        <n-thing>
           <!-- 签到界面广告 -->
           <ins
             class="adsbygoogle"
@@ -46,7 +47,7 @@
             data-ad-format="auto"
             data-full-width-responsive="true"
           ></ins>
-        </n-card>
+        </n-thing>
       </n-grid-item>
     </n-grid>
   </n-space>
