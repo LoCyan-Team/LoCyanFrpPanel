@@ -63,7 +63,7 @@
           </n-card>
           <br />
           <n-thing>
-            <!-- 签到界面广告 -->
+            <!-- 身份验证界面广告 -->
             <ins
               class="adsbygoogle"
               style="display: block"
