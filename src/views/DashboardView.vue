@@ -59,6 +59,7 @@
           <a href="https://spcraft.cn" target="_blank">
             <img class="carousel-img" src="https://cdn.r2-images.locyanfrp.cn/ad-spcraft.png" />
           </a>
+          <img class="carousel-img" src="https://cdn.r2-images.locyanfrp.cn/ad-5ysc.png" />
           <a
             href="https://docs.locyanfrp.cn/%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F.html#e-mail"
             target="_blank"
