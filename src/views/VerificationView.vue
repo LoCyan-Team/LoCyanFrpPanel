@@ -80,7 +80,7 @@
         <n-grid-item span="0:2 800:1">
           <n-card title="实人认证（一级认证）">
             <n-space vertical>
-              <n-spin :show="!showPayModal && realPerson" :rotate="false">
+              <n-spin :show="!showPayModal || realPerson" :rotate="false">
                 <template #icon>
                   <n-icon>
                     <FileDownloadDoneOutlined />
