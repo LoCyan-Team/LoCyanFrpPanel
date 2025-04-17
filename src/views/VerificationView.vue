@@ -62,18 +62,6 @@
             </n-spin>
           </n-card>
           <br />
-          <n-thing>
-            <!-- 身份验证界面广告 -->
-            <ins
-              class="adsbygoogle"
-              style="display: block"
-              data-ad-client="ca-pub-9138537301722383"
-              data-ad-slot="8862748131"
-              data-ad-format="auto"
-              data-full-width-responsive="true"
-            ></ins>
-          </n-thing>
-          <br />
         </n-grid-item>
 
         <!-- 一级认证 -->
@@ -354,6 +342,4 @@ async function realPersonPay() {
 }
 
 checkVerificationStatus()
-
-onMounted(() => window.addAdsenseAds())
 </script>

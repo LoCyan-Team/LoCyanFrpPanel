@@ -36,19 +36,6 @@
         </n-card>
         <br />
       </n-grid-item>
-      <n-grid-item>
-        <n-thing>
-          <!-- 签到界面广告 -->
-          <ins
-            class="adsbygoogle"
-            style="display: block"
-            data-ad-client="ca-pub-9138537301722383"
-            data-ad-slot="8862748131"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          ></ins>
-        </n-thing>
-      </n-grid-item>
     </n-grid>
   </n-space>
 </template>
@@ -171,6 +158,4 @@ async function doSign() {
 }
 
 checkSign()
-
-onMounted(() => window.addAdsenseAds())
 </script>
