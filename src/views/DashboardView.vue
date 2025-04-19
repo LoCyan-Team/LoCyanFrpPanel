@@ -56,7 +56,7 @@
           :show-arrow="true"
           autoplay
         >
-          <a href="https://play.mcmod.cn/sv20187075.html" target="_blank">
+          <a href="https://spcraft.cn" target="_blank">
           <!-- <a href="https://spcraft.cn" target="_blank"> -->
             <img class="carousel-img" src="https://cdn.r2-images.locyanfrp.cn/ad-spcraft.png" />
           </a>
