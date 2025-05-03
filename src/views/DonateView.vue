@@ -3,6 +3,9 @@
     <i class="twa twa-money-bag"></i>
     <n-text type="success"> 赞助</n-text>
   </n-h1>
+  <n-alert title="这里不是提问的地方" type="warning">
+    如果您遇到任何问题，请加乐青映射官方群交流。我们不提供付费服务，因此这里也不是付费服务渠道。
+  </n-alert>
   <n-modal v-model:show="showModal">
     <n-card
       style="width: 600px"
