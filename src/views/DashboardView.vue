@@ -119,6 +119,12 @@
           重置流量
         </n-button>
       </n-card>
+      <br />
+      <n-card title="广告">
+          <a href="https://www.leaflow.cn" target="_blank">
+            <img style="width: 100%" src="https://cdn.r2-images.locyanfrp.cn/ad-leaflow.png" />
+          </a>
+      </n-card>
       <!--
       <br />
       <n-alert title="关于高级功能" type="info">
