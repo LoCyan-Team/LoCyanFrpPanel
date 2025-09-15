@@ -27,7 +27,7 @@
     "highlight.js": "^11.10.0",
     "js-cookie": "^3.0.5",
     "json": "^11.0.0",
-    "marked": "^15.0.6",
+    "marked": "^16.3.0",
     "postcss": "^8.4.47",
     "qs": "^6.13.0",
     "tailwindcss": "^4.0.3",
