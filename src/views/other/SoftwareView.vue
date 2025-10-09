@@ -13,7 +13,6 @@
         <br />
         <n-card title="Kairo" size="medium">
           <h3>系统及架构支持</h3>
-          <p>已停止维护，非必要请使用其他方案。</p>
           <p>
             <span>Windows (至少需要 Windows 10)</span>
             <br />
@@ -38,6 +37,7 @@
       <n-grid-item class="item" span="1">
         <n-card title="Nya LoCyanFrp! 乐青映射启动器" size="medium">
           <h3>系统及架构支持</h3>
+          <p>已停止维护，非必要请使用其他方案。</p>
           <p>
             <span>Windows (至少需要 Windows 10), Linux, macOS</span>
             <br />
