@@ -11,6 +11,31 @@
       <n-grid-item class="item" span="1">
         <h2>启动器</h2>
         <br />
+        <n-card title="Kairo" size="medium">
+          <h3>系统及架构支持</h3>
+          <p>已停止维护，非必要请使用其他方案。</p>
+          <p>
+            <span>Windows (至少需要 Windows 10)</span>
+            <br />
+            <span>架构支持</span>
+          </p>
+          <ul>
+            <li>x86_64</li>
+          </ul>
+          <h3>下载</h3>
+          <p>
+            <a
+              href="https://mirrors.locyan.cn/github-release/Shiroiame-Kusu/Kairo/LatestRelease/"
+              target="_blank"
+            >
+              LoCyan Mirrors 镜像站
+            </a>
+            <br />
+            <a href="https://github.com/Shiroiame-Kusu/Kairo/releases" target="_blank"> GitHub </a>
+          </p>
+        </n-card>
+      </n-grid-item>
+      <n-grid-item class="item" span="1">
         <n-card title="Nya LoCyanFrp! 乐青映射启动器" size="medium">
           <h3>系统及架构支持</h3>
           <p>
@@ -34,30 +59,6 @@
             </a>
             <br />
             <a href="https://github.com/Muska-Ami/NyaLCF/releases" target="_blank"> GitHub </a>
-          </p>
-        </n-card>
-      </n-grid-item>
-      <n-grid-item class="item" span="1">
-        <n-card title="Kairo" size="medium">
-          <h3>系统及架构支持</h3>
-          <p>
-            <span>Windows (至少需要 Windows 10)</span>
-            <br />
-            <span>架构支持</span>
-          </p>
-          <ul>
-            <li>x86_64</li>
-          </ul>
-          <h3>下载</h3>
-          <p>
-            <a
-              href="https://mirrors.locyan.cn/github-release/Shiroiame-Kusu/Kairo/LatestRelease/"
-              target="_blank"
-            >
-              LoCyan Mirrors 镜像站
-            </a>
-            <br />
-            <a href="https://github.com/Shiroiame-Kusu/Kairo/releases" target="_blank"> GitHub </a>
           </p>
         </n-card>
       </n-grid-item>
