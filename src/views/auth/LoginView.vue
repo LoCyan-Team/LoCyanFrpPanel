@@ -51,19 +51,30 @@
                 没有账户？去注册
               </n-button>
               <n-button type="success" @click="loadCaptcha"> 登录</n-button>
-              <captcha-component
-                :show="showCaptcha"
-                :type="captchaPreData.type"
-                :vaptcha-scene="2"
+              <captcha-dialog
+                ref="captchaRef"
+                @unsupported="message.error('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')"
                 @error="
-                  (code) => {
-                    message.error('发生错误: ' + code)
-                    showCaptcha = false
+                  (e) => {
+                    message.error(e)
+                    ldb.error()
                   }
                 "
-                @unsupported="message.error('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')"
-                @callback="captchaCallback"
+                @callback="login"
               />
+              <!--              <captcha-component-->
+              <!--                :show="showCaptcha"-->
+              <!--                :type="captchaPreData.type"-->
+              <!--                :vaptcha-scene="2"-->
+              <!--                @error="-->
+              <!--                  (code) => {-->
+              <!--                    message.error('发生错误: ' + code)-->
+              <!--                    showCaptcha = false-->
+              <!--                  }-->
+              <!--                "-->
+              <!--                @unsupported="message.error('您的浏览器不支持加载验证码，请更换或升级浏览器后重试')"-->
+              <!--                @callback="captchaCallback"-->
+              <!--              />-->
             </n-space>
           </n-space>
         </div>
@@ -84,7 +95,7 @@ import API from '@/api'
 import { getUrlKey } from '@/utils/request'
 
 import { Qq } from '@vicons/fa'
-import CaptchaComponent from '@/components/CaptchaComponent.vue'
+import CaptchaDialog from '@/components/CaptchaDialog.vue'
 
 const api = new API()
 const message = new Message()
@@ -96,18 +107,18 @@ const threeSideLoading = ref(false),
   passkeyLoading = ref(false)
 // const oauthLogin_loading = ref(false)
 
-let captchaPreData = ref({
-    id: null,
-    type: ''
-  }),
-  showCaptcha = ref(false)
+const captchaRef = ref(null)
 
-const model = ref([
-  {
-    username: '',
-    password: ''
-  }
-])
+// let captchaPreData = ref({
+//     id: null,
+//     type: ''
+//   }),
+//   showCaptcha = ref(false)
+
+const model = ref({
+  username: '',
+  password: ''
+})
 
 // 检查是否存在redirect值
 // 这里一定要解码两次
@@ -117,67 +128,68 @@ if (redirectQuery !== null) {
   logger.info('Redirect after login: ' + redirect)
 }
 
-let vaptchaInserted = false
+// let vaptchaInserted = false
 
-async function captchaCallback(token, server) {
-  showCaptcha.value = false
-  await login({
-    id: captchaPreData.value.id,
-    token: token,
-    server: server
-  })
-}
+// async function captchaCallback(token, server) {
+//   showCaptcha.value = false
+//   await login({
+//     id: captchaPreData.value.id,
+//     token: token,
+//     server: server
+//   })
+// }
 
 async function loadCaptcha() {
   ldb.start()
-  let rs
-  try {
-    rs = await api.v2.captcha.get({
-      action: 'login'
-    })
-  } catch (e) {
-    message.error('请求验证码数据失败：' + e)
-    logger.error(e)
-    ldb.error()
-  }
-  if (rs.status === 200) {
-    captchaPreData.value = {
-      id: rs.data.id,
-      type: rs.data.type
-    }
-    // console.log(captchaPreData)
-    switch (rs.data.type) {
-      case 'turnstile':
-        showCaptcha.value = true
-        ldb.finish()
-        break
-      case 'vaptcha':
-        if (!vaptchaInserted) {
-          const script = document.createElement('script')
-          script.src = 'https://v-cn.vaptcha.com/v3.js'
-          document.head.appendChild(script)
-          vaptchaInserted = true
-          script.onload = () => {
-            showCaptcha.value = true
-            ldb.finish()
-          }
-        } else {
-          showCaptcha.value = true
-          ldb.finish()
-        }
-        break
-      default:
-        message.error('后端返回数据错误')
-        ldb.error()
-    }
-  } else {
-    message.error(rs.message)
-    ldb.error()
-  }
+  await captchaRef.value?.solve()
+  // let rs
+  // try {
+  //   rs = await api.v2.captcha.get({
+  //     action: 'login'
+  //   })
+  // } catch (e) {
+  //   message.error('请求验证码数据失败：' + e)
+  //   logger.error(e)
+  //   ldb.error()
+  // }
+  // if (rs.status === 200) {
+  //   captchaPreData.value = {
+  //     id: rs.data.id,
+  //     type: rs.data.type
+  //   }
+  //   // console.log(captchaPreData)
+  //   switch (rs.data.type) {
+  //     case 'turnstile':
+  //       showCaptcha.value = true
+  //       ldb.finish()
+  //       break
+  //     case 'vaptcha':
+  //       if (!vaptchaInserted) {
+  //         const script = document.createElement('script')
+  //         script.src = 'https://v-cn.vaptcha.com/v3.js'
+  //         document.head.appendChild(script)
+  //         vaptchaInserted = true
+  //         script.onload = () => {
+  //           showCaptcha.value = true
+  //           ldb.finish()
+  //         }
+  //       } else {
+  //         showCaptcha.value = true
+  //         ldb.finish()
+  //       }
+  //       break
+  //     default:
+  //       message.error('后端返回数据错误')
+  //       ldb.error()
+  //   }
+  // } else {
+  //   message.error(rs.message)
+  //   ldb.error()
+  // }
 }
 
 // 登录
-async function login(captchaData) {
+async function login(captchaToken) {
   ldb.start()
   if (
     model.value.username === null ||
@@ -190,14 +202,12 @@ async function login(captchaData) {
     return
   }
   let rs
-  console.log(captchaData)
+  console.log(captchaToken)
   try {
     rs = await api.v2.auth.login.post({
       username: model.value.username,
       password: model.value.password,
-      captchaId: captchaData.id,
-      captchaToken: captchaData.token,
-      captchaServer: captchaData.server
+      captchaToken: captchaToken
     })
   } catch (e) {
     message.error('请求失败: ' + e)

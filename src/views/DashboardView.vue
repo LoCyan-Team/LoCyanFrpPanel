@@ -57,7 +57,7 @@
           autoplay
         >
           <a href="https://spcraft.cn" target="_blank">
-          <!-- <a href="https://spcraft.cn" target="_blank"> -->
+            <!-- <a href="https://spcraft.cn" target="_blank"> -->
             <img class="carousel-img" src="https://cdn.r2-images.locyanfrp.cn/ad-spcraft.png" />
           </a>
           <a
@@ -120,9 +120,9 @@
       </n-card>
       <br />
       <n-card title="广告">
-          <a href="https://www.leaflow.cn" target="_blank">
-            <img style="width: 100%" src="https://cdn.r2-images.locyanfrp.cn/ad-leaflow.png" />
-          </a>
+        <a href="https://www.leaflow.cn" target="_blank">
+          <img style="width: 100%" src="https://cdn.r2-images.locyanfrp.cn/ad-leaflow.png" />
+        </a>
       </n-card>
       <!--
       <br />

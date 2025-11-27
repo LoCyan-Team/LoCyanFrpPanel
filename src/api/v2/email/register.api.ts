@@ -5,17 +5,10 @@ export default class Register {
   /**
    * 获取用户注册邮件验证代码
    */
-  async get(params: {
-    email: string
-    captchaId: string
-    captchaToken: string
-    captchaServer?: string
-  }) {
+  async get(params: { email: string; captchaToken: string }) {
     const rs = await get(`/email/register`, {
       email: params.email,
-      captcha_id: params.captchaId,
-      captcha_token: params.captchaToken,
-      captcha_server: params.captchaServer
+      captcha_token: params.captchaToken
     })
     return base.buildResponse(rs)
   }

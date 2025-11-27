@@ -12,7 +12,16 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => {
+            const customElements = ["cap-widget"];
+            return customElements.includes(tag);
+          }
+        }
+      }
+    }),
     vueDevTools(),
     tailwindcss(),
     GitRevisionVitePlugin({

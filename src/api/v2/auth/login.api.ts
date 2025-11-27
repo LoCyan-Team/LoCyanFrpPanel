@@ -5,19 +5,11 @@ export default class Login {
   /**
    * 登录
    */
-  async post(params: {
-    username: number
-    password: string
-    captchaId: string
-    captchaToken: string
-    captchaServer: string | undefined
-  }) {
+  async post(params: { username: number; password: string; captchaToken: string }) {
     const rs = await post(`/auth/login`, {
       username: params.username,
       password: params.password,
-      captcha_id: params.captchaId,
-      captcha_token: params.captchaToken,
-      captcha_server: params.captchaServer
+      captcha_token: params.captchaToken
     })
     return base.buildResponse(rs)
   }
