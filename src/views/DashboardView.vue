@@ -187,7 +187,7 @@
       </n-card>
     </n-grid-item>
   </n-grid>
-  <n-space>
+  </n-space>
 </template>
 
 <style scoped>
