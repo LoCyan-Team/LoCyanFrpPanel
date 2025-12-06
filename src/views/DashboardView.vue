@@ -8,10 +8,10 @@
       您正在使用的是第二代乐青映射。根据计划，我们将在本月内升级至第三代乐青映射。
       <br />
       第三代乐青映射包含了诸多改进，您可以在此查看
-      <a href="https://t.locyan.cn/WhVF40C3l">详细更新日志</a>。
+      <a href="https://t.locyan.cn/WhVF40C3l" target="_blank">详细更新日志</a>。
       <br />
       您可以前往
-      <a href="https://migrate.locyanfrp.cn/">数据迁移平台</a>
+      <a href="https://migrate.locyanfrp.cn/" target="_blank">数据迁移平台</a>
       迁移您的用户数据，我们开放此入口两年并给予相关支持。
     </n-alert>
   <n-grid :y-gap="3" :x-gap="20" cols="3" item-responsive>
